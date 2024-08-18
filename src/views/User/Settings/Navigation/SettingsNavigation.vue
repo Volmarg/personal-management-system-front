@@ -39,9 +39,7 @@ export default {
       route: {
         names: {
           security : VueRouterUser.ROUTE_NAME_USER_SECURITY,
-          account  : VueRouterUser.ROUTE_NAME_USER_ACCOUNT,
           baseData : VueRouterUser.ROUTE_NAME_USER_BASE_DATA,
-          files    : VueRouterUser.ROUTE_NAME_USER_FILES
         }
       }
     }

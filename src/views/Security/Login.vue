@@ -231,7 +231,7 @@ export default {
        *              >[WARNING]<
        */
       this.$rootEvent.showFullPageLoader();
-      this.$axios.postWithCsrf(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_LOGIN), dataBag).then( async (baseApiResponse) => {
+      this.$axios.post(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_LOGIN), dataBag).then( async (baseApiResponse) => {
 
         /**
          * @description this is because once user logs in it's checked if he is inactive, and if he is, the

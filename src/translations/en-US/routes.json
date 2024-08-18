@@ -2,7 +2,8 @@
     "routes": {
         "nameToHeader":{
             "UserBaseData": "User settings",
-            "UserSecurity": "User settings"
+            "UserSecurity": "User settings",
+            "Home": "Dashboard"
         }
     }
 }

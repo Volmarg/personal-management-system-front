@@ -29,7 +29,6 @@ export default {
           &&  this.$route.name !== VueRouter.ROUTE_NAME_404
           &&  this.$route.name !== VueRouter.ROUTE_NAME_INFO
           &&  this.$route.name !== VueRouter.ROUTE_NAME_USER_NOT_ACTIVATED
-          &&  this.$route.name !== VueRouter.ROUTE_NAME_USER_PROFILE_ACTIVATION_CONFIRMATION
           &&  this.$route.name !== VueRouter.ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION
       )
     },

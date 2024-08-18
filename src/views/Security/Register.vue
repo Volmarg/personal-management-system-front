@@ -248,7 +248,7 @@ export default {
 
       let dataBag = this.buildRegistrationDataBag();
       this.$rootEvent.showFullPageLoader();
-      this.$axios.postWithCsrf(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_REGISTER_USER), dataBag).then( (response) => {
+      this.$axios.post(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_REGISTER_USER), dataBag).then( (response) => {
 
         /**
          * @see {BaseApiResponseViolationsToDataFieldsViolations}

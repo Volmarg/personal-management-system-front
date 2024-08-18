@@ -74,7 +74,7 @@ export default {
           }
       );
 
-      this.$axios.getWithCsrf(calledBackendUrl).then( (response) => {
+      this.$axios.get(calledBackendUrl).then( (response) => {
         if(!response.success){
           this.handleFailedBackendResponse(response, SymfonyRoutes.URL_RESET_PASSWORD_USER_PARAM_TOKEN);
           return;

@@ -128,7 +128,7 @@ export default {
       });
 
       this.$rootEvent.showFullPageLoader();
-      this.$axios.getWithCsrf(calledUrl).then( (response: BaseApiResponse) => {
+      this.$axios.get(calledUrl).then( (response: BaseApiResponse) => {
         this.$rootEvent.hideFullPageLoader();
 
         if (response.isMessageSet()) {

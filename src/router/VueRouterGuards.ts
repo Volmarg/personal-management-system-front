@@ -26,7 +26,6 @@ export default class VueRouterGuards
             VueRouter.ROUTE_NAME_404,
             VueRouter.ROUTE_NAME_LOGIN,
             VueRouter.ROUTE_NAME_REGISTER,
-            VueRouter.ROUTE_NAME_USER_PROFILE_ACTIVATION_CONFIRMATION,
             VueRouter.ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION,
             VueRouter.ROUTE_NAME_USER_NOT_ACTIVATED,
             VueRouter.ROUTE_NAME_INFO,

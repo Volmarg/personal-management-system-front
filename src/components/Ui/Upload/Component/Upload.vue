@@ -401,7 +401,7 @@ export default {
 
       this.$rootEvent.showFullPageLoader();
 
-      let response: UploadResponse = await this.$axios.postWithCsrf(this.url.upload, data, UploadResponse).then((response: UploadResponse) => {
+      let response: UploadResponse = await this.$axios.post(this.url.upload, data, UploadResponse).then((response: UploadResponse) => {
         if (response.isMessageSet()) {
           this.$rootEvent.showNotification(response.getNotificationType(true), response.message);
         }
@@ -433,7 +433,7 @@ export default {
           }
       )
 
-      this.$axios.getWithCsrf(calledUrl, GetUploadConfigurationResponse).then((response: GetUploadConfigurationResponse) => {
+      this.$axios.get(calledUrl, GetUploadConfigurationResponse).then((response: GetUploadConfigurationResponse) => {
         this.configuration = response.configuration;
       })
     }

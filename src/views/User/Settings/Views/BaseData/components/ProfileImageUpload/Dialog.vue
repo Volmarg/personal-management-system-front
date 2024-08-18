@@ -52,7 +52,7 @@ export default {
       let calledUrl = SymfonyRoutes.buildUrl(SymfonyUserSettingRoutes.URL_CHANGE_PROFILE_IMAGE);
 
       this.$rootEvent.showFullPageLoader();
-      this.$axios.getWithCsrf(calledUrl).then( (response: BaseApiResponse) => {
+      this.$axios.get(calledUrl).then( (response: BaseApiResponse) => {
 
         this.$emit('profileImageChanged');
         this.$rootEvent.hideFullPageLoader();

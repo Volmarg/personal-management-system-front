@@ -133,7 +133,7 @@ export default {
 
       let calledUrl = SymfonyRoutes.buildUrl(SymfonyUserSettingRoutes.URL_USER_BASE_DATA_PERSONAL_SAVE);
       this.$rootEvent.showFullPageLoader();
-      this.$axios.postWithCsrf(calledUrl, data).then( async (response: BaseApiResponse) => {
+      this.$axios.post(calledUrl, data).then( async (response: BaseApiResponse) => {
 
         if (response.success) {
           if (response.isMessageSet()) {

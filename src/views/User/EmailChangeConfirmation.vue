@@ -111,7 +111,7 @@ export default {
       );
 
       this.$rootEvent.showFullPageLoader();
-      this.$axios.getWithCsrf(calledBackendUrl).then( (response) => {
+      this.$axios.get(calledBackendUrl).then( (response) => {
         if (!response.success) {
           this.$rootEvent.hideFullPageLoader();
           this.handleFailedBackendResponse(response, calledBackendUrl);

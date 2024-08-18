@@ -7,9 +7,7 @@ import {Component}      from "vue";
 export default class VueRouterUser {
 
     static readonly ROUTE_NAME_USER_SECURITY  = "UserSecurity";
-    static readonly ROUTE_NAME_USER_ACCOUNT  = "UserAccount";
     static readonly ROUTE_NAME_USER_BASE_DATA = "UserBaseData";
-    static readonly ROUTE_NAME_USER_FILES     = "UserFiles";
 
     static readonly ROUTE_NAME_EMAIL_CHANGE_CONFIRMATION = "UserEmailChangeConfirmation";
     static readonly ROUTE_PATH_EMAIL_CHANGE_CONFIRMATION = "/user/email-change-confirmation/:token";
@@ -24,16 +22,6 @@ export default class VueRouterUser {
             path: "",
             name: VueRouterUser.ROUTE_NAME_USER_SECURITY,
             component: (): Promise<Component> => import("@/views/User/Settings/Views/Security/Security.vue"),
-        },
-        {
-            path: "",
-            name: VueRouterUser.ROUTE_NAME_USER_ACCOUNT,
-            component: (): Promise<Component> => import("@/views/User/Settings/Views/Account/Account.vue"),
-        },
-        {
-            path: "",
-            name: VueRouterUser.ROUTE_NAME_USER_FILES,
-            component: (): Promise<Component> => import("@/views/User/Settings/Views/Files/Files.vue"),
         },
     ]
 

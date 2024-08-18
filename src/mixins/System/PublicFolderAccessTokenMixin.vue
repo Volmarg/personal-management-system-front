@@ -11,7 +11,7 @@ export default {
     async getPublicFolderAccessToken(): Promise<string> {
 
       let calledRoute = SymfonyRoutes.buildUrl(SymfonySystemRoutes.GET_PUBLIC_FOLDER_ACCESS_TOKEN);
-      return await this.$axios.getWithCsrf(calledRoute, GetPublicFolderAccessTokenResponse).then((response: GetPublicFolderAccessTokenResponse) => {
+      return await this.$axios.get(calledRoute, GetPublicFolderAccessTokenResponse).then((response: GetPublicFolderAccessTokenResponse) => {
         return response.publicFolderAccessToken;
       });
 

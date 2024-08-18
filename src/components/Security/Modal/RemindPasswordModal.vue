@@ -112,7 +112,7 @@ export default {
       }
 
       this.$rootEvent.showFullPageLoader();
-      this.$axios.postWithCsrf(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_REQUEST_PASSWORD_RESET_LINK_USER), dataBag).then( (response) => {
+      this.$axios.post(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_REQUEST_PASSWORD_RESET_LINK_USER), dataBag).then( (response) => {
         this.$rootEvent.hideFullPageLoader();
 
         if( !response.success ){

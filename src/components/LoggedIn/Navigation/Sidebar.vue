@@ -70,20 +70,6 @@ export default {
     return {
       isMobileBrowser: BrowserDetection.isMobileBrowser(),
       routePaths: {
-        jobs: {
-          jobApplications: VueRouter.ROUTE_PATH_JOB_APPLICATION,
-          jobSearchResults: VueRouter.ROUTE_PATH_JOB_OFFER_SEARCH_RESULTS,
-          jobSearch: VueRouter.ROUTE_PATH_JOB_SEARCH,
-        },
-        mailing: {
-          template: {
-            builder: VueRouter.ROUTE_PATH_EMAIL_TEMPLATE_BUILDER
-          },
-        },
-        payments: {
-          overview: VueRouter.ROUTE_PATH_PAYMENTS_OVERVIEW,
-          pointShopHistory: VueRouter.ROUTE_PATH_PAYMENTS_POINT_SHOP_HISTORY,
-        },
         home: VueRouter.ROUTE_PATH_HOME
       }
     }

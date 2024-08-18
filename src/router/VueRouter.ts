@@ -20,7 +20,6 @@ export default class VueRouter
     static readonly ROUTE_NAME_MAINTENANCE = "Maintenance";
     static readonly ROUTE_NAME_USER_SETTINGS        = "UserSettings";
     static readonly ROUTE_NAME_REGISTER             = "Register";
-    static readonly ROUTE_NAME_USER_PROFILE_ACTIVATION_CONFIRMATION     = "UserProfileActivationConfirmation";
     static readonly ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION = "UserProfilePasswordResetConfirmation";
     static readonly ROUTE_NAME_DEVELOPMENT_PLAYGROUND = "DevelopmentPlayground";
     static readonly ROUTE_NAME_USER_NOT_ACTIVATED = "UserNotActivated"
@@ -36,20 +35,8 @@ export default class VueRouter
     static readonly ROUTE_PATH_HOME         = "/panel/start";
     static readonly ROUTE_PATH_MAINTENANCE  = "/maintenance";
     static readonly ROUTE_PATH_USER_SETTINGS                            = "/panel/user/settings";
-    static readonly ROUTE_PATH_USER_PROFILE_ACTIVATION_CONFIRMATION     = "/user/profile-activation-confirmation/:token"
     static readonly ROUTE_PATH_USER_PROFILE_PASSWORD_RESET_CONFIRMATION = "/user/profile-password-reset-confirmation/:token"
     static readonly ROUTE_PATH_DEVELOPMENT_PLAYGROUND                   = "/panel/development/playground"
-    static readonly ROUTE_PATH_USER_NOT_ACTIVATED                       = "/user/not-activated/:token"
-
-    static readonly ROUTE_PATH_JOB_OFFER_SEARCH_RESULTS = "/panel/job-offer/search-results"
-    static readonly ROUTE_PATH_JOB_APPLICATION          = "/panel/job-offer/applications";
-    static readonly ROUTE_PATH_JOB_SEARCH               = "/panel/job-offer/search";
-    static readonly ROUTE_PATH_JOB_SEARCH_DETAILS       = "/panel/job-offer/search/details/:id"
-
-    static readonly ROUTE_PATH_EMAIL_TEMPLATE_BUILDER = "/panel/email/template-builder";
-
-    static readonly ROUTE_PATH_PAYMENTS_OVERVIEW           = "/panel/payments/overview"
-    static readonly ROUTE_PATH_PAYMENTS_POINT_SHOP_HISTORY = "/panel/payments/point-shop-history"
 
     /**
      * @description configuration of routes in vue itself

@@ -103,7 +103,7 @@ export default {
       }
 
       this.$rootEvent.showFullPageLoader();
-      this.$axios.postWithCsrf(calledUrl, data).then((response: BaseApiResponse) => {
+      this.$axios.post(calledUrl, data).then((response: BaseApiResponse) => {
         this.$rootEvent.hideFullPageLoader();
 
         if (response.isMessageSet()) {
