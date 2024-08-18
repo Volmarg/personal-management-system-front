@@ -20,7 +20,6 @@ export default class EventDispatcherService extends EventEmitterService
     static readonly EVENT_NAME_SHOW_NOTIFICATION              = "show-notification"
     static readonly EVENT_NAME_REFRESH_USER_STORE             = "refresh-user-store"
     static readonly EVENT_NAME_SYSTEM_IS_DISABLED             = "system-is-disabled"
-    static readonly EVENT_NAME_SYSTEM_IS_SOON_DISABLED        = "system-is-soon-disabled"
     static readonly TYPESCRIPT_APP_DISPATCHER_LISTENER_DOM_ID = "dispatcherListener"
 
     static readonly ALL_SUPPORTED_EVENTS_APP_DISPATCHER = [
@@ -30,7 +29,6 @@ export default class EventDispatcherService extends EventEmitterService
         EventDispatcherService.EVENT_NAME_SHOW_BAR_LOADER,
         EventDispatcherService.EVENT_NAME_HIDE_BAR_LOADER,
         EventDispatcherService.EVENT_NAME_SHOW_NOTIFICATION,
-        EventDispatcherService.EVENT_NAME_SYSTEM_IS_SOON_DISABLED,
         EventDispatcherService.EVENT_NAME_SYSTEM_IS_DISABLED,
     ]
 
@@ -136,22 +134,6 @@ export default class EventDispatcherService extends EventEmitterService
     {
         EventDispatcherService.emitEventOnElementWithId(
             EventDispatcherService.EVENT_NAME_SYSTEM_IS_DISABLED,
-            EventDispatcherService.TYPESCRIPT_APP_DISPATCHER_LISTENER_DOM_ID,
-            {
-                message: message
-            }
-        );
-    }
-
-    /**
-     * @description will emit information that system will soon be disabled and will update the systemStateStore
-     *              that's needed because pinia cannot be used in typescript - well it can but won't share it's
-     *              state with what's in vue files.
-     */
-    public static emitSystemSoonDisabled(message: string): void
-    {
-        EventDispatcherService.emitEventOnElementWithId(
-            EventDispatcherService.EVENT_NAME_SYSTEM_IS_SOON_DISABLED,
             EventDispatcherService.TYPESCRIPT_APP_DISPATCHER_LISTENER_DOM_ID,
             {
                 message: message

@@ -1,0 +1,30 @@
+{
+    "userSettings": {
+        "tab": {
+            "baseData": {
+                "label": "Base data",
+                "header": "Base data",
+                "children": {
+                    "personalData": {
+                        "label": "Personal data"
+                    },
+                    "profileImage": {
+                        "label": "Profile image"
+                    },
+                    "emailAddress": {
+                        "label": "Email address"
+                    }
+                }
+            },
+            "security": {
+                "label": "Security",
+                "header": "Security",
+                "children": {
+                    "changePassword": {
+                        "label": "Change password"
+                    }
+                }
+            }
+        }
+    }
+}

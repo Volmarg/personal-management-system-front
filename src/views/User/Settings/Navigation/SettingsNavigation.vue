@@ -5,7 +5,7 @@
       <ul>
         <!-- Base data-->
         <SingleNavElement :route-name="route.names.baseData"
-                          :label="$t('views.user.settings.nav.baseData.label')"
+                          :label="$t('userSettings.tab.baseData.label')"
         >
           <template #icon>
             <la svg-icon-name="book-solid" />
@@ -14,30 +14,13 @@
 
         <!-- Security -->
         <SingleNavElement :route-name="route.names.security"
-                          :label="$t('views.user.settings.nav.security.label')"
+                          :label="$t('userSettings.tab.security.label')"
         >
           <template #icon>
             <la svg-icon-name="lock-open-solid" />
           </template>
         </SingleNavElement>
 
-        <!-- Account -->
-        <SingleNavElement :route-name="route.names.account"
-                          :label="$t('views.user.settings.nav.account.label')"
-        >
-          <template #icon>
-            <la svg-icon-name="user-solid" />
-          </template>
-        </SingleNavElement>
-
-        <!-- Files -->
-        <SingleNavElement :route-name="route.names.files"
-                          :label="$t('views.user.settings.nav.files.label')"
-        >
-          <template #icon>
-            <la svg-icon-name="file-alt-solid" />
-          </template>
-        </SingleNavElement>
       </ul>
 
     </div>

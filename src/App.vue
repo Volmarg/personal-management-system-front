@@ -40,7 +40,6 @@
         @hide-bar-loader="hideBarLoader()"
         @show-notification="handleShowingAlert"
         @system-is-disabled="handleSystemIsDisabled"
-        @system-is-soon-disabled="handleSystemIsSoonDisabled"
         :id="dispatcherId"
         :supported-events="supportedEvents"
     />
@@ -116,16 +115,6 @@ export default {
   },
   methods: {
     /**
-     * @description this exists explicitly due to issues with PayPal.
-     *              PayPal throws "Can not send postrobot_method" on any click made (after closing transaction),
-     *              there is no real solution to this at all. So came up with my own idea to deny any user interaction
-     *              when page is loading, and this works. Also denying user clicking on full-page-load is actually
-     *              fine.
-     */
-    denyClickEventHandler(): void {
-      return;
-    },
-    /**
      * @description returns the root of the logged-in user view,
      *              meaning that this ref represents the current page view content (besides sidebars etc.)
      */
@@ -171,7 +160,6 @@ export default {
         return;
       }
 
-      window.addEventListener('click', this.denyClickEventHandler)
       this.loader = this.$loading.show({
         container       : this.$refs.loadingContainer,  // which element will be used to put the loader in it
         loader          : "spinner",                    // loader type
@@ -201,7 +189,6 @@ export default {
      * @see EventDispatcherService.emitHideFullPageLoader
      */
     handleHideFullPageLoader(): void {
-      window.removeEventListener('click', this.denyClickEventHandler)
       if (this.loader !== null) {
         this.loader.hide();
         this.loader = null;
@@ -230,17 +217,6 @@ export default {
     handleSystemIsDisabled(message: string): void {
       this.systemDisabledState.isDisabled = true;
       this.systemDisabledState.isSoonDisabled = false;
-      this.systemDisabledState.message = message;
-    },
-    /**
-     * @description will update the system disabled store:
-     *              - sets the isSoonDisabled to true,
-     *              - resets rest of fields,
-     *              - sets the message that will be displayed on the bar,
-     */
-    handleSystemIsSoonDisabled(message: string): void {
-      this.systemDisabledState.isDisabled = false;
-      this.systemDisabledState.isSoonDisabled = true;
       this.systemDisabledState.message = message;
     },
     /**

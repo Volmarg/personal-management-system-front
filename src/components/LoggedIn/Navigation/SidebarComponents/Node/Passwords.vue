@@ -1,7 +1,7 @@
 <template>
   <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.passwords.label')">
     <template #icon>
-      <fa icon="lock"/>
+      <fa icon="key"/>
     </template>
 
     <template #children>

@@ -8,7 +8,10 @@
 
     <!-- page content -->
     <div>
-      <h1 class="h1-blue text-xl flex-row justify-center">{{ $t('views.user.settings.label') }}</h1>
+      <h1 class="h1-blue text-xl flex-row justify-center">
+        <span v-if="$route.name === vueRouterUser.ROUTE_NAME_USER_SECURITY">{{ $t('userSettings.tab.security.header') }}</span>
+        <span v-else-if="$route.name === vueRouterUser.ROUTE_NAME_USER_BASE_DATA">{{ $t('userSettings.tab.baseData.header') }}</span>
+      </h1>
       <hr class="mt-2 mb-2"/>
       <router-view @profile-image-changed="$emit('profileImageChanged')"></router-view>
     </div>
@@ -20,7 +23,14 @@
 import Container          from "@/components/Ui/Containers/Container.vue";
 import SettingsNavigation from "@/views/User/Settings/Navigation/SettingsNavigation.vue";
 
+import VueRouterUser from "@/router/VueRouterUser";
+
 export default {
+  computed: {
+    vueRouterUser(): VueRouterUser {
+      return VueRouterUser
+    }
+  },
   emits: [
     'profileImageChanged'
   ],

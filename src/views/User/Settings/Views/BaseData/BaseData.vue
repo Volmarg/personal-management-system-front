@@ -1,34 +1,11 @@
 <template>
   <div>
 
-    <Accordion class="mb-4">
-      <AccordionPanel
-          class="accordion-panel"
-          :initially-open="!isMobileBrowser"
-          :initial-open-delay-ms="700"
-      >
-        <template #title>
-          <span class="underline">
-            {{ $t('views.user.baseData.importantInformation.accordion.header') }}
-          </span>
-        </template>
-        <template #content>
-
-          <DescriptionBlock class="mb-4 mt-4 text-left">
-            <span v-html="$t('views.user.baseData.information.updateWontAffect')"></span>
-          </DescriptionBlock>
-
-        </template>
-      </AccordionPanel>
-    </Accordion>
-
-    <!-- buttons grid -->
-
     <!-- personal data -->
     <Row :is-content-equally-distributed="true"
          :flex-direction="rowFlexDirection"
     >
-      <MediumButtonWithIcon :text="$t('views.user.baseData.nav.personalData')"
+      <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.personalData.label')"
                             :is-icon-on-top="true"
                             @click="isEditPersonalDataDialogVisible = true"
                             button-classes="user-settings-view-button"
@@ -39,7 +16,7 @@
       </MediumButtonWithIcon>
 
       <!-- profile image -->
-      <MediumButtonWithIcon :text="$t('views.user.baseData.nav.profileImage')"
+      <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.profileImage.label')"
                             :is-icon-on-top="true"
                             @click="isProfileImageModalVisible = true"
                             button-classes="user-settings-view-button"
@@ -52,7 +29,7 @@
       </MediumButtonWithIcon>
 
       <!-- email address -->
-      <MediumButtonWithIcon :text="$t('views.user.baseData.nav.emailAddress')"
+      <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.emailAddress.label')"
                             :is-icon-on-top="true"
                             @click="isEmailAddressDialogVisible = true"
                             button-classes="user-settings-view-button"
@@ -84,9 +61,6 @@
 </template>
 
 <script lang="ts">
-import AccordionPanel       from "@/components/Ui/Accordion/Panel.vue";
-import Accordion            from "@/components/Ui/Accordion/Accordion.vue";
-import DescriptionBlock     from "@/components/Page/InformationBlock.vue";
 import IconSvgPerson        from "@/components/Ui/Icons/Svg/Person.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import LineAwesome          from "@/components/Ui/Icons/LineAwesome.vue";
@@ -112,13 +86,10 @@ export default {
     }
   },
   components: {
-    Accordion,
-    AccordionPanel,
     EmailAddressDialog,
     ProfileImageUpload,
     EditPersonalDataDialog,
     MediumButtonWithIcon,
-    DescriptionBlock,
     IconSvgPerson,
     "la": LineAwesome,
     Row,

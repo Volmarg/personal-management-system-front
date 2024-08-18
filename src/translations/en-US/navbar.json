@@ -2,8 +2,18 @@
     "navbar": {
         "topBar": {
             "userMenu": {
+                "profile": {
+                    "label": "Profile"
+                },
                 "settings": {
                     "label": "Settings"
+                },
+                "lock": {
+                    "state": {
+                        "locked": {
+                            "label": "Locked"
+                        }
+                    }
                 },
                 "logout": {
                     "label": "Logout"

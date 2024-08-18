@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MediumButtonWithIcon :text="$t('views.settings.buttons.changePassword')"
+    <MediumButtonWithIcon :text="$t('userSettings.tab.security.children.changePassword.label')"
                           :is-icon-on-top="true"
                           @click="showDialog"
                           button-classes="user-settings-view-button"

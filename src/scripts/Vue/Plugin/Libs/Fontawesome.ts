@@ -38,6 +38,7 @@ import {
     faBook,
     faUserFriends,
     faLock,
+    faLockOpen,
     faTrophy,
     faCalendar,
     faHistory,
@@ -49,6 +50,7 @@ import {
     faImage,
     faFilm,
     faUpload,
+    faCog,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -120,6 +122,8 @@ export default class Fontawesome
         library.add(faImage);
         library.add(faFilm);
         library.add(faUpload);
+        library.add(faCog);
+        library.add(faLockOpen);
 
         return FontAwesomeIcon;
     }

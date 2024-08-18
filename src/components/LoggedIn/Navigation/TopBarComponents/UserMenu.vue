@@ -7,7 +7,10 @@
       <button class="btn-transparent flex items-center justify-center h-16 w-8"
               @click="showDeveloperSidebar()"
       >
-        <icon-svg-wrench/>
+        <la svg-icon-name="tools-solid"
+            font-size="40"
+            class="mt-6 hover:opacity-60"
+        />
       </button>
     </div>
 
@@ -36,12 +39,40 @@
           <div class="flex flex-col w-full">
             <ul class="list-none">
 
+              <!-- Profile -->
+              <single-menu-element :label="$t('navbar.topBar.userMenu.profile.label')"
+                                   :to-path="routePaths.userSettings"
+              >
+                <template #icon>
+                  <la svg-icon-name="user-solid"
+                      font-size="24"
+                      class="mt-3"
+                  />
+                </template>
+              </single-menu-element>
+
+              <!-- Lock -->
+              <single-menu-element :label="$t('navbar.topBar.userMenu.lock.state.locked.label')"
+                                   :to-path="routePaths.userSettings"
+              >
+                <template #icon>
+<!--                  <la svg-icon-name="unlock-solid" />-->
+                  <la svg-icon-name="lock-solid"
+                      font-size="24"
+                      class="mt-3"
+                  />
+                </template>
+              </single-menu-element>
+
               <!-- Settings -->
               <single-menu-element :label="$t('navbar.topBar.userMenu.settings.label')"
                                    :to-path="routePaths.userSettings"
               >
                 <template #icon>
-                  <icon-svg-person/>
+                  <la svg-icon-name="cog-solid"
+                      font-size="24"
+                      class="mt-3"
+                  />
                 </template>
               </single-menu-element>
 
@@ -51,7 +82,10 @@
                                    @click="handleLogout()"
               >
                   <template #icon>
-                    <icon-svg-logout/>
+                    <la svg-icon-name="sign-out-alt-solid"
+                        font-size="24"
+                        class="mt-3"
+                    />
                   </template>
               </single-menu-element>
 
@@ -68,9 +102,6 @@
 </template>
 
 <script lang="ts">
-import IconSvgPerson     from "@/components/Ui/Icons/Svg/Person.vue";
-import IconSvgLogout     from "@/components/Ui/Icons/Svg/Logout.vue";
-import IconSvgWrench     from "@/components/Ui/Icons/Svg/Wrench.vue";
 import SingleMenuElement from "@/components/LoggedIn/Navigation/TopBarComponents/UserMenuComponents/SingleMenuElement.vue";
 import DeveloperSidebar  from "@/components/Development/Sidebar/DeveloperSidebar.vue";
 
@@ -111,9 +142,6 @@ export default {
     "rightSidebarContentChanged",
   ],
   components: {
-    "icon-svg-wrench"     : IconSvgWrench,
-    "icon-svg-person"     : IconSvgPerson,
-    "icon-svg-logout"     : IconSvgLogout,
     "single-menu-element" : SingleMenuElement,
   },
   computed: {

@@ -1,0 +1,8 @@
+{
+    "routes": {
+        "nameToHeader":{
+            "UserBaseData": "User settings",
+            "UserSecurity": "User settings"
+        }
+    }
+}
