@@ -18,27 +18,7 @@
             @click.prevent="goInfoPageAndSection($event)"
             data-target-selector="#about-us-section"
         >
-          {{ $t('infoPage.menu.aboutUs.label') }}
-        </a>
-      </li>
-
-      <li class="menu__item">
-        <a
-            class="menu__link"
-            @click.prevent="goInfoPageAndSection($event)"
-            data-target-selector="#offer"
-        >
-          {{ $t('infoPage.menu.whatWeOffer.label') }}
-        </a>
-      </li>
-
-      <li class="menu__item">
-        <a
-            class="menu__link"
-            @click.prevent="goInfoPageAndSection($event)"
-            data-target-selector="#pricing"
-        >
-          {{ $t('infoPage.menu.pricing.label') }}
+          {{ $t('infoPage.menu.about.label') }}
         </a>
       </li>
 

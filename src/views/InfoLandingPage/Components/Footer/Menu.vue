@@ -19,25 +19,7 @@
             @click.prevent="goToSection($event)"
             data-target-selector="#about-us-section"
         >
-          {{ $t('infoPage.menu.aboutUs.label') }}
-        </a>
-      </li>
-      <li>
-        <a
-            class="text-white footer-link"
-            @click.prevent="goToSection($event)"
-            data-target-selector="#offer"
-        >
-          {{ $t('infoPage.menu.whatWeOffer.label') }}
-        </a>
-      </li>
-      <li>
-        <a
-            class="text-white footer-link"
-            @click.prevent="goToSection($event)"
-            data-target-selector="#pricing"
-        >
-          {{ $t('infoPage.menu.pricing.label') }}
+          {{ $t('infoPage.menu.about.label') }}
         </a>
       </li>
       <li>
@@ -47,22 +29,6 @@
             data-target-selector="#faq"
         >
           {{ $t('infoPage.menu.faq.label') }}
-        </a>
-      </li>
-      <li>
-        <a
-            @click.prevent="$emit('showCreditsModal')"
-            class="text-white footer-link"
-        >
-          {{ $t('infoPage.menu.credits.label') }}
-        </a>
-      </li>
-      <li>
-        <a
-            class="text-white footer-link"
-            @click.prevent="$emit('showRoadmapModal')"
-        >
-          {{ $t('infoPage.menu.roadmap.label') }}
         </a>
       </li>
       <li>

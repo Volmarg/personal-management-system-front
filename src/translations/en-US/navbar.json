@@ -1,0 +1,219 @@
+{
+    "navbar": {
+        "topBar": {
+            "userMenu": {
+                "settings": {
+                    "label": "Settings"
+                },
+                "logout": {
+                    "label": "Logout"
+                }
+            },
+            "timer": {
+                "timeLeft": {
+                    "message": "Time left untill logged out"
+                }
+            }
+        },
+        "rightSidebar": {
+            "menu": {
+                "goals": {
+                    "label": "Goals",
+                    "children": {
+                        "list": {
+                            "label": "List"
+                        },
+                        "payments": {
+                            "label": "Payments"
+                        },
+                        "settings": {
+                            "label": "Settings"
+                        }
+                    }
+                },
+                "todo": {
+                    "label": "Todo",
+                    "children": {
+                        "list": {
+                            "label": "List"
+                        }
+                    }
+                },
+                "notes": {
+                    "label": "Notes",
+                    "children": {
+                        "create": {
+                            "label": "Create new"
+                        },
+                        "settings": {
+                            "label": "Settings"
+                        },
+                        "categories": {
+                            "label": "Categories"
+                        }
+                    }
+                },
+                "contacts": {
+                    "label": "Contacts",
+                    "children": {
+                        "contacts": {
+                            "label": "Contacts"
+                        },
+                        "settings": {
+                            "label": "Settings"
+                        }
+                    }
+                },
+                "passwords": {
+                    "label": "Passwords",
+                    "children": {
+                        "list": {
+                            "label": "List"
+                        },
+                        "settings": {
+                            "label": "Settings"
+                        }
+                    }
+                },
+                "achievements": {
+                    "label": "Achievements",
+                    "children": {
+                        "list": {
+                            "label": "List"
+                        }
+                    }
+                },
+                "calendar": {
+                    "label": "Calendar",
+                    "children": {
+                        "view": {
+                            "label": "View"
+                        }
+                    }
+                },
+                "issues": {
+                    "label": "Issues",
+                    "children": {
+                        "pending": {
+                            "label": "Pending"
+                        }
+                    }
+                },
+                "travels": {
+                    "label": "Travels",
+                    "children": {
+                        "ideas": {
+                            "label": "Ideas"
+                        }
+                    }
+                },
+                "payments": {
+                    "label": "Payments",
+                    "children": {
+                        "productPrices": {
+                            "label": "Product prices"
+                        },
+                        "monthlyPayments": {
+                            "label": "Monthly payments"
+                        },
+                        "moneyOwed": {
+                            "label": "Money owed"
+                        },
+                        "incomes": {
+                            "label": "Incomes"
+                        },
+                        "bills": {
+                            "label": "Bills"
+                        },
+                        "settings": {
+                            "label": "Settings"
+                        }
+                    }
+                },
+                "shopping": {
+                    "label": "Shopping",
+                    "children": {
+                        "plans": {
+                            "label": "Plans"
+                        }
+                    }
+                },
+                "job": {
+                    "label": "Job",
+                    "children": {
+                        "afterhours": {
+                            "label": "Afterhours"
+                        },
+                        "holidays": {
+                            "label": "Holidays"
+                        },
+                        "settings": {
+                            "label": "Settings"
+                        }
+                    }
+                },
+                "reports": {
+                    "label": "Reports",
+                    "children": {
+                        "paymentSummaries": {
+                            "label": "Payment summaries"
+                        },
+                        "historicalMoneyOwed": {
+                            "label": "Historical money owed"
+                        },
+                        "paymentCharts": {
+                            "label": "PaymentCharts"
+                        },
+                        "savingCharts": {
+                            "label": "SavingCharts"
+                        }
+                    }
+                },
+                "files": {
+                    "label": "Files",
+                    "children": {
+                        "settings": {
+                            "label": "Settings"
+                        },
+                        "mainFolder": {
+                            "label": "Main folder"
+                        }
+                    }
+                },
+                "images": {
+                    "label": "Images",
+                    "children": {
+                        "settings": {
+                            "label": "Settings"
+                        },
+                        "mainFolder": {
+                            "label": "Main folder"
+                        }
+                    }
+                },
+                "video": {
+                    "label": "Video",
+                    "children": {
+                        "settings": {
+                            "label": "Settings"
+                        },
+                        "mainFolder": {
+                            "label": "Main folder"
+                        }
+                    }
+                },
+                "upload": {
+                    "label": "Upload",
+                    "children": {
+                        "add": {
+                            "label": "Add"
+                        },
+                        "manage": {
+                            "label": "Manage"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

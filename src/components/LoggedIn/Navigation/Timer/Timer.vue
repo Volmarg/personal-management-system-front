@@ -1,5 +1,5 @@
 <template>
-  <div v-tippy="$t('views.navbar.topBar.userMenu.timer.timeLeft.tippyMessage')"
+  <div v-tippy="$t('navbar.topBar.timer.timeLeft.message')"
        class="mr-3"
   >
     <la font-size="40"

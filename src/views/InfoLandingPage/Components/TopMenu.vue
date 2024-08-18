@@ -51,25 +51,9 @@
                       class="nav-link"
                       data-target-selector="#about-us-section"
                   >
-                    {{ $t('infoPage.menu.aboutUs.label') }}
+                    {{ $t('infoPage.menu.about.label') }}
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a
-                      @click.prevent="goToSection($event); hideHamburgerMenu()"
-                      class="nav-link"
-                      data-target-selector="#offer"
-                  >
-                  {{ $t('infoPage.menu.whatWeOffer.label') }}
-                </a></li>
-                <li class="nav-item">
-                  <a
-                      @click.prevent="goToSection($event); hideHamburgerMenu()"
-                      class="nav-link"
-                      data-target-selector="#pricing"
-                  >
-                  {{ $t('infoPage.menu.pricing.label') }}
-                </a></li>
                 <li class="nav-item">
                   <a
                       @click.prevent="goToSection($event); hideHamburgerMenu()"
@@ -77,20 +61,6 @@
                       data-target-selector="#faq"
                   >
                   {{ $t('infoPage.menu.faq.label') }}
-                </a></li>
-                <li class="nav-item">
-                  <a
-                      @click.prevent="$emit('showCreditsModal'); hideHamburgerMenu()"
-                      class="nav-link"
-                  >
-                  {{ $t('infoPage.menu.credits.label') }}
-                </a></li>
-                <li class="nav-item">
-                  <a
-                      @click.prevent="$emit('showRoadmapModal'); hideHamburgerMenu()"
-                      class="nav-link"
-                  >
-                  {{ $t('infoPage.menu.roadmap.label') }}
                 </a></li>
                 <LoginLink v-if="!isTabletBreakingPoint"/>
               </ul>
@@ -166,7 +136,7 @@ export default {
 <style lang="scss" scoped>
 $animationTime: 300ms;
 .top-bar-logo {
-  width: 80% !important;
+  width: 100% !important;
 }
 
 .show.fade-in{

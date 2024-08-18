@@ -33,6 +33,22 @@ import {
     faQuestion,
     faCheck,
     faMicrophone,
+    faBullseye,
+    faTasks,
+    faBook,
+    faUserFriends,
+    faLock,
+    faTrophy,
+    faCalendar,
+    faHistory,
+    faPlane,
+    faMoneyBill,
+    faShoppingBasket,
+    faListAlt,
+    faFolderOpen,
+    faImage,
+    faFilm,
+    faUpload,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -88,6 +104,22 @@ export default class Fontawesome
         library.add(faCheck);
         library.add(faMicrophone);
         library.add(faGlobe);
+        library.add(faBullseye);
+        library.add(faTasks);
+        library.add(faBook);
+        library.add(faUserFriends);
+        library.add(faLock);
+        library.add(faTrophy);
+        library.add(faCalendar);
+        library.add(faHistory);
+        library.add(faPlane);
+        library.add(faMoneyBill);
+        library.add(faShoppingBasket);
+        library.add(faListAlt);
+        library.add(faFolderOpen);
+        library.add(faImage);
+        library.add(faFilm);
+        library.add(faUpload);
 
         return FontAwesomeIcon;
     }

@@ -17,7 +17,6 @@
           <DescriptionBlock class="mb-4 mt-4 text-left">
             <span v-html="$t('views.user.baseData.information.updateWontAffect')"></span>
           </DescriptionBlock>
-          <DataUsageInfo />
 
         </template>
       </AccordionPanel>
@@ -87,7 +86,6 @@
 <script lang="ts">
 import AccordionPanel       from "@/components/Ui/Accordion/Panel.vue";
 import Accordion            from "@/components/Ui/Accordion/Accordion.vue";
-import DataUsageInfo        from "@/views/User/PersonalData/DataUsageInfo.vue";
 import DescriptionBlock     from "@/components/Page/InformationBlock.vue";
 import IconSvgPerson        from "@/components/Ui/Icons/Svg/Person.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
@@ -124,7 +122,6 @@ export default {
     IconSvgPerson,
     "la": LineAwesome,
     Row,
-    DataUsageInfo
   },
   mixins: [
     ResponsiveViewNavMixin

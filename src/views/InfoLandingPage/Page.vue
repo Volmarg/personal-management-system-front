@@ -10,8 +10,6 @@
       <ScreensCarouselSection />
       <AboutUs />
       <InfoSections />
-      <WhatWeOffer />
-      <WhatWeDontOffer />
       <Faq />
       <Footer
           @show-credits-modal="isCreditsModalVisible = true"
@@ -43,8 +41,6 @@ import Faq                    from "@/views/InfoLandingPage/Components/Section/F
 import HomeSection            from "@/views/InfoLandingPage/Components/Section/Home.vue";
 import ScreensCarouselSection from "@/views/InfoLandingPage/Components/Section/ScreensCarousel.vue";
 import AboutUs                from "@/views/InfoLandingPage/Components/Section/AboutUs.vue";
-import WhatWeOffer            from "@/views/InfoLandingPage/Components/Section/WhatWeOffer.vue";
-import WhatWeDontOffer        from "@/views/InfoLandingPage/Components/Section/WhatWeDontOffer.vue";
 import InfoSections           from "@/views/InfoLandingPage/Components/Section/Info.vue";
 
 import {ComponentData}     from "@/scripts/Vue/Types/Components/types";
@@ -63,8 +59,6 @@ export default {
     InfoSections,
     BackToTop,
     Footer,
-    WhatWeDontOffer,
-    WhatWeOffer,
     AboutUs,
     ScreensCarouselSection,
     HomeSection,

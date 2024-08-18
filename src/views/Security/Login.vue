@@ -9,24 +9,20 @@
               <img src="logo-white.svg" />
             </a>
           </div>
-          <div class="flex flex-col">
-            <p class="text-2xl font-bold mb-4">
-              {{ $t('login.headers.welcomeTo') }} Personal Management System!
+          <div class="flex flex-col w-full">
+            <p class="text-2xl font-bold mb-4 text-center">
+              {{ $t('security.login.welcomeTo') }} Personal Management System!
             </p>
-            <p class="text-sm " v-html="$t('login.texts.belowWelcomeToPlatform')">
+            <p class="text-sm " v-html="$t('security.login.info.line1')">
             </p>
 
-            <p class="text-sm mt-3" v-html="$t('login.texts.moreInformation', {
-              'here': `<b><a href='/'>here</a></b>`
-            })">
-            </p>
           </div>
           <div class="flex flex-row items-center lg:justify-between justify-center mt-4 lg:mt-0 w-full text-xs z-10">
             <div class="text-white">© Personal Management System</div>
           </div>
         </div>
         <div class="w-full lg:w-1/2 bg-white p-8 lg:p-24 flex flex-col items-center justify-center lg:items-start mb-8 sm:mb-20">
-          <p class="text-2xl font-bold text-blue-500 mb-4">{{ $t('login.headers.loginTo') }} Personal Management System</p>
+          <p class="text-2xl font-bold text-blue-500 mb-4">{{ $t('security.login.loginHeader') }}</p>
           <p v-if="isDev"><small>[Dev-System] Prefilled credentials</small></p>
 
           <div class="flex flex-col">
@@ -35,7 +31,7 @@
 
                 <vue-input
                     type="text"
-                    :label="$t('login.form.email.label')"
+                    :label="$t('security.login.loginForm.email.label')"
                     :is-required="true"
                     :errors="violations.email"
                     :is-disabled="systemDisabledState.isDisabled"
@@ -45,7 +41,7 @@
 
                 <vue-input
                     type="password"
-                    :label="$t('login.form.password.label')"
+                    :label="$t('security.login.loginForm.password.label')"
                     :is-required="true"
                     :errors="violations.password"
                     :is-disabled="systemDisabledState.isDisabled"
@@ -54,14 +50,14 @@
                 />
 
                 <p class="mb-2 justify-start flex">
-                  {{ $t('login.texts.asteriskFieldsAreRequired') }}<asterisk-required/>
+                  {{ $t('generic.asteriskFieldsAreRequired') }}<asterisk-required/>
                 </p>
 
               </div>
 
               <div class="w-full sm:w-auto mb-4">
                 <MediumButtonWithIcon
-                    :text="$t('security.login.form.button.submit.label')"
+                    :text="$t('security.login.loginForm.submit.label')"
                     button-classes="w-full sm:w-auto flex justify-center"
                     :disabled="systemDisabledState.isDisabled"
                     @click.prevent="handleSubmit"
@@ -80,33 +76,33 @@
           </div>
 
           <div>
-            <span class="text-secondary mr-1">{{ $t('login.texts.aboutUs.label') }}:
-              <a href="/" class="link">{{$t('login.texts.aboutUs.clickText')}}</a>
+            <span class="text-secondary mr-1">{{ $t('security.login.links.homePage.label') }}
+              <a href="/" class="link">{{$t('generic.clickHere')}}</a>
             </span>
           </div>
 
           <!-- Register -->
           <div class="flex flex-row w-full mt-1 justify-center lg:justify-start">
 
-            <span class="text-secondary mr-1">{{ $t('login.texts.newUser') }}</span><span>
+            <span class="text-secondary mr-1">{{ $t('security.login.links.register.label') }}</span><span>
             <router-link :to="routePaths.registerPage"
                          class="link"
                          :class="{
                             'disabled-text-link': systemDisabledState.isDisabled
                          }"
-            >{{ $t('login.texts.registerHere') }}</router-link>
+            >{{ $t('security.login.links.register.linkText') }}</router-link>
             </span>
           </div>
 
           <!-- Remind password -->
           <div class="flex flex-row w-full mt-1 justify-center lg:justify-start">
-            <span class="text-secondary mr-1">{{ $t('login.texts.forgotPassword') }}</span><span>
+            <span class="text-secondary mr-1">{{ $t('security.login.links.forgotPassword.label') }}</span><span>
             <a class="link"
                @click.prevent="isRemindPasswordModalVisible = true"
                :class="{
                   'disabled-text-link': systemDisabledState.isDisabled
                }"
-            >{{ $t('login.texts.remindPassword') }}</a></span>
+            >{{ $t('security.login.links.forgotPassword.linkText') }}</a></span>
           </div>
 
         </div>

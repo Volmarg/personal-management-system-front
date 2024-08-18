@@ -5,7 +5,7 @@
       <div class="flex flex-col bg-white border border-gray-200 p-8 w-full max-w-2xl">
         <div class="flex flex-col w-full mb-4">
           <div class="text-xs uppercase">
-            {{ $t('views.register.texts.register')}}
+            {{ $t('security.register.header.label')}}
           </div>
         </div>
         <div class="flex flex-col">
@@ -15,7 +15,7 @@
               <div class="two-inputs-per-row">
                 <vue-input
                     type="email"
-                    :label="$t('views.register.form.email.label')"
+                    :label="$t('security.register.form.email.label')"
                     :is-required="true"
                     :errors="violations.email"
                     :is-disabled="systemDisabledState.isDisabled"
@@ -24,72 +24,11 @@
 
                 <vue-input
                     type="text"
-                    :label="$t('views.register.form.username.label')"
+                    :label="$t('security.register.form.username.label')"
                     :is-required="true"
                     :errors="violations.username"
                     :is-disabled="systemDisabledState.isDisabled"
                     v-model="username"
-                />
-              </div>
-
-              <div class="two-inputs-per-row">
-                <vue-input
-                    type="text"
-                    :label="$t('views.register.form.firstname.label')"
-                    :is-required="true"
-                    :errors="violations.firstname"
-                    :is-disabled="systemDisabledState.isDisabled"
-                    v-model="firstname"
-                />
-
-                <vue-input
-                    type="text"
-                    :label="$t('views.register.form.lastname.label')"
-                    :is-required="true"
-                    :errors="violations.lastname"
-                    :is-disabled="systemDisabledState.isDisabled"
-                    v-model="lastname"
-                />
-              </div>
-
-              <div class="two-inputs-per-row">
-                <vue-input
-                    type="text"
-                    :label="$t('views.register.form.city.label')"
-                    :is-required="true"
-                    :errors="violations.city"
-                    :is-disabled="systemDisabledState.isDisabled"
-                    v-model="city"
-                />
-
-                <vue-input
-                    type="text"
-                    :label="$t('views.register.form.zip.label')"
-                    :is-required="true"
-                    :errors="violations.zip"
-                    :is-disabled="systemDisabledState.isDisabled"
-                    v-model="zip"
-                />
-
-              </div>
-
-              <div class="two-inputs-per-row">
-                <vue-input
-                    type="text"
-                    :label="$t('views.register.form.street.label')"
-                    :is-required="true"
-                    :errors="violations.street"
-                    :is-disabled="systemDisabledState.isDisabled"
-                    v-model="street"
-                />
-
-                <vue-input
-                    type="text"
-                    :label="$t('views.register.form.homeNumber.label')"
-                    :is-required="true"
-                    :errors="violations.homeNumber"
-                    :is-disabled="systemDisabledState.isDisabled"
-                    v-model="homeNumber"
                 />
               </div>
 
@@ -103,11 +42,8 @@
 
             </div>
 
-            <PasswordConstraintsBlock v-if="!this.systemDisabledState.isDisabled"/>
-            <DataUsageInfo v-if="!this.systemDisabledState.isDisabled"/>
-
             <p>
-              {{ $t('views.register.texts.asteriskFieldsAreRequired') }} <asterisk-required/>
+              {{ $t('generic.asteriskFieldsAreRequired') }} <asterisk-required/>
             </p>
 
             <div class="flex flex-col sm:flex-row w-full mt-2 mb-2">
@@ -115,7 +51,7 @@
                                     top-wrapper-classes="w-full sm:w-auto"
                                     button-classes="w-full sm:w-auto"
                                     text-classes="text-center w-full"
-                                    :text="$t('views.register.form.submit.text')"
+                                    :text="$t('security.register.form.submit.label')"
                                     :disabled="systemDisabledState.isDisabled"
               />
             </div>
@@ -125,38 +61,26 @@
 
         <!-- Login -->
         <div class="flex flex-row w-full mt-1">
-          <span class="text-secondary mr-1">{{ $t('views.register.texts.alreadyGotAnAccount') }}</span>
+          <span class="text-secondary mr-1">{{ $t('security.register.texts.links.alreadyGotAnAccount.label') }}</span>
           <span>
           <router-link :to="routePaths.login"
                        class="link"
-          >{{ $t('views.register.texts.loginHere') }}</router-link>
+          >{{ $t('security.register.texts.links.alreadyGotAnAccount.linkText') }}</router-link>
         </span>
         </div>
 
         <!-- Remind password -->
         <div class="flex flex-row w-full mt-1">
-          <span class="text-secondary mr-1">{{ $t('views.register.texts.forgotPassword') }}</span>
+          <span class="text-secondary mr-1">{{ $t('security.register.texts.links.forgotPassword.label') }}</span>
           <span>
           <a class="link"
              @click.prevent="isRemindPasswordModalVisible = true"
              :class="{
                'disabled-text-link': systemDisabledState.isDisabled
              }"
-          >{{ $t('views.register.texts.clickHere') }}</a>
+          >{{ $t('security.register.texts.links.forgotPassword.linkText') }}</a>
         </span>
         </div>
-
-        <!-- Home Page -->
-        <div class="flex flex-row w-full mt-1">
-          <span class="text-secondary mr-1">{{ $t('views.register.texts.homePage') }}: </span>
-          <span>
-            <router-link  :to="routePaths.info"
-                          class="link">
-              {{ $t('views.register.texts.clickHere') }}
-            </router-link>
-          </span>
-        </div>
-
       </div>
 
     </div>
@@ -172,8 +96,6 @@
 import BaseApiResponseViolationsToDataFieldsViolations from "@/scripts/Vue/Mixins/BaseApiResponseViolationsToDataFieldsViolations.vue";
 import FailedBackendResponseHandler                    from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 
-import PasswordConstraintsBlock from "@/components/Security/PasswordConstraintsBlock.vue";
-import DataUsageInfo            from "@/views/User/PersonalData/DataUsageInfo.vue";
 import RemindPasswordModal      from "@/components/Security/Modal/RemindPasswordModal.vue";
 import VueInput                 from "@/components/Form/Input.vue";
 import AsteriskRequired         from "@/components/Form/AsteriskRequired.vue";
@@ -363,9 +285,7 @@ export default {
     'remind-password-modal'      : RemindPasswordModal,
     'asterisk-required'          : AsteriskRequired,
     'vue-input'                  : VueInput,
-    DataUsageInfo,
     MediumButtonWithIcon,
-    PasswordConstraintsBlock
   }
 }
 </script>

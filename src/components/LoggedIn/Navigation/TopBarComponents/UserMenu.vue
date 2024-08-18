@@ -37,7 +37,7 @@
             <ul class="list-none">
 
               <!-- Settings -->
-              <single-menu-element :label="$t('views.navbar.topBar.userMenu.settings')"
+              <single-menu-element :label="$t('navbar.topBar.userMenu.settings.label')"
                                    :to-path="routePaths.userSettings"
               >
                 <template #icon>
@@ -46,7 +46,7 @@
               </single-menu-element>
 
               <!-- Logout -->
-              <single-menu-element :label="$t('views.navbar.topBar.userMenu.logout')"
+              <single-menu-element :label="$t('navbar.topBar.userMenu.logout.label')"
                                    :to-path="routePaths.none"
                                    @click="handleLogout()"
               >

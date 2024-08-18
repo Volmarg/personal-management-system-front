@@ -7,14 +7,14 @@
             <div class="col-lg-5 col-sm-12 w-full lg:w-1/5 title-fancy flex-row justify-center">
 
               <h4 class="footer-title">
-                {{ $t('infoPage.footerSection.readyToGetStarted') }}
+                {{ $t('infoPage.footerSection.documentation.info') }}
               </h4>
               <p></p>
             </div>
 
             <div class="text-center flex justify-center relative">
               <a @click.prevent="goToLoginHandler" class="button align-self-center relative">
-                {{ $t('infoPage.footerSection.goHere') }}
+                {{ $t('infoPage.footerSection.documentation.button.clickHere.label') }}
               </a>
             </div>
           </div>
@@ -28,9 +28,8 @@
                     class="mb-3 w-1/2 md:w-2/4 lg:w-1/2"
                 >
               </a>
-              <div class="copyright mt-1 md:mt-4 text-white text-left flex justify-center md:justify-start">
-                Copyright @
-                <a href="#" class="text-white">Personal Management System</a>
+              <div class="copyright mt-1 md:mt-4 text-white text-left flex flex-col">
+                <a href="#" class="text-white">@Personal Management System</a>
               </div>
             </div>
           </div>

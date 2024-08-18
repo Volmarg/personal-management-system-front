@@ -15,8 +15,6 @@
                                   class="mb-6"
         />
 
-        <PasswordConstraintsBlock />
-
       </template>
 
       <template #footerRightSection>
@@ -40,7 +38,6 @@
 import Modal                    from "@/components/Modal/Modal.vue";
 import MediumButtonWithIcon     from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import PasswordWithConfirmation from "@/components/Form/PasswordWithConfirmation.vue";
-import PasswordConstraintsBlock from "@/components/Security/PasswordConstraintsBlock.vue";
 
 import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
 
@@ -71,7 +68,6 @@ export default {
   ],
   components: {
     PasswordWithConfirmation,
-    PasswordConstraintsBlock,
     MediumButtonWithIcon,
     Modal
   },

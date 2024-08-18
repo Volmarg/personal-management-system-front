@@ -1,0 +1,75 @@
+{
+    "security": {
+        "register": {
+            "header": {
+                "label": "Register"
+            },
+            "texts": {
+                "links": {
+                    "alreadyGotAnAccount": {
+                        "label": "Already got an account?",
+                        "linkText": "Login here"
+                    },
+                    "forgotPassword": {
+                        "label": "Forgot password?",
+                        "linkText": "reset password"
+                    }
+                }
+            },
+            "form": {
+                "email": {
+                    "label": "Email"
+                },
+                "username": {
+                    "label": "Username"
+                },
+                "password": {
+                    "label": "Password"
+                },
+                "confirmPassword": {
+                    "label": "Confirm password"
+                },
+                "previewPassword": {
+                    "text": "Preview"
+                },
+                "generatePassword": {
+                    "label": "Generate password"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            }
+        },
+        "login": {
+            "info": {
+                "line1": "This is Your private instance of the management tool!"
+            },
+            "loginHeader": "Login",
+            "welcomeTo": "Welcome to",
+            "links": {
+                "homePage": {
+                    "label": "Home page:"
+                },
+                "register": {
+                    "label": "New user:",
+                    "linkText": "register here"
+                },
+                "forgotPassword": {
+                    "label": "Forgot password?",
+                    "linkText": "reset password"
+                }
+            },
+            "loginForm": {
+                "email": {
+                    "label": "Email"
+                },
+                "password": {
+                    "label": "Password"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            }
+        }
+    }
+}

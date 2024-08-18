@@ -28,7 +28,7 @@
           class="align-self-center hover:opacity-70 cursor-pointer"
           v-if="!isPhoneBreakingPoint"
           @click="togglePreview()"
-          v-tippy="$t('components.form.passwordWithPreview.texts.preview')"
+          v-tippy="$t('security.register.form.previewPassword.text')"
       >
         <fa
             :icon="['far', 'eye']"
@@ -37,14 +37,14 @@
       </div>
 
       <button-rounded @click="togglePreview()"
-                      :text="$t('components.form.passwordWithPreview.texts.preview')"
+                      :text="$t('security.register.form.previewPassword.text')"
                       button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
                       v-if="isPhoneBreakingPoint"
       />
 
       <MediumButtonWithIcon
           @click="generatePassword()"
-          :text="$t('components.form.passwordWithPreview.texts.generate')"
+          :text="$t('security.register.form.generatePassword.label')"
           :disabled="disabled"
           button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
           class="w-full sm:w-auto m-0-force"

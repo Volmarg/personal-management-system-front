@@ -1,5 +1,5 @@
 <template>
-  <password-with-preview :shown-label="$t('views.register.form.password.label')"
+  <password-with-preview :shown-label="$t('security.register.form.password.label')"
                          :violations="violations.password"
                          :disabled="disabled"
                          @password-changed="onPasswordChanged"
@@ -8,7 +8,7 @@
 
     <vue-input
         type="password"
-        :label="$t('views.register.form.confirmPassword.label')"
+        :label="$t('security.register.form.confirmPassword.label')"
         class="mt-6 mb-0-force"
         :is-required="true"
         :errors="violations.confirmedPassword"

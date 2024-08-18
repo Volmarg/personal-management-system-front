@@ -3,8 +3,8 @@
     <div class="left-sidebar left-sidebar-1"
     >
 
-      <div class="logo truncate">
-        <router-link :to="routePaths.home">
+      <div class="logo flex-column">
+        <router-link :to="routePaths.home" class="align-self-center">
           <img src="logo.svg" />
         </router-link>
       </div>
@@ -13,67 +13,24 @@
 
       <!-- Group elements -->
       <ul>
-        <!-- Jobs-->
-        <li class="l0">
-            <single-dropdown-menu-element :label="$t('views.navbar.main.jobs.label')">
-              <template #icon>
-                <fa icon="suitcase"/>
-              </template>
-
-              <template #children>
-                <single-menu-element :route-path="routePaths.jobs.jobSearch"
-                                     :label="$t('views.navbar.main.jobs.children.jobSearch.label')"
-                                     @click="onMenuElementClick"
-                />
-
-                <single-menu-element :route-path="routePaths.jobs.jobSearchResults"
-                                     :label="$t('navbar.sidebar.jobs.children.searchResults.label')"
-                                     @click="onMenuElementClick"
-                />
-                <single-menu-element :route-path="routePaths.jobs.jobApplications"
-                                     :label="$t('views.navbar.main.jobs.children.jobApplications.label')"
-                                     @click="onMenuElementClick"
-                />
-              </template>
-            </single-dropdown-menu-element>
-        </li>
-
-        <!-- Email-->
-        <li class="l0">
-          <single-dropdown-menu-element :label="$t('views.navbar.main.email.label')">
-            <template #icon>
-              <fa icon="envelope-open-text"/>
-            </template>
-
-            <template #children>
-              <single-menu-element :route-path="routePaths.mailing.template.builder"
-                                   :label="$t('views.navbar.main.email.children.template.builder.label')"
-                                   @click="onMenuElementClick"
-              />
-            </template>
-          </single-dropdown-menu-element>
-        </li>
-
-        <!-- Payments -->
-        <li class="l0">
-          <single-dropdown-menu-element :label="$t('navbar.sidebar.payments.header')">
-            <template #icon>
-              <fa icon="wallet"/>
-            </template>
-
-            <template #children>
-              <single-menu-element :route-path="routePaths.payments.overview"
-                                   :label="$t('navbar.sidebar.payments.children.overview.label')"
-                                   @click="onMenuElementClick"
-              />
-              <single-menu-element :route-path="routePaths.payments.pointShopHistory"
-                                   :label="$t('navbar.sidebar.payments.children.pointShop.label')"
-                                   @click="onMenuElementClick"
-              />
-            </template>
-          </single-dropdown-menu-element>
-        </li>
-
+        <li class="l0"><Goals /></li>
+        <li class="l0"><Todo /></li>
+        <li class="l0"><Notes /></li>
+        <li class="l0"><Contacts /></li>
+        <li class="l0"><Passwords /></li>
+        <li class="l0"><Achievements /></li>
+        <li class="l0"><Calendar /></li>
+        <li class="l0"><Issues /></li>
+        <li class="l0"><Travels /></li>
+        <li class="l0"><Payments /></li>
+        <li class="l0"><Shopping /></li>
+        <li class="l0"><Job /></li>
+        <li class="l0"><Reports /></li>
+        <li class="l0"><hr/></li>
+        <li class="l0"><Files /></li>
+        <li class="l0"><Images /></li>
+        <li class="l0"><Video /></li>
+        <li class="l0"><Upload /></li>
       </ul>
 
     </div>
@@ -81,9 +38,26 @@
 </template>
 
 <script lang="ts">
+import Achievements from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Achievements.vue";
+import Calendar from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Calendar.vue";
+import Contacts from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Contacts.vue";
+import Files from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Files.vue";
+import Goals from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Goals.vue";
+import Images from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Images.vue";
+import Issues from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Issues.vue";
+import Job from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Job.vue";
+import Notes from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Notes.vue";
+import Passwords from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Passwords.vue";
+import Payments from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Payments.vue";
+import Reports from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Reports.vue";
+import Shopping from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Shopping.vue";
+import Todo from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Todo.vue";
+import Travels from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Travels.vue";
+import Upload from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Upload.vue";
+import Video from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Video.vue";
+
+import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 import ResponsiveVarsMixin       from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
-import SingleDropdownMenuElement from "@/components/LoggedIn/Navigation/SidebarComponents/SingleDropdownMenuElement.vue";
-import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarComponents/SingleMenuElement.vue";
 import VueRouter                 from "@/router/VueRouter";
 import BaseError                 from "@/scripts/Core/Error/BaseError";
 import {ComponentData}           from "@/scripts/Vue/Types/Components/types";
@@ -115,18 +89,6 @@ export default {
     }
   },
   methods: {
-    /**
-     * @description handle menu element click
-     *              - if it's mobile device then hide menu when url menu element gets clicked,
-     */
-    onMenuElementClick() {
-      this.$view.scrollContentOfElement(window);
-      if (!this.isMobileBrowser) {
-        return;
-      }
-
-      this.hideSidebar();
-    },
     /**
      * @description will handle hiding the left sidebar when user is on mobile,
      *              this was added due to menu being a bit of glitch-y on mobile (hamburger is not reachable)
@@ -165,10 +127,26 @@ export default {
   },
   mixins: [
     ResponsiveVarsMixin,
+    SidebarMixin,
   ],
   components: {
-    "single-dropdown-menu-element" : SingleDropdownMenuElement,
-    "single-menu-element"          : SingleMenuElement,
+    Achievements,
+    Calendar,
+    Contacts,
+    Files,
+    Goals,
+    Images,
+    Issues,
+    Job,
+    Notes,
+    Passwords,
+    Payments,
+    Reports,
+    Shopping,
+    Todo,
+    Travels,
+    Upload,
+    Video,
   }
 }
 </script>
@@ -178,13 +156,11 @@ export default {
 [data-collapsed="true"] .logo {
   padding: 0 !important;
   img {
-    width: 40px;
-    margin-left: 10px !important;
+    width: 50px;
   }
 }
 
 [data-collapsed="false"] .logo img{
-  width: 40px !important;
-  margin-left: 0;
+  width: 52px !important;
 }
 </style>
