@@ -1,0 +1,30 @@
+version: "2.4"
+services:
+  pms-front-prod:
+    container_name: pms-front-prod
+    hostname: pms-front-prod
+
+    entrypoint: sh -c "npm cache clean --force && npm i --also=dev && ./prepare-prod.sh && http-server ./dist --port=80"
+    restart: always
+    working_dir: /var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    tty: true
+    build:
+      context: ../
+      dockerfile: ./dockerfile
+    ports:
+      - "4001:80"
+    networks:
+      pms-front-prod:
+        ipv4_address: 10.11.0.6
+    volumes:
+      - ../../:/var/www/html
+
+networks:
+  pms-front-prod:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.11.0.0/16
+          gateway: 10.11.0.1

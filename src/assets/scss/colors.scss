@@ -1,0 +1,39 @@
+$orange500: rgba(255, 98, 0, 0.56);
+$orange700: rgba(255, 98, 0, 0.76);
+$orange900: rgb(255, 98, 0);
+
+.border-orange-500 {
+  border-color: $orange500  !important;
+}
+
+.border-orange-700 {
+  border-color: $orange700;
+}
+
+.border-orange-900 {
+  border-color: $orange900;
+}
+
+.bg-orange-500 {
+  background-color: $orange500;
+}
+
+.bg-orange-700 {
+  background-color: $orange700;
+}
+
+.bg-orange-900 {
+  background-color: $orange900;
+}
+
+.text-orange-500 {
+  color: $orange500;
+}
+
+.text-orange-700 {
+  color: $orange700;
+}
+
+.text-orange-900 {
+  color: $orange900;
+}

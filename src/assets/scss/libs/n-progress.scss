@@ -1,0 +1,11 @@
+@import "../responsive.scss";
+
+#nprogress .bar {
+  height: 6px
+}
+
+@media screen and (min-width: $phoneBreakingPoint + 'px') {
+  #nprogress .bar {
+    height: 3px
+  }
+}

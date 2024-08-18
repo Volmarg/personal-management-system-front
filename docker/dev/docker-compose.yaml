@@ -1,0 +1,36 @@
+version: "2.4"
+services:
+  pms-front-dev:
+    container_name: pms-front-dev
+    hostname: pms-front-dev
+
+    entrypoint: sh -c "npm cache clean --force && npm i && npx vite --port 80 --host"
+#    entrypoint: sh -c "nano -f /tmp/test.log"
+
+    restart: always
+    working_dir: /var/www/html
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    tty: true
+    build:
+      context: ../
+      dockerfile: ./dockerfile
+    ports:
+      - "4001:80"
+
+    networks:
+      pms-front-dev:
+        ipv4_address: 10.10.0.6
+
+    volumes:
+      - ../../:/var/www/html
+
+networks:
+  pms-front-dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+          gateway: 10.10.0.1

@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'fonts';
+@import "src/assets/scss/libs/admin-panel";
+@import "src/assets/scss/libs/toast-notification";
+@import "src/assets/scss/libs/n-progress";
+@import "src/assets/scss/libs/v-tour";
+@import "src/assets/scss/libs/tippy.js";
+@import "src/assets/scss/libs/steps";
+@import "flag-icon-css/css/flag-icons.min.css";
+@import "scrollbar.scss";
+@import "colors.scss";
+@import "text.scss";
+@import "animation.scss";
+
+@import "normalization/form-inputs";
+
+* {
+  font-family: "Poppins" !important;;
+}
+
+.p-0-force {
+  padding: 0 !important;
+}
+
+.m-0-force {
+  margin: 0 !important;
+}
+
+.mt-0-force {
+  margin-top: 0 !important;
+}
+
+.mb-0-force {
+  margin-bottom: 0 !important;
+}
+
+.align-self-end {
+  align-self: end;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.align-self-baseline {
+  align-self: baseline;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.text-2md {
+  font-size: 0.95rem;
+}
+
+.text-tiny {
+  font-size: 0.65rem;
+}
+
+// the !important are mostly set for handling multiple modals being opened, "one of top of another"
+.z-9 {
+  z-index: 9 !important;
+}
+
+.z-8 {
+  z-index: 8 !important;
+}
+
+.z-10 {
+  z-index: 10 !important;
+}
+
+.z-20 {
+  z-index: 20 !important;
+}
+
+.z-30 {
+  z-index: 30 !important;
+}
+
+.z-40 {
+  z-index: 40 !important;
+}
+
+.z-50 {
+  z-index: 50 !important;
+}
+
+.z-60 {
+  z-index: 60 !important;
+}
+
+.touch-action-none {
+  touch-action: none;
+}
+
+.border-r-0-force {
+  border-radius: 0 !important;
+}
+
+.\!w-auto {
+  width: auto !important;
+}
+
+.\!w-full {
+  width: 100% !important;
+}
+
+// disable scrolling what's behind the sidebar && modal
+body.right-sidebar-open, body.modal-open {
+  overflow: hidden;
+}

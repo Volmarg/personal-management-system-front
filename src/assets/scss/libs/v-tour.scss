@@ -1,0 +1,14 @@
+.v-tour {
+  $blueColor: rgb(59, 130, 246) !important;
+  $blueColorLight: rgb(96, 152, 244) !important;
+  .v-step {
+    background-color: $blueColorLight;
+  }
+  .v-step__header {
+    background-color: $blueColor,
+  }
+
+  .v-step__arrow::before {
+    background-color: $blueColor,
+  }
+}

@@ -1,0 +1,133 @@
+@import '../../fonts/teko.scss';
+@import "../../responsive.scss";
+
+#fullPageLoadingContainer {
+  width: 100%;
+}
+
+.headline, .text {
+  @apply text-blue-500;
+}
+
+.headline {
+  @apply text-3xl lg:text-5xl lg:pl-10 sm:pr-10 pl-2 pr-2
+}
+
+.text {
+  @apply text-xl sm:text-2xl sm:pl-10 sm:pr-10 pl-2 pr-2
+}
+
+.headline {
+  line-height: 3.25rem;
+  @apply mb-4;
+}
+
+.bottom-button {
+  @apply bg-blue-500;
+}
+
+* {
+  font-family: 'Teko';
+  letter-spacing: 3px;
+}
+
+body{
+  background-color: #f2f2f2;
+  margin: 0px;
+}
+section{
+
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+h2,p{
+  color: #3867d6;
+  margin: 0px;
+}
+h2{
+  font-size: 62px;
+  padding-top: 20px;
+}
+p{
+  font-size: 40px;
+  padding-bottom: 20px;
+}
+img{
+  max-width: 100%;
+}
+a{
+  background: #3867d6;
+  border-radius:4px;
+  outline: none;
+  border: 0px;
+  color: #fff;
+  font-size: 34px;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 5px 25px;
+}
+a:hover{
+  background-color: #1d56de;
+}
+@media(max-width: 625px){
+  h2{
+    font-size: 50px;
+  }
+  p{
+    font-size: 30px;
+
+  }
+}
+@media(max-width: 492px){
+  h2{
+    font-size: 30px;
+  }
+  a{
+    font-size: 25px;
+  }
+  p{
+    font-size: 25px;
+    line-height: 26px;
+  }
+}
+
+.danger-text {
+  @apply text-red-500 text-3xl lg:text-4xl
+}
+
+.danger-text-detail {
+  @apply sm:text-2xl text-xl
+}
+
+// customisations
+
+.action-button {
+  letter-spacing: 2px !important;
+  @apply text-2xl mb-10 w-full md:w-auto
+}
+
+.action-button-wrapper {
+  @apply w-full md:w-auto;
+}
+
+.main-image {
+  @apply transform scale-90
+}
+
+@media screen and (min-width: $tabletBreakingPointPx + 'px'){
+  .main-image {
+    @apply transform scale-100
+  }
+}
+
+@media screen and (min-width: $phoneBreakingPoint + 'px'){
+  .main-image {
+    @apply transform scale-75
+  }
+}

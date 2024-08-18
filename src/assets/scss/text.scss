@@ -1,0 +1,7 @@
+.h1-blue {
+  @apply opacity-100 transition transition-opacity duration-300 text-2xl text-blue-500 font-extrabold;
+}
+
+.disabled-text-link {
+  @apply text-gray-400 line-through pointer-events-none
+}

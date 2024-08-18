@@ -1,0 +1,195 @@
+
+/** Based on://tailwindui.com/components/application-ui/navigation/steps (with some customisations to it) */
+.steps-nav {
+  .ol-class {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-variation-settings: normal;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    border-radius: 0.375rem;
+    border-width: 1px;
+    border-color: rgb(209 213 219 / var(--tw-border-opacity));
+
+    @apply flex m-0 p-0 list-none box-border border-solid
+  }
+
+  .li-el {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-variation-settings: normal;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    border-color: #E5E7EB;
+    flex: 1 1 0%;
+
+    @apply flex relative list-none border-solid border-0
+  }
+
+  .div-with-arrow {
+    color: #BFC1C4;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-variation-settings: normal;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    border-color: #E5E7EB;
+    width: 1.25rem;
+
+    @apply absolute border-solid list-none box-border border-0 right-0 top-0 h-full
+  }
+
+  .li-el {
+    .link-classes {
+      &.is-last-step {
+        @apply border-b-0
+      }
+
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      line-height: inherit;
+      -webkit-font-smoothing: antialiased;
+      border-color: rgb(229, 231, 235);
+      color: inherit;
+      text-decoration: inherit;
+      align-items: center;
+
+      @apply pt-4 pb-4 pl-4 pr-4 flex border-solid box-border list-none w-full  border border-t-0 border-l-0 border-r-0 lg:border-none
+    }
+
+    .num-text-wrapper-done {
+      .num-text {
+        @apply text-black
+      }
+
+      + .text-classes {
+        @apply text-black
+      }
+
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      -webkit-font-smoothing: antialiased;
+      color: inherit;
+      border-color: rgb(229, 231, 235);
+      align-items: center;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+
+      @apply border-solid flex list-none box-border border-0
+    }
+
+    .num-text-wrapper-active {
+      .num-text {
+        @apply text-blue-600
+      }
+
+      + .text-classes {
+        @apply text-blue-600
+      }
+
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      -webkit-font-smoothing: antialiased;
+      color: inherit;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      height: 2.5rem;
+      width: 2.5rem;
+      align-items: center;
+      border-radius: 9999px;
+      border-width: 2px;
+
+      @apply border-blue-600 justify-center flex-shrink-0 box-border border-solid list-none flex
+    }
+
+    .num-text-wrapper-inactive {
+      .num-text {
+        @apply text-gray-500
+      }
+
+      + .text-classes {
+        @apply text-gray-500
+      }
+
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      -webkit-font-smoothing: antialiased;
+      color: inherit;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      height: 2.5rem;
+      width: 2.5rem;
+      align-items: center;
+      border-radius: 9999px;
+      border-width: 2px;
+      border-color: rgb(209 213 219 / var(--tw-border-opacity));
+
+      @apply flex justify-center flex-shrink-0 border-solid box-border list-none
+    }
+
+    .done-wrapper {
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      -webkit-font-smoothing: antialiased;
+      color: inherit;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      height: 2.5rem;
+      width: 2.5rem;
+      align-items: center;
+      border-radius: 9999px;
+
+      @apply list-none flex justify-center flex-shrink-0 box-border
+    }
+
+    .text-classes {
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      -webkit-font-smoothing: antialiased;
+      border-color: rgb(229, 231, 235);
+      margin-left: 1rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+
+      @apply list-none box-border border-solid border-0
+    }
+
+    .num-text {
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      -webkit-font-smoothing: antialiased;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      border-color: rgb(229, 231, 235);
+
+      @apply box-border border-solid list-none border-0
+    }
+
+    .svg-checkmark {
+      text-size-adjust: 100%;
+      tab-size: 4;
+      font-variation-settings: normal;
+      line-height: inherit;
+      -webkit-font-smoothing: antialiased;
+      fill: none;
+      border-color: rgb(229, 231, 235);
+      scale: 0.6;
+
+      @apply text-white block align-middle box-border list-none border-solid h-full w-full border-0
+    }
+  }
+
+}
