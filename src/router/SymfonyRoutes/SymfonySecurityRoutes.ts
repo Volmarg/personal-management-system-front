@@ -9,7 +9,29 @@ import LocalStorageService  from "@/scripts/Core/Services/Storage/LocalStorageSe
  *              This solution was added to avoid for example calling routing api, or having string hardcoded in
  *              all the places.
  */
-export default class SymfonyRoutes {
+export default class SymfonySecurityRoutes {
+
+    /**
+     * @description login authentication (form submission)
+     */
+    static readonly URL_LOGIN = "/login";
+
+    /**
+     * @description will register user
+     */
+    static readonly URL_REGISTER_USER = "/register-user";
+
+    /**
+     * @description handles requesting sending password reset link
+     */
+    static readonly URL_REQUEST_PASSWORD_RESET_LINK_USER = "/request-password-reset-link"
+
+    /**
+     * @description once this url is called the user will be activated
+     *              This is NOT a confirmation url rather the real url for activation.
+     */
+    static readonly URL_RESET_PASSWORD_USER             = "/reset-password/:token";
+    static readonly URL_RESET_PASSWORD_USER_PARAM_TOKEN = "token"
 
     /**
      * @description will build url for provided baseUrl(can consist of parameters in url) and parameters to be set

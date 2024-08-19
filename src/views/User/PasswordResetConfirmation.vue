@@ -32,6 +32,7 @@
 import JwtService                   from "@/scripts/Core/Services/Security/JwtService";
 import EventDispatcherService       from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
 import SymfonyRoutes                from "@/router/SymfonyRoutes";
+import SymfonySecurityRoutes        from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 import VueRouter                    from "@/router/VueRouter";
 import {ToastTypeEnum}              from "@/scripts/Libs/ToastNotification";
 
@@ -68,15 +69,15 @@ export default {
       }
 
       let calledBackendUrl = SymfonyRoutes.buildUrl(
-          SymfonyRoutes.URL_RESET_PASSWORD_USER,
+          SymfonySecurityRoutes.URL_RESET_PASSWORD_USER,
           {
-            [SymfonyRoutes.URL_ACTIVATE_USER_PARAM_TOKEN]: jwtToken
+            [SymfonySecurityRoutes.URL_RESET_PASSWORD_USER_PARAM_TOKEN]: jwtToken
           }
       );
 
       this.$axios.get(calledBackendUrl).then( (response) => {
         if(!response.success){
-          this.handleFailedBackendResponse(response, SymfonyRoutes.URL_RESET_PASSWORD_USER_PARAM_TOKEN);
+          this.handleFailedBackendResponse(response, SymfonySecurityRoutes.URL_RESET_PASSWORD_USER_PARAM_TOKEN);
           return;
         }
 

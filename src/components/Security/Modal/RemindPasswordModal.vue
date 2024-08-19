@@ -33,7 +33,8 @@
 </template>
 
 <script lang="ts">
-import SymfonyRoutes                from "@/router/SymfonyRoutes";
+import SymfonyRoutes         from "@/router/SymfonyRoutes";
+import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 
 import MediumButtonWithIcon         from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import VueInput                     from "@/components/Form/Input.vue";
@@ -112,12 +113,12 @@ export default {
       }
 
       this.$rootEvent.showFullPageLoader();
-      this.$axios.post(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_REQUEST_PASSWORD_RESET_LINK_USER), dataBag).then( (response) => {
+      this.$axios.post(SymfonyRoutes.buildUrl(SymfonySecurityRoutes.URL_REQUEST_PASSWORD_RESET_LINK_USER), dataBag).then( (response) => {
         this.$rootEvent.hideFullPageLoader();
 
         if( !response.success ){
           /** @see FailedBackendResponseHandler **/
-          this.handleFailedBackendResponse(response, SymfonyRoutes.URL_REQUEST_PASSWORD_RESET_LINK_USER);
+          this.handleFailedBackendResponse(response, SymfonySecurityRoutes.URL_REQUEST_PASSWORD_RESET_LINK_USER);
           return;
         }
 

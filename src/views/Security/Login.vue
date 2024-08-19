@@ -118,6 +118,8 @@
 
 <script lang="ts">
 import SymfonyRoutes         from "@/router/SymfonyRoutes";
+import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
+
 import LocalStorageService   from "@/scripts/Core/Services/Storage/LocalStorageService";
 import StringTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 import Logger                from "@/scripts/Core/Logger";
@@ -231,7 +233,7 @@ export default {
        *              >[WARNING]<
        */
       this.$rootEvent.showFullPageLoader();
-      this.$axios.post(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_LOGIN), dataBag).then( async (baseApiResponse) => {
+      this.$axios.post(SymfonyRoutes.buildUrl(SymfonySecurityRoutes.URL_LOGIN), dataBag).then( async (baseApiResponse) => {
 
         /**
          * @description this is because once user logs in it's checked if he is inactive, and if he is, the

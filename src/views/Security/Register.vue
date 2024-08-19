@@ -114,6 +114,7 @@ import {
   ComponentValidation
 } from "@/scripts/Vue/Types/Components/types";
 import {systemDisabledStore} from "@/scripts/Vue/Store/SystemDisabledState";
+import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 
 export default {
   setup: (): ComponentSetup => ({ v$: useVuelidate() }),
@@ -248,7 +249,7 @@ export default {
 
       let dataBag = this.buildRegistrationDataBag();
       this.$rootEvent.showFullPageLoader();
-      this.$axios.post(SymfonyRoutes.buildUrl(SymfonyRoutes.URL_REGISTER_USER), dataBag).then( (response) => {
+      this.$axios.post(SymfonyRoutes.buildUrl(SymfonySecurityRoutes.URL_REGISTER_USER), dataBag).then( (response) => {
 
         /**
          * @see {BaseApiResponseViolationsToDataFieldsViolations}
@@ -256,7 +257,7 @@ export default {
         this.responseViolationsToFieldViolations(response);
         if( !response.success ){
           /** @see FailedBackendResponseHandler **/
-          this.handleFailedBackendResponse(response, SymfonyRoutes.URL_REGISTER_USER);
+          this.handleFailedBackendResponse(response, SymfonySecurityRoutes.URL_REGISTER_USER);
           this.$rootEvent.hideFullPageLoader();
           return;
         }
