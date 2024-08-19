@@ -1,5 +1,18 @@
 {
     "security": {
+        "forgotPassword": {
+            "header": {
+                "label": "Reset password"
+            },
+            "form": {
+                "email": {
+                    "label": "Email address"
+                },
+                "submit": {
+                    "label": "Send new password"
+                }
+            }
+        },
         "register": {
             "header": {
                 "label": "Register"

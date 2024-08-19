@@ -2,7 +2,7 @@
   <div>
 
     <modal :is-visible="showModal"
-           :title="$t('components.security.dialog.remindPassword.title')"
+           :title="$t('security.forgotPassword.header.label')"
            @modal-closed="onModalClosed"
            :size="modalSize"
     >
@@ -10,7 +10,7 @@
 
         <vue-input
             type="text"
-            :label="$t('components.security.dialog.remindPassword.label.email')"
+            :label="$t('security.forgotPassword.form.email.label')"
             :is-required="true"
             :errors="violations.remindPasswordEmail"
             v-model.trim="remindPasswordEmail"
@@ -18,7 +18,7 @@
         />
 
         <MediumButtonWithIcon
-            :text="$t('components.security.dialog.remindPassword.buttons.sendNewPassword')"
+            :text="$t('security.forgotPassword.form.submit.label')"
             button-classes="w-full md:w-auto flex justify-center"
             background-color-class="bg-blue-500"
             @button-click="sendNewPassword"

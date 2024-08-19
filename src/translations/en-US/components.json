@@ -1,0 +1,9 @@
+{
+    "components": {
+        "modal": {
+            "buttons": {
+                "cancel": "Cancel"
+            }
+        }
+    }
+}
