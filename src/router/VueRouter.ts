@@ -4,6 +4,21 @@ import VueRouterGuards                                              from "@/rout
 import SymfonyRolesAndRights                                        from "@/scripts/Core/Security/SymfonyRolesAndRights";
 import VueRouterUser                                                from "@/router/VueRouterUser";
 import {Component}                                                  from "vue";
+import VueRouterGoals                                               from "@/router/Modules/VueRouterGoals";
+
+import VueRouterTodo         from "@/router/Modules/VueRouterTodo";
+import VueRouterNotes        from "@/router/Modules/VueRouterNotes";
+import VueRouterContacts     from "@/router/Modules/VueRouterContacts";
+import VueRouterPasswords    from "@/router/Modules/VueRouterPasswords";
+import VueRouterCalendar     from "@/router/Modules/VueRouterCalendar";
+import VueRouterIssues       from "@/router/Modules/VueRouterIssues";
+import VueRouterTravel       from "@/router/Modules/VueRouterTravel";
+import VueRouterPayments     from "@/router/Modules/VueRouterPayments";
+import VueRouterShopping     from "@/router/Modules/VueRouterShopping";
+import VueRouterJob          from "@/router/Modules/VueRouterJob";
+import VueRouterReports      from "@/router/Modules/VueRouterReports";
+import VueRouterStorage      from "@/router/Modules/VueRouterStorage";
+import VueRouterAchievements from "@/router/Modules/VueRouterAchievements";
 
 /**
  * @description provided the vue router based logic / data
@@ -103,9 +118,23 @@ export default class VueRouter
                     name: VueRouter.ROUTE_NAME_HOME,
                     component: Dashboard
                 },
+                ...VueRouterGoals.routesConfiguration,
+                ...VueRouterTodo.routesConfiguration,
+                ...VueRouterNotes.routesConfiguration,
+                ...VueRouterContacts.routesConfiguration,
+                ...VueRouterPasswords.routesConfiguration,
+                ...VueRouterCalendar.routesConfiguration,
+                ...VueRouterIssues.routesConfiguration,
+                ...VueRouterTravel.routesConfiguration,
+                ...VueRouterPayments.routesConfiguration,
+                ...VueRouterShopping.routesConfiguration,
+                ...VueRouterJob.routesConfiguration,
+                ...VueRouterReports.routesConfiguration,
+                ...VueRouterStorage.routesConfiguration,
+                ...VueRouterAchievements.routesConfiguration,
             ],
         },
-        ...VueRouterUser.userSettingLandingPageRoutesConfiguration
+        ...VueRouterUser.userSettingLandingPageRoutesConfiguration,
     ]
 
     /**

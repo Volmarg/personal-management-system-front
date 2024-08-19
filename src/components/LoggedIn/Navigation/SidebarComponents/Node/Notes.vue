@@ -5,15 +5,15 @@
     </template>
 
     <template #children>
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_NEW"
                          :label="$t('navbar.rightSidebar.menu.notes.children.create.label')"
                           @click="onMenuElementClick"
       />
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_SETTINGS"
                          :label="$t('navbar.rightSidebar.menu.notes.children.settings.label')"
                           @click="onMenuElementClick"
       />
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_CATEGORY"
                          :label="$t('navbar.rightSidebar.menu.notes.children.categories.label')"
                           @click="onMenuElementClick"
       />
@@ -27,10 +27,17 @@ import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarC
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
+import VueRouterNotes from "@/router/Modules/VueRouterNotes";
+
 export default {
   components: {
     SingleDropdownMenuElement,
     SingleMenuElement
+  },
+  computed: {
+    router(): VueRouterNotes {
+      return VueRouterNotes;
+    }
   },
   mixins: [
     SidebarMixin

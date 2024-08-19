@@ -172,10 +172,10 @@
                             "label": "Historical money owed"
                         },
                         "paymentCharts": {
-                            "label": "PaymentCharts"
+                            "label": "Payment Charts"
                         },
                         "savingCharts": {
-                            "label": "SavingCharts"
+                            "label": "Saving Charts"
                         }
                     }
                 },

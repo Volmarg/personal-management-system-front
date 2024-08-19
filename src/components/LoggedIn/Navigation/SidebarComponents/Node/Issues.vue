@@ -5,7 +5,7 @@
     </template>
 
     <template #children>
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_ISSUES_PENDING_LIST"
                          :label="$t('navbar.rightSidebar.menu.issues.children.pending.label')"
                           @click="onMenuElementClick"
       />
@@ -19,10 +19,17 @@ import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarC
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
+import VueRouterIssues from "@/router/Modules/VueRouterIssues";
+
 export default {
   components: {
     SingleDropdownMenuElement,
     SingleMenuElement
+  },
+  computed: {
+    router(): VueRouterIssues {
+      return VueRouterIssues;
+    }
   },
   mixins: [
     SidebarMixin

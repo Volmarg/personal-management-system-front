@@ -5,11 +5,11 @@
     </template>
 
     <template #children>
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_CONTACTS_LIST"
                          :label="$t('navbar.rightSidebar.menu.contacts.children.contacts.label')"
                           @click="onMenuElementClick"
       />
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_CONTACTS_SETTINGS"
                          :label="$t('navbar.rightSidebar.menu.contacts.children.settings.label')"
                           @click="onMenuElementClick"
       />
@@ -23,10 +23,17 @@ import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarC
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
+import VueRouterContacts from "@/router/Modules/VueRouterContacts";
+
 export default {
   components: {
     SingleDropdownMenuElement,
     SingleMenuElement
+  },
+  computed: {
+    router(): VueRouterContacts {
+      return VueRouterContacts;
+    }
   },
   mixins: [
     SidebarMixin

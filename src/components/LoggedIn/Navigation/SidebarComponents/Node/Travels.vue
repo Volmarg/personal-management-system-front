@@ -5,7 +5,7 @@
     </template>
 
     <template #children>
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_TRAVEL_IDEAS_LIST"
                          :label="$t('navbar.rightSidebar.menu.travels.children.ideas.label')"
                           @click="onMenuElementClick"
       />
@@ -19,10 +19,17 @@ import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarC
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
+import VueRouterTravel from "@/router/Modules/VueRouterTravel";
+
 export default {
   components: {
     SingleDropdownMenuElement,
     SingleMenuElement
+  },
+  computed: {
+    router(): VueRouterTravel {
+      return VueRouterTravel;
+    }
   },
   mixins: [
     SidebarMixin

@@ -5,7 +5,7 @@
     </template>
 
     <template #children>
-      <SingleMenuElement :route-path="'#'"
+      <SingleMenuElement :route-path="router.ROUTE_PATH_CALENDAR_VIEW"
                          :label="$t('navbar.rightSidebar.menu.calendar.children.view.label')"
                           @click="onMenuElementClick"
       />
@@ -19,10 +19,17 @@ import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarC
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
+import VueRouterCalendar from "@/router/Modules/VueRouterCalendar";
+
 export default {
   components: {
     SingleDropdownMenuElement,
     SingleMenuElement
+  },
+  computed: {
+    router(): VueRouterCalendar {
+      return VueRouterCalendar;
+    }
   },
   mixins: [
     SidebarMixin
