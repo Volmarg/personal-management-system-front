@@ -22,7 +22,7 @@ export default class VueRouterPayments {
     static readonly ROUTE_PATH_PAYMENTS_BILLS  = VueRouterPayments.ROUTE_PREFIX + "/bills/list";
 
     static readonly ROUTE_NAME_PAYMENTS_SETTINGS  = VueRouterPayments.ROUTE_GROUP + "Settings";
-    static readonly ROUTE_PATH_PAYMENTS_SETTINGS  = VueRouterPayments.ROUTE_PREFIX + "/bills/list";
+    static readonly ROUTE_PATH_PAYMENTS_SETTINGS  = VueRouterPayments.ROUTE_PREFIX + "/bills/settings";
 
     public static readonly routesConfiguration: Array<RouteRecordRaw> = [
         {
