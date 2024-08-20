@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex items-center justify-start p-4 bg-transparent shadow border-l-4 p-4"
+  <div class="w-full flex items-center justify-start p-4 shadow border-l-4 bg-white"
        :class="{
           [borderColorClass]: true
        }"

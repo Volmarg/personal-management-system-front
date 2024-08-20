@@ -1,6 +1,7 @@
 {
     "generic": {
         "asteriskFieldsAreRequired": "Asterisk fields are required",
-        "clickHere": "Click here"
+        "clickHere": "Click here",
+        "about": "About"
     }
 }
