@@ -4,7 +4,7 @@
         v-if="!!text"
         v-html="text"
     />
-    <span v-else>{{ $t('noResults.text') }}</span>
+    <span v-else>{{ $t('generic.noResults') }}</span>
   </p>
 
   <div>

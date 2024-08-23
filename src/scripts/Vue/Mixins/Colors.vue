@@ -10,7 +10,7 @@ export default {
     return {
       color: {
         green  : "rgb(5, 150, 105)",   // equals to css class `-green-600`
-        red    : "rgb(248, 113, 113)", // equals to css class `-red-400`
+        red    : "rgb(220, 38, 38)", // equals to css class `-red-600`
         blue   : "rgb(59, 130, 246)",  // equals to css class `-blue-500`
         orange : "rgb(255, 98, 0)"     // equals to css class `-orange-900`
       }

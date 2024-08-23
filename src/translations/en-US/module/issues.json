@@ -1,0 +1,38 @@
+{
+    "issues": {
+        "pending": {
+            "modal": {
+                "remove": {
+                    "header": "Remove issue",
+                    "description": "Do You really want to remove this entry"
+                }
+            },
+            "button": {
+                "addNew": {
+                    "hoverText": "Add new"
+                }
+            },
+            "description": "Management of the issues that are about to be resolved one day. Allows to track down the contacts and adding notes based information about current progress in given case. <br> Each entry can also contain an <b>Todo list</b> due to the fact typically some personal cases require set of actions to be resolved in the process.",
+            "box": {
+                "dashboard": {
+                    "hover": {
+                        "notDisplayed": "This box is not visible on the dashboard",
+                        "displayed": "This box is visible on the dashboard"
+                    },
+                    "lines": {
+                        "contactHeader": "Contact",
+                        "progressHeader": "Progress",
+                        "lastTry": "Last try",
+                        "entriesCount": "Entries count"
+                    },
+                    "menu": {
+                        "viewEdit": "View / Edit",
+                        "addRecords": "Add records",
+                        "relatedTodo": "Related&nbsp;<b>todo</b>",
+                        "remove": "Remove"
+                    }
+                }
+            }
+        }
+    }
+}

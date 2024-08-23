@@ -2,6 +2,12 @@
     "generic": {
         "asteriskFieldsAreRequired": "Asterisk fields are required",
         "clickHere": "Click here",
-        "about": "About"
+        "about": "About",
+        "noResults": "No results",
+        "button": {
+            "confirm": {
+                "label": "Confirm"
+            }
+        }
     }
 }

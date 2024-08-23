@@ -21,7 +21,7 @@
             button-classes="w-full sm:w-auto flex justify-center sm:block"
             text-classes="text-center"
             class="w-full sm:w-auto"
-            :text="$t('warningModal.buttons.confirm.label')"
+            :text="$t('generic.button.confirm.label')"
             @click="$emit('confirm')"
         />
       </template>

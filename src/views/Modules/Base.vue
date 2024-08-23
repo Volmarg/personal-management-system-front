@@ -10,11 +10,21 @@
       </AccordionPanel>
     </Accordion>
 
-    <Container class="mb-3 mt-3">
+    <Container class="mb-3 mt-3"
+               v-if="isInContainer"
+    >
       <div class="flex justify-center">
         <slot></slot>
       </div>
     </Container>
+
+    <div class="mb-3 mt-3"
+         v-else
+    >
+      <div class="flex justify-center">
+        <slot></slot>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -35,6 +45,11 @@ export default {
     }
   },
   props: {
+    isInContainer: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     infoBlockDescription: {
       type: String,
       required: false,
