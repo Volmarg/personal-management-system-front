@@ -13,7 +13,7 @@
     <Container class="mb-3 mt-3"
                v-if="isInContainer"
     >
-      <div class="flex justify-center">
+      <div :class="mainContentClasses">
         <slot></slot>
       </div>
     </Container>
@@ -21,7 +21,7 @@
     <div class="mb-3 mt-3"
          v-else
     >
-      <div class="flex justify-center">
+      <div :class="mainContentClasses">
         <slot></slot>
       </div>
     </div>
@@ -45,6 +45,11 @@ export default {
     }
   },
   props: {
+    mainContentClasses: {
+      type: [Object, null],
+      required: false,
+      default: null,
+    },
     isInContainer: {
       type: Boolean,
       required: false,

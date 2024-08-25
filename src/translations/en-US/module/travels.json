@@ -1,0 +1,16 @@
+{
+    "travels": {
+        "description": "Group Your traveling plans into categories, provide images, map and some location information to never miss the postponed travels.",
+        "button": {
+            "addNew": {
+                "hoverText": "Add new travel idea"
+            },
+            "edit": {
+                "label": "Edit"
+            },
+            "remove": {
+                "label": "Remove"
+            }
+        }
+    }
+}
