@@ -7,7 +7,20 @@
     </div>
 
     <div class="p-5">
-      <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{country}} - {{location}}</h5>
+      <h5 class="mb-2 text-2md font-bold tracking-tight text-gray-900 dark:text-white">{{country}}</h5>
+      <hr/>
+      <p class="mb-2">{{location}}</p>
+
+      <a :href="mapUrl"
+         target="_blank"
+      >
+        <MediumButtonWithIcon :text="$t('travels.button.map.label')"
+                              button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
+                              class="w-full mb-1"
+                              button-classes="w-full m-0-force"
+                              text-classes="text-center w-full"
+        />
+      </a>
 
       <MediumButtonWithIcon :text="$t('travels.button.edit.label')"
                             button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
@@ -15,8 +28,8 @@
                             button-classes="w-full m-0-force"
                             text-classes="text-center w-full"
                             @button-click="$emit('editClick')"
-
       />
+
       <MediumButtonWithIcon :text="$t('travels.button.remove.label')"
                             class="w-full mb-1"
                             button-classes="w-full m-0-force"
