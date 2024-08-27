@@ -1,0 +1,16 @@
+{
+    "contacts": {
+        "description": "Store variety information about personal contacts. Supports marking contacts with icons via grouping, assigning multiple contacts types, adding image and coloring the boxes.",
+        "button": {
+            "addNew": {
+                "hoverText": "Add new contact"
+            },
+            "edit": {
+                "label": "Edit"
+            },
+            "remove": {
+                "label": "Remove"
+            }
+        }
+    }
+}
