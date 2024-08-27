@@ -11,6 +11,29 @@
             "remove": {
                 "label": "Remove"
             }
+        },
+        "settings": {
+            "description":"Management of contacts types (the small icons visible on the list below the colored box) and contact groups (icons shown in the upper left corner of the contact)",
+            "tabs": {
+                "contactType": {
+                    "label": "Contact type",
+                    "form": {
+                        "header": "Add new",
+                        "name": {
+                            "label": "Name"
+                        },
+                        "imagePath": {
+                            "label": "Image path"
+                        },
+                        "submitButton": {
+                            "label": "Submit"
+                        }
+                    }
+                },
+                "contactGroup": {
+                    "label": "Contact group"
+                }
+            }
         }
     }
 }

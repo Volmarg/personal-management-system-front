@@ -1,5 +1,10 @@
 {
     "generic": {
+        "form": {
+            "search": {
+                "placeholder": "Search"
+            }
+        },
         "asteriskFieldsAreRequired": "Asterisk fields are required",
         "clickHere": "Click here",
         "about": "About",

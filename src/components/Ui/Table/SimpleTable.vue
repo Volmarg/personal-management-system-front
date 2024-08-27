@@ -1,6 +1,9 @@
 <template>
   <div>
-    <table class="table">
+    <div class="flex justify-end">
+      <SearchInput v-if="canSearch" />
+    </div>
+    <table class="table mt-2">
       <thead>
         <tr>
           <th v-for="(header, index) in headers"
@@ -28,10 +31,11 @@
       </tbody>
     </table>
 
-    <pagination :number-of-results="rowsData.length"
+    <Pagination :number-of-results="rowsData.length"
                 :initial-current-page="currentPage"
                 :initial-count-of-result-per-page="resultsPerPage"
                 @page-number-changes="onPaginationPageNumberChange"
+                class="mt-2"
     />
   </div>
 </template>
@@ -42,7 +46,8 @@ import Logger               from "@/scripts/Core/Logger";
 import ObjectValuesResolver from "@/scripts/Core/Services/Resolver/ObjectValuesResolver";
 import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
 
-import Pagination from "@/components/Ui/Pagination.vue";
+import SearchInput from "@/components/Navigation/SearchInput.vue";
+import Pagination  from "@/components/Ui/Pagination.vue";
 
 /**
  * @description provides simple table
@@ -61,6 +66,11 @@ export default {
     }
   },
   props: {
+    canSearch: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     resultsPerPage: {
       type     : Number,
       required : false,
@@ -88,8 +98,8 @@ export default {
           Logger.info("Validation for property `header` has failed, check it's description for more information.");
         }
 
-        for(let element of elements){
-          if( TypeChecker.isUndefined(element.label) ){
+        for (let element of elements) {
+          if (TypeChecker.isUndefined(element.label)) {
             Logger.error("Element from `headers` is missing property `label`", {
               element: element
             });
@@ -97,7 +107,7 @@ export default {
             return false;
           }
 
-          if( TypeChecker.isUndefined(element.dataValuePath) ){
+          if (TypeChecker.isUndefined(element.dataValuePath)) {
             Logger.error("Element from `headers` is missing property `dataValuePath`", {
               element: element
             });
@@ -105,7 +115,7 @@ export default {
             return false;
           }
 
-          if( TypeChecker.isUndefined(element.dataIsComponentPath) ){
+          if (TypeChecker.isUndefined(element.dataIsComponentPath)) {
             Logger.error("Element from `headers` is missing property `dataIsComponentPath`", {
               element: element
             });
@@ -113,8 +123,8 @@ export default {
             return false;
           }
 
-          if( TypeChecker.isUndefined(element.dataComponentPropertiesPath) ){
-            Logger.error("Element from `headers` is missing property `dataIsComponentPath`", {
+          if (TypeChecker.isUndefined(element.dataComponentPropertiesPath)) {
+            Logger.error("Element from `headers` is missing property `dataComponentPropertiesPath`", {
               element: element
             });
             genericErrorCallback();
@@ -150,8 +160,8 @@ export default {
           Logger.info("Validation for property `data` has failed, check it's description for more information.");
         }
 
-        for(let element of elements){
-          if( TypeChecker.isUndefined(element.values) ){
+        for (let element of elements) {
+          if (TypeChecker.isUndefined(element.values)) {
             Logger.error("Element from `data` is missing property `values`", {
               element: element
             });
@@ -159,7 +169,7 @@ export default {
             return false;
           }
 
-          if( !TypeChecker.isObject(element.values) ){
+          if (!TypeChecker.isObject(element.values)) {
             Logger.error("Property called `values` from element of `data` property` is not an object!", {
               element: element
             });
@@ -167,10 +177,10 @@ export default {
             return false;
           }
 
-          for(let objectKey of Object.keys(element.values)){
+          for (let objectKey of Object.keys(element.values)) {
             let objectValue = element.values[objectKey];
 
-            if( TypeChecker.isUndefined(objectValue.value) ){
+            if (TypeChecker.isUndefined(objectValue.value)) {
               Logger.error("`values` property (object property) of an element in `data` property (vue property) is missing key `value`", {
                 element     : element,
                 objectValue : objectValue,
@@ -179,7 +189,7 @@ export default {
               return false;
             }
 
-            if( TypeChecker.isUndefined(objectValue.isComponent) ){
+            if (TypeChecker.isUndefined(objectValue.isComponent)) {
               Logger.error("`values` property (object property) of an element in `data` property (vue property) is missing key `isComponent`", {
                 element     : element,
                 objectValue : objectValue,
@@ -188,10 +198,7 @@ export default {
               return false;
             }
 
-            if(
-                    objectValue.isComponent
-                &&  TypeChecker.isUndefined(objectValue.componentProps)
-            ){
+            if (objectValue.isComponent && TypeChecker.isUndefined(objectValue.componentProps)) {
               Logger.error("Table element `data` property has incorrect structure", {
                 reason      : "One of the element.value object is a component but that object is missing property `componentProps`",
                 element     : element,
@@ -209,7 +216,8 @@ export default {
     }
   },
   components: {
-    "pagination": Pagination,
+    Pagination,
+    SearchInput
   },
   computed: {
     /**
@@ -218,10 +226,10 @@ export default {
      */
     rowsData(): Array<Array<Record<string, unknown>>> {
       let rowsData = [] as Array<Array<Record<string, unknown>>>;
-      for(let element of this.data){
+      for (let element of this.data) {
 
         let rowData = [] as Array<Record<string, unknown>>;
-        for(let header of this.headers){
+        for (let header of this.headers) {
           let keys = [
               header.dataValuePath,
               header.dataIsComponentPath,
@@ -262,15 +270,15 @@ export default {
         let resultOffset = (currentPage-1) * countOfResultsPerPage;
         let resultsCount = 0;
 
-        for(let rowData of this.rowsData){
+        for (let rowData of this.rowsData) {
           resultsCount++;
 
-          if(resultsCount <= resultOffset){
+          if (resultsCount <= resultOffset) {
             continue;
           }
 
           visibleResults.push(rowData);
-          if(visibleResults.length >= countOfResultsPerPage){
+          if (visibleResults.length >= countOfResultsPerPage) {
             break;
           }
         }

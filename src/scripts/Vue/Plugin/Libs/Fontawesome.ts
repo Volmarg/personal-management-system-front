@@ -51,6 +51,8 @@ import {
     faFilm,
     faUpload,
     faCog,
+    faSearch,
+    faBookmark
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -124,6 +126,8 @@ export default class Fontawesome
         library.add(faUpload);
         library.add(faCog);
         library.add(faLockOpen);
+        library.add(faSearch);
+        library.add(faBookmark);
 
         return FontAwesomeIcon;
     }
