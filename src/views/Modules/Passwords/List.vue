@@ -6,7 +6,7 @@
 
     <div class="flex justify-center">
       <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-        <h2 class="text-lg">{{ $t('contacts.settings.tabs.contactType.form.header') }}</h2>
+        <h2 class="text-lg">{{ $t('passwords.list.form.header') }}</h2>
         <FormInput type="text"
                    :model-value="form.login"
                    :label="$t('passwords.list.form.new.login.label')"
