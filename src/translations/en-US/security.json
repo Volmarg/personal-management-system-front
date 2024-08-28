@@ -43,7 +43,7 @@
                     "label": "Confirm password"
                 },
                 "previewPassword": {
-                    "text": "Preview"
+                    "text": "Preview password"
                 },
                 "generatePassword": {
                     "label": "Generate password"

@@ -453,8 +453,11 @@ export default {
 <style lang="scss">
 // multiselect itself
 .multiselect {
+  border: 1px black solid;
+
   &.is-active {
-      box-shadow: 0 0 0 var(--ms-ring-width, 2px) var(--ms-ring-color,rgba(59, 130, 246, 1));
+    box-shadow: 0 0 0 var(--ms-ring-width, 2px) var(--ms-ring-color,rgba(59, 130, 246, 1));
+    border: none;
   }
 
   .multiselect-tags-search {
