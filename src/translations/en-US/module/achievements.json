@@ -1,0 +1,19 @@
+{
+    "achievements": {
+        "list": {
+            "description":"Track of personal achievements, both smaller and bigger ones - as it's always nice to remember the successes toward personal goals and dreams.\n",
+            "form": {
+                "header": "Add new",
+                "name": {
+                    "label": "Name"
+                },
+                "description": {
+                    "label": "Description"
+                },
+                "submitButton": {
+                    "label": "Submit"
+                }
+            }
+        }
+    }
+}
