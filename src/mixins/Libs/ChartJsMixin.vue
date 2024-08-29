@@ -1,4 +1,8 @@
 <script lang="ts">
+import ChartJsMixinPlugins from "@/mixins/Libs/ChartJsMixinPlugins.vue";
+
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
 import Chart, {ChartConfiguration} from "chart.js/auto";
 import {shallowRef}                from "vue";
 
@@ -7,6 +11,14 @@ import {shallowRef}                from "vue";
  * - {@link https://www.chartjs.org/docs/latest/}
  */
 export default {
+  data(): ComponentData {
+    return {
+      chartInstance: null,
+    }
+  },
+  mixins: [
+    ChartJsMixinPlugins
+  ],
   methods: {
     /**
      * @description creates the charts, renders is
@@ -38,7 +50,7 @@ export default {
       /**
        * @description registers handler which draws text inside the canvas when no data is present
        */
-      let message = this.$t('homeDashboard.common.chart.message.noDataToDisplay');
+      let message = this.$t('generic.noDataToDisplay');
       Chart.register({
         id: 'NoData',
         afterDraw: function (chart) {

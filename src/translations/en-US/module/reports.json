@@ -1,0 +1,36 @@
+{
+    "reports": {
+        "saving": {
+            "eachMonth": {
+                "description": "Charts based on data from incomes/payments modules",
+                "chart": {
+                    "filter": {
+                        "filterByYear": {
+                            "header": "Filter by year",
+                            "showAll": {
+                                "label": "Show all"
+                            }
+                        }
+                    },
+                    "text": {
+                        "averageSavingMonth": {
+                            "label": "Average saving each month"
+                        }
+                    },
+                    "header": "Saving each month",
+                    "tooltip": {
+                        "label": "Saved"
+                    },
+                    "scale": {
+                        "x": {
+                            "label": "Amount"
+                        },
+                        "y": {
+                            "label": "Month-Year"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

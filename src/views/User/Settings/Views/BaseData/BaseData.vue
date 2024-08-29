@@ -11,7 +11,7 @@
                             button-classes="user-settings-view-button"
       >
         <template #icon>
-          <IconSvgPerson/>
+          <fa icon="user" />
         </template>
       </MediumButtonWithIcon>
 
@@ -61,7 +61,6 @@
 </template>
 
 <script lang="ts">
-import IconSvgPerson        from "@/components/Ui/Icons/Svg/Person.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import LineAwesome          from "@/components/Ui/Icons/LineAwesome.vue";
 import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
@@ -90,7 +89,6 @@ export default {
     ProfileImageUpload,
     EditPersonalDataDialog,
     MediumButtonWithIcon,
-    IconSvgPerson,
     "la": LineAwesome,
     Row,
   },

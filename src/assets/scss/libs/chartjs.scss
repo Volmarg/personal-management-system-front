@@ -1,0 +1,13 @@
+button.chart-reset-zoom {
+  background-color: rgb(59, 130, 246);
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  align-self: end;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
