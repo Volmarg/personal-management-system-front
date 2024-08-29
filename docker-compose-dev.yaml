@@ -4,7 +4,7 @@ services:
     container_name: pms-front-dev
     hostname: pms-front-dev
 
-    entrypoint: sh -c "npm cache clean --force && npm i && npx vite --port 80 --host"
+    entrypoint: sh -c "npm i --force && npx vite --port 80 --host"
 #    entrypoint: sh -c "nano -f /tmp/test.log"
 
     restart: always
@@ -15,22 +15,22 @@ services:
 
     tty: true
     build:
-      context: ../
+      context: .
       dockerfile: ./dockerfile
     ports:
       - "4001:80"
 
     networks:
       pms-front-dev:
-        ipv4_address: 10.10.0.6
+        ipv4_address: 20.10.0.6
 
     volumes:
-      - ../../:/var/www/html
+      - ./:/var/www/html
 
 networks:
   pms-front-dev:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.10.0.0/16
-          gateway: 10.10.0.1
+        - subnet: 20.10.0.0/16
+          gateway: 20.10.0.1
