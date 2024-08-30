@@ -1,5 +1,45 @@
 {
     "reports": {
+        "historical": {
+            "moneyOwed": {
+                "description": "Historical records of owed money by others and by me",
+                "tabs": {
+                    "owedByMe": {
+                        "label": "Owed by me"
+                    },
+                    "owedByOthers": {
+                        "label": "Owed by others"
+                    },
+                    "shared": {
+                        "filter": {
+                            "header": "Filters",
+                            "target": {
+                                "label": "Target"
+                            }
+                        },
+                        "table": {
+                            "headers": {
+                                "target": {
+                                    "label": "Target"
+                                },
+                                "amount":  {
+                                    "label": "Amount"
+                                },
+                                "information": {
+                                    "label": "Information"
+                                },
+                                "date": {
+                                    "label": "Date"
+                                },
+                                "currency": {
+                                    "label": "Currency"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "paymentCharts": {
             "tabs": {
                 "byTypeEachMonth": {

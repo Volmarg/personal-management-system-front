@@ -286,6 +286,12 @@ export default {
         this.visibleResults = visibleResults;
       })
     },
+    /**
+     * @description refreshes the table data
+     */
+    refresh(): void {
+      this.filterShownResults(1, this.resultsPerPage);
+    }
   },
   created(): void {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
