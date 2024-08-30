@@ -63,7 +63,7 @@ export default {
       yearFilter: null,
       allYears: [],
       /**
-       * @description temp data
+       * @description temp data, data must be sorted on backend,
        */
       chartData: [
         {value: 11, label: "2023-02"},

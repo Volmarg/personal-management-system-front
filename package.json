@@ -28,6 +28,7 @@
     "axios": "^0.21.1",
     "buffer": "^6.0.3",
     "chart.js": "^4.3.0",
+    "chartjs-plugin-autocolors": "^0.2.2",
     "chartjs-plugin-crosshair": "^2.0.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "cookieconsent": "^3.1.1",

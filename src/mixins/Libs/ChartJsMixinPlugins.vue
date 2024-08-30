@@ -13,6 +13,9 @@ import dataLabelsPlugin from 'chartjs-plugin-datalabels';
  */
 import crosshairPlugin from 'chartjs-plugin-crosshair';
 
+/** @link https://github.com/kurkle/chartjs-plugin-autocolors?tab=readme-ov-file */
+import autoColorPlugin from 'chartjs-plugin-autocolors';
+
 import Chart from "chart.js/auto";
 
 /**
@@ -53,6 +56,7 @@ export default {
      */
     registerPlugins(): void {
       Chart.register(dataLabelsPlugin);
+      Chart.register(autoColorPlugin);
       this.fixAndRegisterCrosshair()
     },
   },

@@ -1,5 +1,37 @@
 {
     "reports": {
+        "paymentCharts": {
+            "tabs": {
+                "byTypeEachMonth": {
+                    "label": "Each month - by type",
+                    "header": "Payments by types for each month",
+                    "filter": {
+                        "filterByYear": {
+                            "header": "Filter by year",
+                            "showAll": {
+                                "label": "Show all"
+                            }
+                        }
+                    }
+                },
+                "totalEachMonth": {
+                    "label": "Each month - total",
+                    "header": "Payments total amount for each month",
+                    "filter": {
+                        "filterByYear": {
+                            "header": "Filter by year",
+                            "showAll": {
+                                "label": "Show all"
+                            }
+                        }
+                    }
+                },
+                "percentageByType": {
+                    "label": "Total percentage - by type",
+                    "header": "Total payments percentage for types"
+                }
+            }
+        },
         "saving": {
             "eachMonth": {
                 "description": "Charts based on data from incomes/payments modules",
