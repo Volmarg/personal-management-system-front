@@ -1,6 +1,19 @@
 {
     "reports": {
         "historical": {
+            "paymentsSummaries": {
+                "description": "This report contains summary of payments from \"<b>Monthly Payments</b>\" and \"<b>Bills</b>\" for each month.",
+                "table": {
+                    "headers": {
+                        "monthAndYear": {
+                            "label": "Month and Year"
+                        },
+                        "money":  {
+                            "label": "Money"
+                        }
+                    }
+                }
+            },
             "moneyOwed": {
                 "description": "Historical records of owed money by others and by me",
                 "tabs": {
