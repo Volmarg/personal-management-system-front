@@ -1,4 +1,74 @@
 {
+    "holidays": {
+        "description": "Track of monthly available / spend holidays days in job",
+        "tabs": {
+            "summary": {
+                "label": "Summary",
+                "table": {
+                    "headers": {
+                        "year": {
+                            "label": "Year"
+                        },
+                        "daysForYear":  {
+                            "label": "Days for year"
+                        },
+                        "daysSpent": {
+                            "label": "Days spent"
+                        },
+                        "daysLeft": {
+                            "label": "Days left"
+                        }
+                    }
+                }
+            },
+            "spent": {
+                "label": "Days spent",
+                "table": {
+                    "headers": {
+                        "year": {
+                            "label": "Year"
+                        },
+                        "daysSpent": {
+                            "label": "Days spent"
+                        },
+                        "information":  {
+                            "label": "Information"
+                        },
+                        "actions": {
+                            "label": "Actions"
+                        }
+                    }
+                }
+            }
+        },
+        "shared": {
+            "form": {
+                "header": "Spend holidays",
+                "year": {
+                    "label": "Year"
+                },
+                "daysSpent": {
+                    "label": "Days spent"
+                },
+                "information": {
+                    "label": "Information"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            },
+            "filter": {
+                "byYear": {
+                    "header": "Filter by year",
+                    "button": {
+                        "showAll": {
+                            "label": "Show all"
+                        }
+                    }
+                }
+            }
+        }
+    },
     "afterhours": {
         "description": "List of collected and spent job afterhours. Contains summaries of afterhours, calculated automatically into days that can be spent as additional free days.",
         "new": {
