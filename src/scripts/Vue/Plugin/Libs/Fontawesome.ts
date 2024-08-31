@@ -52,7 +52,8 @@ import {
     faUpload,
     faCog,
     faSearch,
-    faBookmark
+    faBookmark,
+    faCaretRight
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -128,6 +129,7 @@ export default class Fontawesome
         library.add(faLockOpen);
         library.add(faSearch);
         library.add(faBookmark);
+        library.add(faCaretRight);
 
         return FontAwesomeIcon;
     }
