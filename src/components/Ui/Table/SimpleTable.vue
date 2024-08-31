@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <SearchInput v-if="canSearch" />
+      <SearchInput v-if="canSearch"
+                   v-model.trim="searchValue"
+      />
     </div>
     <table class="table mt-2">
       <thead>
@@ -44,6 +46,7 @@
 import TypeChecker          from "@/scripts/Core/Services/Types/TypeChecker";
 import Logger               from "@/scripts/Core/Logger";
 import ObjectValuesResolver from "@/scripts/Core/Services/Resolver/ObjectValuesResolver";
+import BoolTypeProcessor    from "@/scripts/Core/Services/TypesProcessors/BoolTypeProcessor";
 import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
 
 import SearchInput from "@/components/Navigation/SearchInput.vue";
@@ -61,6 +64,7 @@ export default {
   name: "SimpleTable",
   data(): ComponentData {
     return {
+      searchValue: null,
       currentPage: 1,
       visibleResults: [],
     }
@@ -277,6 +281,10 @@ export default {
             continue;
           }
 
+          if (!this.matchesSearchValue(rowData)) {
+            continue;
+          }
+
           visibleResults.push(rowData);
           if (visibleResults.length >= countOfResultsPerPage) {
             break;
@@ -287,6 +295,36 @@ export default {
       })
     },
     /**
+     * @description check if row data matches the search value
+     */
+    matchesSearchValue(oneRowData: Record<string, any>): boolean {
+      if (!this.searchValue) {
+        return true;
+      }
+
+      for (let cellData of oneRowData) {
+        // components etc. are not supported in search
+        if (!TypeChecker.isScalar(cellData.value)) {
+          continue
+        }
+
+        if (TypeChecker.isString(cellData.value) && cellData.value.includes(this.searchValue)){
+          return true;
+        }
+
+        if (TypeChecker.isNumber(cellData.value) && cellData.value === this.searchValue){
+          return true;
+        }
+
+        if (TypeChecker.isBoolean(cellData.value) && cellData.value === BoolTypeProcessor.boolStringToRealBool(this.searchValue)) {
+          return true;
+        }
+      }
+
+      // unknown situation, anyway if nothing was found in any cell then it's pretty much 'false'
+      return false;
+    },
+    /**
      * @description refreshes the table data
      */
     refresh(): void {
@@ -295,6 +333,11 @@ export default {
   },
   created(): void {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
+  },
+  watch: {
+    searchValue(): void {
+      this.refresh();
+    }
   }
 }
 </script>
