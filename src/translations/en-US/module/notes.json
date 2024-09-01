@@ -1,0 +1,22 @@
+{
+    "notes": {
+        "new": {
+            "description": "The editor supports rich text formatting and special functionality such as for example formatting the code and pasting images from clipboard.",
+            "form": {
+                "header": "Add new note",
+                "title": {
+                    "label": "Title"
+                },
+                "body": {
+                    "label": "Body"
+                },
+                "category": {
+                    "label": "Category"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            }
+        }
+    }
+}

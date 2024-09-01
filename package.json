@@ -20,6 +20,7 @@
     "@splidejs/vue-splide": "^0.6.12",
     "@stripe/stripe-js": "^2.4.0",
     "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@tinymce/tinymce-vue": "^6.0.1",
     "@vueform/multiselect": "^2.3.2",
     "@vueform/slider": "^2.0.8",
     "@vuelidate/core": "^2.0.0-alpha.26",
