@@ -5,27 +5,27 @@
        class="text-left mt-0.5"
     >
       <fa icon="caret-right" />
-      <span v-html="$t('afterhours.tabs.summary.texts.gotForUsage', {time: chunk.time, type: chunk.type})" />
+      <span v-html="$t('job.afterhours.tabs.summary.texts.gotForUsage', {time: chunk.time, type: chunk.type})" />
     </div>
 
     <div class="mb-4 mt-8">
-      <p class="font-bold text-lg text-left">{{ $t('afterhours.tabs.summary.texts.totally.header') }}</p>
+      <p class="font-bold text-lg text-left">{{ $t('job.afterhours.tabs.summary.texts.totally.header') }}</p>
       <div class="flex flex-row">
         <fa icon="caret-right" />
-        <span>{{ $t('afterhours.tabs.summary.texts.hours.label') }}:&nbsp;</span>
+        <span>{{ $t('job.afterhours.tabs.summary.texts.hours.label') }}:&nbsp;</span>
         <span class="text-left font-bold text-blue-500">{{hoursLeftToSpend}}</span>
       </div>
 
       <div class="flex flex-row">
         <fa icon="caret-right" />
-        <span>{{ $t('afterhours.tabs.summary.texts.days.label') }}:&nbsp;</span>
+        <span>{{ $t('job.afterhours.tabs.summary.texts.days.label') }}:&nbsp;</span>
         <span class="text-left font-bold text-blue-500">{{daysLeftToSpend}}</span>
       </div>
     </div>
 
     <div class="mt-10 flex flex-row text-tiny italic">
       <AsteriskRequired />
-      <p v-html="$t('afterhours.tabs.summary.texts.disclaimer.rounding')"
+      <p v-html="$t('job.afterhours.tabs.summary.texts.disclaimer.rounding')"
          class="text-left  text-gray-500"/>
     </div>
 

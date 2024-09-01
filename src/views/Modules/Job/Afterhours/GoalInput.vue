@@ -1,6 +1,6 @@
 <template>
   <MultiSelect
-      :label="$t('afterhours.new.form.goal.label')"
+      :label="$t('job.afterhours.new.form.goal.label')"
       :options="options"
       @change="onOptionChanged"
       @select="onOptionChanged"

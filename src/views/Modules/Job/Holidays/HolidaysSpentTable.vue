@@ -4,11 +4,11 @@
        v-if="allYears.length > 0"
   >
     <div>
-      <h2 class="text-lg text-center md:text-right pr-0 md:pr-6 mb-1">{{ $t('holidays.shared.filter.byYear.header') }}</h2>
+      <h2 class="text-lg text-center md:text-right pr-0 md:pr-6 mb-1">{{ $t('job.holidays.shared.filter.byYear.header') }}</h2>
     </div>
 
     <div class="flex flex-col md:flex-row justify-end">
-      <MediumButtonWithIcon :text="$t('holidays.shared.filter.byYear.button.showAll.label')"
+      <MediumButtonWithIcon :text="$t('job.holidays.shared.filter.byYear.button.showAll.label')"
                             @button-click="applyYearFilter(null)"
                             button-classes="w-full md:w-auto flex justify-center md:block"
                             text-classes="text-center"
@@ -50,25 +50,25 @@ export default {
       yearFilter: null,
       headers: [
         {
-          label: this.$t('holidays.tabs.spent.table.headers.year.label'),
+          label: this.$t('job.holidays.tabs.spent.table.headers.year.label'),
           dataValuePath : 'year.value',
           dataIsComponentPath : 'year.isComponent',
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('holidays.tabs.spent.table.headers.daysSpent.label'),
+          label: this.$t('job.holidays.tabs.spent.table.headers.daysSpent.label'),
           dataValuePath : 'daysSpent.value',
           dataIsComponentPath : 'daysSpent.isComponent',
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('holidays.tabs.spent.table.headers.information.label'),
+          label: this.$t('job.holidays.tabs.spent.table.headers.information.label'),
           dataValuePath : 'information.value',
           dataIsComponentPath : 'information.isComponent',
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('holidays.tabs.spent.table.headers.actions.label'),
+          label: this.$t('job.holidays.tabs.spent.table.headers.actions.label'),
           dataValuePath : 'actions.value',
           dataIsComponentPath : 'actions.isComponent',
           dataComponentPropertiesPath: null

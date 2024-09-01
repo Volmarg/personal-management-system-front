@@ -1,6 +1,6 @@
 <template>
   <MultiSelect
-      :label="$t('holidays.shared.form.year.label')"
+      :label="$t('job.holidays.shared.form.year.label')"
       :options="options"
       @change="onOptionChanged"
       @select="onOptionChanged"

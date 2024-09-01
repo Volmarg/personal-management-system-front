@@ -21,31 +21,31 @@ export default {
       targetSelectOptions: [],
       headers: [
         {
-          label: this.$t('afterhours.shared.table.headers.date.label'),
+          label: this.$t('job.afterhours.shared.table.headers.date.label'),
           dataValuePath : 'date.value',
           dataIsComponentPath : 'date.isComponent',
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('afterhours.shared.table.headers.description.label'),
+          label: this.$t('job.afterhours.shared.table.headers.description.label'),
           dataValuePath : 'description.value',
           dataIsComponentPath : 'description.isComponent',
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('afterhours.shared.table.headers.minutes.label'),
+          label: this.$t('job.afterhours.shared.table.headers.minutes.label'),
           dataValuePath : 'minutes.value',
           dataIsComponentPath : 'minutes.isComponent',
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('afterhours.shared.table.headers.goal.label'),
+          label: this.$t('job.afterhours.shared.table.headers.goal.label'),
           dataValuePath : 'goal.value',
           dataIsComponentPath : 'goal.isComponent',
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('afterhours.shared.table.headers.actions.label'),
+          label: this.$t('job.afterhours.shared.table.headers.actions.label'),
           dataValuePath : 'actions.value',
           dataIsComponentPath : 'actions.isComponent',
           dataComponentPropertiesPath: null

@@ -10,20 +10,20 @@
     <Container class="mt-4">
       <div class="flex justify-center">
         <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-          <h2 class="text-lg mb-2">{{ $t('afterhours.new.form.header') }}</h2>
+          <h2 class="text-lg mb-2">{{ $t('job.afterhours.new.form.header') }}</h2>
           <FormInput type="date"
                      :model-value="form.date"
-                     :label="$t('afterhours.new.form.date.label')"
+                     :label="$t('job.afterhours.new.form.date.label')"
           />
 
           <FormInput type="text"
                      :model-value="form.description"
-                     :label="$t('afterhours.new.form.description.label')"
+                     :label="$t('job.afterhours.new.form.description.label')"
           />
 
           <FormInput type="number"
                      :model-value="form.minutes"
-                     :label="$t('afterhours.new.form.minutes.label')"
+                     :label="$t('job.afterhours.new.form.minutes.label')"
           />
 
           <GoalInput :options="type"
@@ -36,7 +36,7 @@
                       class="mb-6"
           />
 
-          <MediumButtonWithIcon :text="$t('afterhours.new.form.submit.label')"
+          <MediumButtonWithIcon :text="$t('job.afterhours.new.form.submit.label')"
                                 button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
                                 class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
                                 button-classes="w-full md:w-auto m-0-force"
@@ -117,17 +117,17 @@ export default {
     tabsContent(): Array<Record<string, unknown>> {
       return [
         {
-          tabName: this.$t('afterhours.tabs.summary.label'),
+          tabName: this.$t('job.afterhours.tabs.summary.label'),
           tabComponent: TabSummary,
           tabComponentProps: {}
         },
         {
-          tabName: this.$t('afterhours.tabs.made.label'),
+          tabName: this.$t('job.afterhours.tabs.made.label'),
           tabComponent: TabMade,
           tabComponentProps: {}
         },
         {
-          tabName: this.$t('afterhours.tabs.spent.label'),
+          tabName: this.$t('job.afterhours.tabs.spent.label'),
           tabComponent: TabSpent,
           tabComponentProps: {}
         }
