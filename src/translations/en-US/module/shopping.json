@@ -1,0 +1,38 @@
+{
+    "shopping": {
+        "plans": {
+            "description": "Wanted or planned items - when there is a goal to buy something but the finances might not allow to do so at given point",
+            "table": {
+                "headers": {
+                    "name": {
+                        "label": "Name"
+                    },
+                    "information": {
+                        "label": "Information"
+                    },
+                    "example": {
+                        "label": "Example"
+                    },
+                    "actions": {
+                        "label": "Actions"
+                    }
+                }
+            },
+            "form": {
+                "header": "Add new entry",
+                "name": {
+                    "label": "Name"
+                },
+                "information": {
+                    "label": "Information"
+                },
+                "example": {
+                    "label": "Example"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            }
+        }
+    }
+}
