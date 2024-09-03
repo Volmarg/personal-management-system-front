@@ -13,7 +13,7 @@ export default class VueRouterNotes {
     static readonly ROUTE_PATH_NOTES_SETTINGS  = VueRouterNotes.ROUTE_PREFIX + "/settings";
 
     static readonly ROUTE_NAME_NOTES_CATEGORY = VueRouterNotes.ROUTE_GROUP + "Category";
-    static readonly ROUTE_PATH_NOTES_CATEGORY  = VueRouterNotes.ROUTE_PREFIX + "/category/:name";
+    static readonly ROUTE_PATH_NOTES_CATEGORY  = VueRouterNotes.ROUTE_PREFIX + "/category/:id";
 
     public static readonly routesConfiguration: Array<RouteRecordRaw> = [
         {

@@ -5,16 +5,14 @@
     </template>
 
     <template #children>
+      <CategoriesLevel :categories="nestedCategories"/>
+
       <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_NEW"
                          :label="$t('navbar.rightSidebar.menu.notes.children.create.label')"
                           @click="onMenuElementClick"
       />
       <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_SETTINGS"
                          :label="$t('navbar.rightSidebar.menu.notes.children.settings.label')"
-                          @click="onMenuElementClick"
-      />
-      <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_CATEGORY"
-                         :label="$t('navbar.rightSidebar.menu.notes.children.categories.label')"
                           @click="onMenuElementClick"
       />
     </template>
@@ -29,19 +27,33 @@ import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mix
 
 import VueRouterNotes from "@/router/Modules/VueRouterNotes";
 
+import {ComponentData}         from "@/scripts/Vue/Types/Components/types";
+import {notesModuleStateStore} from "@/scripts/Vue/Store/NotesModuleState";
+
+import CategoriesLevel from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Notes/CategoriesLevel.vue";
+
 export default {
+  data(): ComponentData {
+    return {
+      nestedCategories: [],
+    }
+  },
   components: {
     SingleDropdownMenuElement,
-    SingleMenuElement
+    SingleMenuElement,
+    CategoriesLevel,
   },
   computed: {
     router(): VueRouterNotes {
       return VueRouterNotes;
-    }
+    },
   },
   mixins: [
     SidebarMixin
-  ]
+  ],
+  created(): void {
+    this.nestedCategories = notesModuleStateStore().getNestedCategories()
+  },
 
 }
 </script>

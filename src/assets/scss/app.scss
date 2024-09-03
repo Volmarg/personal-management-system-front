@@ -18,6 +18,12 @@
 
 @import "normalization/form-inputs";
 
+@import "module/notes";
+
+.router-link-active {
+  @apply text-blue-500
+}
+
 * {
   font-family: "Poppins" !important;;
 }

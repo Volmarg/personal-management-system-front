@@ -4,22 +4,30 @@
     <router-link :to="routePath"
                  :class="{
                     'left-sidebar-item' : true,
-                    'active'            : isCurrentlyVisitedPath,
                  }"
                  @click="$emit('click')"
     >
-      <span class="title">{{ label }}</span>
+      <span class="title"
+            :class="{
+              [visitedLinkClasses]: isCurrentlyVisitedPath(routePath),
+            }"
+      >{{ label }}</span>
     </router-link>
 
   </li>
 </template>
 
 <script lang="ts">
-import VueRouter from "@/router/VueRouter";
+import RouteMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/RouteMixin.vue";
 
 export default {
   name: "SidebarSingleMenuElement",
   props: {
+    visitedLinkClasses: {
+      type: String,
+      required: false,
+      default: ''
+    },
     label: {
       type     : String,
       required : true,
@@ -29,19 +37,11 @@ export default {
       required : true,
     }
   },
+  mixins: [
+    RouteMixin
+  ],
   emits: [
     'click'
   ],
-  computed: {
-    /**
-     * @description will check if current path opened in browser us equal to that on the menu element
-     * @note the slash in front is needed due to usage of {@see VueRouter.ROUTE_PATH_NONE}, else
-     *       menu won't work properly with such paths, not that it will be used often but it just has to be working
-     */
-    isCurrentlyVisitedPath(): boolean {
-      let prefix = (VueRouter.ROUTE_PATH_NONE === this.routePath ? "/" : "");
-      return this.$route.fullPath.trim() === prefix + this.routePath.trim();
-    }
-  }
 }
 </script>

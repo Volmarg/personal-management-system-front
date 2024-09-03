@@ -1,0 +1,19 @@
+.category-active {
+  position: relative;
+}
+
+.category-active:before {
+  content:"• ";
+  display: inline-block;
+  font-size: 30px;
+  top: -1px;
+  left: -15px;
+  position: absolute;
+  @apply text-blue-500
+}
+
+[data-collapsed=true] {
+  .category-active:before {
+    left: -11px;
+  }
+}

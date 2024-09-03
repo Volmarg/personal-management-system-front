@@ -1,32 +1,40 @@
 <template>
-  <div class="sidebar-single-dropdown-menu-element">
+  <component :is="elementType" class="sidebar-single-dropdown-menu-element relative">
+      <NavButton v-if="buttonIsLink"
+                 :label="label"
+                 :is-visible="isVisible"
+                 :title-classes="isCurrentlyVisitedPath(linkPath) ? visitedLinkClasses : ''"
+                 @click.stop="navElementClick"
+                 @arrow-click.stop="navElementClick"
+      >
+        <template #icon>
+          <slot name="icon"></slot>
+        </template>
+      </NavButton>
 
-    <button class="left-sidebar-item"
-            :class="{
-            'hidden-sibling' : !isVisible,
-            'open-sibling'   : isVisible
-          }"
-            @click="toggleOpen()"
+    <NavButton v-else
+               :label="label"
+               :is-visible="isVisible"
+               @click.stop="navElementClick"
     >
-      <div class="icon-wrapper">
+      <template #icon>
         <slot name="icon"></slot>
-      </div>
-      <span class="title">{{ label }}</span>
-      <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
-           stroke-linejoin="round" class="ml-auto arrow" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    </button>
+      </template>
+    </NavButton>
 
     <ul>
       <slot name="children"></slot>
     </ul>
 
-  </div>
+  </component>
 </template>
 
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import BaseError       from "@/scripts/Core/Error/BaseError";
+import RouteMixin      from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/RouteMixin.vue";
+
+import NavButton from "@/components/LoggedIn/Navigation/SidebarComponents/DropdownMenu/Button.vue";
 
 export default {
   name: "SidebarSingleDropdownMenuElement",
@@ -36,16 +44,68 @@ export default {
     }
   },
   props: {
+    linkPath: {
+      type: [String, null],
+      required: false,
+      default: null
+    },
+    buttonIsLink: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    visitedLinkClasses: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    onlyArrowOpen: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    elementType: {
+      type: String,
+      required: false,
+      default: 'div'
+    },
     label: {
       type     : String,
       required : true,
     }
   },
+  mixins: [
+    RouteMixin
+  ],
+  components: {
+    NavButton
+  },
   methods: {
     /**
      * @description will toggle the menu open / closed
      */
-    toggleOpen(): void {
+    navElementClick(event: PointerEvent): void {
+      let target = event.target as HTMLElement;
+      let arrowOnlyTagNames = ["SVG", 'POLYLINE'];
+
+      if (this.onlyArrowOpen) {
+        if (arrowOnlyTagNames.includes(target.tagName.toUpperCase())) {
+          this.isVisible = !this.isVisible;
+        } else if (this.linkPath) {
+          this.$router.push(this.linkPath)
+        }
+
+        return;
+      }
+
+      if (this.buttonIsLink) {
+        throw new BaseError("If label is a link then You must set arrow as only way to open the dropdown!");
+      }
+
+      if (this.linkPath) {
+        this.$router.push(this.linkPath)
+      }
+
       this.isVisible = !this.isVisible;
     }
   }
