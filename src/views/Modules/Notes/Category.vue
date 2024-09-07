@@ -12,7 +12,7 @@ import UnmountCleanupAwareMixin from "@/mixins/Awarness/UnmountCleanupAwareMixin
 export default {
   data(): ComponentData {
     return {
-      category: []
+      category: {}
     }
   },
   mixins: [

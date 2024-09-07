@@ -123,6 +123,30 @@ const notesModuleStateStore = defineStore('notesModuleState', {
             }
 
             return nestedStructure.filter(Boolean);
+        },
+        /**
+         * @description doing it the easy way (probably not the most efficient). Taking the category parentId,
+         *              checking if parent exists, then for parents of parents, until root is reached.
+         *              Incrementing level all the time.
+         */
+        getCategoryNestingLevel(parentId: number, nestingLevel: number | null = null): number {
+            if (null === nestingLevel) {
+                nestingLevel = 0;
+            }
+
+            let parentCategory = this.getParentCategory(parentId);
+            if (parentCategory) {
+                nestingLevel++;
+                nestingLevel = this.getCategoryNestingLevel(parentCategory.parentId, nestingLevel)
+            }
+
+            return nestingLevel;
+        },
+        /**
+         * @description returns parent category if such exists for given parentId, if not then null is returned
+         */
+        getParentCategory(parentId: number): Record<string, any> | null {
+            return this.categories.find((category) => category.id == parentId) ?? null
         }
     }
 });

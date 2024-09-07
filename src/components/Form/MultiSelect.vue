@@ -20,6 +20,7 @@
       >
         <multiselect class="multiselect-element appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      v-model="value"
+                     :label="selectedLabelSource"
                      :options="options"
                      :mode="mode"
                      :can-clear="canClear"
@@ -124,6 +125,14 @@ export default {
     }
   },
   props: {
+    /**
+     * @description defines property that will be taken from options to display the selected label
+     */
+    selectedLabelSource: {
+      type: String,
+      required: false,
+      default: 'label'
+    },
     canClear: {
       type: Boolean,
       required: false,

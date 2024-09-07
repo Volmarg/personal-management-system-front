@@ -13,8 +13,7 @@
                 :initial-value="initialBody"
         />
 
-        <CategorySelect :options="categories"
-        />
+        <CategorySelect />
 
         <MediumButtonWithIcon :text="$t('notes.new.form.submit.label')"
                               button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
@@ -41,22 +40,12 @@ import Base                 from "@/views/Modules/Base.vue";
 export default {
   data(): ComponentData {
     return {
-      initialBody: '<b>LOL</b>',
+      initialBody: '<b>Body</b>',
       form: {
         title: '',
         body: '',
         category: '',
       },
-      categories: [
-        {
-          value: "work",
-          label: "Work"
-        },
-        {
-          value: "phone",
-          label: "Phone O2"
-        },
-      ]
     }
   },
   components: {
