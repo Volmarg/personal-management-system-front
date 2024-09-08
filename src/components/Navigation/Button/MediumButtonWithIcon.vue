@@ -31,12 +31,14 @@
             v-else
       ></slot>
       <span
+          v-if="text !== null"
           class="align-self-center"
           :class="{
             [textClasses]: true,
             'ml-2' : $slots.icon
           }"
-      >{{ text }}</span></button>
+      >{{ text }}</span>
+    </button>
   </div>
 </template>
 
@@ -60,8 +62,9 @@ export default {
       default  : 'bg-blue-500',
     },
     text: {
-      type     : String,
-      required : true,
+      type     : [String, null],
+      required : false,
+      default  : null
     },
     isIconOnTop: {
       type     : Boolean,

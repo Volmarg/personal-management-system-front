@@ -10,6 +10,7 @@
 @import "src/assets/scss/libs/tippy.js";
 @import "src/assets/scss/libs/steps";
 @import "src/assets/scss/libs/chartjs";
+@import "src/assets/scss/libs/tailwind";
 @import "flag-icon-css/css/flag-icons.min.css";
 @import "scrollbar.scss";
 @import "colors.scss";
@@ -107,14 +108,6 @@
 
 .border-r-0-force {
   border-radius: 0 !important;
-}
-
-.\!w-auto {
-  width: auto !important;
-}
-
-.\!w-full {
-  width: 100% !important;
 }
 
 // disable scrolling what's behind the sidebar && modal

@@ -32,6 +32,11 @@ export default {
     }
   },
   props: {
+    selected: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
     label: {
       type: String,
       required: true,
@@ -92,6 +97,9 @@ export default {
       this.value = value;
       this.$emit('update:modelValue', value);
     }
+  },
+  mounted(): void {
+    this.value = this.selected;
   },
   created(): void {
     this.categories = notesModuleStateStore().getNestedCategories();

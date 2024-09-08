@@ -49,7 +49,7 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col gap-y-4 sm:gap-y-0 sm:flex-row items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700 border-solid rounded-b space-x-2"
+          <div class="flex flex-col gap-y-2 sm:flex-row items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700 border-solid rounded-b space-x-2"
                :class="{
                   'mt-2': !hasBodyPadding,
                   ...footerClasses

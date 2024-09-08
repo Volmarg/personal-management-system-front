@@ -1,5 +1,38 @@
 {
     "notes": {
+        "category": {
+            "text": {
+                "lock": "Click to lock",
+                "unlock": "Click to unlock",
+                "addNew": "Add new note"
+            },
+            "previewModal": {
+                "header": {
+                    "editing": {
+                        "label": "Editing: "
+                    }
+                },
+                "form": {
+                    "category": {
+                        "label": "Category"
+                    }
+                },
+                "button": {
+                    "edit": {
+                        "label": "Edit"
+                    },
+                    "stopEditing": {
+                        "label": "Stop editing"
+                    },
+                    "update": {
+                        "label": "Save changes"
+                    },
+                    "delete": {
+                        "label": "Delete"
+                    }
+                }
+            }
+        },
         "settings": {
             "description": "Management of categories to which the notes are assignable to. Allows to pick relation between other categories (parent-child). Keep in mind that empty categories (without notes) are not being shown in the navbar on left but are still visible in settings / note creation panels.",
             "form": {
