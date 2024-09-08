@@ -1,5 +1,33 @@
 {
     "notes": {
+        "settings": {
+            "description": "Management of categories to which the notes are assignable to. Allows to pick relation between other categories (parent-child). Keep in mind that empty categories (without notes) are not being shown in the navbar on left but are still visible in settings / note creation panels.",
+            "form": {
+                "header": "Add new category",
+                "name": {
+                    "label": "Name"
+                },
+                "parent": {
+                    "label": "Parent"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            },
+            "table": {
+                "header": {
+                    "category": {
+                        "label": "Category"
+                    },
+                    "parent": {
+                        "label": "Parent"
+                    },
+                    "actions": {
+                        "label": "Actions"
+                    }
+                }
+            }
+        },
         "new": {
             "description": "The editor supports rich text formatting and special functionality such as for example formatting the code and pasting images from clipboard.",
             "form": {

@@ -13,7 +13,7 @@
                 :initial-value="initialBody"
         />
 
-        <CategorySelect />
+        <CategorySelect :label="$t('notes.new.form.category.label')" />
 
         <MediumButtonWithIcon :text="$t('notes.new.form.submit.label')"
                               button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"

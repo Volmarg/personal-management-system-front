@@ -1,6 +1,6 @@
 <template>
   <MultiSelect
-      :label="$t('notes.new.form.category.label')"
+      :label="label"
       selected-label-source="selectedLabel"
       :options="options"
       @change="onOptionChanged"
@@ -29,6 +29,12 @@ export default {
       options: [],
       categories: [],
       value: 0,
+    }
+  },
+  props: {
+    label: {
+      type: String,
+      required: true,
     }
   },
   components: {
