@@ -53,7 +53,10 @@ import {
     faCog,
     faSearch,
     faBookmark,
-    faCaretRight
+    faCaretRight,
+    faArrowRight,
+    faArrowLeft,
+    faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -130,6 +133,9 @@ export default class Fontawesome
         library.add(faSearch);
         library.add(faBookmark);
         library.add(faCaretRight);
+        library.add(faArrowRight);
+        library.add(faArrowLeft);
+        library.add(faArrowDown);
 
         return FontAwesomeIcon;
     }

@@ -1,0 +1,92 @@
+{
+    "calendar": {
+        "description": "Fully interactive calendar with support of schedules groups management",
+        "tabs": {
+            "schedules": {
+                "label": "Schedules"
+            },
+            "settings": {
+                "label": "Settings"
+            },
+            "legend": {
+                "label": "Legend"
+            }
+        },
+        "settings": {
+            "table": {
+                "headers": {
+                    "name": {
+                        "label": "Name"
+                    },
+                    "color": {
+                        "label": "Color"
+                    },
+                    "actions": {
+                        "label": "Actions"
+                    }
+                }
+            },
+            "newEntry": {
+                "header": "Add new entry",
+                "form": {
+                    "name": {
+                        "label": "Name"
+                    },
+                    "color": {
+                        "label": "Color"
+                    },
+                    "submit": {
+                        "label": "Submit"
+                    }
+                }
+            }
+        },
+        "legend": {
+            "notification": {
+                "header": "Legend of notifications colors",
+                "in-30-60": "In 30 - 60 days",
+                "in-14-30": "In 14 - 30 days",
+                "up-to-14": "Up to 14 days"
+            }
+        },
+        "navbar": {
+            "forward": {
+                "label": "Go forward"
+            },
+            "back": {
+                "label": "Go back"
+            },
+            "today": {
+                "label": "Today"
+            },
+            "view": {
+                "label": "View",
+                "calendarsSidebar": {
+                    "viewAll": {
+                        "label": "View all"
+                    }
+                },
+                "search": {
+                    "label": "Search"
+                },
+                "menu": {
+                    "month": {
+                        "label": "Month"
+                    },
+                    "week": {
+                        "label": "Week"
+                    },
+                    "day": {
+                        "label": "Day"
+                    }
+                }
+            },
+            "add": {
+                "label": "Add"
+            },
+            "settings": {
+                "label": "Settings"
+            }
+        }
+    }
+}

@@ -59,6 +59,7 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "toastr2": "^3.0.0-alpha.18",
     "ts-md5": "^1.2.11",
+    "tui-calendar": "^1.15.3",
     "uniqid": "^5.4.0",
     "util": "^0.12.4",
     "uuid": "^3.4.0",

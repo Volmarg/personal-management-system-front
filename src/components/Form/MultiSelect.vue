@@ -264,6 +264,12 @@ export default {
           this.$emit(eventName, this.value);
         })
       });
+    },
+    /**
+     * @description unsets the selected value
+     */
+    clear(): void {
+      this.value = null;
     }
   },
   computed: {

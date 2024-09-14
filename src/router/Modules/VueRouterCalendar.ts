@@ -13,7 +13,7 @@ export default class VueRouterCalendar {
         {
             path: VueRouterCalendar.ROUTE_PATH_CALENDAR_VIEW,
             name: VueRouterCalendar.ROUTE_NAME_CALENDAR_VIEW,
-            component: (): Promise<Component> => import("@/views/Modules/Todo/List.vue"),
+            component: (): Promise<Component> => import("@/views/Modules/Calendar/View.vue"),
         },
     ]
 

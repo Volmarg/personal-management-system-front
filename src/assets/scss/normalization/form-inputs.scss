@@ -1,4 +1,4 @@
-input:not(.multiselect-search):not(.multiselect-tags-search):not([type=checkbox]):not([type=radio]),
+input:not(.multiselect-search):not(.multiselect-tags-search):not([type=checkbox]):not([type=radio]):not(.tui-full-calendar-content),
 .floating-input div.multiselect {
   min-height: 54px;
 }
