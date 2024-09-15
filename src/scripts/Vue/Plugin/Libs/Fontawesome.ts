@@ -57,6 +57,8 @@ import {
     faArrowRight,
     faArrowLeft,
     faArrowDown,
+    faSortDown,
+    faSortUp,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -136,6 +138,8 @@ export default class Fontawesome
         library.add(faArrowRight);
         library.add(faArrowLeft);
         library.add(faArrowDown);
+        library.add(faSortDown);
+        library.add(faSortUp);
 
         return FontAwesomeIcon;
     }

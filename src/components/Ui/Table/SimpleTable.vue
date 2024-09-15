@@ -10,8 +10,24 @@
         <tr>
           <th v-for="(header, index) in headers"
               :key="index"
-              class="font-bold uppercase"
-          >{{ header.label }}</th>
+              class="font-bold uppercase cursor-pointer hover:opacity-80"
+              @click="handleSort(header, index)"
+          >
+            {{ header.label }}
+            <span v-if="header.label === activeSortColumn">
+              <span class="sort-arrow"
+                    v-if="activeSortDirection === 'desc'"
+              >
+                <fa icon="sort-up" />
+              </span>
+              <span class="sort-arrow"
+                    v-if="activeSortDirection === 'asc'"
+              >
+                <fa icon="sort-down" />
+              </span>
+            </span>
+
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -51,6 +67,8 @@ import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
 
 import SearchInput from "@/components/Navigation/SearchInput.vue";
 import Pagination  from "@/components/Ui/Pagination.vue";
+
+import SortMixin from "@/components/Ui/Table/Mixin/SortMixin.vue";
 
 /**
  * @description provides simple table
@@ -223,6 +241,9 @@ export default {
     Pagination,
     SearchInput
   },
+  mixins: [
+    SortMixin,
+  ],
   computed: {
     /**
      * @description will return table rows data

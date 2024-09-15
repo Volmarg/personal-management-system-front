@@ -53,7 +53,7 @@ export default {
               isComponent : false,
             },
             information : {
-              value       : "Salary",
+              value       : "A second job",
               isComponent : false,
             },
             date : {
