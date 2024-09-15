@@ -1,5 +1,46 @@
 {
     "payments": {
+        "description": "Organizable monthly incomes sources, used later on in the reporting",
+        "incomes": {
+            "description": "Organizable monthly incomes sources, used later on in the reporting",
+            "newForm": {
+                "header": "Add new entry",
+                "amount": {
+                    "label": "Amount"
+                },
+                "information": {
+                    "label": "Information"
+                },
+                "date": {
+                    "label": "Date"
+                },
+                "currency": {
+                    "label": "Currency"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            },
+            "table": {
+                "header": {
+                    "amount": {
+                        "label": "Amount"
+                    },
+                    "information": {
+                        "label": "Information"
+                    },
+                    "date": {
+                        "label": "Date"
+                    },
+                    "currency": {
+                        "label": "Currency"
+                    },
+                    "actions": {
+                        "label": "Actions"
+                    }
+                }
+            }
+        },
         "monthly": {
             "newForm": {
                 "header": "Add new entry",
