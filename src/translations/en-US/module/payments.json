@@ -1,0 +1,50 @@
+{
+    "payments": {
+        "monthly": {
+            "newForm": {
+                "header": "Add new entry",
+                "date": {
+                    "label": "Date"
+                },
+                "money": {
+                    "label": "Money"
+                },
+                "description": {
+                    "label": "Description"
+                },
+                "type": {
+                    "label": "Type"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            },
+            "filter": {
+                "label": "Filter by year"
+            },
+            "description": "Lists of the money spent in each month with separate summary per month and per payment type.",
+            "text": {
+                "summary": "Summary"
+            },
+            "table": {
+                "headers": {
+                    "date": {
+                        "label": "Date"
+                    },
+                    "money": {
+                        "label": "Money"
+                    },
+                    "description": {
+                        "label": "Description"
+                    },
+                    "type": {
+                        "label": "Type"
+                    },
+                    "actions": {
+                        "label": "Actions"
+                    }
+                }
+            }
+        }
+    }
+}
