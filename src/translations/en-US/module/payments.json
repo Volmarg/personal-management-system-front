@@ -1,5 +1,108 @@
 {
     "payments": {
+        "bills": {
+            "description": "Track of money spent on unpredicted or planned things, but not related to the standard monthly payments, like renting, electricity etc.",
+            "tab": {
+                "overview": {
+                    "label": "Bills overview"
+                },
+                "management": {
+                    "label": "Bills management"
+                },
+                "legend": {
+                    "label": "Legend"
+                }
+            },
+            "management": {
+                "table": {
+                    "header": {
+                        "startDate": {
+                            "label": "Start date"
+                        },
+                        "endDate": {
+                            "label": "End date"
+                        },
+                        "name": {
+                            "label": "Name"
+                        },
+                        "information": {
+                            "label": "Information"
+                        },
+                        "plannedAmount": {
+                            "label": "Planned amount"
+                        },
+                        "actions": {
+                            "label": "Actions"
+                        }
+                    }
+                },
+                "newForm": {
+                    "header": "Add new bill",
+                    "startDate": {
+                        "label": "Start date"
+                    },
+                    "endDate": {
+                        "label": "End date"
+                    },
+                    "name":  {
+                        "label": "Name"
+                    },
+                    "information": {
+                        "label": "Information"
+                    },
+                    "plannedAmount":  {
+                        "label": "Planned amount"
+                    },
+                    "submit": {
+                        "label": "Submit"
+                    }
+                }
+            },
+            "overview": {
+                "elementTable": {
+                    "header": {
+                        "amount": {
+                            "label": "Amount"
+                        },
+                        "name": {
+                            "label": "Name"
+                        },
+                        "date": {
+                            "label": "Date"
+                        },
+                        "actions": {
+                            "label": "Actions"
+                        }
+                    }
+                },
+                "newForm": {
+                    "header": "Add new bill element",
+                    "amount": {
+                        "label": "Amount"
+                    },
+                    "date": {
+                        "label": "Date"
+                    },
+                    "name":  {
+                        "label": "Name"
+                    },
+                    "bill": {
+                        "label": "Bill"
+                    },
+                    "submit": {
+                        "label": "Submit"
+                    }
+                }
+            },
+            "legend": {
+                "billColor": {
+                    "header": "Meanings behind bill colors",
+                    "exceed": "Spent amount exceeds the planned amount",
+                    "warn": "Spent amount almost exceeds the planned amount",
+                    "ok": "Spent amount is within the planned budged"
+                }
+            }
+        },
         "description": "Organizable monthly incomes sources, used later on in the reporting",
         "incomes": {
             "description": "Organizable monthly incomes sources, used later on in the reporting",
