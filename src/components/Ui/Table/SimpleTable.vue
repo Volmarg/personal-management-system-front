@@ -329,7 +329,7 @@ export default {
           continue
         }
 
-        if (TypeChecker.isString(cellData.value) && cellData.value.includes(this.searchValue)){
+        if (TypeChecker.isString(cellData.value) && cellData.value.toLowerCase().includes(this.searchValue.toLowerCase())){
           return true;
         }
 
