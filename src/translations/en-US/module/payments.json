@@ -1,5 +1,71 @@
 {
     "payments": {
+        "moneyOwed": {
+            "description": "Track of the money owed to other people and owed by yourself. Consist of separate management groups, yields the summaries of financial debts with separation of the target (person / company etc.)",
+            "tabs": {
+                "byOthers": {
+                    "label": "Owed by others"
+                },
+                "byMe": {
+                    "label": "Owed by me"
+                },
+                "summary": {
+                    "label": "Summary",
+                    "text": {
+                        "owedByMe": "Owed by me",
+                        "owedByOthers": "Owed by others",
+                        "i-owe-to": "I Owe <b>{amount}{currency}</b> To <i>{target}</i>",
+                        "other-owe": "<i>{target}</i> owes me <b>{amount}{currency}</b>"
+                    }
+                }
+            },
+            "newForm": {
+                "header": "Add new entry",
+                "target": {
+                    "label": "Target"
+                },
+                "information": {
+                    "label": "Information"
+                },
+                "date": {
+                    "label": "Date"
+                },
+                "amount": {
+                    "label": "Amount"
+                },
+                "currency": {
+                    "label": "Currency"
+                },
+                "owedByMe": {
+                    "label": "Owed by me"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            },
+            "table": {
+                "header": {
+                    "target": {
+                        "label": "Target"
+                    },
+                    "amount": {
+                        "label": "Amount"
+                    },
+                    "information": {
+                        "label": "Information"
+                    },
+                    "date": {
+                        "label": "Date"
+                    },
+                    "currency": {
+                        "label": "Currency"
+                    },
+                    "actions": {
+                        "label": "Actions"
+                    }
+                }
+            }
+        },
         "productPrices": {
             "description": "Organizable lists of assortment allows to keep an eye of the products that should be avoided in case of the need to manage the financial issues, where even shopping the basic goods matters.",
             "table": {
