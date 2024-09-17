@@ -4,7 +4,7 @@
            class="form-checkbox h-7 w-7 rounded-lg offer-selection-checkbox"
            v-model="isChecked"
            :checked="isChecked"
-           @change="$emit('update:modelValue', $event.target.checked)"
+           @change="emitModelValueChange($event.target.checked)"
     >
     <asterisk-required v-if="isRequired"/>
 
@@ -67,6 +67,21 @@ export default {
               !this.hasErrors
           &&  0 === this.errors.length
       );
+    }
+  },
+  methods: {
+    /**
+     * @description emit the model value update on change
+     */
+    emitModelValueChange(newValue: boolean): void {
+      this.$emit('update:modelValue', newValue);
+    },
+    /**
+     * @description toggle the check state
+     */
+    toggle(): void {
+      this.isChecked = !this.isChecked;
+      this.emitModelValueChange(this.isChecked);
     }
   },
   created(){

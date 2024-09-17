@@ -1,5 +1,68 @@
 {
     "payments": {
+        "productPrices": {
+            "description": "Organizable lists of assortment allows to keep an eye of the products that should be avoided in case of the need to manage the financial issues, where even shopping the basic goods matters.",
+            "table": {
+                "filter": {
+                    "header": "Filter by rejection",
+                    "rejection": {
+                        "all": "Show all",
+                        "rejectedOnly": "Show Rejected",
+                        "acceptedOnly": "Show Accepted"
+                    }
+                },
+                "header": {
+                    "name": {
+                        "label": "Name"
+                    },
+                    "market": {
+                        "label": "Market"
+                    },
+                    "products": {
+                        "label": "Products"
+                    },
+                    "information": {
+                        "label": "Information"
+                    },
+                    "rejected": {
+                        "label": "Is rejected"
+                    },
+                    "price": {
+                        "label": "Price"
+                    },
+                    "homeCurrency": {
+                        "label": "Home currency"
+                    },
+                    "actions": {
+                        "label": "Actions"
+                    }
+                }
+            },
+            "newForm": {
+                "header": "Add product",
+                "name": {
+                    "label": "Name"
+                },
+                "price": {
+                    "label": "Price"
+                },
+                "market": {
+                    "label": "Market"
+                },
+                "products": {
+                    "label": "Products"
+                },
+                "information": {
+                    "label": "Information"
+                },
+                "rejected": {
+                    "label": "Rejected"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            }
+        },
         "bills": {
             "description": "Track of money spent on unpredicted or planned things, but not related to the standard monthly payments, like renting, electricity etc.",
             "tab": {
