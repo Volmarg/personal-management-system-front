@@ -1,5 +1,72 @@
 {
     "payments": {
+        "settings": {
+            "description": "Management of payments types visible in the Monthly Payments submodule and the recurring payments which are used by the cron to insert certain payments each month automatically (like for example constant renting fee)",
+            "tab": {
+                "recurringPayments": {
+                    "header": "Recurring payments",
+                    "table": {
+                        "header": {
+                            "dayOfMonth": "Day of month",
+                            "money": "Money",
+                            "description": "Description",
+                            "type": "Type",
+                            "actions": "Actions"
+                        },
+                        "newForm": {
+                            "header": "Add new",
+                            "dayOfMonth": {
+                                "label": "Date of month"
+                            },
+                            "money": {
+                                "label": "Money"
+                            },
+                            "description": {
+                                "label": "Description"
+                            },
+                            "type": {
+                                "label": "Type"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
+                    }
+                },
+                "paymentTypes": {
+                    "header": "Payment types",
+                    "table": {
+                        "header": {
+                            "name": "Name",
+                            "actions": "Actions"
+                        },
+                        "newForm": {
+                            "header": "Add new",
+                            "typeName": {
+                                "label": "Type name"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
+                    }
+                },
+                "other": {
+                    "header": "Other",
+                    "currencyMultiplier": {
+                        "form": {
+                            "header": "Update multiplier",
+                            "currencyMultiplier": {
+                                "label": "Currency multiplier"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "moneyOwed": {
             "description": "Track of the money owed to other people and owed by yourself. Consist of separate management groups, yields the summaries of financial debts with separation of the target (person / company etc.)",
             "tabs": {
