@@ -10,19 +10,19 @@ export default class VueRouterStorage {
     static readonly ROUTE_PATH_STORAGE_IMAGES_SETTINGS  = VueRouterStorage.ROUTE_PREFIX + "/images/settings";
 
     static readonly ROUTE_NAME_STORAGE_IMAGES_FOLDER  = VueRouterStorage.ROUTE_GROUP + "ImagesFolder";
-    static readonly ROUTE_PATH_STORAGE_IMAGES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/images/folder/:path";
+    static readonly ROUTE_PATH_STORAGE_IMAGES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/images/folder/:path/:dirname";
 
     static readonly ROUTE_NAME_STORAGE_VIDEO_SETTINGS  = VueRouterStorage.ROUTE_GROUP + "VideoSettings";
     static readonly ROUTE_PATH_STORAGE_VIDEO_SETTINGS  = VueRouterStorage.ROUTE_PREFIX + "/video/settings";
 
     static readonly ROUTE_NAME_STORAGE_VIDEO_FOLDER  = VueRouterStorage.ROUTE_GROUP + "VideoFolder";
-    static readonly ROUTE_PATH_STORAGE_VIDEO_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/video/folder/:path";
+    static readonly ROUTE_PATH_STORAGE_VIDEO_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/video/folder/:path/:dirname";
 
     static readonly ROUTE_NAME_STORAGE_FILES_SETTINGS  = VueRouterStorage.ROUTE_GROUP + "FilesSettings";
     static readonly ROUTE_PATH_STORAGE_FILES_SETTINGS  = VueRouterStorage.ROUTE_PREFIX + "/files/settings";
 
     static readonly ROUTE_NAME_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_GROUP + "FilesFolder";
-    static readonly ROUTE_PATH_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/files/folder/:path";
+    static readonly ROUTE_PATH_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/files/folder/:path/:dirname";
 
     static readonly ROUTE_NAME_STORAGE_UPLOAD_ADD  = VueRouterStorage.ROUTE_GROUP + "UploadAdd";
     static readonly ROUTE_PATH_STORAGE_UPLOAD_ADD  = VueRouterStorage.ROUTE_PREFIX + "/upload/add";
@@ -54,12 +54,12 @@ export default class VueRouterStorage {
         {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER,
             name: VueRouterStorage.ROUTE_NAME_STORAGE_FILES_FOLDER,
-            component: (): Promise<Component> => import("@/views/Modules/Storage/Files/Settings.vue"),
+            component: (): Promise<Component> => import("@/views/Modules/Storage/Files/Folder.vue"),
         },
         {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_FILES_SETTINGS,
             name: VueRouterStorage.ROUTE_NAME_STORAGE_FILES_SETTINGS,
-            component: (): Promise<Component> => import("@/views/Modules/Storage/Files/Folder.vue"),
+            component: (): Promise<Component> => import("@/views/Modules/Storage/Files/Settings.vue"),
         },
         {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_UPLOAD_ADD,

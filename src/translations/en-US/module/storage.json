@@ -1,0 +1,40 @@
+{
+    "storage": {
+        "nav": {
+            "button": {
+                "addFolder": {
+                    "label": "Add folder"
+                },
+                "uploadFile": {
+                    "label": "Upload file"
+                },
+                "settings": {
+                    "label": "Settings"
+                },
+                "download": {
+                    "label": "Download"
+                },
+                "select": {
+                    "label": "Select"
+                },
+                "edit": {
+                    "label": "Edit"
+                },
+                "delete": {
+                    "label": "Delete files"
+                },
+                "move": {
+                    "label": "Move files"
+                }
+            }
+        },
+        "fileHoverData": {
+            "text": {
+                "size": "Size",
+                "tags": "Tags",
+                "fileName": "File name"
+            }
+        },
+        "rootDirName": "Main folder"
+    }
+}

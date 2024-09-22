@@ -9,7 +9,7 @@
                          :label="$t('navbar.rightSidebar.menu.files.children.settings.label')"
                           @click="onMenuElementClick"
       />
-      <SingleMenuElement :route-path="router.ROUTE_PATH_STORAGE_FILES_FOLDER"
+      <SingleMenuElement :route-path="routePath"
                          :label="$t('navbar.rightSidebar.menu.files.children.mainFolder.label')"
                           @click="onMenuElementClick"
       />
@@ -33,6 +33,11 @@ export default {
   computed: {
     router(): VueRouterStorage {
       return VueRouterStorage;
+    },
+    routePath(): string {
+      return VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER
+          .replace(":path", encodeURIComponent("/"))
+          .replace(":dirname", this.$t('storage.rootDirName'))
     }
   },
   mixins: [

@@ -2,8 +2,9 @@
 <div class="full-round-button">
   <div class="button opacity-100 hover:opacity-90 duration-300 transition transition-all"
        :class="{
-          'slide-able'               : slideAble,
-          [backgroundColorClassName] : true,
+          'slide-able'          : slideAble,
+          [usedBgColorClass]    : true,
+          'cursor-not-allowed'  : isDisabled,
        }"
   >
     <div class="text-white text-3xl icon-wrapper">
@@ -20,6 +21,10 @@ import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringT
 export default {
   name: "FullRoundedButtonWithIcon",
   props: {
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
     label: {
       type     : String,
       required : false,
@@ -42,6 +47,16 @@ export default {
     }
   },
   computed: {
+    /**
+     * @description returns used bg button color class
+     */
+    usedBgColorClass(): string {
+      if (this.isDisabled) {
+        return 'bg-gray-400';
+      }
+
+      return this.backgroundColorClassName;
+    },
     /**
      * @description will calculate max css button width depending on length of label button
      */
@@ -66,6 +81,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
 
 .button {
   width: v-bind(buttonSize);

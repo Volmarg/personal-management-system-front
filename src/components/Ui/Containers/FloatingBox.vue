@@ -1,6 +1,6 @@
 <template>
   <transition-preconfigured>
-    <div class="fixed right-5 bottom-2 floating-box-main-wrapper">
+    <div class="fixed right-5 bottom-2 floating-box-main-wrapper hover:opacity-70">
 
         <div :class="{
           'widget'                     : showBackground,

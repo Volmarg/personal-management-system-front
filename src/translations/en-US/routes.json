@@ -34,11 +34,11 @@
             "reportsSavingCharts": "Report: saving charts",
             "reportsHistoricallyMoneyOwed": "Report: money owed - history",
             "storageFilesSettings": "Files storage settings",
-            "storageFilesFolder": "Files storage - folder: ",
+            "storageFilesFolder": "Files storage",
             "storageImagesSettings": "Images storage: settings",
-            "storageImagesFolder": "Images storage - folder: ",
+            "storageImagesFolder": "Images storage",
             "storageVideoSettings": "Video storage settings",
-            "storageVideoFolder": "Video storage - folder: ",
+            "storageVideoFolder": "Video storage",
             "storageUploadAdd": "Upload storage file",
             "storageUploadManage": "Manage storage files"
         }

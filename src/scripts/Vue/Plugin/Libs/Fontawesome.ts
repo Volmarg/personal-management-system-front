@@ -10,6 +10,7 @@ import {
     faEnvelopeOpenText,
     faPhone,
     faHome,
+    faEdit,
     faSuitcase,
     faCloudUploadAlt,
     faCloudDownloadAlt,
@@ -47,6 +48,8 @@ import {
     faShoppingBasket,
     faListAlt,
     faFolderOpen,
+    faFolder,
+    faFileAlt,
     faImage,
     faFilm,
     faUpload,
@@ -59,6 +62,8 @@ import {
     faArrowDown,
     faSortDown,
     faSortUp,
+    faDownload,
+    faRandom,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -140,6 +145,11 @@ export default class Fontawesome
         library.add(faArrowDown);
         library.add(faSortDown);
         library.add(faSortUp);
+        library.add(faFolder);
+        library.add(faFileAlt);
+        library.add(faDownload);
+        library.add(faEdit);
+        library.add(faRandom);
 
         return FontAwesomeIcon;
     }
