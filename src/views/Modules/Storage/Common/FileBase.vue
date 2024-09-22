@@ -12,12 +12,20 @@
         }"
            @click="$refs.checkbox.toggle()"
            class="file-representation"
+           ref="fileRepresentation"
       >
         <slot name="fileRepresentation"></slot>
       </div>
 
       <div class="file-name-wrapper"
+           :class="{
+              [`file-name-wrapper-${moduleName}`]: true
+           }"
            @click="$refs.checkbox.toggle()"
+           ref="fileNameWrapper"
+           :style="{
+              'max-width': `${textWrapperMaxWidth} !important`
+           }"
       >
         {{ fileName }}
       </div>
@@ -62,6 +70,7 @@ import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
 export default {
   data(): ComponentData {
     return {
+      textWrapperMaxWidth: 'auto',
       isEditModalVisible: false,
       isSelected: false,
       filenameMaxLen: 30,
@@ -71,6 +80,15 @@ export default {
     fileData: {
       type: Object,
       required: true,
+    },
+    moduleName: {
+      type: String,
+      required: true,
+    },
+    useImgWidthForTextWidth: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   emits: [
@@ -116,6 +134,26 @@ export default {
       `
     }
   },
+  methods: {
+    /**
+     * @description returns the text wrapper max width
+     */
+    setTextWrapperMaxWidth(): void {
+      if (!this.useImgWidthForTextWidth) {
+        this.textWrapperMaxWidth = 'auto';
+      }
+
+      if (this.moduleName === "images") {
+        this.textWrapperMaxWidth = `${getComputedStyle(this.$refs.fileRepresentation.querySelector('img')).width}`;
+        return
+      }
+
+      this.textWrapperMaxWidth = `${this.$refs.fileRepresentation.offsetWidth}px`;
+    },
+  },
+  mounted(): void {
+    this.setTextWrapperMaxWidth();
+  },
   watch: {
     isSelected(): void {
       if (this.isSelected) {
@@ -143,16 +181,26 @@ export default {
   @apply mt-2 mb-2 space-x-1 space-y-1 flex flex-wrap
 }
 
-.selected .file-name-wrapper {
-  @apply text-blue-500
+.selected{
+  img {
+    @apply border-blue-500 border-2
+  }
+
+  .file-name-wrapper {
+    @apply text-blue-500
+  }
 }
 
 .file-name-wrapper {
-  max-width: 100px;
   @apply break-all
 }
 
 .file-actions {
-  @apply flex flex-row justify-around mt-1
+  @apply flex flex-row justify-between mt-1
+}
+
+
+.file-representation {
+  @apply hover:opacity-70
 }
 </style>

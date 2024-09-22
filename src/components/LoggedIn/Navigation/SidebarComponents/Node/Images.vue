@@ -6,11 +6,11 @@
 
     <template #children>
       <SingleMenuElement :route-path="router.ROUTE_PATH_STORAGE_IMAGES_SETTINGS"
-                         :label="$t('navbar.rightSidebar.menu.video.children.settings.label')"
+                         :label="$t('navbar.rightSidebar.menu.images.children.settings.label')"
                           @click="onMenuElementClick"
       />
-      <SingleMenuElement :route-path="router.ROUTE_PATH_STORAGE_IMAGES_FOLDER"
-                         :label="$t('navbar.rightSidebar.menu.video.children.mainFolder.label')"
+      <SingleMenuElement :route-path="routePath"
+                         :label="$t('navbar.rightSidebar.menu.images.children.mainFolder.label')"
                           @click="onMenuElementClick"
       />
     </template>
@@ -33,6 +33,11 @@ export default {
   computed: {
     router(): VueRouterStorage {
       return VueRouterStorage;
+    },
+    routePath(): string {
+      return VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER
+          .replace(":path", encodeURIComponent("/"))
+          .replace(":dirname", this.$t('storage.rootDirName'))
     }
   },
   mixins: [

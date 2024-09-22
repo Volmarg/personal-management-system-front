@@ -1,13 +1,12 @@
 <template>
   <FileBase :file-data="fileData"
-            module-name="files"
+            :use-img-width-for-text-width="true"
+            module-name="images"
             class="single-file"
   >
     <template #fileRepresentation>
-      <la svg-icon-name="file-alt"
-          class="file-icon"
-          font-size="80"
-          color="rgb(107 114 128)"
+      <img :src="fileData.dummyTempUrl"
+           class="single-file"
       />
     </template>
   </FileBase>
@@ -30,23 +29,23 @@ export default {
 
 <style lang="scss" scoped>
 .single-file {
-  $height: 210px;
-  min-height: $height;
-  max-height: $height;
-}
-</style>
+  max-height: 150px;
+  min-width: 100px;
 
-<style lang="scss">
-.single-file {
   @apply cursor-pointer flex flex-col
 }
 
+</style>
+
+<style lang="scss">
 .selected .file-icon {
   --fill: rgb(59, 130, 246) !important;
 }
 
-.file-name-wrapper-files {
-  max-width: 100px;
+.file-name-wrapper-images {
+  max-width: none !important;
+
+  @apply w-auto
 }
 
 </style>
