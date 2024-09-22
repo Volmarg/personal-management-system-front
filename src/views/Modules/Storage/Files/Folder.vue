@@ -1,10 +1,14 @@
 <template>
-  <!-- Idea is: left side folders structure, right side files in it, no list of dirs in menu-->
-  <FolderBase :dirs-structure="dirsStructure" />
+  <FolderBase :dirs-structure="dirsStructure">
+    <template #singleFile="{fileData}">
+      <SingleFile :file-data="fileData"/>
+    </template>
+  </FolderBase>
 </template>
 
 <script lang="ts">
 import FolderBase from "@/views/Modules/Storage/Common/FolderBase.vue";
+import SingleFile from "@/views/Modules/Storage/Files/SingleFile.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -103,7 +107,8 @@ export default {
     }
   },
   components: {
-    FolderBase
+    FolderBase,
+    SingleFile
   },
 }
 </script>

@@ -13,7 +13,13 @@
       <FoldersTree :dirs-structure="dirsStructure"
                    ref="foldersTree"
       />
-      <FolderContent />
+      <FolderContent>
+        <template #singleFile="{fileData}">
+          <slot name="singleFile"
+                :file-data="fileData"
+          ></slot>
+        </template>
+      </FolderContent>
     </div>
   </Container>
 
