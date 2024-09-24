@@ -10,7 +10,7 @@
           position: 'top',
           touch: true,
         }"
-           @click="$refs.checkbox.toggle()"
+           @click="selectOnFileRepresentationClick ? $refs.checkbox.toggle() : null"
            class="file-representation"
            ref="fileRepresentation"
       >
@@ -89,6 +89,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    selectOnFileRepresentationClick: {
+      type: Boolean,
+      required: false,
+      default: true,
     }
   },
   emits: [

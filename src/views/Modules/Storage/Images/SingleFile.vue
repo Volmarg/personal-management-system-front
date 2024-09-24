@@ -29,8 +29,10 @@ export default {
 
 <style lang="scss" scoped>
 .single-file {
-  max-height: 150px;
-  min-width: 100px;
+  img {
+    max-height: 150px;
+    min-width: 100px;
+  }
 
   @apply cursor-pointer flex flex-col
 }

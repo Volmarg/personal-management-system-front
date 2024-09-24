@@ -1,5 +1,7 @@
 <template>
-  <FolderBase :dirs-structure="dirsStructure">
+  <FolderBase :dirs-structure="dirsStructure"
+              folder-content-classes="pl-6 pr-6 pt-6"
+  >
     <template #singleFile="{fileData}">
       <SingleFile :file-data="fileData"/>
     </template>
@@ -20,6 +22,330 @@ export default {
           dirname: "Main folder",
           path: "/",
           files: [
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
+            {
+              name: "File with some strangely long name tho",
+              ext: "jpge",
+              size: "30Mb",
+              tags: [
+                  "cookie",
+                  "candy",
+                  "sweets",
+                  "cheap",
+                  "favourite"
+              ]
+            },
             {
               name: "File with some strangely long name tho",
               ext: "jpge",

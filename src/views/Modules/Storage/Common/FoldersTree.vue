@@ -31,8 +31,10 @@ export default {
 
 <style lang="scss" scoped>
 .dirs-wrapper {
+  $width: 250px;
   min-height: 300px;
-  width: 250px;
-  @apply bg-gray-100 h-full text-left pl-2 pt-2
+  width: $width;
+  min-width: $width;
+  @apply bg-gray-100 text-left pl-2 pt-2
 }
 </style>

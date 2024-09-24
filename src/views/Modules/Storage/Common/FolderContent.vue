@@ -1,10 +1,10 @@
 <template>
   <div v-if="nodeData.files && nodeData.files.length > 0"
-       class="flex flex-row"
+       class="flex flex-row flex-wrap"
   >
     <div v-for="file in nodeData.files"
                 :key="JSON.stringify(file)"
-                class="p-4"
+                :class="folderContentClasses"
     >
       <slot name="singleFile"
             :file-data="file"
@@ -25,6 +25,12 @@ import NoResultsText        from "@/components/Page/NoResultsText.vue";
 import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
 
 export default {
+  props: {
+    folderContentClasses: {
+      type: String,
+      required: false,
+    }
+  },
   components: {
     NoResultsText,
   },

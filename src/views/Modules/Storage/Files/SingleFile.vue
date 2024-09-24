@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss" scoped>
 .single-file {
-  $height: 210px;
+  $height: 180px;
   min-height: $height;
   max-height: $height;
 }

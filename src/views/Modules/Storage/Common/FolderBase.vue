@@ -13,7 +13,7 @@
       <FoldersTree :dirs-structure="dirsStructure"
                    ref="foldersTree"
       />
-      <FolderContent>
+      <FolderContent :folder-content-classes="folderContentClasses">
         <template #singleFile="{fileData}">
           <slot name="singleFile"
                 :file-data="fileData"
@@ -40,6 +40,11 @@ export default {
     dirsStructure: {
       type: Array,
       required: true
+    },
+    folderContentClasses: {
+      type: String,
+      required: false,
+      default: 'p-6'
     }
   },
   components: {
