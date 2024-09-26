@@ -1,5 +1,16 @@
 {
     "storage": {
+        "page": {
+            "addFiles": {
+                "header": "Upload files directly into storage module folder"
+            }
+        },
+        "modulePathsSelect": {
+            "label": {
+                "modules": "Module",
+                "folderName": "Folder name"
+            }
+        },
         "nav": {
             "button": {
                 "addFolder": {

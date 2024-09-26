@@ -8,6 +8,32 @@
         "form": {
             "search": {
                 "placeholder": "Search"
+            },
+            "upload": {
+                "header": "Upload Form",
+                "test": {
+                    "fileToBig": "Select file is to big and cannot be uploaded. Max file size is (Mb): ",
+                    "maxFileSize": "Max. file size: ",
+                    "invalidName": "This file name is not valid. Remove any special characters (FROM NAME). Allowed special characters are: -_",
+                    "allowedFileExtensions": "Allowed file extensions: ",
+                    "allowedMimeTypes": "Allowed mime types (file types): ",
+                    "allowedNameCharacters": "Allowed name characters are: ",
+                    "extensionNotAllowed": "This extension is not allowed: ",
+                    "allowedCharactersList": "letters, numbers, space and: -_ ",
+                    "anyOtherCharactersWillBeRemoved": "Any other characters will be removed",
+                    "fileAlreadyOnList": "This file is already on list: "
+                },
+                "button": {
+                    "select": {
+                        "label": "Select"
+                    },
+                    "upload": {
+                        "label": "Upload"
+                    },
+                    "clearList": {
+                        "label": "Clear list"
+                    }
+                }
             }
         },
         "asteriskFieldsAreRequired": "Asterisk fields are required",

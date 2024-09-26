@@ -2,7 +2,7 @@
   <Container>
 
     <div class="example-simple">
-      <h1 class="h1-blue text-xl">{{ $t('upload.header') }}</h1>
+      <h1 class="h1-blue text-xl">{{ $t('generic.form.upload.header') }}</h1>
 
       <div class="flex justify-center">
 
@@ -17,21 +17,21 @@
             <small class="block"
                    v-if="configuration.maxFileSizeMb > 0"
             >
-              <span class="font-bold">{{ $t('upload.message.maxFileSize') }} </span>
+              <span class="font-bold">{{ $t('generic.form.upload.test.maxFileSize') }} </span>
               <span>{{ configuration.maxFileSizeMb }} Mb</span>
             </small>
 
             <small class="block"
                    v-if="areAllowedExtensionsSet"
             >
-              <span class="font-bold">{{ $t('upload.message.allowedFileExtensions') }} </span>
+              <span class="font-bold">{{ $t('generic.form.upload.test.allowedFileExtensions') }} </span>
               <span>{{ configuredExtensionsString }}</span>
             </small>
 
             <small class="block"
                    v-if="areAllowedMimeTypesSet"
             >
-              <span class="font-bold">{{ $t('upload.message.allowedMimeTypes') }} </span>
+              <span class="font-bold">{{ $t('generic.form.upload.test.allowedMimeTypes') }} </span>
               <span>{{ configuredMimeTypesString }}</span>
             </small>
 
@@ -39,18 +39,20 @@
                    v-if="configuration.allowNaming"
             >
               <span class="font-bold">*</span>
-              <span class="font-bold">{{ $t('upload.message.allowedNameCharacters') }}</span>
-              <span>{{ $t('upload.message.allowedCharactersList') }}</span>
-              <span class="italic">({{ $t('upload.message.anyOtherCharactersWillBeRemoved') }})</span>
+              <span class="font-bold">{{ $t('generic.form.upload.test.allowedNameCharacters') }}</span>
+              <span>{{ $t('generic.form.upload.test.allowedCharactersList') }}</span>
+              <span class="italic">({{ $t('generic.form.upload.test.anyOtherCharactersWillBeRemoved') }})</span>
             </small>
           </p>
+
+          <slot name="beforeActions"></slot>
 
           <!-- actions -->
           <div class="actions flex justify-center sm:flex-row flex-wrap mt-5 flex-col">
 
             <!-- keep in mind that what limits the selectable files in windows are the MIME TYPES -->
 
-            <MediumButtonWithIcon :text="$t('upload.actions.select')"
+            <MediumButtonWithIcon :text="$t('generic.form.upload.button.select.label')"
                                   button-classes="action-button"
                                   class="action"
                                   @click="$refs.upload.$refs.input.click()"
@@ -62,7 +64,8 @@
               </template>
             </MediumButtonWithIcon>
 
-            <MediumButtonWithIcon :text="$t('upload.actions.upload')"
+            <MediumButtonWithIcon :text="$t('generic.form.upload.button.upload.label')"
+                                  :disabled="!canUpload"
                                   v-if="!$refs.upload || !$refs.upload.active"
                                   @click.prevent="$refs.upload.active = true"
                                   button-classes="action-button"
@@ -75,7 +78,7 @@
               </template>
             </MediumButtonWithIcon>
 
-            <MediumButtonWithIcon :text="$t('upload.actions.clearList')"
+            <MediumButtonWithIcon :text="$t('generic.form.upload.button.clearList.label')"
                                   v-if="!$refs.upload || !$refs.upload.active"
                                   @click.prevent="files = []"
                                   button-classes="action-button"
@@ -89,6 +92,8 @@
             </MediumButtonWithIcon>
 
           </div>
+
+          <slot name="afterActions"></slot>
         </div>
       </div>
 
@@ -124,7 +129,6 @@ import SymfonyRoutes     from "@/router/SymfonyRoutes";
 import UploadResponse    from "@/scripts/Response/File/Upload/UploadResponse";
 import SymfonyFileRoutes from "@/router/SymfonyRoutes/SymfonyFileRoutes";
 
-import {fromByteArray}                from 'base64-js';
 import {ToastTypeEnum}                from "@/scripts/Libs/ToastNotification";
 import GetUploadConfigurationResponse from "@/scripts/Response/File/Upload/GetUploadConfigurationResponse";
 import UploadConfigurationDTO         from "@/scripts/Dto/File/UploadConfigurationDTO";
@@ -148,9 +152,21 @@ export default {
     }
   },
   props: {
+    canUpload: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     configurationId: {
       type     : String,
       required : true,
+    },
+    extraData: {
+      type: Object,
+      required: false,
+      default: function() {
+        return {};
+      },
     }
   },
   emits: [
@@ -232,7 +248,7 @@ export default {
 
       let fileSize = file.size as unknown as number;
       if (fileSize > this.allowedSizeBytes) {
-        let message = this.$t('upload.message.fileToBig') + this.configuration?.maxFileSizeMb;
+        let message = this.$t('generic.form.upload.test.fileToBig') + this.configuration?.maxFileSizeMb;
 
         this.$rootEvent.showNotification(ToastTypeEnum.info, message);
         return false;
@@ -250,7 +266,7 @@ export default {
 
       for (let regexpString of this.configuration.fileNameValidationRegexps) {
         if (file.name?.match(regexpString)) {
-          this.$rootEvent.showNotification(ToastTypeEnum.info, this.$t('upload.message.invalidName'));
+          this.$rootEvent.showNotification(ToastTypeEnum.info, this.$t('generic.form.upload.test.invalidName'));
           return false;
         }
       }
@@ -268,7 +284,7 @@ export default {
             &&  fileOnList.size === file.size
             &&  fileOnList.id   !== file.id
         ){
-          let message = this.$t('upload.message.fileAlreadyOnList') + file.name;
+          let message = this.$t('generic.form.upload.test.fileAlreadyOnList') + file.name;
           this.$rootEvent.showNotification(ToastTypeEnum.info, message);
           return true;
         }
@@ -292,7 +308,7 @@ export default {
       });
 
       if (!lowerCaseExtensions.includes(extension)) {
-        this.$rootEvent.showNotification(ToastTypeEnum.info, this.$t('upload.message.extensionNotAllowed') + extension);
+        this.$rootEvent.showNotification(ToastTypeEnum.info, this.$t('generic.form.upload.test.extensionNotAllowed') + extension);
         return false;
       }
 
@@ -397,6 +413,7 @@ export default {
         fileSize        : file.size, // yes, that should be avoided but the uploaded file size is wrong, to small on back, backend has still fallback in case this is manipulated
         userDefinedName : file.userDefinedName,
         uploadConfigId  : this.configuration.identifier,
+        extraData       : this.extraData,
       };
 
       this.$rootEvent.showFullPageLoader();

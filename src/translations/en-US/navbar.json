@@ -216,7 +216,7 @@
                     "label": "Upload",
                     "children": {
                         "add": {
-                            "label": "Add"
+                            "label": "Add files"
                         },
                         "manage": {
                             "label": "Manage"
