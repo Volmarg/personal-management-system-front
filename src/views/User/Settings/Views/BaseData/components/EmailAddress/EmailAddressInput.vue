@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Vinput :label="$t('views.user.baseData.email.form.email')"
+    <Vinput :label="$t('userSettings.tab.baseData.children.emailAddress.form.emailAddress.label')"
             type="text"
             @input="$emit('update:modelValue', $event.target.value)"
             :is-required="true"

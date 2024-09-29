@@ -1,11 +1,11 @@
 <template>
   <div>
-    <Vinput :label="$t('views.user.baseData.personalData.form.lastName.label')"
+    <Vinput :label="$t('userSettings.tab.baseData.children.personalData.form.userName.label')"
             type="text"
             @input="$emit('update:modelValue', $event.target.value)"
             :is-required="true"
             :errors="violations"
-            v-model="lastname"
+            v-model="firstname"
     />
   </div>
 </template>
@@ -19,7 +19,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 export default {
   data(): ComponentData {
     return {
-      lastname: null,
+      firstname: null,
     }
   },
   emits: [
@@ -38,11 +38,11 @@ export default {
     },
   },
   created() {
-    this.lastname = this.modelValue;
+    this.firstname = this.modelValue;
   },
   watch: {
     modelValue(): void {
-      this.lastname = this.modelValue;
+      this.firstname = this.modelValue;
     }
   }
 }

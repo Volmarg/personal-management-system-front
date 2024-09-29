@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <Modal :title="$t('views.user.settings.security.changePassword.modal.header.label')"
+    <Modal :title="$t('userSettings.tab.security.children.changePassword.dialog.header')"
            :is-visible="isVisible"
            :is-close-full-width="true"
            @modal-closed="$emit('modalClosed')"
@@ -20,7 +20,7 @@
       <template #footerRightSection>
         <MediumButtonWithIcon
             background-color-class="bg-blue-500"
-            :text="$t('views.user.settings.security.changePassword.modal.buttons.ok')"
+            :text="$t('userSettings.tab.security.children.changePassword.form.submit.label')"
             class="w-full sm:w-auto m-0-force"
             button-classes="w-full sm:w-auto"
             text-classes="text-center w-full"

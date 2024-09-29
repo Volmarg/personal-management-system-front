@@ -1,12 +1,12 @@
 <template>
-  <Modal :title="$t('views.user.baseData.personalData.form.label')"
+  <Modal :title="$t('userSettings.tab.baseData.children.personalData.modal.header')"
          :is-visible="isVisible"
          :is-vshow-visibility="true"
          :size="isPhoneBreakingPoint ? 'full' : 'medium'"
   >
     <template #cancelButton>
       <MediumButtonWithIcon
-          :text="$t('userSettings.personalDataModal.buttons.close.label')"
+          :text="$t('userSettings.tab.baseData.children.personalData.modal.button.close.label')"
           :is-mobile-full-width="true"
           margin-right-class="mr-0"
           class="px-2 sm:px-0"
@@ -16,17 +16,11 @@
 
     <template #content>
 
-      <FirstName v-model="firstName"
-                 :violations="violations.firstName"
+      <Username v-model="username"
+                :violations="violations.username"
       />
 
-      <LastName v-model="lastName"
-                :violations="violations.lastName"
-      />
-
-      <Address ref="addressComponent"/>
-
-      <MediumButtonWithIcon :text="$t('views.user.baseData.personalData.form.submit.label')"
+      <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.personalData.form.submit.label')"
                             :is-mobile-full-width="true"
                             @button-click="saveBaseData"
                             class="submit-button"
@@ -57,11 +51,9 @@ import {ToastTypeEnum}          from "@/scripts/Libs/ToastNotification";
 import JwtTokenHandler          from "@/scripts/Core/Security/JwtTokenHandler";
 
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import Address              from "@/views/User/Settings/Views/BaseData/components/PersonalData/Address.vue";
 import LineAwesome          from "@/components/Ui/Icons/LineAwesome.vue";
 import Modal                from "@/components/Modal/Modal.vue";
-import FirstName            from "@/views/User/Settings/Views/BaseData/components/PersonalData/FirstName.vue";
-import LastName             from "@/views/User/Settings/Views/BaseData/components/PersonalData/LastName.vue";
+import Username             from "@/views/User/Settings/Views/BaseData/components/PersonalData/Username.vue";
 
 import VuelidateHandler from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
 
@@ -74,23 +66,18 @@ export default {
   setup: (): ComponentSetup => ({v$: useVuelidate()}),
   data(): ComponentData {
     return {
-      firstName    : (new UserController()).getLoggedInUserData().firstname,
-      lastName     : (new UserController()).getLoggedInUserData().lastname,
+      username     : (new UserController()).getLoggedInUserData().firstname, //todo
       loggedInUser : (new UserController()).getLoggedInUserData(),
       violations: {
-        firstName : [],
-        lastName: [],
+        username : [],
       },
     }
   },
   validations(): ComponentValidation{
     return {
-      firstName: {
+      username: {
         required: helpers.withMessage(this.$t('validations.required'), required),
       },
-      lastName: {
-        required: helpers.withMessage(this.$t('validations.required'), required),
-      }
     }
   },
   props: {
@@ -99,9 +86,6 @@ export default {
       required : false,
     }
   },
-  emits: [
-    'fileRemoved'
-  ],
   mixins: [
     VuelidateHandler,
     ResponsiveVarsMixin,
@@ -109,9 +93,7 @@ export default {
   components: {
     "la" : LineAwesome,
     Modal,
-    Address,
-    FirstName,
-    LastName,
+    Username,
     MediumButtonWithIcon
   },
   methods: {
@@ -123,12 +105,8 @@ export default {
         return;
       }
 
-      let addressData = this.$refs.addressComponent.getPersistedData();
-
       let data = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        ...addressData
+        username: this.username,
       }
 
       let calledUrl = SymfonyRoutes.buildUrl(SymfonyUserSettingRoutes.URL_USER_BASE_DATA_PERSONAL_SAVE);

@@ -6,13 +6,45 @@
                 "header": "Base data",
                 "children": {
                     "personalData": {
-                        "label": "Personal data"
+                        "label": "Personal data",
+                        "modal": {
+                            "header": "Update Your personal data",
+                            "button": {
+                                "close": {
+                                    "label": "Close"
+                                }
+                            }
+                        },
+                        "form": {
+                            "userName": {
+                                "label": "Username"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
                     },
                     "profileImage": {
                         "label": "Profile image"
                     },
                     "emailAddress": {
-                        "label": "Email address"
+                        "label": "Email address",
+                        "dialog": {
+                            "header": "Update Your Email address",
+                            "button": {
+                                "cancel": {
+                                    "label": "Cancel"
+                                }
+                            }
+                        },
+                        "form": {
+                            "emailAddress": {
+                                "label": "Email address"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
                     }
                 }
             },
@@ -21,7 +53,20 @@
                 "header": "Security",
                 "children": {
                     "changePassword": {
-                        "label": "Change password"
+                        "label": "Change password",
+                        "dialog": {
+                            "header": "Change Your password",
+                            "button": {
+                                "cancel": {
+                                    "label": "Cancel"
+                                }
+                            }
+                        },
+                        "form": {
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
                     }
                 }
             }

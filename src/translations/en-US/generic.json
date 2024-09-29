@@ -5,6 +5,11 @@
                 "label": "Reset zoom"
             }
         },
+        "dialog": {
+            "uploadDialog": {
+                "header": "Upload"
+            }
+        },
         "form": {
             "search": {
                 "placeholder": "Search"

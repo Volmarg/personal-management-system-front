@@ -1,11 +1,11 @@
 <template>
-  <Modal :title="$t('views.user.baseData.email.label')"
+  <Modal :title="$t('userSettings.tab.baseData.children.emailAddress.dialog.header')"
          :is-visible="isVisible"
          :size="dialogSize"
   >
     <template #cancelButton>
       <MediumButtonWithIcon
-          :text="$t('userSettings.personalDataModal.buttons.close.label')"
+          :text="$t('userSettings.tab.baseData.children.emailAddress.dialog.button.cancel.label')"
           :is-mobile-full-width="true"
           margin-right-class="mr-0"
           class="px-2 sm:px-0"
@@ -15,17 +15,12 @@
 
     <template #content>
 
-      <WarningBlock class="mt-2 mb-4 text-justify">
-        <span v-html="$t('views.user.baseData.email.information.requiresConfirmation')"/>
-      </WarningBlock>
-
-
       <EmailAddressInput v-model="emailAddress"
                          :violations="violations.emailAddress"
       />
 
 
-      <MediumButtonWithIcon :text="$t('views.user.baseData.personalData.form.submit.label')"
+      <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.emailAddress.form.submit.label')"
                             :is-mobile-full-width="true"
                             @button-click="save"
                             class="submit-button"
@@ -54,7 +49,6 @@ import SymfonyUserSettingRoutes from "@/router/SymfonyRoutes/User/Setting/Symfon
 import BaseApiResponse          from "@/scripts/Response/BaseApiResponse";
 import {ToastTypeEnum}          from "@/scripts/Libs/ToastNotification";
 
-import WarningBlock         from "@/components/Page/WarningBlock.vue";
 import EmailAddressInput    from "@/views/User/Settings/Views/BaseData/components/EmailAddress/EmailAddressInput.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import LineAwesome          from "@/components/Ui/Icons/LineAwesome.vue";
@@ -102,7 +96,6 @@ export default {
   components: {
     "la" : LineAwesome,
     Modal,
-    WarningBlock,
     EmailAddressInput,
     MediumButtonWithIcon
   },

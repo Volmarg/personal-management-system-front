@@ -1,6 +1,6 @@
 <template>
   <div class="modal-wrapper">
-    <Modal :title="$t('uploadDialog.header')"
+    <Modal :title="$t('generic.dialog.uploadDialog.header')"
            :is-visible="isVisible"
            @modal-closed="$emit('modalClosed')"
            :size="dialogSize"
