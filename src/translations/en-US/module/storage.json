@@ -3,12 +3,61 @@
         "page": {
             "addFiles": {
                 "header": "Upload files directly into storage module folder"
+            },
+            "manage": {
+                "header": "Management of uploaded data. Allows to rename folders, create new ones or copy / move data between directories in modules",
+                "tab": {
+                    "renameFolder": {
+                        "header": "Rename folder",
+                        "form": {
+                            "header": "Rename folder",
+                            "name": {
+                                "label": "New name"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
+                    },
+                    "createFolder": {
+                        "header": "Create folder",
+                        "form": {
+                            "header": "Create folder",
+                            "name": {
+                                "label": "Folder name"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
+                    },
+                    "copyData": {
+                        "header": "Copy data",
+                        "form": {
+                            "header": "Copy folder data",
+                            "text": {
+                                "from": {
+                                    "label": "From"
+                                },
+                                "to": {
+                                    "label": "To"
+                                }
+                            },
+                            "moveInsteadCopy": {
+                                "label": "Move folder instead of copying files"
+                            },
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
+                    }
+                }
             }
         },
         "modulePathsSelect": {
             "label": {
                 "modules": "Module",
-                "folderName": "Folder name"
+                "folderName": "Folder"
             }
         },
         "nav": {

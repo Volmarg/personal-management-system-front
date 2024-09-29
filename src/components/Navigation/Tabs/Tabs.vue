@@ -336,7 +336,7 @@ $content-selector: "~ .content > section";
     }
   }
 
-  @media all and(max-width: $phoneBreakingPoint + 'px') {
+  @media all and (max-width: $phoneBreakingPoint + 'px') {
     .tab-list-element {
       width: 100% !important;
     }

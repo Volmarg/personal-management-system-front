@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap flex-col">
-    <div class="w-11/12 self-center">
+    <div class="w-full self-center">
       <MultiSelect
           :label="$t('storage.modulePathsSelect.label.modules')"
           selected-label-source="selectedLabel"
@@ -16,6 +16,7 @@
           :allow-create-options="false"
           :can-clear="false"
           :required="true"
+          class="module-with-folder-select"
           ref="moduleSelect"
       />
 
@@ -34,7 +35,7 @@
           :allow-create-options="false"
           :can-clear="false"
           :required="true"
-          class="mt-4"
+          class="mt-4 module-with-folder-select"
           ref="folderSelect"
       />
     </div>
