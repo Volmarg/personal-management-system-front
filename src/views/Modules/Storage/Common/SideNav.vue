@@ -1,12 +1,14 @@
 <template>
-  <TransferFiles class="mb-76"
+  <TransferFiles class="mb-82"
                  :is-disabled="!isAnyFileSelected"
                  @click="isAnyFileSelected ? isMoveFilesModalVisible=true : null"
   />
-  <RemoveFiles class="mb-60"
+  <RemoveFiles class="mb-74"
                :is-disabled="!isAnyFileSelected"
                @click="isAnyFileSelected ? isRemoveModalVisible=true : null"
   />
+
+  <ToggleLock class="mb-48"/>
 
   <UploadFile class="mb-30"
               @click="isUploadModalVisible=true"
@@ -49,6 +51,7 @@ import RemoveModal    from "@/views/Modules/Storage/Common/Modal/RemoveModal.vue
 import SettingsModal  from "@/views/Modules/Storage/Common/Modal/SettingsModal.vue";
 import UploadDialog   from "@/components/Ui/Upload/Dialog/UploadDialog.vue";
 
+import ToggleLock    from "@/views/Modules/Storage/Common/SideNav/ToggleLock.vue";
 import AddFolder     from "@/views/Modules/Storage/Common/SideNav/AddFolder.vue";
 import UploadFile    from "@/views/Modules/Storage/Common/SideNav/UploadFile.vue";
 import Settings      from "@/views/Modules/Storage/Common/SideNav/Settings.vue";
@@ -79,6 +82,7 @@ export default {
     SettingsModal,
     UploadDialog,
     MoveFilesModal,
+    ToggleLock,
   },
   computed: {
     /**

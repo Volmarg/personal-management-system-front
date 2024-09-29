@@ -5,10 +5,6 @@
     </template>
 
     <template #children>
-      <SingleMenuElement :route-path="router.ROUTE_PATH_STORAGE_FILES_SETTINGS"
-                         :label="$t('navbar.rightSidebar.menu.files.children.settings.label')"
-                          @click="onMenuElementClick"
-      />
       <SingleMenuElement :route-path="routePath"
                          :label="$t('navbar.rightSidebar.menu.files.children.mainFolder.label')"
                           @click="onMenuElementClick"
@@ -31,9 +27,6 @@ export default {
     SingleMenuElement
   },
   computed: {
-    router(): VueRouterStorage {
-      return VueRouterStorage;
-    },
     routePath(): string {
       return VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER
           .replace(":path", encodeURIComponent("/"))

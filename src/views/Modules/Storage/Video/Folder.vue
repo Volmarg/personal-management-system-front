@@ -18,6 +18,7 @@ export default {
       dirsStructure: [
         {
           dirname: "Main folder",
+          isLocked: false,
           path: "/",
           files: [
             {
@@ -77,20 +78,24 @@ export default {
           children: [
             {
               dirname: "Folder 1",
+              isLocked: false,
               path: "/data/folder 1",
               children: [
                 {
                   dirname: "A",
+                  isLocked: true,
                   path: "/data/folder 1/a",
                   children: []
                 },
                 {
                   dirname: "B",
+                  isLocked: false,
                   path: "/data/folder 1/b",
                   children: []
                 },
                 {
                   dirname: "c",
+                  isLocked: false,
                   path: "/data/folder 1/c",
                   children: []
                 }
@@ -98,10 +103,12 @@ export default {
             },
             {
               dirname: "Folder 2",
+              isLocked: true,
               path: "/data/folder 1",
               children: [
                 {
                   dirname: "X",
+                  isLocked: true,
                   path: "/data/folder 2/x",
                   files: [
                     {
@@ -118,15 +125,18 @@ export default {
                 },
                 {
                   dirname: "Y",
+                  isLocked: true,
                   path: "/data/folder 2/y",
                   children: []
                 },
                 {
                   dirname: "Z",
+                  isLocked: true,
                   path: "/data/folder 2/z",
                   children: [
                     {
                       dirname: "Z1",
+                      isLocked: false,
                       path: "/data/folder 2/z/z1",
                       children: []
                     }

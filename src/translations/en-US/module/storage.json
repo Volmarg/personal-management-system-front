@@ -85,6 +85,10 @@
                 },
                 "move": {
                     "label": "Move files"
+                },
+                "lock": {
+                    "doLock": "Click to lock",
+                    "unlock": "Click to unlock"
                 }
             }
         },
