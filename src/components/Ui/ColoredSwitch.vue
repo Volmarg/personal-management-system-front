@@ -1,6 +1,8 @@
 <template>
   <div @click="toggleState()">
-    <div class="grid grid-rows-2 grid-cols-1 main-grid">
+    <div class="grid grid-rows-2 grid-cols-1 main-grid"
+         v-if="label"
+    >
 
       <div>
         <div class="text-sm">{{ label }}</div>
@@ -47,7 +49,7 @@ export default {
     }
   },
   emits: [
-    "update:modelValue"
+    "update:modelValue",
   ],
   props: {
     modelValue: {
@@ -55,7 +57,8 @@ export default {
     },
     label: {
       type     : String,
-      required : true,
+      required : false,
+      default  : null
     },
     handleColor: {
       type     : String,
@@ -85,7 +88,7 @@ export default {
      * @description will return used description
      */
     getDescription(): string {
-      return (this.isActive ? this.$t('coloredSwitch.on') : this.$t('coloredSwitch.off'));
+      return (this.isActive ? this.$t('generic.coloredSwitch.on.label') : this.$t('generic.coloredSwitch.off.label'));
     },
   },
   methods: {
@@ -103,12 +106,13 @@ export default {
   watch: {
     modelValue() {
       this.isActive = this.modelValue;
+      this.$emit('change', this.isActive);
     }
   }
 }
 </script>
 
-<style lang="scss" computed>
+<style lang="scss" scoped>
 .react-switch {
   position: relative;
   display: inline-block;

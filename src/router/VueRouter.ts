@@ -19,6 +19,7 @@ import VueRouterJob          from "@/router/Modules/VueRouterJob";
 import VueRouterReports      from "@/router/Modules/VueRouterReports";
 import VueRouterStorage      from "@/router/Modules/VueRouterStorage";
 import VueRouterAchievements from "@/router/Modules/VueRouterAchievements";
+import VueRouterSystem       from "@/router/VueRouterSystem";
 
 /**
  * @description provided the vue router based logic / data
@@ -34,6 +35,7 @@ export default class VueRouter
     static readonly ROUTE_NAME_404   = "404";
     static readonly ROUTE_NAME_MAINTENANCE = "Maintenance";
     static readonly ROUTE_NAME_USER_SETTINGS        = "UserSettings";
+    static readonly ROUTE_NAME_SYSTEM_SETTINGS      = "SystemSettings";
     static readonly ROUTE_NAME_REGISTER             = "Register";
     static readonly ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION = "UserProfilePasswordResetConfirmation";
     static readonly ROUTE_NAME_DEVELOPMENT_PLAYGROUND = "DevelopmentPlayground";
@@ -50,6 +52,7 @@ export default class VueRouter
     static readonly ROUTE_PATH_HOME         = "/panel/start";
     static readonly ROUTE_PATH_MAINTENANCE  = "/maintenance";
     static readonly ROUTE_PATH_USER_SETTINGS                            = "/panel/user/settings";
+    static readonly ROUTE_PATH_SYSTEM_SETTINGS                          = "/panel/system/settings";
     static readonly ROUTE_PATH_USER_PROFILE_PASSWORD_RESET_CONFIRMATION = "/user/profile-password-reset-confirmation/:token"
     static readonly ROUTE_PATH_DEVELOPMENT_PLAYGROUND                   = "/panel/development/playground"
 
@@ -101,6 +104,15 @@ export default class VueRouter
                     name: VueRouter.ROUTE_NAME_USER_SETTINGS,
                     component: (): Promise<Component> => import("@/views/User/Settings/Settings.vue"),
                     children: VueRouterUser.userRoutesConfiguration,
+                    meta: {
+                        requiredRole: SymfonyRolesAndRights.ROLE_USER,
+                    }
+                },
+                {
+                    path: VueRouter.ROUTE_PATH_SYSTEM_SETTINGS,
+                    name: VueRouter.ROUTE_NAME_SYSTEM_SETTINGS,
+                    component: (): Promise<Component> => import("@/views/System/Settings.vue"),
+                    children: VueRouterSystem.systemRoutesConfiguration,
                     meta: {
                         requiredRole: SymfonyRolesAndRights.ROLE_USER,
                     }

@@ -2,7 +2,7 @@
   <div>
     <li class="l1 single-menu-element w-full">
       <router-link  :to="{name: routeName, params: routeParams}"
-                    class="left-sidebar-item user-setting-nav-element"
+                    class="left-sidebar-item setting-nav-element"
                     :class="{
                       'active' : isActive,
                     }"
@@ -44,7 +44,7 @@ export default {
   ],
   computed: {
     /**
-     * @description check if the given user menu element is active or not
+     * @description check if the given menu element is active or not
      */
     isActive(): boolean {
       return (this.$route.name === this.routeName);
@@ -56,12 +56,12 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/scss/responsive.scss';
 
-.user-setting-nav-element {
+.setting-nav-element {
   width: 100% !important;
 }
 
 @media screen and (max-width: $tabletBreakingPointPx + 'px') {
-  .user-setting-nav-element {
+  .setting-nav-element {
     max-width: 100% !important;
     display: flex;
     justify-content: center;

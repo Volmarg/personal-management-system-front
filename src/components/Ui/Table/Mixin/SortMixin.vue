@@ -19,7 +19,7 @@ export default {
       let isSorted = false;
 
       // not supported for component based cols
-      if (this.visibleResults[0].isComponent) {
+      if (this.visibleResults[0][index].isComponent) {
         return;
       }
 

@@ -11,7 +11,11 @@
           <th v-for="(header, index) in headers"
               :key="index"
               class="font-bold uppercase cursor-pointer hover:opacity-80"
+              :class="{
+                'hidden': header.isVisible === false
+              }"
               @click="handleSort(header, index)"
+              :ref="`header${index}`"
           >
             {{ header.label }}
             <span v-if="header.label === activeSortColumn">
@@ -34,12 +38,29 @@
         <tr v-for="(rowData, rowIndex) in visibleResults"
             :key="rowIndex"
         >
+          <!-- if header is hidden the hiding the column too -->
           <td v-for="(cellData, cellIndex) in rowData"
               :key="cellIndex"
+              :class="{
+                'hidden': $refs[`header${cellIndex}`][0].classList.contains('hidden'),
+              }"
           >
+            <!-- emitting event seems not to be working here -->
             <component v-if="cellData.isComponent"
                        :is="cellData.value"
-                       v-bind="cellData.componentProps"
+                       v-bind.prop="cellData.componentProps"
+                       v-model="componentValues[`${cellData.uniqId}`]"
+                       :ref="`component${cellData.uniqId}`"
+                       @change="$emit('componentValueChange', {
+                         value: componentValues[`${cellData.uniqId}`],
+                         component: $refs[`component${cellData.uniqId}`] ?? null,
+                         header: $refs[`header${cellIndex}`] ?? null,
+                         cellData: cellData,
+                         rowData: rowData,
+                         cellNumber: cellIndex,
+                         rowNumber: rowData.realRowId,
+                         tableId: id,
+                       })"
             />
             <span v-else>
               {{ cellData.value }}
@@ -82,12 +103,18 @@ export default {
   name: "SimpleTable",
   data(): ComponentData {
     return {
+      componentValues: {},
       searchValue: null,
       currentPage: 1,
       visibleResults: [],
     }
   },
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
     canSearch: {
       type: Boolean,
       required: false,
@@ -102,14 +129,16 @@ export default {
      * @example
      * [
      *    {
-     *      label                   : "Job name",
-     *      dataValuePath       : "title.value",
-     *      dataIsComponentPath : "title.isComponent",
+     *      label               : "Job name",          > required
+     *      isVisible           : false,               > optional
+     *      dataValuePath       : "title.value",       > required
+     *      dataIsComponentPath : "title.isComponent", > required
      *    },
      *    {
-     *      label                   : "Status",
-     *      dataValuePath       : "icon.value",
-     *      dataIsComponentPath : "icon.isComponent",
+     *      label               : "Status",           > required
+     *      isVisible           : true,               > optional
+     *      dataValuePath       : "icon.value",       > required
+     *      dataIsComponentPath : "icon.isComponent", > required
      * ]
      */
     headers: {
@@ -163,13 +192,14 @@ export default {
      * [{
      *    values : {
      *      title : {
-     *        value       : offerData.jobOffer.details.title,
-     *        isComponent : false,
+     *        value       : offerData.jobOffer.details.title, > required
+     *        isComponent : false,                            > required
+     *        isVisible   : false                             > optional
      *       },
      *      icon  : {
-     *        value          : "Checkmark",
-     *        isComponent    : true,
-     *        componentProps : {}
+     *        value          : "Checkmark",                   > required
+     *        isComponent    : true,                          > required
+     *        componentProps : {}                             > optional
      *      },
      *     },
      *}]
@@ -244,6 +274,9 @@ export default {
   mixins: [
     SortMixin,
   ],
+  emits: [
+    'componentValueChange'
+  ],
   computed: {
     /**
      * @description will return table rows data
@@ -251,10 +284,12 @@ export default {
      */
     rowsData(): Array<Array<Record<string, unknown>>> {
       let rowsData = [] as Array<Array<Record<string, unknown>>>;
-      for (let element of this.data) {
+      for (let rowId in this.data) {
+        let element = this.data[rowId];
 
         let rowData = [] as Array<Record<string, unknown>>;
-        for (let header of this.headers) {
+        for (let colId in this.headers) {
+          let header = this.headers[colId];
           let keys = [
               header.dataValuePath,
               header.dataIsComponentPath,
@@ -266,6 +301,8 @@ export default {
           let componentProps = resolvedValues[header.dataComponentPropertiesPath] ?? null;
 
           rowData.push({
+            uniqId         : `idx${rowId}${colId}`,
+            fieldName      : header.label,
             value          : value,
             isComponent    : isComponent,
             componentProps : componentProps

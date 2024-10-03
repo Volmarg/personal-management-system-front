@@ -17,7 +17,7 @@ export default class StringTypeProcessor {
                 valueToCheck === true
             ||  valueToCheck === false
         ){
-            return valueToCheck;
+            return !valueToCheck;
         }
 
         if(

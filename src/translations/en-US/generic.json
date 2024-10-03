@@ -1,5 +1,13 @@
 {
     "generic": {
+        "coloredSwitch": {
+            "on": {
+                "label": "On"
+            },
+            "off": {
+                "label": "Off"
+            }
+        },
         "chart": {
             "resetButton": {
                 "label": "Reset zoom"

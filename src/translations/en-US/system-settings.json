@@ -1,0 +1,76 @@
+{
+    "systemSettings": {
+        "tab": {
+            "dashboard": {
+                "label": "Dashboard",
+                "widgetHeader": "Widget visibility",
+                "table": {
+                    "headers": {
+                        "name": {
+                            "label": "Name"
+                        },
+                        "displayWidget": {
+                            "label": "Status"
+                        }
+                    }
+                },
+                "widgetToName": {
+                    "schedules":  "Schedules",
+                    "goalsProgress": "Goals progress",
+                    "goalsPayments":  "Goals payments",
+                    "pendingIssues": "Pending issues"
+                }
+            },
+            "finances": {
+                "label": "Finances",
+                "currencies": {
+                    "header": "Currencies",
+                    "form": {
+                        "header": "Add currency",
+                        "name": {
+                            "label": "Name",
+                            "about": "Name of the currency"
+                        },
+                        "symbol": {
+                            "label": "Symbol",
+                            "about": "Symbol that should be displayed for records"
+                        },
+                        "multiplier": {
+                            "label": "Multiplier",
+                            "about": "Currency multiplier ratio toward the default"
+                        },
+                        "isDefault": {
+                            "label": "Is default",
+                            "state": {
+                                "0": "No",
+                                "1": "Yes"
+                            }
+                        },
+                        "submit": {
+                            "label": "Submit"
+                        }
+                    },
+                    "table": {
+                        "headers": {
+                            "name": {
+                                "label": "Name"
+                            },
+                            "symbol": {
+                                "label": "Symbol"
+                            },
+                            "multiplier": {
+                                "label": "Multiplier"
+                            },
+                            "isDefault": {
+                                "label": "is default"
+                            },
+                            "actions": {
+                                "label": "Actions"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

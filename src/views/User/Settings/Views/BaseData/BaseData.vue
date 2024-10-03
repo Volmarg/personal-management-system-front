@@ -8,7 +8,7 @@
       <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.personalData.label')"
                             :is-icon-on-top="true"
                             @click="isEditPersonalDataDialogVisible = true"
-                            button-classes="user-settings-view-button"
+                            button-classes="settings-view-button"
       >
         <template #icon>
           <fa icon="user" />
@@ -19,7 +19,7 @@
       <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.profileImage.label')"
                             :is-icon-on-top="true"
                             @click="isProfileImageModalVisible = true"
-                            button-classes="user-settings-view-button"
+                            button-classes="settings-view-button"
       >
         <template #icon>
           <la color="white"
@@ -32,7 +32,7 @@
       <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.emailAddress.label')"
                             :is-icon-on-top="true"
                             @click="isEmailAddressDialogVisible = true"
-                            button-classes="user-settings-view-button"
+                            button-classes="settings-view-button"
       >
         <template #icon>
           <la color="white"

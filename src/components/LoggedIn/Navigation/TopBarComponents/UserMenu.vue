@@ -66,7 +66,7 @@
 
               <!-- Settings -->
               <single-menu-element :label="$t('navbar.topBar.userMenu.settings.label')"
-                                   :to-path="routePaths.userSettings"
+                                   :to-path="routePaths.systemSettings"
               >
                 <template #icon>
                   <la svg-icon-name="cog-solid"
@@ -80,6 +80,7 @@
               <single-menu-element :label="$t('navbar.topBar.userMenu.logout.label')"
                                    :to-path="routePaths.none"
                                    @click="handleLogout()"
+                                   class="logout"
               >
                   <template #icon>
                     <la svg-icon-name="sign-out-alt-solid"
@@ -132,8 +133,9 @@ export default {
       dummyAvatarFilePath : '/image/system/dummy-avatar.png',
       avatarFilePath      : null,
       routePaths: {
-        none         : VueRouter.ROUTE_PATH_NONE,
-        userSettings : VueRouter.ROUTE_PATH_USER_SETTINGS,
+        none           : VueRouter.ROUTE_PATH_NONE,
+        userSettings   : VueRouter.ROUTE_PATH_USER_SETTINGS,
+        systemSettings : VueRouter.ROUTE_PATH_SYSTEM_SETTINGS,
       }
     }
   },
@@ -245,5 +247,12 @@ export default {
   cursor: default;
   pointer-events: none;
   touch-action: none;
+}
+
+.logout * {
+  $logoutColor: rgb(17, 24, 39);
+  color: $logoutColor !important;
+  fill: $logoutColor !important;
+  font-weight: 600;
 }
 </style>

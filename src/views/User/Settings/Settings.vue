@@ -1,64 +1,36 @@
 <template>
-  <Container class="lg:grid lg:grid-rows-1 lg:grid-cols-2 user-settings-grid">
-
-    <!-- nav -->
-    <div class="nav-section">
+  <SettingsBase>
+    <template #nav>
       <SettingsNavigation />
-    </div>
+    </template>
 
-    <!-- page content -->
-    <div>
-      <h1 class="h1-blue text-xl flex-row justify-center">
-        <span v-if="$route.name === vueRouterUser.ROUTE_NAME_USER_SECURITY">{{ $t('userSettings.tab.security.header') }}</span>
-        <span v-else-if="$route.name === vueRouterUser.ROUTE_NAME_USER_BASE_DATA">{{ $t('userSettings.tab.baseData.header') }}</span>
-      </h1>
-      <hr class="mt-2 mb-2"/>
-      <router-view @profile-image-changed="$emit('profileImageChanged')"></router-view>
-    </div>
+    <template #tabHeader>
+      <span v-if="$route.name === router.ROUTE_NAME_USER_SECURITY">{{ $t('userSettings.tab.security.header') }}</span>
+      <span v-else-if="$route.name === router.ROUTE_NAME_USER_BASE_DATA">{{ $t('userSettings.tab.baseData.header') }}</span>
+    </template>
 
-  </Container>
+    <template #routerView>
+      <router-view v-bind="$attrs"></router-view>
+    </template>
+  </SettingsBase>
 </template>
 
 <script lang="ts">
-import Container          from "@/components/Ui/Containers/Container.vue";
+import SettingsBase       from "@/components/Ui/Settings/SettingsBase.vue";
 import SettingsNavigation from "@/views/User/Settings/Navigation/SettingsNavigation.vue";
 
 import VueRouterUser from "@/router/VueRouterUser";
 
+
 export default {
   computed: {
-    vueRouterUser(): VueRouterUser {
+    router(): VueRouterUser {
       return VueRouterUser
     }
   },
-  emits: [
-    'profileImageChanged'
-  ],
   components: {
     SettingsNavigation,
-    Container,
+    SettingsBase,
   }
 }
 </script>
-
-<style lang="scss">
-@import '@/assets/scss/responsive.scss';
-
-.user-settings-grid {
-  grid-template-columns: 300px 1fr;
-}
-
-@media screen and (max-width: $tabletBreakingPointPx + 'px') {
-  .user-settings-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .user-settings-view-button {
-    @apply mb-2 w-full
-  }
-}
-
-.user-settings-buttons-row {
-  @apply flex flex-col items-center justify-between
-}
-</style>

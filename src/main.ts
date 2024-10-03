@@ -31,6 +31,7 @@ import UnicodeArrow              from "@/components/Ui/Icons/UnicodeArrow.vue";
 import FontawesomeComponent      from "@/components/Libs/Fontawesome.vue";
 import LineAwesomeComponent      from "@/components/Ui/Icons/LineAwesome.vue";
 import TransitionedComponent     from "@/components/Global/TransitionedComponent.vue";
+import QuestionMarkAbout         from "@/components/Ui/QuestionMarkAbout.vue";
 
 const pinia = createPinia();
 
@@ -91,6 +92,7 @@ async function startApplication(): Promise<void> {
         .component('fa', FontawesomeComponent)
         .component('la', LineAwesomeComponent)
         .component('ua', UnicodeArrow)
+        .component('About', QuestionMarkAbout)
         .component('transitioned-component', TransitionedComponent);
 
         if (!EnvReader.isDev()) {

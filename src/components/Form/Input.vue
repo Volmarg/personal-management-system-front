@@ -5,9 +5,9 @@
     <div v-if="isLabelInside">
       <div class="w-full flex flex-row">
 
-        <question-mark :text="questionMarkText"
-                       class="align-self-center"
-                       v-if="isQuestionMarkTextSet"
+        <about :text="questionMarkText"
+                class="align-self-center"
+                v-if="isQuestionMarkTextSet"
         />
 
         <div class="floating-input relative w-full">
@@ -92,7 +92,6 @@
 <script lang="ts">
 import AsteriskRequired  from "@/components/Form/AsteriskRequired.vue";
 import InputViolations   from "@/components/Form/InputViolations.vue";
-import QuestionMarkAbout from "@/components/Ui/QuestionMarkAbout.vue";
 
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
@@ -184,7 +183,6 @@ export default {
     }
   },
   components: {
-    "question-mark"     : QuestionMarkAbout,
     "asterisk-required" : AsteriskRequired,
     "input-violations"  : InputViolations,
   },
