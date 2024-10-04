@@ -1,12 +1,15 @@
 <template>
   <div
-      class="flex-none"
+      class="flex-none medium-button-with-icon-wrapper"
       :class="{
         ...topWrapperClasses,
         'w-full sm:w-auto': isMobileFullWidth,
       }"
   >
-    <button class="font-bold text-white px-5 py-3 transition duration-300 ease-in-out flex"
+    <div v-click-away="onMenuAwayClick">
+      <slot name="menu"></slot>
+    </div>
+    <button class="font-bold text-white px-5 py-3 transition duration-300 ease-in-out flex medium-button-with-icon"
             @click="$emit('buttonClick')"
             :class="{
               'rounded-lg': defaultRounded,
@@ -98,7 +101,8 @@ export default {
     }
   },
   emits: [
-    'buttonClick' // since click will be coming from top wrapper element (which is not button element)
+    'buttonClick', // since click will be coming from top wrapper element (which is not button element)
+    'menuClose',
   ],
   computed: {
     /**
@@ -107,6 +111,39 @@ export default {
     buttonMarginRightClass(): string {
       return `mr-${this.marginRightClassNumber}`;
     }
+  },
+  methods: {
+    /**
+     * @description check if given element is the button itself
+     */
+    isButtonItself(domElement: HTMLElement): boolean {
+      return domElement.classList.contains('medium-button-with-icon');
+    },
+    /**
+     * @description when user clicks away from opened menu then hide it, but prevent
+     *              hiding when user clicks on any element that is a part of the button
+     */
+    onMenuAwayClick(event: PointerEvent): void {
+      let domElement = event.target as HTMLElement;
+
+      if (this.isButtonItself(domElement)) {
+        return
+      }
+
+      if ("span" === domElement.nodeName.toLowerCase() && this.isButtonItself(domElement.parentElement)) {
+        return
+      }
+
+      if ("svg" === domElement.nodeName.toLowerCase() && this.isButtonItself(domElement.parentElement.parentElement)) {
+        return
+      }
+
+      if ("path" === domElement.nodeName.toLowerCase() && this.isButtonItself(domElement.parentElement.parentElement.parentElement)) {
+        return
+      }
+
+      this.$emit('menuClose');
+    },
   }
 }
 </script>

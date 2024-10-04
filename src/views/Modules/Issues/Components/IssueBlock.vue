@@ -10,11 +10,10 @@
         <div class="relative">
           <Hamburger @click="onHamburgerClick"/>
           <Menu :is-menu-open="isMenuOpen"
-                v-click-away="onMenuAwayClick"
-                @add-records-click="isAddRecordModalVisible = true"
-                @handle-related-todo-click="isHandleTodoModalVisible = true"
-                @view-edit-click="isViewEditModalVisible = true"
-                @removed-click="isRemoveModalVisible = true"
+                @add-records-click="isAddRecordModalVisible = true; isMenuOpen = false;"
+                @handle-related-todo-click="isHandleTodoModalVisible = true; isMenuOpen = false;"
+                @view-edit-click="isViewEditModalVisible = true; isMenuOpen = false;"
+                @removed-click="isRemoveModalVisible = true; isMenuOpen = false;"
           />
         </div>
       </div>
@@ -191,17 +190,6 @@ export default {
      */
     todoElementAddClicked(): void {
       //
-    },
-    /**
-     * @description when user clicks away from opened menu then hide it
-     */
-    onMenuAwayClick(event: PointerEvent): void {
-      // Clicked on hamburger related element, prevent instantly closing
-      if (["svg", "button"].includes(event.target.nodeName.toLowerCase())) {
-        return
-      }
-
-      this.isMenuOpen = false
     },
     /**
      * @description handle user clicking on Add issue contact:

@@ -1,35 +1,23 @@
 <template>
-  <div class="dropdown absolute top-0 right-0 mt-8 calendar-view-menu"
-       :class="{
-          'open': isMenuOpen
-       }"
+  <OnClickSmallMenu :is-menu-open="isMenuOpen"
+                    @menu-close="$emit('menuClose')"
   >
-    <div class="dropdown-content w-48 bottom-start"
-    >
-      <div class="flex flex-col w-full">
-        <ul class="list-none">
-          <li>
-            <a class="menu-element"
-               @click.prevent="$emit('monthClick')"
-            >{{$t('calendar.navbar.view.menu.month.label')}}</a>
-          </li>
-          <li>
-            <a class="menu-element"
-               @click.prevent="$emit('weekClick')"
-            >{{$t('calendar.navbar.view.menu.week.label')}}</a>
-          </li>
-          <li>
-            <a class="menu-element"
-               @click.prevent="$emit('dayClick')"
-            >{{$t('calendar.navbar.view.menu.day.label')}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+    <Element>
+      <a @click.prevent="$emit('monthClick')">{{$t('calendar.navbar.view.menu.month.label')}}</a>
+    </Element>
+    <Element>
+      <a @click.prevent="$emit('weekClick')">{{$t('calendar.navbar.view.menu.week.label')}}</a>
+    </Element>
+    <Element>
+      <a @click.prevent="$emit('dayClick')" >{{$t('calendar.navbar.view.menu.day.label')}}</a>
+    </Element>
+  </OnClickSmallMenu>
 </template>
 
 <script lang="ts">
+import OnClickSmallMenu from "@/components/Ui/Navigation/OnClickSmallMenu.vue";
+import Element          from "@/components/Ui/Navigation/OnClickSmallMenu/Element.vue";
+
 export default {
   props: {
     isMenuOpen: {
@@ -41,7 +29,12 @@ export default {
     "monthClick",
     "weekClick",
     "dayClick",
-  ]
+    'menuClose'
+  ],
+  components: {
+    OnClickSmallMenu,
+    Element
+  }
 }
 </script>
 

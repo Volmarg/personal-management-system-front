@@ -1,5 +1,5 @@
 import {createRouter, createWebHashHistory, Router, RouteRecordRaw} from 'vue-router'
-import Dashboard                                                    from '@/views/Dashboard.vue';
+import Dashboard                                                    from '@/views/Dashboard/Dashboard.vue';
 import VueRouterGuards                                              from "@/router/VueRouterGuards";
 import SymfonyRolesAndRights                                        from "@/scripts/Core/Security/SymfonyRolesAndRights";
 import VueRouterUser                                                from "@/router/VueRouterUser";

@@ -7,6 +7,11 @@ import UserController      from "@/scripts/Core/Controller/UserController";
 export default class LocalStorageService {
 
     /**
+     * @description dashboard widget size
+     */
+    static readonly DASHBOARD_WIDGET_SIZE = "conf.dashboard.widgetSize";
+
+    /**
      * @description JWT authentication token
      */
     static readonly AUTHENTICATION_TOKEN = "token";

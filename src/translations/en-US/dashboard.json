@@ -1,0 +1,14 @@
+{
+    "dashboard": {
+        "config": {
+            "button": {
+                "widgetSize": {
+                    "label": "Widget size",
+                    "text": {
+                        "full": "Full"
+                    }
+                }
+            }
+        }
+    }
+}
