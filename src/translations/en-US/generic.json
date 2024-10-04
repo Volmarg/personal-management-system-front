@@ -1,5 +1,13 @@
 {
     "generic": {
+        "state": {
+            "isForDashboard": {
+                "hover": {
+                    "notDisplayed": "This box is not visible on the dashboard",
+                    "displayed": "This box is visible on the dashboard"
+                }
+            }
+        },
         "coloredSwitch": {
             "on": {
                 "label": "On"

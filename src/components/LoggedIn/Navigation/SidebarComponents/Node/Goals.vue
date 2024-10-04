@@ -13,10 +13,6 @@
                          :label="$t('navbar.rightSidebar.menu.goals.children.payments.label')"
                           @click="onMenuElementClick"
       />
-      <SingleMenuElement :route-path="router.ROUTE_PATH_GOALS_SETTINGS"
-                         :label="$t('navbar.rightSidebar.menu.goals.children.settings.label')"
-                          @click="onMenuElementClick"
-      />
     </template>
   </SingleDropdownMenuElement>
 </template>

@@ -6,18 +6,23 @@
     <div class="dashboard-big-block"
          v-for="idx in bigBlocks"
          :key="idx"
-         :class="{
-           [`w-full md:w-1/${conf.widgetSize}`]: true
-         }"
+         :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
     >
-    <BigDataDisplayBlock label="test">
+    <BigDataDisplayBlock header="test">
       test
     </BigDataDisplayBlock>
+    </div>
+
+    <div class="dashboard-big-block"
+         :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+    >
+      <GoalsPayments />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import GoalsPayments       from "@/views/Dashboard/Components/Widget/GoalsPayments.vue";
 import TopBar              from "@/views/Dashboard/Components/TopBar.vue";
 import BigDataDisplayBlock from "@/views/Dashboard/Components/BigDataDisplayBlock.vue";
 
@@ -35,6 +40,7 @@ export default {
   },
   components: {
     BigDataDisplayBlock,
+    GoalsPayments,
     TopBar
   },
   created(): void {

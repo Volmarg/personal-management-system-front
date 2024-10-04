@@ -1,0 +1,77 @@
+{
+    "goals": {
+        "payments": {
+            "description": "Payments goals - contains information about the goal, target amount, gathered cash, and deadline date.",
+            "block": {
+                "text": {
+                    "start": "Start",
+                    "end": "End",
+                    "elapsed": "Time elapsed: ({left} day/s left)",
+                    "collected": "Founds collected: ({left} left)"
+                }
+            },
+            "tab": {
+                "list": {
+                    "header": "List"
+                },
+                "manage": {
+                    "header": "Manage",
+                    "table": {
+                        "header": {
+                            "name": {
+                                "label": "Name"
+                            },
+                            "start": {
+                                "label": "Start"
+                            },
+                            "end": {
+                                "label": "End"
+                            },
+                            "goal": {
+                                "label": "Money goal"
+                            },
+                            "collected": {
+                                "label": "Money collected"
+                            },
+                            "showOnDashboard": {
+                                "label": "Show on dashboard",
+                                "state": {
+                                    "1": {
+                                        "label": "Yes"
+                                    },
+                                    "0": {
+                                        "label": "No"
+                                    }
+                                }
+                            },
+                            "actions": {
+                                "label": "Actions"
+                            }
+                        }
+                    }
+                }
+            },
+            "form": {
+                "header": "Add entry",
+                "name": {
+                    "label": "Name"
+                },
+                "start": {
+                    "label": "Start"
+                },
+                "end": {
+                    "label": "End"
+                },
+                "goal": {
+                    "label": "Money goal"
+                },
+                "collected": {
+                    "label": "Money collected"
+                },
+                "showOnDashboard": {
+                    "label": "Show on dashboard"
+                }
+            }
+        }
+    }
+}

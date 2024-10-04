@@ -12,9 +12,6 @@ export default class VueRouterGoals {
     static readonly ROUTE_NAME_GOALS_PAYMENTS  = VueRouterGoals.ROUTE_GROUP + "Payments";
     static readonly ROUTE_PATH_GOALS_PAYMENTS  = VueRouterGoals.ROUTE_PREFIX + "/payments";
 
-    static readonly ROUTE_NAME_GOALS_SETTINGS  = VueRouterGoals.ROUTE_GROUP + "Settings";
-    static readonly ROUTE_PATH_GOALS_SETTINGS  = VueRouterGoals.ROUTE_PREFIX + "/settings";
-
     public static readonly routesConfiguration: Array<RouteRecordRaw> = [
         {
             path: VueRouterGoals.ROUTE_PATH_GOALS_LIST,
@@ -25,11 +22,6 @@ export default class VueRouterGoals {
             path: VueRouterGoals.ROUTE_PATH_GOALS_PAYMENTS,
             name: VueRouterGoals.ROUTE_NAME_GOALS_PAYMENTS,
             component: (): Promise<Component> => import("@/views/Modules/Goals/Payments.vue"),
-        },
-        {
-            path: VueRouterGoals.ROUTE_PATH_GOALS_SETTINGS,
-            name: VueRouterGoals.ROUTE_NAME_GOALS_SETTINGS,
-            component: (): Promise<Component> => import("@/views/Modules/Goals/Settings.vue"),
         },
     ]
 

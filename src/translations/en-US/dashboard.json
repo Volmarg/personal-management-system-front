@@ -1,5 +1,10 @@
 {
     "dashboard": {
+        "widget": {
+            "goalPayments": {
+                "header": "Goals payments"
+            }
+        },
         "config": {
             "button": {
                 "widgetSize": {

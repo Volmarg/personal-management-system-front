@@ -46,9 +46,6 @@
                         },
                         "payments": {
                             "label": "Payments"
-                        },
-                        "settings": {
-                            "label": "Settings"
                         }
                     }
                 },

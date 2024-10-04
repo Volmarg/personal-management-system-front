@@ -1,19 +1,11 @@
 <template>
   <div class="box-bottom">
-    <div class="dashboard-state">
-      <la svg-icon-name="home-solid"
-          :color="dashboardStateColor"
-          v-tippy="{
-            content: dashboardStateText
-          }"
-      />
-    </div>
+    <IsOnDashboardState :is-for-dashboard="isForDashboard"/>
   </div>
 </template>
 
 <script lang="ts">
-import Colors          from "@/scripts/Vue/Mixins/Colors.vue";
-
+import IsOnDashboardState from "@/components/Ui/State/IsOnDashboardState.vue";
 export default {
   props: {
     isForDashboard: {
@@ -21,24 +13,8 @@ export default {
       required: true,
     }
   },
-  mixins: [
-    Colors
-  ],
-  computed: {
-    /**
-     * @description decide color of dashboard state icon
-     */
-    dashboardStateColor(): string {
-      return this.isForDashboard ? this.color.green : this.color.red;
-    },
-    /**
-     * @description decide text on dashboard state hover
-     */
-    dashboardStateText(): string {
-      return this.isForDashboard
-          ? this.$t('issues.pending.box.dashboard.hover.displayed')
-          : this.$t('issues.pending.box.dashboard.hover.notDisplayed');
-    }
+  components: {
+    IsOnDashboardState
   },
 }
 </script>
@@ -46,9 +22,5 @@ export default {
 <style lang="scss" scoped>
 .box-bottom {
   @apply flex flex-col
-}
-
-.dashboard-state {
-  @apply self-center
 }
 </style>
