@@ -42,6 +42,8 @@
               <!-- Profile -->
               <single-menu-element :label="$t('navbar.topBar.userMenu.profile.label')"
                                    :to-path="routePaths.userSettings"
+                                   @click="hideUserMenu"
+                                   v-tippy="$t('navbar.topBar.userMenu.profile.description')"
               >
                 <template #icon>
                   <la svg-icon-name="user-solid"
@@ -52,14 +54,19 @@
               </single-menu-element>
 
               <!-- Lock -->
-              <single-menu-element :label="$t('navbar.topBar.userMenu.lock.state.locked.label')"
-                                   :to-path="routePaths.userSettings"
+              <single-menu-element :label="$t(`navbar.topBar.userMenu.lock.state.${isSystemLocked ? 'locked' : 'unlocked'}.label`)"
+                                   :is-link-based="false"
+                                   v-tippy="$t('navbar.topBar.userMenu.lock.description')"
+                                   @click="handleSystemLock"
+                                   :label-classes="{
+                                     [isSystemLocked ? 'text-red-500' : 'text-green-500'] : true
+                                   }"
               >
                 <template #icon>
-<!--                  <la svg-icon-name="unlock-solid" />-->
-                  <la svg-icon-name="lock-solid"
+                  <la :svg-icon-name="isSystemLocked ? 'lock-solid' : 'unlock-solid'"
                       font-size="24"
                       class="mt-3"
+                      :color="isSystemLocked ? color.red : color.green"
                   />
                 </template>
               </single-menu-element>
@@ -67,6 +74,8 @@
               <!-- Settings -->
               <single-menu-element :label="$t('navbar.topBar.userMenu.settings.label')"
                                    :to-path="routePaths.systemSettings"
+                                   v-tippy="$t('navbar.topBar.userMenu.settings.description')"
+                                   @click="hideUserMenu"
               >
                 <template #icon>
                   <la svg-icon-name="cog-solid"
@@ -79,7 +88,8 @@
               <!-- Logout -->
               <single-menu-element :label="$t('navbar.topBar.userMenu.logout.label')"
                                    :to-path="routePaths.none"
-                                   @click="handleLogout()"
+                                   v-tippy="$t('navbar.topBar.userMenu.logout.description')"
+                                   @click="handleLogout();hideUserMenu"
                                    class="logout"
               >
                   <template #icon>
@@ -90,7 +100,19 @@
                   </template>
               </single-menu-element>
 
-
+              <!-- About -->
+              <single-menu-element :label="$t(`navbar.topBar.userMenu.about.label`)"
+                                   :is-link-based="false"
+                                   @click="goToDocs"
+                                   v-tippy="$t('navbar.topBar.userMenu.about.description')"
+              >
+                <template #icon>
+                  <la svg-icon-name="question-circle-solid"
+                      font-size="24"
+                      class="mt-3"
+                  />
+                </template>
+              </single-menu-element>
 
             </ul>
           </div>
@@ -98,13 +120,18 @@
       </div>
 
     </div>
-
   </div>
+  <LockModal :is-modal-visible="isLockModalVisible"
+             @modal-closed="isLockModalVisible=false"
+  />
 </template>
 
 <script lang="ts">
+import LockModal         from "@/components/LoggedIn/Navigation/TopBarComponents/UserMenuComponents/LockModal.vue";
 import SingleMenuElement from "@/components/LoggedIn/Navigation/TopBarComponents/UserMenuComponents/SingleMenuElement.vue";
 import DeveloperSidebar  from "@/components/Development/Sidebar/DeveloperSidebar.vue";
+
+import Colors from "@/scripts/Vue/Mixins/Colors.vue";
 
 import VueRouter       from "@/router/VueRouter";
 import UserController  from "@/scripts/Core/Controller/UserController";
@@ -113,8 +140,8 @@ import JwtTokenHandler from "@/scripts/Core/Security/JwtTokenHandler";
 import {shallowRef}    from "vue";
 
 import {RightSidebarComponentData} from "@/scripts/Vue/Types/Components/Sidebar";
-import EnvReader from "@/scripts/Core/System/EnvReader";
-import PublicFolderService from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
+import EnvReader                   from "@/scripts/Core/System/EnvReader";
+import PublicFolderService         from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
 
 export default {
   name: "UserMenu",
@@ -132,6 +159,9 @@ export default {
       isDeveloper         : false,
       dummyAvatarFilePath : '/image/system/dummy-avatar.png',
       avatarFilePath      : null,
+      docsUrl             : 'https://volmarg.github.io/',
+      isLockModalVisible  : false,
+      isSystemLocked      : true,
       routePaths: {
         none           : VueRouter.ROUTE_PATH_NONE,
         userSettings   : VueRouter.ROUTE_PATH_USER_SETTINGS,
@@ -145,7 +175,11 @@ export default {
   ],
   components: {
     "single-menu-element" : SingleMenuElement,
+    LockModal,
   },
+  mixins: [
+    Colors
+  ],
   computed: {
     /**
      * @description return currently logged in username
@@ -229,6 +263,25 @@ export default {
       this.$nextTick(() => {
         this.$emit("toggleRightSidebar", {isSidebarVisible: true});
       })
+    },
+    /**
+     * @description if system is locked then shows unlock dialog, else locks system back
+     */
+    handleSystemLock(): void {
+      this.hideUserMenu();
+
+      if (this.isSystemLocked) {
+        this.isLockModalVisible = true;
+        return;
+      }
+
+      // todo: lock back
+    },
+    /**
+     * @description open docs page in new tab
+     */
+    goToDocs(): void {
+      window.open(this.docsUrl, '_blank').focus();
     }
   },
   created(): void {

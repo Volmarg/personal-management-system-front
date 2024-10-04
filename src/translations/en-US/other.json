@@ -1,0 +1,15 @@
+{
+    "other": {
+        "lockModal": {
+            "header": "Unlock system",
+            "form": {
+                "lock": {
+                    "label": "Lock password"
+                },
+                "submit": {
+                    "label": "Submit"
+                }
+            }
+        }
+    }
+}

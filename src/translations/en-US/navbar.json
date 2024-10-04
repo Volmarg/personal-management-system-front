@@ -3,20 +3,31 @@
         "topBar": {
             "userMenu": {
                 "profile": {
+                    "description": "Profile settings - password, avatar, nick etc.",
                     "label": "Profile"
                 },
                 "settings": {
+                    "description": "System settings - for example dashboard widgets.",
                     "label": "Settings"
                 },
                 "lock": {
+                    "description": "Special second layer password. Unlocks the hidden entries, allows to show them back. See <b>Notes</b> module.",
                     "state": {
                         "locked": {
                             "label": "Locked"
+                        },
+                        "unlocked": {
+                            "label": "Unlocked"
                         }
                     }
                 },
                 "logout": {
+                    "description": "Bye Bye!",
                     "label": "Logout"
+                },
+                "about": {
+                    "description": "You will be moved to the external page with guide related to this project.",
+                    "label": "About"
                 }
             },
             "timer": {
