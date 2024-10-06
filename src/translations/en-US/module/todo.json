@@ -1,0 +1,86 @@
+{
+    "todo": {
+        "description": "Each of the todo has manageable sub-elements and can also be related to some of the allowed modules. Upon implementing special functionality the todo data can be accessed also in related module, like it's for example solved for the issues module. This logic is also partially shared with the Goals List submodule.",
+        "common": {
+            "todoList": {
+                "state": {
+                    "notDone": "Not done",
+                    "done": "Done"
+                }
+            },
+            "singleTodoHover": {
+                "text": "<b>Name: </b>{name}<br><b>Description: </b>{description}<br><br>Click to view and edit"
+            },
+            "editModal": {
+                "text": {
+                    "close":  "Close",
+                    "delete": "Delete",
+                    "save": "Save",
+                    "edit": "Edit",
+                    "stopEdit": "Stop editing",
+                    "tab": {
+                        "todoList": {
+                            "label": "Elements list"
+                        },
+                        "edit": {
+                            "label": "Edit todo"
+                        }
+                    }
+                }
+            },
+            "form": {
+                "moduleSelect": {
+                    "text": {
+                        "module": "Module",
+                        "record": "Module record",
+                        "modules": {
+                            "goals": "Goals",
+                            "issues": "Issues"
+                        }
+                    }
+                },
+                "newTodoElement": {
+                    "header": "Add new todo element",
+                    "name": {
+                        "label": "Name"
+                    },
+                    "submit": {
+                        "label": "Add"
+                    }
+                },
+                "createEditTodo": {
+                    "header": {
+                        "edit": "Edit todo",
+                        "new": "Add new todo"
+                    },
+                    "name": {
+                        "label": "Name"
+                    },
+                    "description": {
+                        "label": "Description"
+                    },
+                    "module": {
+                        "label": "Module"
+                    },
+                    "showOnDashboard": {
+                        "label": "Show on dashboard"
+                    },
+                    "submit": {
+                        "label": "Submit"
+                    }
+                }
+            }
+        },
+        "tab": {
+            "todo": {
+                "header": "Todo"
+            },
+            "goals": {
+                "header": "Goals"
+            },
+            "issues": {
+                "header": "Issues"
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 <script lang="ts">
 
 import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
+
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {

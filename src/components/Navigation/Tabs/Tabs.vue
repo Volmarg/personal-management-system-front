@@ -7,7 +7,7 @@
             :key="index"
             :id="getNameForTab(tabWithContent)"
             type="radio"
-            name="tab-control"
+            :name="`tab-control${id}`"
     >
 
     <!-- Tabs themself -->
@@ -38,6 +38,7 @@
         <component v-if="isComponentSet(tabWithContent)"
                    :is="getComponentForTab(tabWithContent)"
                    v-bind="getComponentProps(tabWithContent)"
+                   @single-todo-click="$emit('singleTodoClick', $event)"
        />
       </section>
     </div>
@@ -51,6 +52,14 @@ import BaseError from "@/scripts/Core/Error/BaseError";
 export default {
   name: "Tabs",
   props: {
+    /**
+     * @description this has to be set in case when there are multiple tab panels on same page
+     */
+    id: {
+      type: String,
+      required: false,
+      default: '',
+    },
     /**
      * @description Tabs alongside with their sections content will be built from this property
      *
@@ -212,7 +221,7 @@ $content-selector: "~ .content > section";
   position: relative;
   padding-bottom: 80px;
   min-width: 200px;
-  input[name="tab-control"] {
+  input[name^="tab-control"] {
     display: none;
   }
 
@@ -307,7 +316,7 @@ $content-selector: "~ .content > section";
     }
   }
 
-  input[name="tab-control"] {
+  input[name^="tab-control"] {
     @include tabs {
       > label {
         cursor: default;
