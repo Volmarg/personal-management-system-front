@@ -27,6 +27,8 @@
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import TodoModuleMixin from "@/views/Modules/Todo/Mixin/TodoModuleMixin.vue";
+
 import CreateEditForm from "@/views/Modules/Todo/Components/CreateEditForm.vue";
 
 import Container from "@/components/Ui/Containers/Container.vue";
@@ -142,6 +144,9 @@ export default {
     Base,
     Tabs,
   },
+  mixins: [
+    TodoModuleMixin,
+  ],
   computed: {
     /**
      * @description returns the data structure for tabs
@@ -179,21 +184,11 @@ export default {
     onNewSubmit(): void {
       //
     },
+    /**
+     * @description sets the active todo data and shows the dialog
+     */
     onSingleTodoClick(id: number): void {
-      let matchingTodo = null;
-      for (let singleTodo of this.todo) {
-        if (singleTodo.id == id) {
-          matchingTodo = singleTodo
-          break;
-        }
-      }
-
-      if (!matchingTodo) {
-        throw new BaseError(`No todo found for id: ${id}`);
-      }
-
-      this.activeTodo = matchingTodo;
-
+      this.activeTodo = this.getTodoById(id, this.todo);
       this.isEditModalVisible = true;
     }
   }

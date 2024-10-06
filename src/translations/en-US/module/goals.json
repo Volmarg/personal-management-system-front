@@ -1,5 +1,8 @@
 {
     "goals": {
+        "list": {
+            "description": "Track Your goals based <b>Todo</b> entries."
+        },
         "payments": {
             "description": "Payments goals - contains information about the goal, target amount, gathered cash, and deadline date.",
             "block": {

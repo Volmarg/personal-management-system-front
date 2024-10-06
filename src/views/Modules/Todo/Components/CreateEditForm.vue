@@ -14,14 +14,15 @@
                 class="mb-6"
   />
 
-  <div class="mt-5 mb-4 flex flex-row hover:opacity-70 cursor-pointer">
-    <Checkbox class="transform scale-75"
-              v-model="form.showOnDashboard"
-    />
-    <label class="checkbox checkbox-all align-self-center ml-1 cursor-pointer"
-           @click="form.showOnDashboard = !form.showOnDashboard"
-    >{{ $t('todo.common.form.createEditTodo.showOnDashboard.label') }}</label>
-  </div>
+  <!-- not supported by now, uncomment once enabled -->
+<!--  <div class="mt-5 mb-4 flex flex-row hover:opacity-70 cursor-pointer">-->
+<!--    <Checkbox class="transform scale-75"-->
+<!--              v-model="form.showOnDashboard"-->
+<!--    />-->
+<!--    <label class="checkbox checkbox-all align-self-center ml-1 cursor-pointer"-->
+<!--           @click="form.showOnDashboard = !form.showOnDashboard"-->
+<!--    >{{ $t('todo.common.form.createEditTodo.showOnDashboard.label') }}</label>-->
+<!--  </div>-->
 
   <MediumButtonWithIcon :text="$t('todo.common.form.createEditTodo.submit.label')"
                         button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
