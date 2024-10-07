@@ -6,6 +6,9 @@
             },
             "goalProgress": {
                 "header": "Goals progress"
+            },
+            "pendingIssues": {
+                "header": "Pending issues"
             }
         },
         "config": {

@@ -24,12 +24,20 @@
     >
       <GoalsProgress />
     </div>
+
+    <div class="dashboard-big-block"
+         :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+    >
+      <PendingIssues />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import GoalsPayments       from "@/views/Dashboard/Components/Widget/GoalsPayments.vue";
-import GoalsProgress       from "@/views/Dashboard/Components/Widget/GoalsProgress.vue";
+import GoalsPayments from "@/views/Dashboard/Components/Widget/GoalsPayments.vue";
+import GoalsProgress from "@/views/Dashboard/Components/Widget/GoalsProgress.vue";
+import PendingIssues from "@/views/Dashboard/Components/Widget/PendingIssues.vue";
+
 import TopBar              from "@/views/Dashboard/Components/TopBar.vue";
 import BigDataDisplayBlock from "@/views/Dashboard/Components/BigDataDisplayBlock.vue";
 
@@ -42,11 +50,12 @@ export default {
       conf: {
         widgetSize: 1,
       },
-      bigBlocks: 2,
+      bigBlocks: 1,
     }
   },
   components: {
     BigDataDisplayBlock,
+    PendingIssues,
     GoalsPayments,
     GoalsProgress,
     TopBar

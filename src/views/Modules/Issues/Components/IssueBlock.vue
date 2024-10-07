@@ -1,5 +1,10 @@
 <template>
-  <div class="issue-block">
+  <div  class="issue-block"
+        :class="{
+          'issue-block-fluid': !isDashboardWidget,
+          'issue-block-big': isDashboardWidget,
+       }"
+  >
     <div class="w-full p-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
       <!-- top with menu -->
       <div class="flex flex-row items-center justify-between mb-6">
@@ -8,7 +13,9 @@
         </div>
 
         <div class="relative">
-          <Hamburger @click="onHamburgerClick"/>
+          <Hamburger @click="onHamburgerClick"
+                     v-if="isMenuVisible"
+          />
           <Menu :is-menu-open="isMenuOpen"
                 @add-records-click="isAddRecordModalVisible = true; isMenuOpen = false;"
                 @handle-related-todo-click="onHandleTodoClick"
@@ -25,47 +32,51 @@
                      last-progress-date="30.07.2024"
                      :progress-entries-count="progressList.length"
         />
-        <BottomContent :is-for-dashboard="isForDashboard" />
+        <BottomContent :is-for-dashboard="isForDashboard"
+                       v-if="isDashboardStateVisible"
+        />
       </div>
     </div>
   </div>
 
-  <RemoveModal :is-modal-visible="isRemoveModalVisible"
-               @modal-closed="this.isRemoveModalVisible = false"
-               @remove-confirm-click="onRemoveConfirmed"
-  />
+  <div v-if="isMenuVisible">
+    <RemoveModal :is-modal-visible="isRemoveModalVisible"
+                 @modal-closed="this.isRemoveModalVisible = false"
+                 @remove-confirm-click="onRemoveConfirmed"
+    />
 
-  <AddRecordsModal :is-modal-visible="isAddRecordModalVisible"
-               @modal-closed="this.isAddRecordModalVisible = false"
-               @add-contact-click="onAddContactClick"
-               @add-issue-click="onAddIssueClick"
-  />
+    <AddRecordsModal :is-modal-visible="isAddRecordModalVisible"
+                 @modal-closed="this.isAddRecordModalVisible = false"
+                 @add-contact-click="onAddContactClick"
+                 @add-issue-click="onAddIssueClick"
+    />
 
-  <AddNewTodoModal :is-modal-visible="isHandleTodoModalVisible"
-                   :is-submit-visible="false"
-                   @modal-closed="this.isHandleTodoModalVisible = false"
-                   @confirm-click="onHandleRelatedTodoConfirmed"
-                   @add-todo-click="addTodoClicked"
-                   @todo-element-toggle-state-click="todoElementToggleStateClicked"
-                   @todo-element-remove-click="todoElementRemoveClicked"
-                   @todo-element-update-click="todoElementUpdateClicked"
-                   @todo-element-add-click="todoElementAddClicked"
-  />
+    <AddNewTodoModal :is-modal-visible="isHandleTodoModalVisible"
+                     :is-submit-visible="false"
+                     @modal-closed="this.isHandleTodoModalVisible = false"
+                     @confirm-click="onHandleRelatedTodoConfirmed"
+                     @add-todo-click="addTodoClicked"
+                     @todo-element-toggle-state-click="todoElementToggleStateClicked"
+                     @todo-element-remove-click="todoElementRemoveClicked"
+                     @todo-element-update-click="todoElementUpdateClicked"
+                     @todo-element-add-click="todoElementAddClicked"
+    />
 
-  <ViewEditModal :is-modal-visible="isViewEditModalVisible"
-                   @modal-closed="this.isViewEditModalVisible = false"
-                   @confirm-click="onViewEditConfirmed"
-                   @contact-remove-click="onContactRemoveClick"
-                   @contact-update-click="onContactUpdateClick"
-                   @progress-remove-click="onProgressRemoveClick"
-                   @progress-update-click="onProgressUpdateClick"
-  />
+    <ViewEditModal :is-modal-visible="isViewEditModalVisible"
+                     @modal-closed="this.isViewEditModalVisible = false"
+                     @confirm-click="onViewEditConfirmed"
+                     @contact-remove-click="onContactRemoveClick"
+                     @contact-update-click="onContactUpdateClick"
+                     @progress-remove-click="onProgressRemoveClick"
+                     @progress-update-click="onProgressUpdateClick"
+    />
 
-  <EditTodoModal :is-modal-visible="isTodoEditModalVisible"
-                 @modal-closed="isTodoEditModalVisible = false"
-                 :todo-data="todo"
-                 :can-select-module="false"
-  />
+    <EditTodoModal :is-modal-visible="isTodoEditModalVisible"
+                   @modal-closed="isTodoEditModalVisible = false"
+                   :todo-data="todo"
+                   :can-select-module="false"
+    />
+  </div>
 
 </template>
 
@@ -117,6 +128,21 @@ export default {
     isForDashboard: {
       type: Boolean,
       required: true,
+    },
+    isDashboardStateVisible: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    isMenuVisible: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    isDashboardWidget: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   components: {
@@ -260,6 +286,14 @@ export default {
 
 <style lang="scss" scoped>
 .issue-block {
+  @apply p-2
+}
+
+.issue-block-fluid {
   @apply w-full xl:w-1/4 lg:w-1/3 md:w-1/2 md:p-2
+}
+
+.issue-block-big {
+  @apply w-full lg:w-1/2
 }
 </style>
