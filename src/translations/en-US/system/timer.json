@@ -1,0 +1,14 @@
+{
+    "system": {
+        "timer": {
+            "warningModal": {
+                "header": "You will soon be logged out",
+                "text": "Click <b>yes</b> in order to extend the log-in time.",
+                "buttons": {
+                    "ok": "Yes",
+                    "no": "No"
+                }
+            }
+        }
+    }
+}
