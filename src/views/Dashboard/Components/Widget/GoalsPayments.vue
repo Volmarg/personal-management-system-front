@@ -4,6 +4,7 @@
       <SinglePaymentBlock v-for="payment in payments"
                           :key="JSON.stringify(payment)"
                           :payment-data="payment"
+                          :is-dashboard-state-visible="false"
       />
     </div>
 

@@ -25,7 +25,9 @@
       <ProgressBar :percent="moneyPercent"/>
     </div>
 
-    <IsOnDashboardState :is-for-dashboard="paymentData.showOnDashboard"/>
+    <IsOnDashboardState :is-for-dashboard="paymentData.showOnDashboard"
+                        v-if="isDashboardStateVisible"
+    />
   </div>
 </template>
 
@@ -42,6 +44,11 @@ export default {
     paymentData: {
       type: Object,
       required: true,
+    },
+    isDashboardStateVisible: {
+      type: Boolean,
+      required: false,
+      default: true,
     }
   },
   mixins: [
