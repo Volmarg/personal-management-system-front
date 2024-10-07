@@ -12,6 +12,7 @@
                 :initial-module="initialModule"
                 :initial-record="initialModuleRecord"
                 class="mb-6"
+                v-if="canSelectModule"
   />
 
   <!-- not supported by now, uncomment once enabled -->
@@ -30,6 +31,7 @@
                         button-classes="w-full md:w-auto m-0-force"
                         text-classes="text-center w-full"
                         @button-click="$emit('formSubmit')"
+                        v-if="isSubmitVisible"
   />
 </template>
 
@@ -78,6 +80,16 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    canSelectModule: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    isSubmitVisible: {
+      type: Boolean,
+      required: false,
+      default: true,
     }
   },
   components: {

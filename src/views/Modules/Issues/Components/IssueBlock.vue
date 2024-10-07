@@ -11,7 +11,7 @@
           <Hamburger @click="onHamburgerClick"/>
           <Menu :is-menu-open="isMenuOpen"
                 @add-records-click="isAddRecordModalVisible = true; isMenuOpen = false;"
-                @handle-related-todo-click="isHandleTodoModalVisible = true; isMenuOpen = false;"
+                @handle-related-todo-click="onHandleTodoClick"
                 @view-edit-click="isViewEditModalVisible = true; isMenuOpen = false;"
                 @removed-click="isRemoveModalVisible = true; isMenuOpen = false;"
           />
@@ -41,7 +41,8 @@
                @add-issue-click="onAddIssueClick"
   />
 
-  <HandleTodoModal :is-modal-visible="isHandleTodoModalVisible"
+  <AddNewTodoModal :is-modal-visible="isHandleTodoModalVisible"
+                   :is-submit-visible="false"
                    @modal-closed="this.isHandleTodoModalVisible = false"
                    @confirm-click="onHandleRelatedTodoConfirmed"
                    @add-todo-click="addTodoClicked"
@@ -60,25 +61,35 @@
                    @progress-update-click="onProgressUpdateClick"
   />
 
+  <EditTodoModal :is-modal-visible="isTodoEditModalVisible"
+                 @modal-closed="isTodoEditModalVisible = false"
+                 :todo-data="todo"
+                 :can-select-module="false"
+  />
+
 </template>
 
 <script lang="ts">
 
+import EditTodoModal   from "@/views/Modules/Todo/Components/SingleTodo/EditModal.vue";
 import Hamburger       from "@/views/Modules/Issues/Components/IssueBlock/Components/Hamburger.vue";
 import Menu            from "@/views/Modules/Issues/Components/IssueBlock/Components/Menu.vue";
 import MainContent     from "@/views/Modules/Issues/Components/IssueBlock/Components/MainContent.vue";
 import BottomContent   from "@/views/Modules/Issues/Components/IssueBlock/Components/BottomContent.vue";
 
-import HandleTodoModal from "@/views/Modules/Issues/Components/HandleTodoModal.vue";
+import AddNewTodoModal from "@/views/Modules/Issues/Components/AddNewTodoModal.vue";
 import AddRecordsModal from "@/views/Modules/Issues/Components/AddRecordsModal.vue";
 import ViewEditModal   from "@/views/Modules/Issues/Components/ViewEditModal.vue";
 import RemoveModal     from "@/views/Modules/Issues/Components/RemoveModal.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import TypeChecker from "@/scripts/Core/Services/Types/TypeChecker";
+
 export default {
   data(): ComponentData {
     return {
+      isTodoEditModalVisible: false,
       isHandleTodoModalVisible: false,
       isAddRecordModalVisible: false,
       isViewEditModalVisible: false,
@@ -109,8 +120,9 @@ export default {
     }
   },
   components: {
+    EditTodoModal,
     RemoveModal,
-    HandleTodoModal,
+    AddNewTodoModal,
     AddRecordsModal,
     ViewEditModal,
     Menu,
@@ -230,6 +242,18 @@ export default {
     onRemoveConfirmed(): void {
       //
     },
+    /**
+     * @description hide menu, show either create-todo or edit-todo modal
+     */
+    onHandleTodoClick(): void {
+      if (!this.todo || TypeChecker.isObject(this.todo) && Object.keys(this.todo).length === 0) {
+        this.isHandleTodoModalVisible = true;
+      } else {
+        this.isTodoEditModalVisible = true;
+      }
+
+      this.isMenuOpen = false;
+    }
   }
 }
 </script>

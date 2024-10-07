@@ -58,7 +58,33 @@ export default {
         {
           title: "Eat tiny cookies",
           hasRelatedTodo: false,
-          todo: {},
+          todo: {
+            id: 1,
+            name: "Learn symfony framework",
+            description: "Discover the magic of Symfony",
+            showOnDashboard: true,
+            elements: [
+              {
+                id: 1,
+                name: "Play with demo project",
+                isDone: true,
+              },
+              {
+                id: 2,
+                name: "Get some online courses",
+                isDone: true,
+              },
+              {
+                id: 3,
+                name: "Create Your own project on Symfony 7.x",
+                isDone: false,
+              },
+            ],
+            module: {
+              name: "issues",
+              id: 1,
+            }
+          },
           contacts: [1,2,3],
           progressList: [1,2,3],
           isForDashboard: true

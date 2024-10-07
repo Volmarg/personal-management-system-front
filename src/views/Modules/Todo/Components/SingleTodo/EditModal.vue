@@ -55,6 +55,11 @@ export default {
       required : true,
       default  : false,
     },
+    canSelectModule: {
+      type: Boolean,
+      required: false,
+      default: true,
+    }
   },
   components: {
     Tabs,
@@ -86,7 +91,8 @@ export default {
           tabName: this.$t('todo.common.editModal.text.tab.edit.label'),
           tabComponent: TabEdit,
           tabComponentProps: {
-            todoData: this.todoData
+            todoData: this.todoData,
+            canSelectModule: this.canSelectModule,
           }
         }
       ];

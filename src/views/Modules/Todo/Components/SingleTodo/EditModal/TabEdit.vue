@@ -8,6 +8,7 @@
                       :initial-module="todoData.module.name"
                       :initial-module-record="todoData.module.id"
                       :initial-show-on-dashboard="todoData.showOnDashboard"
+                      :can-select-module="canSelectModule"
       />
     </div>
   </div>
@@ -33,6 +34,16 @@ export default {
       type: Object,
       required: true,
     },
+    canSelectModule: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    isSubmitVisible: {
+      type: Boolean,
+      required: false,
+      default: true,
+    }
   },
   components: {
     CreateEditForm,

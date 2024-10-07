@@ -5,6 +5,9 @@
                 "remove": {
                     "header": "Remove issue",
                     "description": "Do You really want to remove this entry"
+                },
+                "addNewTodo": {
+                    "header": "Create related todo"
                 }
             },
             "button": {
