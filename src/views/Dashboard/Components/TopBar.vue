@@ -18,9 +18,6 @@
             <Element @click="onWidgetSizeChange(2)">
             <p>1/2</p>
             </Element>
-            <Element @click="onWidgetSizeChange(3)">
-            <p>1/3</p>
-            </Element>
           </OnClickSmallMenu>
         </template>
 
