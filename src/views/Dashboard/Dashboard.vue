@@ -18,11 +18,18 @@
     >
       <GoalsPayments />
     </div>
+
+    <div class="dashboard-big-block"
+         :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+    >
+      <GoalsProgress />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import GoalsPayments       from "@/views/Dashboard/Components/Widget/GoalsPayments.vue";
+import GoalsProgress       from "@/views/Dashboard/Components/Widget/GoalsProgress.vue";
 import TopBar              from "@/views/Dashboard/Components/TopBar.vue";
 import BigDataDisplayBlock from "@/views/Dashboard/Components/BigDataDisplayBlock.vue";
 
@@ -35,12 +42,13 @@ export default {
       conf: {
         widgetSize: 1,
       },
-      bigBlocks: 3,
+      bigBlocks: 2,
     }
   },
   components: {
     BigDataDisplayBlock,
     GoalsPayments,
+    GoalsProgress,
     TopBar
   },
   created(): void {

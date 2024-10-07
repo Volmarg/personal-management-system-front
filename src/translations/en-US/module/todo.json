@@ -4,12 +4,13 @@
         "common": {
             "todoList": {
                 "state": {
-                    "notDone": "Not done",
+                    "notDone": "Pending",
                     "done": "Done"
                 }
             },
             "singleTodoHover": {
-                "text": "<b>Name: </b>{name}<br><b>Description: </b>{description}<br><br>Click to view and edit"
+                "text": "<b>Name: </b>{name}<br><b>Description: </b>{description}",
+                "textEditPart": "<br><br>Click to view and edit"
             },
             "editModal": {
                 "text": {

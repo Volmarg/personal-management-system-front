@@ -14,17 +14,7 @@
         </label>
       </div>
 
-      <Badge class="self-center"
-             :background-class="isChecked ? 'bg-green-500' : 'bg-blue-500'"
-      >
-          <span v-if="isChecked">
-            {{ $t('todo.common.todoList.state.done') }}
-          </span>
-
-        <span v-else>
-            {{ $t('todo.common.todoList.state.notDone') }}
-          </span>
-      </Badge>
+      <StateBadge :is-done="isChecked" />
 
     </div>
   </div>
@@ -33,8 +23,8 @@
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import Badge    from "@/components/Ui/Badge/Badge.vue";
-import Checkbox from "@/components/Form/Checkbox.vue";
+import StateBadge from "@/views/Modules/Todo/Components/StateBadge.vue";
+import Checkbox   from "@/components/Form/Checkbox.vue";
 
 /**
  * @description this component was added due to some weird issue with tabs, it looks like tab
@@ -54,7 +44,7 @@ export default {
   },
   components: {
     Checkbox,
-    Badge
+    StateBadge
   },
   created(): void {
     this.isChecked = this.element.isDone;

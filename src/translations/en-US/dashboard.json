@@ -3,6 +3,9 @@
         "widget": {
             "goalPayments": {
                 "header": "Goals payments"
+            },
+            "goalProgress": {
+                "header": "Goals progress"
             }
         },
         "config": {
