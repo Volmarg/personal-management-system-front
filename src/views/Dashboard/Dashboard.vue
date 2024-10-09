@@ -4,16 +4,6 @@
   />
   <div class="flex flex-row flex-wrap">
     <div class="dashboard-big-block"
-         v-for="idx in bigBlocks"
-         :key="idx"
-         :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
-    >
-    <BigDataDisplayBlock header="test">
-      test
-    </BigDataDisplayBlock>
-    </div>
-
-    <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
     >
       <GoalsPayments />
@@ -30,6 +20,12 @@
     >
       <PendingIssues />
     </div>
+
+    <div class="dashboard-big-block"
+         :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+    >
+      <Schedules />
+    </div>
   </div>
 </template>
 
@@ -37,9 +33,9 @@
 import GoalsPayments from "@/views/Dashboard/Components/Widget/GoalsPayments.vue";
 import GoalsProgress from "@/views/Dashboard/Components/Widget/GoalsProgress.vue";
 import PendingIssues from "@/views/Dashboard/Components/Widget/PendingIssues.vue";
+import Schedules     from "@/views/Dashboard/Components/Widget/Schedules.vue";
 
-import TopBar              from "@/views/Dashboard/Components/TopBar.vue";
-import BigDataDisplayBlock from "@/views/Dashboard/Components/BigDataDisplayBlock.vue";
+import TopBar from "@/views/Dashboard/Components/TopBar.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -50,14 +46,13 @@ export default {
       conf: {
         widgetSize: 1,
       },
-      bigBlocks: 1,
     }
   },
   components: {
-    BigDataDisplayBlock,
     PendingIssues,
     GoalsPayments,
     GoalsProgress,
+    Schedules,
     TopBar
   },
   created(): void {

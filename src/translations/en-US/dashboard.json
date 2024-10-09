@@ -9,6 +9,12 @@
             },
             "pendingIssues": {
                 "header": "Pending issues"
+            },
+            "schedules": {
+                "header": "Schedules",
+                "text": {
+                    "days": "day/s"
+                }
             }
         },
         "config": {
