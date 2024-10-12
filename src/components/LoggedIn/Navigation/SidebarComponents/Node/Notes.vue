@@ -1,7 +1,7 @@
 <template>
-  <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.notes.label')">
+  <SingleDropdownMenuElement :label="moduleTranslation.notes">
     <template #icon>
-      <fa icon="book"/>
+      <fa :icon="moduleIcon.notes"/>
     </template>
 
     <template #children>
@@ -23,7 +23,8 @@
 import SingleDropdownMenuElement from "@/components/LoggedIn/Navigation/SidebarComponents/SingleDropdownMenuElement.vue";
 import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarComponents/SingleMenuElement.vue";
 
-import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
+import ModuleBaseDataMixin from "@/mixins/Modules/ModuleBaseDataMixin.vue";
+import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
 import VueRouterNotes from "@/router/Modules/VueRouterNotes";
 
@@ -49,7 +50,8 @@ export default {
     },
   },
   mixins: [
-    SidebarMixin
+    SidebarMixin,
+    ModuleBaseDataMixin
   ],
   created(): void {
     this.nestedCategories = notesModuleStateStore().getNestedCategories()

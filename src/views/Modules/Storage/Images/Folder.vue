@@ -1,5 +1,7 @@
 <template>
-  <FolderBase :dirs-structure="dirsStructure">
+  <FolderBase :dirs-structure="dirsStructure"
+              :route-name="routeName"
+  >
     <template #singleFile="{fileData}">
       <SingleFile :file-data="fileData"/>
     </template>
@@ -12,9 +14,12 @@ import SingleFile from "@/views/Modules/Storage/Images/SingleFile.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import VueRouterStorage from "@/router/Modules/VueRouterStorage";
+
 export default {
   data(): ComponentData {
     return {
+      routeName: VueRouterStorage.ROUTE_NAME_STORAGE_IMAGES_FOLDER,
       dirsStructure: [
         {
           dirname: "Main folder",

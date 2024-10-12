@@ -1,7 +1,7 @@
 <template>
-  <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.images.label')">
+  <SingleDropdownMenuElement :label="moduleTranslation.images">
     <template #icon>
-      <fa icon="image"/>
+      <fa :icon="moduleIcon.images"/>
     </template>
 
     <template #children>
@@ -17,7 +17,8 @@
 import SingleDropdownMenuElement from "@/components/LoggedIn/Navigation/SidebarComponents/SingleDropdownMenuElement.vue";
 import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarComponents/SingleMenuElement.vue";
 
-import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
+import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
+import ModuleBaseDataMixin from "@/mixins/Modules/ModuleBaseDataMixin.vue";
 
 import VueRouterStorage from "@/router/Modules/VueRouterStorage";
 
@@ -28,13 +29,12 @@ export default {
   },
   computed: {
     routePath(): string {
-      return VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER
-          .replace(":path", encodeURIComponent("/"))
-          .replace(":dirname", this.$t('storage.rootDirName'))
+      return this.buildStorageUrl("/", this.$t('storage.rootDirName'), VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER);
     }
   },
   mixins: [
-    SidebarMixin
+    SidebarMixin,
+    ModuleBaseDataMixin
   ]
 
 }

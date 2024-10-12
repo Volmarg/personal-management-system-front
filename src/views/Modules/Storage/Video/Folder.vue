@@ -1,5 +1,7 @@
 <template>
-  <FolderBase :dirs-structure="dirsStructure">
+  <FolderBase :dirs-structure="dirsStructure"
+              :route-name="routeName"
+  >
     <template #singleFile="{fileData}">
       <SingleFile :file-data="fileData"/>
     </template>
@@ -12,9 +14,12 @@ import SingleFile from "@/views/Modules/Storage/Video/SingleFile.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import VueRouterStorage from "@/router/Modules/VueRouterStorage";
+
 export default {
   data(): ComponentData {
     return {
+      routeName: VueRouterStorage.ROUTE_NAME_STORAGE_VIDEO_FOLDER,
       dirsStructure: [
         {
           dirname: "Main folder",
@@ -84,13 +89,13 @@ export default {
                 {
                   dirname: "A",
                   isLocked: true,
-                  path: "/data/folder 1/a",
+                  path: "/data/folder 1/A",
                   children: []
                 },
                 {
                   dirname: "B",
                   isLocked: false,
-                  path: "/data/folder 1/b",
+                  path: "/data/folder 1/B",
                   children: []
                 },
                 {
@@ -109,7 +114,7 @@ export default {
                 {
                   dirname: "X",
                   isLocked: true,
-                  path: "/data/folder 2/x",
+                  path: "/data/folder 2/X",
                   files: [
                     {
                       name: "This file name is insanely long trust me it's just for testing purpose, like for reall tho",
@@ -126,18 +131,18 @@ export default {
                 {
                   dirname: "Y",
                   isLocked: true,
-                  path: "/data/folder 2/y",
+                  path: "/data/folder 2/Y",
                   children: []
                 },
                 {
                   dirname: "Z",
                   isLocked: true,
-                  path: "/data/folder 2/z",
+                  path: "/data/folder 2/Z",
                   children: [
                     {
                       dirname: "Z1",
                       isLocked: false,
-                      path: "/data/folder 2/z/z1",
+                      path: "/data/folder 2/z/Z1",
                       children: []
                     }
                   ]

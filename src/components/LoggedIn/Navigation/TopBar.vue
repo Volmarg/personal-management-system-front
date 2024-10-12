@@ -4,6 +4,7 @@
     <div class="navbar navbar-1 border-b">
       <div class="navbar-inner w-full flex items-center justify-start">
         <hamburger @click="$emit('toggleSidebarSize')"/>
+        <Search/>
 
         <!-- This span moves all elements after it `to right side` -->
         <span class="ml-auto"></span>
@@ -21,6 +22,7 @@
 </template>
 
 <script lang="ts">
+import Search           from "@/components/Modules/Search/Search.vue";
 import Hamburger        from "@/components/Navigation/Hamburger.vue";
 import UserMenu         from "@/components/LoggedIn/Navigation/TopBarComponents/UserMenu.vue";
 import Timer            from "@/components/LoggedIn/Navigation/Timer/Timer.vue";
@@ -43,6 +45,7 @@ export default {
     "hamburger"    : Hamburger,
     "user-menu"    : UserMenu,
     Timer,
+    Search,
   },
   methods: {
     /**

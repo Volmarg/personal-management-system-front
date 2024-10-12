@@ -1,5 +1,6 @@
 <template>
   <FolderBase :dirs-structure="dirsStructure"
+              :route-name="routeName"
               folder-content-classes="pl-6 pr-6 pt-6"
   >
     <template #singleFile="{fileData}">
@@ -14,9 +15,12 @@ import SingleFile from "@/views/Modules/Storage/Files/SingleFile.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import VueRouterStorage from "@/router/Modules/VueRouterStorage";
+
 export default {
   data(): ComponentData {
     return {
+      routeName: VueRouterStorage.ROUTE_NAME_STORAGE_FILES_FOLDER,
       dirsStructure: [
         {
           dirname: "Main folder",
@@ -375,12 +379,12 @@ export default {
               children: [
                 {
                   dirname: "A",
-                  path: "/data/folder 1/a",
+                  path: "/data/folder 1/A",
                   children: []
                 },
                 {
                   dirname: "B",
-                  path: "/data/folder 1/b",
+                  path: "/data/folder 1/B",
                   children: []
                 },
                 {
@@ -396,7 +400,7 @@ export default {
               children: [
                 {
                   dirname: "X",
-                  path: "/data/folder 2/x",
+                  path: "/data/folder 2/X",
                   files: [
                     {
                       name: "File in folder",
@@ -411,16 +415,16 @@ export default {
                 },
                 {
                   dirname: "Y",
-                  path: "/data/folder 2/y",
+                  path: "/data/folder 2/Y",
                   children: []
                 },
                 {
                   dirname: "Z",
-                  path: "/data/folder 2/z",
+                  path: "/data/folder 2/Z",
                   children: [
                     {
                       dirname: "Z1",
-                      path: "/data/folder 2/z/z1",
+                      path: "/data/folder 2/Z/Z1",
                       children: []
                     }
                   ]

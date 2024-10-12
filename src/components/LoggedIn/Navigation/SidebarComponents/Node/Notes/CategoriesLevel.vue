@@ -3,12 +3,12 @@
                              element-type="li"
                              :only-arrow-open="!isRootLink"
                              :button-is-link="!isRootLink"
-                             :link-path="!isRootLink ? buildRoutePath(parent.id) : null"
+                             :link-path="!isRootLink ? buildNotesCategoryUrl(parent.id) : null"
                              visited-link-classes="category-active"
   >
     <template #children>
 
-      <SingleMenuElement :route-path="buildRoutePath(category.id)"
+      <SingleMenuElement :route-path="buildNotesCategoryUrl(category.id)"
                          v-for="category in childless"
                          :label="category.name"
                          visited-link-classes="relative category-active"
@@ -30,7 +30,8 @@
 import SingleDropdownMenuElement from "@/components/LoggedIn/Navigation/SidebarComponents/SingleDropdownMenuElement.vue";
 import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarComponents/SingleMenuElement.vue";
 
-import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
+import ModuleBaseDataMixin from "@/mixins/Modules/ModuleBaseDataMixin.vue";
+import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
 import VueRouterNotes  from "@/router/Modules/VueRouterNotes";
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
@@ -56,6 +57,10 @@ export default {
     SingleDropdownMenuElement,
     SingleMenuElement,
   },
+  mixins: [
+    SidebarMixin,
+    ModuleBaseDataMixin
+  ],
   computed: {
     /**
      * @description check if current link is a root link or is it really a category link
@@ -101,17 +106,5 @@ export default {
       return VueRouterNotes;
     }
   },
-  methods: {
-    /**
-     * @description builds the route path for note category
-     */
-    buildRoutePath(id: number): string {
-      return VueRouterNotes.ROUTE_PATH_NOTES_CATEGORY.replace(":id", id);
-    },
-  },
-  mixins: [
-    SidebarMixin
-  ]
-
 }
 </script>

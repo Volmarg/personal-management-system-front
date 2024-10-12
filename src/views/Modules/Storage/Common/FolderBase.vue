@@ -11,6 +11,7 @@
   <Container extra-classes="folder-container">
     <div class="flex flex-row h-full">
       <FoldersTree :dirs-structure="dirsStructure"
+                   :route-name="routeName"
                    ref="foldersTree"
       />
       <FolderContent :folder-content-classes="folderContentClasses">
@@ -45,6 +46,10 @@ export default {
       type: String,
       required: false,
       default: 'p-6'
+    },
+    routeName: {
+      type: String,
+      required: true,
     }
   },
   components: {

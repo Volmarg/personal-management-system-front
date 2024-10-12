@@ -9,16 +9,13 @@
 <script lang="ts">
 import TreeNode from "@/views/Modules/Storage/Common/TreeNode.vue";
 
-import VueRouterStorage from "@/router/Modules/VueRouterStorage";
-
 export default {
-  computed: {
-    routeName(): string {
-      return VueRouterStorage.ROUTE_NAME_STORAGE_FILES_FOLDER;
-    }
-  },
   props: {
     dirsStructure: {
+      type: Array,
+      required: true
+    },
+    routeName: {
       type: Array,
       required: true
     }

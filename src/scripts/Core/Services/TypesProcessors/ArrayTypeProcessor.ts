@@ -40,4 +40,35 @@ export default class ArrayTypeProcessor {
 
         return foundIndex;
     }
+
+    /**
+     * @link https://stackoverflow.com/a/59942031 - straightforward copy, just changed few things
+     */
+    public static getStringCombinations(valuesArray: Array<unknown>): Array<Array<string>> {
+        for (let element of valuesArray) {
+            if (!TypeChecker.isString(element)) {
+                throw new BaseError("At least one element in array is not a string. This is not allowed! Array: " + JSON.stringify(valuesArray));
+            }
+        }
+
+        let temp = [];
+        let combination = [];
+        let maxCombinations = Math.pow(2, valuesArray.length);
+
+        for (let i = 0; i < maxCombinations; i++) {
+            temp = [];
+            for (let j = 0; j < valuesArray.length; j++) {
+                if ((i & Math.pow(2, j))) {
+                    temp.push(valuesArray[j]);
+                }
+            }
+            if (temp.length > 0) {
+                combination.push(temp);
+            }
+        }
+
+        combination.sort((a, b) => a.length - b.length);
+
+        return combination;
+    }
 }

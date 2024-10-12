@@ -1,0 +1,19 @@
+{
+    "search": {
+        "topNav": {
+            "placeholder": "Search (press Enter)"
+        },
+        "resultsPage": {
+            "subHeader": {
+                "query": "Searched query: ",
+                "tags": "Searched tags: "
+            },
+            "singleResult": {
+                "text": {
+                    "id": "Id: ",
+                    "hover": "Click to open the corresponding module page"
+                }
+            }
+        }
+    }
+}

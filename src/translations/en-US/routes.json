@@ -43,7 +43,8 @@
             "storageVideoSettings": "Video storage settings",
             "storageVideoFolder": "Video storage",
             "storageUploadAdd": "Upload storage file",
-            "storageUploadManage": "Manage storage files"
+            "storageUploadManage": "Manage storage files",
+            "SearchList": "Search results"
         }
     }
 }
