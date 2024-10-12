@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div id="notfound">
       <div class="notfound">
         <div class="notfound-404">
@@ -8,7 +7,7 @@
         </div>
         <h2>{{ $t('404.message') }}</h2>
         <br/>
-        <a href="/">
+        <a @click.prevent="goBack">
           <span class="arrow"></span>
           <span class="go-back-text">
             {{ $t('404.button') }}
@@ -19,6 +18,33 @@
 
   </div>
 </template>
+
+<script lang="ts">
+import VueRouter from "@/router/VueRouter";
+
+export default {
+  computed: {
+    /**
+     * @description returns the go-back page. Turns out that there is an issue both with vue router and browser history,
+     *              as it will always point to the home page route, which is incorrect, thus not supporting the
+     *              proper go-back for now.
+     *
+     *              Info: could add some cookie or window value in future to track this.
+     */
+    backUrl(): string {
+      return VueRouter.ROUTE_PATH_HOME;
+    },
+  },
+  methods: {
+    /**
+     * @description goes back to the previous page or to home page if the from-page is not defined for some reason
+     */
+    goBack(): void {
+      this.$router.push(this.backUrl);
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import '@/assets/scss/fonts/fredoka.scss';
