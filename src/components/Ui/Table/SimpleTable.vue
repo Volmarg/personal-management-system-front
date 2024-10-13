@@ -48,7 +48,10 @@
             <!-- emitting event seems not to be working here -->
             <component v-if="cellData.isComponent"
                        :is="cellData.value"
-                       v-bind.prop="cellData.componentProps"
+                       v-bind.prop="{
+                         ...cellData.componentProps,
+                         rowData: rowData
+                       }"
                        v-model="componentValues[`${cellData.uniqId}`]"
                        :ref="`component${cellData.uniqId}`"
                        @change="$emit('componentValueChange', {

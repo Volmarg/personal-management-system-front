@@ -36,7 +36,10 @@
         "settings": {
             "description": "Management of categories to which the notes are assignable to. Allows to pick relation between other categories (parent-child). Keep in mind that empty categories (without notes) are not being shown in the navbar on left but are still visible in settings / note creation panels.",
             "form": {
-                "header": "Add new category",
+                "header": {
+                    "new": "Add new category",
+                    "edit": "Update category"
+                },
                 "name": {
                     "label": "Name"
                 },

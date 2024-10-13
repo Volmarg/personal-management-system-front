@@ -1,5 +1,24 @@
 {
     "generic": {
+        "action": {
+            "common": {
+                "button": {
+                    "confirm": {
+                        "label": "Confirm"
+                    }
+                }
+            },
+            "edit": {
+                "dialog": {
+                    "header": "Update data"
+                }
+            },
+            "remove": {
+                "dialog": {
+                    "header": "Remove data"
+                }
+            }
+        },
         "state": {
             "isForDashboard": {
                 "hover": {
