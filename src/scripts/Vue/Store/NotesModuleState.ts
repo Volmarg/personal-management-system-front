@@ -111,6 +111,10 @@ const notesModuleStateStore = defineStore('notesModuleState', {
                 }
 
                 handledCategory.isMovedToParent = true;
+                if (parentCategory.children.find((child: Record) => child.id === handledCategory.id)) {
+                    continue;
+                }
+
                 parentCategory.children.push(handledCategory);
             }
 
