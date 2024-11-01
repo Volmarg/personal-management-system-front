@@ -2,6 +2,8 @@ import ListenerInterface                  from "@/scripts/Core/Listeners/Interfa
 import LocalStorageService                from "@/scripts/Core/Services/Storage/LocalStorageService";
 import JwtService                         from "@/scripts/Core/Services/Security/JwtService";
 import StringTypeProcessor                from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import AppAxios                           from "@/scripts/Core/Services/Request/AppAxios";
+import SymfonySecurityRoutes              from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 
 /**
  * @description global listener for any user activity on page - be it click / key press etc.
@@ -61,8 +63,7 @@ export default class UserActivityListener implements ListenerInterface
                     LocalStorageService.isSet(LocalStorageService.LAST_ACTIVITY_TIMESTAMP)
                 &&  (diffSecondsBeforeClicks > UserActivityListener.INTERVAL_SECONDS_JWT_TOKEN_REFRESH)
             ) {
-                // todo: replace this
-                // AuthenticatedUserWebsocketCallable.requestJwtToken();
+                new AppAxios().get(SymfonySecurityRoutes.buildUrl(SymfonySecurityRoutes.URL_REFRESH_TOKEN));
             }
         }
     }
