@@ -1,19 +1,9 @@
-import {Account} from "@/scripts/Core/Types/Account";
-
 export type UserData = {
     username           : string,
+    nickname           : string | null,
     email              : string,
+    isSystemLocked     : boolean,
     userId             : string,
-    firstname          : string,
-    lastname           : string,
-    zip                : string,
-    street             : string,
-    city               : string,
-    countryCode        : string,
-    homeNumber         : string,
-    profilePicturePath : string | null,
-    points             : number,
-    pendingPoints      : number,
-    isUserActive       : boolean,
-    account            : Account
+    profilePicturePath : string | null
+    roles              : Array<string>
 }

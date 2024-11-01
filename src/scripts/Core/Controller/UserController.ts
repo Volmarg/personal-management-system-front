@@ -34,10 +34,11 @@ export default class UserController
             throw new BaseError(message);
         }
 
-        let payload  = this.jwtService.decodeUsingSignature(LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN));
-        let username = payload?.username;
-        let email    = payload?.email;
-        let userId   = payload?.userId;
+        let payload        = this.jwtService.decodeUsingSignature(LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN));
+        let username       = payload?.username;
+        let email          = payload?.email;
+        let userId         = payload?.userId;
+        let isSystemLocked = payload?.isSystemLocked;
 
         if(undefined === email){
             throw new BaseError("Could not obtain email from jwt payload")
@@ -51,30 +52,19 @@ export default class UserController
             throw new BaseError("Could not obtain userId from jwt payload")
         }
 
+        if(undefined === isSystemLocked){
+            throw new BaseError("Could not obtain isSystemLocked from jwt payload")
+        }
+
         this.initDeveloperUserSystemSettings();
 
         return {
             username           : username,
+            nickname           : payload?.nickname,
             email              : email,
             userId             : userId,
-            points             : payload?.points ?? 0,
-            pendingPoints      : payload?.pendingPoints ?? 0,
-            firstname          : payload?.firstname,
-            lastname           : payload?.lastname,
-            city               : payload?.city,
-            zip                : payload?.zip,
-            street             : payload?.street,
-            countryCode        : payload?.countryCode.toLowerCase(),
-            homeNumber         : payload?.homeNumber,
-            profilePicturePath : payload?.profilePicturePath,
-            isUserActive       : payload?.isUserActive ?? false,
-            account: {
-                maxParallelJobSearches: payload?.account.maxParallelJobSearches ?? null,
-                maxSearchedKeywords: payload?.account.maxSearchedKeywords ?? null,
-                maxPointsAllowed: payload?.account.maxPointsAllowed ?? null,
-                canGeneratePdfFromTemplate: payload?.account.canGeneratePdfFromTemplate ?? false,
-                hasBoughtAnyPoints: payload?.account.hasBoughtAnyPoints ?? false,
-            }
+            isSystemLocked     : isSystemLocked,
+            profilePicturePath : payload?.profilePicturePath ? payload.profilePicturePath : "/logo.svg",
         };
     }
 

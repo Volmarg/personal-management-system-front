@@ -54,8 +54,6 @@ export default class VueRouterGuards
         router = this.enforceUserToLoginPageGuard(router);
         router = this.denyAccessingLoginPageIfAlreadyLoggedIn(router);
         router = this.checkIfRequiredRouteRoleGranted(router);
-        router = this.checkIfUserProfileIsActivated(router);
-        router = this.denyAccessToActiveProfileIfAlreadyActivated(router);
         router = this.redirectPanelStartPage(router);
         router = this.scrollUpOnPageVisit(router);
 
@@ -142,27 +140,6 @@ export default class VueRouterGuards
     }
 
     /**
-     * @description will deny activated user accessing the pages that mention, about account not being activated etc.
-     */
-    private denyAccessToActiveProfileIfAlreadyActivated(router: Router): Router
-    {
-        router.beforeEach( (to, from, next) => {
-            if(
-                    to.name === VueRouter.ROUTE_NAME_USER_NOT_ACTIVATED
-                &&  this.userController.isUserLoggedIn()
-                &&  this.userController.isUserActive()
-            ){
-                router.push(VueRouter.ROUTE_PATH_HOME);
-            }else{
-                next();
-            }
-
-        });
-
-        return router;
-    }
-
-    /**
      * @description will check if the maintenance mode is turned on, and if so then will redirect user to special page
      */
     private checkMaintenanceMode(router: Router): Router
@@ -203,32 +180,6 @@ export default class VueRouterGuards
                 }else{
                     next(false);
                 }
-            }else{
-                next();
-            }
-
-        })
-
-        return router;
-    }
-
-    /**
-     * @description check if user is activated and if not log him out and redirect to information page
-     */
-    private checkIfUserProfileIsActivated(router: Router): Router
-    {
-        router.beforeEach( (to, from, next) => {
-
-            if (
-                    to.name != VueRouter.ROUTE_NAME_USER_NOT_ACTIVATED
-                &&  this.userController.isUserLoggedIn()
-                &&  !this.userController.isUserActive()
-            ) {
-                router.push({
-                    name: VueRouter.ROUTE_NAME_USER_NOT_ACTIVATED,
-                    params: {token: LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN)}
-                });
-                this.jwtTokenHandler.invalidateToken();
             }else{
                 next();
             }
