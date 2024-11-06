@@ -39,6 +39,10 @@
                    :is="getComponentForTab(tabWithContent)"
                    v-bind="getComponentProps(tabWithContent)"
                    @single-todo-click="$emit('singleTodoClick', $event)"
+                   @close-modal="$emit('closeModal')"
+                   @contact-edit-click="$emit('contactEditClick', $event)"
+                   @progress-edit-click="$emit('progressEditClick', $event)"
+                   @remove-click="$emit('removeClick', $event)"
        />
       </section>
     </div>
@@ -117,6 +121,13 @@ export default {
       }
     }
   },
+  emits: [
+    'contactEditClick',
+    'singleTodoClick',
+    'closeModal',
+    'removeClick',
+    'progressEditClick',
+  ],
   methods: {
     /**
      * @description will return tab name

@@ -1,8 +1,9 @@
+import SymfonyRoutes from "@/router/SymfonyRoutes";
+
 /**
  * @description Contains logic related to System routes
  */
-export default class SymfonySystemRoutes
-{
+export default class SymfonySystemRoutes extends SymfonyRoutes {
     /**
      * @description will return special jwt token which can be used explicitly for accessing public folder data, nothing else
      */

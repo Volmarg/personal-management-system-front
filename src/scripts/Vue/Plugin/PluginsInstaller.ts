@@ -3,6 +3,7 @@ import InstallablePluginInterface   from "@/scripts/Vue/Plugin/InstallablePlugin
 import AxiosPlugin                  from "@/scripts/Vue/Plugin/Axios/AxiosPlugin";
 import RootEvent                    from "@/scripts/Vue/Plugin/Events/RootEvent";
 import ViewPlugin                   from "@/scripts/Vue/Plugin/View/ViewPlugin";
+import BackendModuleCallerPlugin    from "@/scripts/Vue/Plugin/Backend/ModuleRest/BackendModuleCallerPlugin";
 
 /**
  * @description handles installing all vue Plugins
@@ -18,6 +19,7 @@ export default class PluginsInstaller
             new AxiosPlugin(),
             new RootEvent(),
             new ViewPlugin(),
+            new BackendModuleCallerPlugin(),
         ];
 
         for(let plugin of plugins){

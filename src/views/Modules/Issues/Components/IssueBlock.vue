@@ -8,8 +8,9 @@
     <div class="w-full p-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
       <!-- top with menu -->
       <div class="flex flex-row items-center justify-between mb-6">
-        <div class="flex flex-col">
+        <div class="flex flex-col text-left">
           <div class="text-lg text-blue-500"><span v-html="title" /></div>
+          <div class="mt-1 text-sm text-gray-400"><span v-html="description" /></div>
         </div>
 
         <div class="relative">
@@ -17,7 +18,6 @@
                      v-if="isMenuVisible"
           />
           <Menu :is-menu-open="isMenuOpen"
-                @add-records-click="isAddRecordModalVisible = true; isMenuOpen = false;"
                 @handle-related-todo-click="onHandleTodoClick"
                 @view-edit-click="isViewEditModalVisible = true; isMenuOpen = false;"
                 @removed-click="isRemoveModalVisible = true; isMenuOpen = false;"
@@ -26,10 +26,9 @@
       </div>
 
       <div class="w-full">
-        <!-- todo: set props properly -->
         <MainContent :contact-entries-count="contacts.length"
-                     last-contact-date="22.06.2024"
-                     last-progress-date="30.07.2024"
+                     :last-contact-date="lastContactDate"
+                     :last-progress-date="lastProgressDate"
                      :progress-entries-count="progressList.length"
         />
         <BottomContent :is-for-dashboard="isForDashboard"
@@ -45,12 +44,6 @@
                  @remove-confirm-click="onRemoveConfirmed"
     />
 
-    <AddRecordsModal :is-modal-visible="isAddRecordModalVisible"
-                 @modal-closed="this.isAddRecordModalVisible = false"
-                 @add-contact-click="onAddContactClick"
-                 @add-issue-click="onAddIssueClick"
-    />
-
     <AddNewTodoModal :is-modal-visible="isHandleTodoModalVisible"
                      :is-submit-visible="false"
                      @modal-closed="this.isHandleTodoModalVisible = false"
@@ -63,12 +56,16 @@
     />
 
     <ViewEditModal :is-modal-visible="isViewEditModalVisible"
-                     @modal-closed="this.isViewEditModalVisible = false"
-                     @confirm-click="onViewEditConfirmed"
-                     @contact-remove-click="onContactRemoveClick"
-                     @contact-update-click="onContactUpdateClick"
-                     @progress-remove-click="onProgressRemoveClick"
-                     @progress-update-click="onProgressUpdateClick"
+                   :id="id"
+                   :name="title"
+                   :description="description"
+                   :show-on-dashboard="isForDashboard"
+                   :contacts="contacts"
+                   :all-progress="progressList"
+                   @modal-closed="this.isViewEditModalVisible = false"
+                   @confirm-click="onViewEditConfirmed"
+                   @contact-edit-click="isContactEditModalVisible = true; editedContact = $event.contact"
+                   @progress-edit-click="isProgressEditModalVisible = true; editedProgress = $event.progress"
     />
 
     <EditTodoModal :is-modal-visible="isTodoEditModalVisible"
@@ -76,6 +73,33 @@
                    :todo-data="todo"
                    :can-select-module="false"
     />
+
+    <ContactEditModal :is-modal-visible="isContactEditModalVisible"
+                      @modal-closed="isContactEditModalVisible = false"
+                      @remove-click="isContactRemoveModalVisible = true; removedContact = $event.contact"
+                      :contact="editedContact"
+                      class="relative z-21"
+    />
+
+    <ContactRemoveModal :is-modal-visible="isContactRemoveModalVisible"
+                        @modal-closed="isContactRemoveModalVisible = false"
+                        :contact="removedContact"
+                        class="relative z-22"
+    />
+
+    <ProgressEditModal :is-modal-visible="isProgressEditModalVisible"
+                       @modal-closed="isProgressEditModalVisible = false"
+                       @remove-click="isProgressRemoveModalVisible = true; removedProgress = $event.progress"
+                       :progress="editedProgress"
+                       class="relative z-21"
+    />
+
+    <ProgressRemoveModal :is-modal-visible="isProgressRemoveModalVisible"
+                         @modal-closed="isProgressRemoveModalVisible = false"
+                         :progress="removedProgress"
+                         class="relative z-22"
+    />
+
   </div>
 
 </template>
@@ -88,28 +112,52 @@ import Menu            from "@/views/Modules/Issues/Components/IssueBlock/Compon
 import MainContent     from "@/views/Modules/Issues/Components/IssueBlock/Components/MainContent.vue";
 import BottomContent   from "@/views/Modules/Issues/Components/IssueBlock/Components/BottomContent.vue";
 
+import ProgressEditModal   from "@/views/Modules/Issues/Components/ViewEditModal/Tabs/TabProgress/ProgressEditModal.vue";
+import ProgressRemoveModal from "@/views/Modules/Issues/Components/ViewEditModal/Tabs/TabProgress/ProgressRemoveModal.vue";
+
+import ContactEditModal   from "@/views/Modules/Issues/Components/ViewEditModal/Tabs/TabContacts/ContactEditModal.vue";
+import ContactRemoveModal from "@/views/Modules/Issues/Components/ViewEditModal/Tabs/TabContacts/ContactRemoveModal.vue";
+
 import AddNewTodoModal from "@/views/Modules/Issues/Components/AddNewTodoModal.vue";
-import AddRecordsModal from "@/views/Modules/Issues/Components/AddRecordsModal.vue";
 import ViewEditModal   from "@/views/Modules/Issues/Components/ViewEditModal.vue";
 import RemoveModal     from "@/views/Modules/Issues/Components/RemoveModal.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}                 from "@/scripts/Vue/Types/Components/types";
+import {SingleContact, SingleProgress} from "@/scripts/Core/Types/Modules/Issues";
 
-import TypeChecker from "@/scripts/Core/Services/Types/TypeChecker";
+
+import TypeChecker         from "@/scripts/Core/Services/Types/TypeChecker";
+import DateTimeProcessor   from "@/scripts/Core/Services/TypesProcessors/DateTimeProcessor";
+import SymfonyIssuesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
 
 export default {
   data(): ComponentData {
     return {
+      editedProgress: null as SingleProgress | null,
+      removedProgress: null as SingleProgress | null,
+      isProgressEditModalVisible: false,
+      isProgressRemoveModalVisible: false,
+      editedContact: null as SingleContact | null,
+      removedContact: null as SingleContact | null,
+      isContactEditModalVisible: false,
+      isContactRemoveModalVisible: false,
       isTodoEditModalVisible: false,
       isHandleTodoModalVisible: false,
-      isAddRecordModalVisible: false,
       isViewEditModalVisible: false,
       isRemoveModalVisible: false,
       isMenuOpen: false,
     }
   },
   props: {
+    id: {
+      type: Number,
+      required: true,
+    },
     title: {
+      type: String,
+      required: true,
+    },
+    description: {
       type: String,
       required: true,
     },
@@ -146,10 +194,13 @@ export default {
     }
   },
   components: {
+    ProgressEditModal,
+    ProgressRemoveModal,
+    ContactEditModal,
+    ContactRemoveModal,
     EditTodoModal,
     RemoveModal,
     AddNewTodoModal,
-    AddRecordsModal,
     ViewEditModal,
     Menu,
     Hamburger,
@@ -159,35 +210,31 @@ export default {
   emits: [
     "reFetchData"
   ],
+  computed: {
+    /**
+     * @description returns the latest contact date if any is set, null otherwise
+     */
+    lastContactDate(): string | null {
+      if (this.contacts.length === 0) {
+        return null;
+      }
+
+      let dates = this.contacts.map((contact: SingleContact) => contact.date);
+      return DateTimeProcessor.getLatestDate(dates);
+    },
+    /**
+     * @description returns the latest progress date if any is set, null otherwise
+     */
+    lastProgressDate(): string | null {
+      if (this.progressList.length === 0) {
+        return null;
+      }
+
+      let dates = this.progressList.map((progress: SingleProgress) => progress.date);
+      return DateTimeProcessor.getLatestDate(dates);
+    },
+  },
   methods: {
-    /**
-     * @description handles user clicking contact entry removal
-     *              - updates front and backend
-     */
-    onContactRemoveClick(): void {
-      //
-    },
-    /**
-     * @description handles user clicking contact entry update
-     *              - updates front and backend
-     */
-    onContactUpdateClick(): void {
-      //
-    },
-    /**
-     * @description handles user clicking progress entry removal
-     *              - updates front and backend
-     */
-    onProgressRemoveClick(): void {
-      //
-    },
-    /**
-     * @description handles user clicking progress entry update
-     *              - updates front and backend
-     */
-    onProgressUpdateClick(): void {
-      //
-    },
     /**
      * @description handle user clicking on the hamburger menu, basically does toggle menu state
      */
@@ -230,33 +277,10 @@ export default {
       //
     },
     /**
-     * @description handle user clicking on Add issue contact:
-     *              - update front,
-     *              - call backend to save data
-     */
-    onAddContactClick(): void {
-      //
-    },
-    /**
-     * @description handle user clicking on Add issue contact:
-     *              - update front,
-     *              - call backend to save data
-     */
-    onAddIssueClick(): void {
-      //
-    },
-    /**
      * @description handle user clicking on handling related todo action in the menu
      *              displays dialog
      */
     onHandleRelatedTodoConfirmed(): void {
-      //
-    },
-    /**
-     * @description handle user clicking on view-edit action in the menu
-     *              displays dialog
-     */
-    onViewEditConfirmed(): void {
       //
     },
     /**
@@ -266,7 +290,7 @@ export default {
      *              - hide modal
      */
     onRemoveConfirmed(): void {
-      //
+      this.$moduleCall.remove(SymfonyIssuesRoutes.ISSUE_BASE_URL, this.id);
     },
     /**
      * @description hide menu, show either create-todo or edit-todo modal

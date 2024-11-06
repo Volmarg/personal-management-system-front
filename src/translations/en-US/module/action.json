@@ -1,0 +1,14 @@
+{
+    "module": {
+        "action": {
+            "text": {
+                "recordUpdated": "Record has been updated",
+                "recordCouldNotBeUpdated": "Could not update the record",
+                "recordHasBeenRemoved": "Record has been removed",
+                "recordCouldNotBeRemoved": "Could not remove the record",
+                "recordCreated": "Record have been created",
+                "couldNotCreateRecord": "Could not create new record"
+            }
+        }
+    }
+}

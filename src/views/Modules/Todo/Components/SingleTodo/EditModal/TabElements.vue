@@ -1,6 +1,6 @@
 <template>
   <!-- entries -->
-  <div v-if="todoData.elements.length > 0">
+  <div v-if="Object.keys(todoData).length > 0 && todoData.elements.length > 0">
     <SingleElement v-for="element of todoData.elements"
                    :key="JSON.stringify(element)"
                    :element="element"

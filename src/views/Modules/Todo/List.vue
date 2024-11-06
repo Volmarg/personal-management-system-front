@@ -40,8 +40,6 @@ import TabIssues from "@/views/Modules/Todo/Components/Tabs/TabIssues.vue";
 import TabTodo   from "@/views/Modules/Todo/Components/Tabs/TabTodo.vue";
 import EditModal from "@/views/Modules/Todo/Components/SingleTodo/EditModal.vue";
 
-import BaseError from "@/scripts/Core/Error/BaseError";
-
 export default {
   data(): ComponentData {
     return {

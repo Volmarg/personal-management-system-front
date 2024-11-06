@@ -5,8 +5,8 @@
       <h2 class="text-lg mb-2">{{ $t('todo.common.form.createEditTodo.header.edit') }}</h2>
       <CreateEditForm :initial-desc="todoData.description"
                       :initial-name="todoData.name"
-                      :initial-module="todoData.module.name"
-                      :initial-module-record="todoData.module.id"
+                      :initial-module="todoData?.module?.name ?? ''"
+                      :initial-module-record="todoData?.module?.id ?? ''"
                       :initial-show-on-dashboard="todoData.showOnDashboard"
                       :can-select-module="canSelectModule"
       />

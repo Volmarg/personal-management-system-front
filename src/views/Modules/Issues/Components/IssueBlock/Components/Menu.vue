@@ -4,9 +4,6 @@
       <a @click.prevent="$emit('viewEditClick')">{{$t('issues.pending.box.dashboard.menu.viewEdit')}}</a>
     </Element>
     <Element>
-      <a @click.prevent="$emit('addRecordsClick')">{{$t('issues.pending.box.dashboard.menu.addRecords')}}</a>
-    </Element>
-    <Element>
       <a @click.prevent="$emit('handleRelatedTodoClick')"
          v-html="$t('issues.pending.box.dashboard.menu.relatedTodo')"
       />
@@ -31,7 +28,6 @@ export default {
     }
   },
   emits: [
-    "addRecordsClick",
     "handleRelatedTodoClick",
     "viewEditClick",
     "removedClick",

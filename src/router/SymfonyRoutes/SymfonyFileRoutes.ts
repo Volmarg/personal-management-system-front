@@ -1,8 +1,9 @@
+import SymfonyRoutes from "@/router/SymfonyRoutes";
+
 /**
  * @description Contains logic related to File routes
  */
-export default class SymfonyFileRoutes
-{
+export default class SymfonyFileRoutes extends SymfonyRoutes {
     /**
      * @description Handles file upload
      */

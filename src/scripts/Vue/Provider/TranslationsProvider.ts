@@ -1,5 +1,6 @@
 import {createI18n, I18n}  from "vue-i18n";
 import EnvReader           from "@/scripts/Core/System/EnvReader";
+import TypeChecker         from "@/scripts/Core/Services/Types/TypeChecker";
 
 /**
  * @description will handle the translations loading / providing
@@ -24,6 +25,45 @@ export default class TranslationsProvider
         });
 
         return this.loadTranslationsForLanguage(handledLanguage, vueI18n);
+    }
+
+    /**
+     * @description this method exists explicitly for getting the translations directly in typescript.
+     *              Suspecting that this logic might have heavy performance impact.
+     */
+    public async getTranslation(key: string): Promise<string> {
+        let searchedElements = key.split('.');
+        let translator = await this.buildVueI18nInstance();
+        let allMessages = translator.global.messages[EnvReader.getAppDefaultLanguage()];
+
+        let treeMatch = [];
+        let isTreeSet = false;
+        for (let element of searchedElements) {
+            if (treeMatch.length === 0) {
+                if (isTreeSet) {
+                    return key;
+                }
+
+                treeMatch = allMessages[element]
+                isTreeSet = true;
+                continue;
+            }
+
+            treeMatch = treeMatch[element]
+            if (!treeMatch) {
+                return key;
+            }
+
+            if (TypeChecker.isString(treeMatch)) {
+                return treeMatch;
+            }
+
+            if (TypeChecker.isScalar(treeMatch)) {
+                return key;
+            }
+        }
+
+        return key;
     }
 
     /**

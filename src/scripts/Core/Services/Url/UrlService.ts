@@ -4,6 +4,14 @@
 export default class UrlService
 {
     /**
+     * @description takes the url, and appends slash on end of it, if slash is already present then
+     *              returns the original url
+     */
+    public static addTrailingSlash(url: string): string {
+        return (url.endsWith("/") ? url : `${url}/`);
+    }
+
+    /**
      * @description returns host for url
      */
     public static getHost(url: string, stripWww = false): string | null

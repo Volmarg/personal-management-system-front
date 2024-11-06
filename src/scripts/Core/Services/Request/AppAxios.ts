@@ -35,6 +35,18 @@ export default class AppAxios implements AppAxiosInterface
     static readonly HEADER_IS_SYSTEM_DISABLED      = "is-system-disabled";
     static readonly HEADER_IS_SYSTEM_SOON_DISABLED = "is-system-soon-disabled";
 
+    static readonly KEY_AUTHORIZATION = "Authorization";
+    static readonly KEY_CALLER        = "Caller";
+
+    static readonly CALLER_FRONT = "Front";
+
+    constructor() {
+        let authenticationToken = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+
+        axios.defaults.headers.common[AppAxios.KEY_CALLER] = AppAxios.CALLER_FRONT;
+        axios.defaults.headers.common[AppAxios.KEY_AUTHORIZATION] = `Bearer ${authenticationToken}`;
+    }
+
     /**
      * @inheritDoc
      */
@@ -49,11 +61,42 @@ export default class AppAxios implements AppAxiosInterface
     /**
      * @inheritDoc
      */
-    private async post(url: string, dataBag?: AxiosPostDataBag, castedDto = BaseApiResponse): Promise<BaseApiResponse>
-    {
+    public async post(url: string, dataBag?: AxiosPostDataBag, castedDto = BaseApiResponse): Promise<BaseApiResponse> {
+        return this.postPatch(url, dataBag, castedDto);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public async patch(url: string, dataBag?: AxiosPostDataBag, castedDto = BaseApiResponse): Promise<BaseApiResponse> {
+        return this.postPatch(url, dataBag, castedDto, "patch");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public async delete(url: string): Promise<BaseApiResponse> {
+        return this.getDelete(url, BaseApiResponse, "delete");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public async get(url: string, castedDto = BaseApiResponse): Promise<BaseApiResponse> {
+        return this.getDelete(url, castedDto);
+    }
+
+    /**
+     * @description base logic for both POST and PATCH calls, since both are pretty much the same
+     */
+    private async postPatch(url: string, dataBag?: AxiosPostDataBag, castedDto = BaseApiResponse, method: string = "post"): Promise<BaseApiResponse> {
+        if (!["post", "patch"].includes(method)) {
+            throw BaseError(`Method not allowed in current context. Got: ${method}`)
+        }
+
         let usedDataBag: AxiosPostDataBag = dataBag;
 
-        return axios.post(url, usedDataBag).then( async (response) => {
+        return axios[method](url, usedDataBag).then( async (response) => {
             let responseDto = castedDto.fromAxiosResponse(response);
             responseDto     = AppAxios.handleSystemDisabledState(responseDto, response);
 
@@ -74,16 +117,21 @@ export default class AppAxios implements AppAxiosInterface
             Logger.warn("Axios `post` call failed", {
                 error: error
             });
-            throw new BaseError("Issue happened while performing `post` call.", error.message);
+            throw new BaseError("Issue happened while performing `post/patch` call.", {
+                "errorDetails": error.message,
+            });
         })
     }
 
     /**
-     * @inheritDoc
+     * @description base logic for both GET and DELETE calls, since both are pretty much the same
      */
-    public async get(url: string, castedDto = BaseApiResponse): Promise<BaseApiResponse>
-    {
-        return axios.get(url).then( async (response) => {
+    private async getDelete(url: string, castedDto = BaseApiResponse, method: string = "get"): Promise<BaseApiResponse> {
+        if (!["get", "delete"].includes(method)) {
+            throw BaseError(`Method not allowed in current context. Got: ${method}`)
+        }
+
+        return axios[method](url).then( async (response) => {
             let responseDto = castedDto.fromAxiosResponse(response);
             responseDto     = AppAxios.handleSystemDisabledState(responseDto, response);
 
@@ -105,7 +153,7 @@ export default class AppAxios implements AppAxiosInterface
             Logger.warn("Axios `get` call failed", {
                 error: error
             });
-            throw new BaseError("Issue happened while performing `get call.", {
+            throw new BaseError("Issue happened while performing `get/delete` call.", {
                 "errorDetails": error.message,
             });
         });
@@ -115,8 +163,7 @@ export default class AppAxios implements AppAxiosInterface
      * @description will handle logic for `access denied` case
      *              must remain static due to loosing context of `this` in nested async calls
      */
-    private static handleAccessDenied(baseApiResponse: BaseApiResponse): void
-    {
+    private static handleAccessDenied(baseApiResponse: BaseApiResponse): void {
         let jwtTokenHandler = new JwtTokenHandler();
         let userController = new UserController();
 
@@ -141,12 +188,6 @@ export default class AppAxios implements AppAxiosInterface
     /**
      * @description check if response contains `disabled system` header, and if yes then update the store
      *              and log out user
-     *
-     * >WARNING< calling the websocket based ping after the response is received because the ping will also fetch the
-     *           message necessary to show to user, it can also trigger some extra logic.
-     *           The axios call is only added because websocket will not always call backend (like, not with each click etc).
-     *           so sometimes it's better to fetch small information from axios response and then react to it.
-     *           This also allows to reduce the code duplication.
      */
     private static handleSystemDisabledState(responseDto: BaseApiResponse, response: AxiosResponse): BaseApiResponse
     {

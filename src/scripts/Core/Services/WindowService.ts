@@ -1,3 +1,5 @@
+import EventDispatcherService from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
+
 /**
  * @description provides variety of window related logic
  */
@@ -29,5 +31,19 @@ export default class WindowService {
         const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
         window.scrollTo({top: y, behavior: 'smooth'});
+    }
+
+    /**
+     * @description equivalent of $router.go
+     *              Added page loader + timeout to make it look better + to give some time for reading
+     *              the popup message.
+     *
+     * @link https://stackoverflow.com/questions/41301099/do-we-have-router-reload-in-vue-router
+     */
+    public static reloadHistory(waitTimeMs: number = 500): void {
+        EventDispatcherService.emitShowFullPageLoader();
+        setTimeout(() => {
+            history.go();
+        }, waitTimeMs)
     }
 }

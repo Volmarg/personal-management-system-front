@@ -49,7 +49,7 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col gap-y-2 sm:flex-row items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700 border-solid rounded-b space-x-2"
+          <div class="flex flex-col gap-y-2 sm:flex-row items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700 border-solid rounded-b space-x-2 flex-wrap"
                :class="{
                   'mt-2': !hasBodyPadding,
                   ...footerClasses
@@ -60,6 +60,7 @@
             <slot name="cancelButton">
               <MediumButtonWithIcon
                   :text="getCancelButtonText"
+                  :is-mobile-full-width="true"
                   :margin-right-class-number="cancelButtonMarginRightClassNumber"
                   @click="$emit('modalClosed')"
                   :class="isCloseFullWidth ? 'w-full md:w-auto' : ''"

@@ -1,11 +1,21 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
-           :title="$t('todo')"
+           :title="$t('issues.pending.modal.addNew.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"
     >
       <template #content>
+
+        <div class="flex justify-center">
+          <div class="mt-6 w-full flex flex-col md:w-2/3">
+
+            <CreateEditForm :header="$t('issues.pending.common.createEditForm.header.new')"
+                            @submit="$emit('closeModal')"
+            />
+
+          </div>
+        </div>
 
       </template>
     </Modal>
@@ -13,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import CreateEditForm               from "@/views/Modules/Issues/Components/CreateEditForm.vue";
 import Modal                        from "@/components/Modal/Modal.vue";
 import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
@@ -33,6 +44,7 @@ export default {
     }
   },
   components: {
+    CreateEditForm,
     Modal,
   },
   mixins: [

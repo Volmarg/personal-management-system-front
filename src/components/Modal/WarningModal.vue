@@ -17,10 +17,10 @@
       <template #footerRightSection>
         <MediumButtonWithIcon
             background-color-class="bg-red-500"
-            top-wrapper-classes="w-full sm:w-auto"
-            button-classes="w-full sm:w-auto flex justify-center sm:block"
+            top-wrapper-classes="w-full md:w-auto"
+            button-classes="w-full md:w-auto flex justify-center md:block"
             text-classes="text-center"
-            class="w-full sm:w-auto"
+            class="w-full md:w-auto"
             :text="$t('generic.button.confirm.label')"
             @click="$emit('confirm')"
         />

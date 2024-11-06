@@ -9,8 +9,10 @@
                   :key="JSON.stringify(issue)"
                   :is-for-dashboard="issue.isForDashboard"
                   :contacts="issue.contacts"
-                  :progress-list="issue.progressList"
-                  :title="issue.title"
+                  :progress-list="issue.progress"
+                  :id="issue.id"
+                  :title="issue.name"
+                  :description="issue.description"
                   :todo="issue.todo"
                   @re-fetch-data="() => {}"
       />
@@ -47,57 +49,14 @@ import FloatingRoundedPlus from "@/components/Ui/Floating/FloatingRoundedPlus.vu
 import MobileAwareMixin from "@/mixins/Awarness/MobileAwareMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {SingleIssue}   from "@/scripts/Core/Types/Modules/Issues";
+
+import SymfonyIssuesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
 
 export default {
   data(): ComponentData {
     return {
-      /**
-       * @description dummy data
-       */
-      blocksData: [
-        {
-          title: "Eat tiny cookies",
-          hasRelatedTodo: false,
-          todo: {
-            id: 1,
-            name: "Learn symfony framework",
-            description: "Discover the magic of Symfony",
-            showOnDashboard: true,
-            elements: [
-              {
-                id: 1,
-                name: "Play with demo project",
-                isDone: true,
-              },
-              {
-                id: 2,
-                name: "Get some online courses",
-                isDone: true,
-              },
-              {
-                id: 3,
-                name: "Create Your own project on Symfony 7.x",
-                isDone: false,
-              },
-            ],
-            module: {
-              name: "issues",
-              id: 1,
-            }
-          },
-          contacts: [1,2,3],
-          progressList: [1,2,3],
-          isForDashboard: true
-        },
-        {
-          title: "Steal some moniez",
-          hasRelatedTodo: true,
-          todo: {},
-          contacts: [1,2,3],
-          progressList: [1,2,3],
-          isForDashboard: false
-        },
-      ],
+      blocksData: [] as Array<SingleIssue>,
       isAddNewModalVisible: false,
     }
   },
@@ -111,6 +70,17 @@ export default {
   },
   mixins: [
     MobileAwareMixin
-  ]
+  ],
+  methods: {
+    /**
+     * @description fetches all the issues from backend
+     */
+    async getIssues(): Promise<void> {
+      this.blocksData = await this.$moduleCall.getAll(SymfonyIssuesRoutes.ISSUE_BASE_URL);
+    }
+  },
+  mounted(): void {
+    this.getIssues();
+  }
 }
 </script>

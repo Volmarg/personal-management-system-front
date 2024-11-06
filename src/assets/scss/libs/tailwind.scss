@@ -14,6 +14,14 @@
   flex-direction: column !important;
 }
 
+.\!ml-0 {
+  margin-left: 0 !important;
+}
+
+.\!mr-0 {
+  margin-right: 0 !important;
+}
+
 .mb-30 {
   margin-bottom: 8.5rem
 }
@@ -32,4 +40,12 @@
 
 .text-md {
   font-size: 1rem;
+}
+
+.z-21 {
+  z-index: 21;
+}
+
+.z-22 {
+  z-index: 22;
 }

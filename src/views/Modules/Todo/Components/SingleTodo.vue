@@ -1,57 +1,53 @@
 <template>
-  <div class="single-todo"
-       :class="{
-          'fixed-size': !isLargeScreenBreakingPoint && !showElementsInBlock,
-          'auto-size': isLargeScreenBreakingPoint && !showElementsInBlock,
-          'elements-in-block': showElementsInBlock,
-          'interactive-todo': isInteractive,
-       }"
-       v-tippy="{
-          content: blockTippyContent,
-          placement: 'top'
-       }"
-       @click="onSingleTodoClick"
+
+  <SmallDataBlock :show-elements-in-block="showElementsInBlock"
+                  :is-interactive="isInteractive"
+                  v-tippy="{
+                    content: blockTippyContent,
+                    placement: 'top'
+                 }"
+                  @click="onSingleTodoClick"
   >
-    <!-- Add `flex flex-row` when using the showOnDashboard -->
-    <div class="widget w-full p-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
-      <div class="flex flex-row">
-        <!-- not supported for dashboard atm. -->
-        <IsOnDashboardState :is-for-dashboard="showOnDashboard"
-                            class="mr-2 self-end"
-                            v-if="false"
-        />
+    <template #outer>
+      <!-- not supported for dashboard atm. -->
+      <IsOnDashboardState :is-for-dashboard="showOnDashboard"
+                          class="mr-2 self-end"
+                          v-if="false"
+      />
+    </template>
 
-        <div class="flex flex-row items-center justify-between w-full">
-          <div class="flex flex-col w-full">
-            <div class="name text-2md">{{ usedName }}</div>
-            <div class="description">{{ usedDesc }}</div>
+    <template #topLine>
+      {{usedName}}
+    </template>
 
-            <div v-if="showElementsInBlock"
-                 class="w-full"
-            >
-              <ul class="w-full">
+    <template #bottomLine>
+      {{usedDesc}}
+    </template>
 
-                <li v-for="element in elements"
-                    :key="JSON.stringify(element)"
-                    class="flex flex-row justify-between text-left mt-1"
-                  >
-                  <span>{{element.name}}</span>
-                  <StateBadge :is-done="element.isDone" />
-                </li>
+    <template #addition>
+      <div v-if="showElementsInBlock"
+           class="w-full"
+      >
+        <ul class="w-full mt-4">
 
-              </ul>
-            </div>
+          <li v-for="element in elements"
+              :key="JSON.stringify(element)"
+              class="flex flex-row justify-between text-left mt-1"
+          >
+            <span>{{element.name}}</span>
+            <StateBadge :is-done="element.isDone" />
+          </li>
 
-          </div>
-          <slot name="icon"></slot>
-        </div>
+        </ul>
       </div>
-    </div>
-  </div>
+    </template>
+
+  </SmallDataBlock>
 
 </template>
 
 <script lang="ts">
+import SmallDataBlock     from "@/components/Ui/Containers/SmallDataBlock.vue";
 import StateBadge         from "@/views/Modules/Todo/Components/StateBadge.vue";
 import IsOnDashboardState from "@/components/Ui/State/IsOnDashboardState.vue";
 
@@ -113,6 +109,7 @@ export default {
   ],
   components: {
     StateBadge,
+    SmallDataBlock,
     IsOnDashboardState,
   },
   computed: {
@@ -163,48 +160,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.name {
-  @apply uppercase text-left font-bold
-}
-
-.description {
-  @apply text-xs text-left text-gray-500
-}
-
-.fixed-size {
-  $width: 349px !important;
-  $height: 90px !important;
-
-  // uncomment when using the show-for-dashboard
-  //$height: 95px !important;
-
-
-  min-width: $width;
-  max-width: $width;
-  min-height: $height;
-  max-height: $height;
-
-  .widget {
-    min-width: $width;
-    max-width: $width;
-    min-height: $height;
-    max-height: $height;
-  }
-
-  @apply m-2
-}
-
-.auto-size {
-  @apply w-full lg:w-1/4 my-2
-}
-
-.elements-in-block {
-  @apply w-full my-2 px-2 lg:w-1/2
-}
-
-.interactive-todo {
-  @apply cursor-pointer hover:scale-110 transform transition-transform ease-in-out
-}
-</style>

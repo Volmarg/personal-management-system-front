@@ -1,13 +1,114 @@
 {
     "issues": {
         "pending": {
+            "common": {
+                "createEditForm": {
+                    "header": {
+                        "new": "Add new issue",
+                        "edit": "Update issue"
+                    },
+                    "name": {
+                        "label": "Name"
+                    },
+                    "description": {
+                        "label": "Description"
+                    },
+                    "showOnDashboard": {
+                        "label": "Show on dashboard"
+                    },
+                    "submit": {
+                        "label": "Submit"
+                    }
+                }
+            },
             "modal": {
+                "addNew": {
+                    "header": "New record"
+                },
                 "remove": {
                     "header": "Remove issue",
                     "description": "Do You really want to remove this entry"
                 },
                 "addNewTodo": {
                     "header": "Create related todo"
+                },
+                "viewEdit": {
+                    "header": "View / edit data",
+                    "tabs": {
+                        "edit": {
+                            "label": "Main data"
+                        },
+                        "contacts": {
+                            "label": "Contacts data",
+                            "form": {
+                                "header": {
+                                    "new": "Add new contact",
+                                    "edit": "Update contact"
+                                },
+                                "information": {
+                                    "label": "Information"
+                                },
+                                "date": {
+                                    "label": "Date"
+                                },
+                                "submit": {
+                                    "label": "Submit"
+                                }
+                            },
+                            "removeModal": {
+                                "header": "Remove contact",
+                                "text": "Do You really want to remove this contact?",
+                                "button": {
+                                    "delete": {
+                                        "label": "Delete"
+                                    }
+                                }
+                            },
+                            "editModal": {
+                                "header": "Edit contact",
+                                "button": {
+                                    "delete": {
+                                        "label": "Delete"
+                                    }
+                                }
+                            }
+                        },
+                        "progress": {
+                            "label": "Progress data",
+                            "form": {
+                                "header": {
+                                    "new": "Add new progress",
+                                    "edit": "Update progress"
+                                },
+                                "information": {
+                                    "label": "Information"
+                                },
+                                "date": {
+                                    "label": "Date"
+                                },
+                                "submit": {
+                                    "label": "Submit"
+                                }
+                            },
+                            "removeModal": {
+                                "header": "Remove progress",
+                                "text": "Do You really want to remove this progress?",
+                                "button": {
+                                    "delete": {
+                                        "label": "Delete"
+                                    }
+                                }
+                            },
+                            "editModal": {
+                                "header": "Edit Progress",
+                                "button": {
+                                    "delete": {
+                                        "label": "Delete"
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             },
             "button": {
