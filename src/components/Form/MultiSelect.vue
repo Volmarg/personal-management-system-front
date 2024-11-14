@@ -244,6 +244,11 @@ export default {
      *              and rest gets ignored.
      */
     preselectValueHandler(): void {
+      if (this.modelValue) {
+        this.value = this.modelValue;
+        return;
+      }
+
       for (let option of this.options) {
         if (option.selected) {
           this.value = option.value;
@@ -459,7 +464,9 @@ export default {
       }
     },
     modelValue(newValue: unknown): void {
-      this.value = newValue;
+      this.$nextTick(() => {
+        this.value = newValue;
+      })
     }
   }
 }
