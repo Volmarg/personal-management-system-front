@@ -37,11 +37,14 @@
 <script lang="ts">
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import FormInput            from "@/components/Form/Input.vue";
+import Checkbox             from "@/components/Form/Checkbox.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import SymfonyIssuesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
-import Checkbox from "@/components/Form/Checkbox.vue";
+
 import BaseApiResponse from "@/scripts/Response/BaseApiResponse";
+
+import SymfonyIssuesRoutes     from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
+import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
 
 export default {
   data(): ComponentData {
@@ -98,11 +101,12 @@ export default {
         isForDashboard: this.form.showOnDashboard,
       };
 
+      let config = new BackendModuleCallConfig(SymfonyIssuesRoutes.ISSUE_BASE_URL, this.id, BaseApiResponse, dataBag);
       let response: BaseApiResponse;
       if (this.id) {
-        response = await this.$moduleCall.update(SymfonyIssuesRoutes.ISSUE_BASE_URL, this.id, dataBag);
+        response = await this.$moduleCall.update(config);
       } else {
-        response = await this.$moduleCall.new(SymfonyIssuesRoutes.ISSUE_BASE_URL, dataBag);
+        response = await this.$moduleCall.new(config);
       }
 
       if (response.success) {

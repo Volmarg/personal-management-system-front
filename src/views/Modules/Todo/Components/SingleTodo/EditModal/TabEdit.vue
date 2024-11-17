@@ -5,10 +5,13 @@
       <h2 class="text-lg mb-2">{{ $t('todo.common.form.createEditTodo.header.edit') }}</h2>
       <CreateEditForm :initial-desc="todoData.description"
                       :initial-name="todoData.name"
-                      :initial-module="todoData?.module?.name ?? ''"
-                      :initial-module-record="todoData?.module?.id ?? ''"
+                      :initial-module="todoData?.module?.id ?? ''"
+                      :initial-module-record="recordId"
                       :initial-show-on-dashboard="todoData.showOnDashboard"
+                      :force-fetched-record-ids="forceFetchedRecordIds"
+                      :id="todoData.id"
                       :can-select-module="canSelectModule"
+                      @submit="$emit('updateConfirmClick')"
       />
     </div>
   </div>
@@ -49,7 +52,25 @@ export default {
     CreateEditForm,
   },
   emits: [
-    'singleTodoClick'
+    'updateConfirmClick'
   ],
+  computed: {
+    /**
+     * @description returns the related module record id that is related to the "todo", or null if relation does not exist
+     */
+    recordId(): number | null {
+      return this.todoData?.module?.entryId ?? null
+    },
+    /**
+     * @description returns the ids of records that should be force fetched from backend (used in module/record select)
+     */
+    forceFetchedRecordIds(): Array<number> {
+      if (!this.recordId) {
+        return [];
+      }
+
+      return [this.recordId];
+    }
+  }
 }
 </script>

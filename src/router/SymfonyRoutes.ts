@@ -11,6 +11,8 @@ import LocalStorageService  from "@/scripts/Core/Services/Storage/LocalStorageSe
  */
 export default class SymfonyRoutes {
 
+    public static readonly PARAM_ID = "id";
+
     /**
      * @description will build url for provided baseUrl(can consist of parameters in url) and parameters to be set
      *              the output url consist of no parameters in url

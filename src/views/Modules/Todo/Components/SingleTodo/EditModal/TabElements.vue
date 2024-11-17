@@ -1,9 +1,19 @@
 <template>
   <!-- entries -->
-  <div v-if="Object.keys(todoData).length > 0 && todoData.elements.length > 0">
-    <SingleElement v-for="element of todoData.elements"
+  <div v-if="elements.length > 0">
+    <SingleElement v-for="element of visibleResults"
                    :key="JSON.stringify(element)"
                    :element="element"
+                   :todo="todoData"
+                   @remove-click="$emit('removeClick', {element: element})"
+                   @edit-click="$emit('editClick', {element: element})"
+    />
+
+    <Pagination :number-of-results="elements.length"
+                :initial-current-page="currentPage"
+                :initial-count-of-result-per-page="resultsPerPage"
+                @page-number-changes="onPaginationChange"
+                class="mt-6"
     />
 
     <hr class="mt-4">
@@ -12,45 +22,30 @@
   <NoResultsText v-else/>
 
   <!-- form -->
-  <div class="flex justify-center w-full">
-    <div class="w-full md:w-1/2">
-      <div class="mt-6 w-full flex flex-col">
-        <h2 class="text-lg">{{ $t('todo.common.form.newTodoElement.header') }}</h2>
+  <CreateEditElementForm @submit="$emit('createClick')"
+                         :header="$t('todo.common.form.createEditTodoElement.headerNew')"
+                         :todo-data="todoData"
+  />
 
-        <FormInput type="text"
-                   :model-value="form.name"
-                   :label="$t('todo.common.form.newTodoElement.name.label')"
-        />
-
-        <MediumButtonWithIcon :text="$t('todo.common.form.newTodoElement.submit.label')"
-                              button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                              class="w-full mb-1 md:col-start-1 md:col-end-2 mt-2"
-                              button-classes="w-full md:w-auto m-0-force"
-                              text-classes="text-center w-full"
-                              @button-click="onNewSubmit"
-        />
-
-      </div>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
-import SingleElement        from "@/views/Modules/Todo/Components/SingleTodo/EditModal/TabElements/SingleElement.vue";
-import NoResultsText        from "@/components/Page/NoResultsText.vue";
-import FormInput            from "@/components/Form/Input.vue";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import SingleElement         from "@/views/Modules/Todo/Components/SingleTodo/EditModal/TabElements/SingleElement.vue";
+import NoResultsText         from "@/components/Page/NoResultsText.vue";
+import Pagination            from "@/components/Ui/Pagination.vue";
+import CreateEditElementForm from "@/views/Modules/Todo/Components/CreateEditElementForm.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import PaginationMixin from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
 
 export default {
   data(): ComponentData {
     return {
+      currentPage: 1,
+      resultsPerPage: 5,
+      visibleResults: [],
       checkboxes: {},
-      form: {
-        name: ''
-      },
     }
   },
   props: {
@@ -60,21 +55,43 @@ export default {
     },
   },
   components: {
-    MediumButtonWithIcon,
-    FormInput,
+    CreateEditElementForm,
+    Pagination,
     NoResultsText,
     SingleElement,
   },
   emits: [
-    'singleTodoClick'
+    'singleTodoClick',
+    'createClick',
+    "removeClick",
+    "editClick",
   ],
+  mixins: [
+    PaginationMixin,
+  ],
+  computed: {
+    /**
+     * @description returns elements in the todo
+     */
+    elements(): Array {
+      if (Object.keys(this.todoData).length > 0 && this.todoData.elements.length > 0) {
+        return this.todoData.elements;
+      }
+
+      return [];
+    }
+  },
   methods: {
     /**
-     * @description handle submitting new tab element, insert data in db
+     * @description will handle the event when page number changes on pagination
      */
-    onNewSubmit(): void {
-      //todo
-    }
+    onPaginationChange(currentPage: number, countOfResultsPerPage: number): void {
+      this.currentPage    = currentPage;
+      this.visibleResults = this.filterShownResultByPagination(currentPage, countOfResultsPerPage, this.elements);
+    },
+  },
+  mounted(): void {
+    this.visibleResults = this.filterShownResultByPagination(this.currentPage, this.resultsPerPage, this.elements);
   }
 }
 </script>

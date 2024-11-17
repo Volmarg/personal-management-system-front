@@ -29,24 +29,32 @@
                     }
                 }
             },
+            "removeModal": {
+                "header": "Remove todo",
+                "text": "Do You really want to remove this record?"
+            },
+            "removeElementModal": {
+                "header": "Remove todo element",
+                "text": "Do You really want to remove this record?"
+            },
+            "editElementModal": {
+                "header": "Edit todo element"
+            },
             "form": {
                 "moduleSelect": {
                     "text": {
                         "module": "Module",
-                        "record": "Module record",
-                        "modules": {
-                            "goals": "Goals",
-                            "issues": "Issues"
-                        }
+                        "record": "Module record"
                     }
                 },
-                "newTodoElement": {
-                    "header": "Add new todo element",
+                "createEditTodoElement": {
+                    "headerNew": "Add new todo element",
+                    "headerEdit": "Edit todo element",
                     "name": {
                         "label": "Name"
                     },
                     "submit": {
-                        "label": "Add"
+                        "label": "Submit"
                     }
                 },
                 "createEditTodo": {

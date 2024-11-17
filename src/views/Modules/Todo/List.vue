@@ -10,16 +10,44 @@
       <div class="flex justify-center">
         <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
           <h2 class="text-lg mb-2">{{ $t('todo.common.form.createEditTodo.header.new') }}</h2>
-          <CreateEditForm @form-submit="onNewSubmit" />
+          <CreateEditForm @submit="getAll"
+                          ref="form"
+          />
         </div>
       </div>
     </Container>
   </Base>
 
-
   <EditModal :is-modal-visible="isEditModalVisible"
-             @modal-closed="isEditModalVisible = false"
+             @modal-closed="onEditClose"
+             @delete-click="isRemoveModalVisible = true"
+             @delete-element-click="onElementDelete"
+             @edit-element-click="onElementEdit"
+             @update-confirm-click="getAll"
+             @create-click="onElementCreateOrUpdate"
              :todo-data="activeTodo"
+  />
+
+  <RemoveModal :is-modal-visible="isRemoveModalVisible"
+               @modal-closed="isRemoveModalVisible = false"
+               @remove-confirm-click="onRemoveConfirm"
+               class="relative z-21"
+               :todo-data="activeTodo"
+  />
+
+  <ElementEditModal :is-modal-visible="isElementEditModalVisible"
+                    :element="activeElement"
+                    :todo-data="activeTodo"
+                    @modal-closed="isElementEditModalVisible = false; activeElement = null"
+                    @confirm-click="onElementCreateOrUpdate"
+                    class="relative z-30"
+  />
+
+  <ElementRemoveModal :is-modal-visible="isElementRemoveModalVisible"
+                      :element="activeElement"
+                      @modal-closed="isElementRemoveModalVisible = false; activeElement = null"
+                      @remove-confirm-click="oneElementRemoveConfirm"
+                      class="relative z-21"
   />
 
 </template>
@@ -38,91 +66,25 @@ import Base      from "@/views/Modules/Base.vue";
 import TabGoals  from "@/views/Modules/Todo/Components/Tabs/TabGoals.vue";
 import TabIssues from "@/views/Modules/Todo/Components/Tabs/TabIssues.vue";
 import TabTodo   from "@/views/Modules/Todo/Components/Tabs/TabTodo.vue";
-import EditModal from "@/views/Modules/Todo/Components/SingleTodo/EditModal.vue";
+
+import EditModal   from "@/views/Modules/Todo/Components/SingleTodo/EditModal.vue";
+import RemoveModal from "@/views/Modules/Todo/Components/SingleTodo/RemoveModal.vue";
+
+import ElementEditModal   from "@/views/Modules/Todo/Components/SingleTodo/EditModal/TabElements/EditModal.vue";
+import ElementRemoveModal from "@/views/Modules/Todo/Components/SingleTodo/EditModal/TabElements/RemoveModal.vue";
+
+import SymfonyTodoRoutes from "@/router/SymfonyRoutes/Modules/SymfonyTodoRoutes";
 
 export default {
   data(): ComponentData {
     return {
       activeTodo: null,
-      todo: [
-        {
-          id: 1,
-          name: "Learn symfony framework",
-          description: "Discover the magic of Symfony",
-          showOnDashboard: true,
-          elements: [
-            {
-              id: 1,
-              name: "Play with demo project",
-              isDone: true,
-            },
-            {
-              id: 2,
-              name: "Get some online courses",
-              isDone: true,
-            },
-            {
-              id: 3,
-              name: "Create Your own project on Symfony 7.x",
-              isDone: false,
-            },
-          ],
-          module: {
-            name: "issues",
-            id: 1,
-          }
-        },
-        {
-          id: 3,
-          name: "Get an expensive cookie",
-          description: "Need super expensive sweets, cuz I'm worth it!",
-          showOnDashboard: true,
-          elements: [
-            {
-              id: 5,
-              name: "Eat the cookie!",
-              isDone: false,
-            },
-          ],
-          module: {
-            name: null,
-            id: 1,
-          }
-        },
-        {
-          id: 2,
-          name: "Start learning how to play guitar",
-          description: "",
-          showOnDashboard: false,
-          elements: [
-            {
-              id: 4,
-              name: "Get guitar",
-              isDone: false,
-            },
-            {
-              id: 5,
-              name: "Check methods for self learning",
-              isDone: true,
-            },
-            {
-              id: 6,
-              name: "Check guitars to buy",
-              isDone: true,
-            },
-            {
-              id: 7,
-              name: "Test",
-              isDone: false,
-            },
-          ],
-          module: {
-            name: "goals",
-            id: "",
-          }
-        },
-      ],
+      activeElement: null,
+      todo: [],
       isEditModalVisible: false,
+      isRemoveModalVisible: false,
+      isElementRemoveModalVisible: false,
+      isElementEditModalVisible: false,
       years: [
         {
           label: 2019,
@@ -137,6 +99,9 @@ export default {
   },
   components: {
     CreateEditForm,
+    ElementRemoveModal,
+    ElementEditModal,
+    RemoveModal,
     EditModal,
     Container,
     Base,
@@ -177,10 +142,61 @@ export default {
   },
   methods: {
     /**
-     * @description handle user pressing submit, creates entry in db and updates front
+     * @description element gets removed, close the modals, and re-fetch all entries
      */
-    onNewSubmit(): void {
-      //
+    oneElementRemoveConfirm(): void {
+      this.isElementRemoveModalVisible = false;
+      this.isEditModalVisible = false;
+      this.getAll();
+    },
+    /**
+     * @description triggered when element creation / update has been confirmed
+     */
+    onElementCreateOrUpdate(): void {
+      this.activeTodo = null;
+      this.activeElement = null;
+
+      this.isEditModalVisible = false;
+      this.isElementEditModalVisible = false;
+
+      this.getAll();
+    },
+    /**
+     * @description when element-delete is clicked: show modal, set currently handled element data
+     */
+    onElementDelete(eventData: Record): void {
+      this.isElementRemoveModalVisible = true;
+      this.activeElement = eventData.element;
+    },
+    /**
+     * @description sets the active element and makes the element edit modal visible
+     */
+    onElementEdit(eventData: Record): void {
+      this.isElementEditModalVisible = true;
+      this.activeElement = eventData.element;
+    },
+    /**
+     * @description when todo-edit modal is closed: hide modal, unset todo data and clear form
+     */
+    onEditClose(): void {
+      this.isEditModalVisible = false;
+      this.activeTodo = null;
+      this.$refs.form.clearFormData();
+    },
+    /**
+     * @description returns all entries from backend
+     */
+    async getAll(): Promise<void> {
+      this.todo = await this.$moduleCall.getAll(SymfonyTodoRoutes.TODO_BASE_URL);
+    },
+    /**
+     * @description closes all the dialogs and fetches new data state
+     */
+    onRemoveConfirm(): void {
+      this.isRemoveModalVisible = false;
+      this.isElementRemoveModalVisible = false;
+      this.isEditModalVisible = false
+      this.getAll();
     },
     /**
      * @description sets the active todo data and shows the dialog
@@ -189,6 +205,9 @@ export default {
       this.activeTodo = this.getTodoById(id, this.todo);
       this.isEditModalVisible = true;
     }
+  },
+  beforeMount(): void {
+    this.getAll();
   }
 }
 </script>

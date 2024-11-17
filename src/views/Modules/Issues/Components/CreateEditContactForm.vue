@@ -30,8 +30,9 @@ import FormInput            from "@/components/Form/Input.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import SymfonyIssuesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
-import BaseApiResponse     from "@/scripts/Response/BaseApiResponse";
+import SymfonyIssuesRoutes     from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
+import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
+import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
 
 export default {
   data(): ComponentData {
@@ -81,10 +82,13 @@ export default {
      */
     async onSubmit(): void {
       let response: BaseApiResponse;
+      let config = new BackendModuleCallConfig(SymfonyIssuesRoutes.ISSUE_CONTACT_BASE_URL, this.id, BaseApiResponse, this.form);
+      config.parentId = this.issueId;
+
       if (this.id) {
-        response = await this.$moduleCall.update(SymfonyIssuesRoutes.ISSUE_CONTACT_BASE_URL, this.id, this.form);
+        response = await this.$moduleCall.update(config);
       } else {
-        response = await this.$moduleCall.new(SymfonyIssuesRoutes.ISSUE_CONTACT_BASE_URL, this.form, BaseApiResponse, this.issueId);
+        response = await this.$moduleCall.new(config);
       }
 
       if (response.success) {

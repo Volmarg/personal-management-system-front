@@ -2,13 +2,13 @@
   <div>
 
     <WarningModal :is-visible="showModal"
-                  :title="$t('todo.common.removeModal.header')"
+                  :title="$t('todo.common.removeElementModal.header')"
                   @modal-closed="onModalClosed"
                   @confirm="onDelete"
                   :size="modalSize"
     >
       <template #content>
-        {{ $t('todo.common.removeModal.text') }}
+        {{ $t('todo.common.removeElementModal.text') }}
       </template>
     </WarningModal>
 
@@ -20,7 +20,7 @@ import WarningModal                 from "@/components/Modal/WarningModal.vue";
 import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import {SingleTodo}    from "@/scripts/Core/Types/Modules/Todo";
+import {SingleElement} from "@/scripts/Core/Types/Modules/Todo";
 
 import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
@@ -37,8 +37,8 @@ export default {
     }
   },
   props: {
-    todoData: {
-      type: Object as SingleTodo,
+    element: {
+      type: Object as SingleElement,
       required: true,
     },
     isModalVisible: {
@@ -65,7 +65,7 @@ export default {
      * @description handle deleting the entry on backend
      */
     async onDelete(): void {
-      await this.$moduleCall.remove(SymfonyTodoRoutes.TODO_BASE_URL, this.todoData.id);
+      await this.$moduleCall.remove(SymfonyTodoRoutes.TODO_ELEMENT_BASE_URL, this.element.id);
       this.$emit('removeConfirmClick');
     }
   },

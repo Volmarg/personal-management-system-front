@@ -1,5 +1,4 @@
 import BaseApiResponse      from "@/scripts/Response/BaseApiResponse";
-import {AxiosPostDataBag}   from "@/scripts/Core/Types/Request/AxiosTypes";
 import AppAxios             from "@/scripts/Core/Services/Request/AppAxios";
 import UrlService           from "@/scripts/Core/Services/Url/UrlService";
 import SymfonyRoutes        from "@/router/SymfonyRoutes";
@@ -7,6 +6,8 @@ import TranslationsProvider from "@/scripts/Vue/Provider/TranslationsProvider";
 import WindowService        from "@/scripts/Core/Services/WindowService";
 
 import ToastNotification, {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
+import BackendModuleCallConfig            from "@/scripts/Dto/BackendModuleCallConfig";
+import EventDispatcherService             from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
 
 /**
  * @description service used for calling the backed rest endpoint of modules, a simple wrapper
@@ -20,38 +21,60 @@ export class BackendModuleCaller {
     /**
      * @description handles creating module record
      */
-    public async new(baseUrl: string, dataBag: AxiosPostDataBag, castedDto = BaseApiResponse, parentId?: number): Promise<BaseApiResponse> {
+    public async new(config: BackendModuleCallConfig): Promise<BaseApiResponse> {
         let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordCreated');
         let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.couldNotCreateRecord');
 
-        let calledUrl = (parentId ? (UrlService.addTrailingSlash(baseUrl) + parentId) : baseUrl);
-        return await new AppAxios().post(SymfonyRoutes.buildUrl(calledUrl), dataBag, castedDto).then((response) => {
-            return this.handleResponse(response, successMsg, failMsg);
-        });
+        let calledUrl = SymfonyRoutes.buildUrl((config.parentId ? (UrlService.addTrailingSlash(config.baseUrl) + config.parentId) : config.baseUrl));
+
+        EventDispatcherService.emitShowFullPageLoader();
+        return await new AppAxios().post(calledUrl, config.dataBag, config.castedDto).then((response) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            return this.handleResponse(response, successMsg, failMsg, config.reload);
+        }).catch((error) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            throw error;
+        })
     }
 
     /**
      * @description handles updating module record
      */
-    public async update(baseUrl: string,  id: number, dataBag: AxiosPostDataBag, castedDto = BaseApiResponse): Promise<BaseApiResponse> {
+    public async update(config: BackendModuleCallConfig): Promise<BaseApiResponse> {
         let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordUpdated');
         let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.recordCouldNotBeUpdated');
 
-        return await new AppAxios().patch(SymfonyRoutes.buildUrl(UrlService.addTrailingSlash(baseUrl) + id), dataBag, castedDto).then((response) => {
-            return this.handleResponse(response, successMsg, failMsg);
+        let url = UrlService.addTrailingSlash(SymfonyRoutes.buildUrl(config.baseUrl)) + config.id;
+        if (config.parentId) {
+            url += `/${config.parentId}`;
+        }
+
+        EventDispatcherService.emitShowFullPageLoader();
+        return await new AppAxios().patch(url, config.dataBag, config.castedDto).then((response) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            return this.handleResponse(response, successMsg, failMsg, config.reload);
+        }).catch((error) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            throw error;
         });
     }
 
     /**
      * @description handles removing module record
      */
-    public async remove(baseUrl: string, id: number): Promise<BaseApiResponse> {
+    public async remove(baseUrl: string, id: number, reload: boolean = true): Promise<BaseApiResponse> {
         let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordHasBeenRemoved');
         let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.recordCouldNotBeRemoved');
 
-        let calledUrl = UrlService.addTrailingSlash(baseUrl) + id;
-        return await new AppAxios().delete(SymfonyRoutes.buildUrl(calledUrl)).then((response) => {
-            return this.handleResponse(response, successMsg, failMsg);
+        let calledUrl = SymfonyRoutes.buildUrl(UrlService.addTrailingSlash(baseUrl) + id);
+
+        EventDispatcherService.emitShowFullPageLoader();
+        return await new AppAxios().delete(calledUrl).then((response) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            return this.handleResponse(response, successMsg, failMsg, null , reload);
+        }).catch((error) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            throw error;
         });
     }
 
@@ -60,7 +83,16 @@ export class BackendModuleCaller {
      */
     public async get(baseUrl: string, id: number): Promise<Record> {
         let calledUrl = SymfonyRoutes.buildUrl(UrlService.addTrailingSlash(baseUrl) + id);
-        let response = await new AppAxios().get(calledUrl, BaseApiResponse);
+
+        EventDispatcherService.emitShowFullPageLoader();
+        let response = await new AppAxios().get(calledUrl, BaseApiResponse).then((response) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            return response;
+        }).catch((error) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            throw error;
+        });
+
         let singleRecord = response.data[BackendModuleCaller.KEY_SINGLE_RECORD];
         if (undefined === singleRecord) {
             throw new BaseApiResponse(`Called 'get', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_SINGLE_RECORD}`);
@@ -97,7 +129,12 @@ export class BackendModuleCaller {
      *              - show front success message because backend returns "OK" etc.
      *              - show backend fail message because it can contain validation errors etc.
      */
-    private handleResponse(response: BaseApiResponse, successMessage: string | null = null, failMsg: string | null = null): void {
+    private handleResponse(
+        response: BaseApiResponse,
+        successMessage: string | null = null,
+        failMsg: string | null = null,
+        reload: boolean = true
+    ): void {
 
         let type: string;
         let msg: string;
@@ -110,7 +147,10 @@ export class BackendModuleCaller {
         }
 
         ToastNotification.showAlert(type, msg);
-        WindowService.reloadHistory();
+        if (reload) {
+            WindowService.reloadHistory();
+        }
+
         return response;
     }
 }

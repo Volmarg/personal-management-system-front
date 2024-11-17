@@ -34,6 +34,8 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import SymfonyIssuesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
 import BaseApiResponse     from "@/scripts/Response/BaseApiResponse";
 
+import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
+
 export default {
   data(): ComponentData {
     return {
@@ -82,11 +84,14 @@ export default {
      * @description handle submitting form data - send data to backend
      */
     async onSubmit(): void {
+      let config = new BackendModuleCallConfig(SymfonyIssuesRoutes.ISSUE_PROGRESS_BASE_URL, this.id, BaseApiResponse, this.form);
+      config.parentId = this.issueId;
+
       let response: BaseApiResponse;
       if (this.id) {
-        response = await this.$moduleCall.update(SymfonyIssuesRoutes.ISSUE_PROGRESS_BASE_URL, this.id, this.form);
+        response = await this.$moduleCall.update(config);
       } else {
-        response = await this.$moduleCall.new(SymfonyIssuesRoutes.ISSUE_PROGRESS_BASE_URL, this.form, BaseApiResponse, this.issueId);
+        response = await this.$moduleCall.new(config);
       }
 
       if (response.success) {

@@ -1,18 +1,22 @@
 <template>
   <FormInput type="text"
-             :model-value="form.name"
+             v-model="form.name"
              :label="$t('todo.common.form.createEditTodo.name.label')"
   />
   <FormInput type="text"
-             :model-value="form.description"
+             v-model="form.description"
              :label="$t('todo.common.form.createEditTodo.description.label')"
   />
 
   <ModuleSelect :options="years"
-                :initial-module="initialModule"
-                :initial-record="initialModuleRecord"
+                :initial-module="form.module"
+                :initial-record="form.recordId"
+                :force-fetched-record-ids="forceFetchedRecordIds"
+                @record-change="form.recordId = $event"
+                @module-change="form.moduleId = $event"
                 class="mb-6"
                 v-if="canSelectModule"
+                ref="moduleSelect"
   />
 
   <!-- not supported by now, uncomment once enabled -->
@@ -30,7 +34,7 @@
                         class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
                         button-classes="w-full md:w-auto m-0-force"
                         text-classes="text-center w-full"
-                        @button-click="$emit('formSubmit')"
+                        @button-click="onSubmit"
                         v-if="isSubmitVisible"
   />
 </template>
@@ -39,9 +43,15 @@
 import ModuleSelect         from "@/views/Modules/Todo/Components/ModuleSelect.vue";
 import FormInput            from "@/components/Form/Input.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import Checkbox             from "@/components/Form/Checkbox.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import Checkbox from "@/components/Form/Checkbox.vue";
+
+import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
+import SymfonyTodoRoutes       from "@/router/SymfonyRoutes/Modules/SymfonyTodoRoutes";
+import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
+
+import {TodoModuleState} from "@/scripts/Vue/Store/TodoModuleState";
 
 export default {
   data(): ComponentData {
@@ -51,11 +61,17 @@ export default {
         description: '',
         module: null,
         moduleId: null,
+        recordId: null,
         showOnDashboard: false,
       }
     }
   },
   props: {
+    id: {
+      type: [Number, null],
+      required: false,
+      default: null,
+    },
     initialName: {
       type: String,
       required: false,
@@ -81,6 +97,11 @@ export default {
       required: false,
       default: false
     },
+    forceFetchedRecordIds: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
     canSelectModule: {
       type: Boolean,
       required: false,
@@ -92,20 +113,64 @@ export default {
       default: true,
     }
   },
+  emits: [
+    'submit'
+  ],
   components: {
     Checkbox,
     MediumButtonWithIcon,
     FormInput,
     ModuleSelect
   },
-  emits: [
-    'formSubmit'
-  ],
+  methods: {
+    /**
+     * @description wipes the form data
+     */
+    clearFormData(): void {
+      this.form.name = '';
+      this.form.description = '';
+      this.form.module = null;
+      this.form.moduleId = null;
+      this.form.recordId = null;
+      this.form.showOnDashboard = false;
+      if (this.$refs.moduleSelect) {
+        this.$refs.moduleSelect.clearSelections();
+      }
+    },
+    /**
+     * @description handle submitting form data - send data to backend
+     */
+    async onSubmit(): void {
+      let data = {
+        moduleId: this.form.moduleId,
+        recordId: this.form.recordId,
+        name: this.form.name,
+        description: this.form.description,
+        isForDashboard: this.form.showOnDashboard,
+      };
+
+      let config = new BackendModuleCallConfig(SymfonyTodoRoutes.TODO_BASE_URL, this.id, BaseApiResponse, data);
+      config.reload = false;
+
+      let response: BaseApiResponse;
+      if (this.id) {
+        response = await this.$moduleCall.update(config);
+      } else {
+        response = await this.$moduleCall.new(config);
+      }
+
+      if (response.success) {
+        this.$emit('submit');
+        await TodoModuleState().fetchModulesWithRecordsData();
+        this.clearFormData();
+      }
+    }
+  },
   created(): void {
     this.form.name = this.initialName;
     this.form.description = this.initialDesc;
     this.form.module = this.initialModule;
-    this.form.moduleId = this.initialModuleRecord;
+    this.form.recordId = this.initialModuleRecord;
     this.form.showOnDashboard = this.initialShowOnDashboard;
   }
 }

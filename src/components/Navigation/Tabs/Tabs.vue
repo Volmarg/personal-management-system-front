@@ -42,7 +42,12 @@
                    @close-modal="$emit('closeModal')"
                    @contact-edit-click="$emit('contactEditClick', $event)"
                    @progress-edit-click="$emit('progressEditClick', $event)"
+                   @todo-update-confirm-click="$emit('todoUpdateConfirmClick', $event)"
+                   @edit-click="$emit('editClick', $event)"
+                   @create-click="$emit('createClick', $event)"
                    @remove-click="$emit('removeClick', $event)"
+                   @confirm-click="$emit('confirmClick', $event)"
+                   @update-confirm-click="$emit('updateConfirmClick', $event)"
        />
       </section>
     </div>
@@ -126,7 +131,12 @@ export default {
     'singleTodoClick',
     'closeModal',
     'removeClick',
+    'createClick',
+    'editClick',
+    'confirmClick',
     'progressEditClick',
+    'updateConfirmClick',
+    'todoUpdateConfirmClick'
   ],
   methods: {
     /**

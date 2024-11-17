@@ -7,11 +7,12 @@
       @deselect="onOptionChanged"
       @clear="onOptionChanged"
       @paste="onOptionChanged"
-      v-model="selectedModule"
+      v-model="selectedModuleId"
       mode="single"
       :allow-show-options-list="true"
       :allow-create-options="false"
       :can-clear="true"
+      v-if="canShowSelect"
   />
 
   <MultiSelect
@@ -29,7 +30,7 @@
       :allow-create-options="false"
       :can-clear="true"
       :required="true"
-      v-if="selectedModule === boundModule.issues"
+      v-if="selectedModuleName === boundModule.issues && canShowSelect"
   />
 </template>
 
@@ -38,24 +39,35 @@ import TodoModuleMixin from "@/views/Modules/Todo/Mixin/TodoModuleMixin.vue";
 
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {TodoModuleState} from "@/scripts/Vue/Store/TodoModuleState";
+
+import BaseError from "@/scripts/Core/Error/BaseError";
 
 export default {
   data(): ComponentData {
     return {
-      selectedModule: null,
+      canShowSelect: true,
+      modulesWithRecordsData: [],
+      todoStateStore: null as null | TodoModuleState,
+      selectedModuleId: null,
       selectedRecord: null,
       options: [],
     }
   },
   props: {
+    forceFetchedRecordIds: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
     initialModule: {
-      type: String,
+      type: [String, null],
       required: false,
       default: null,
     },
     initialRecord: {
-      type: String,
+      type: [String, null],
       required: false,
       default: null,
     }
@@ -66,57 +78,120 @@ export default {
   components: {
     MultiSelect
   },
+  emits: [
+    'moduleChange',
+    'recordChange'
+  ],
   computed: {
-    moduleOptions(): Array<Record> {
-      return [
-        {
-          value: this.boundModule.goals,
-          label: this.$t('todo.common.form.moduleSelect.text.modules.goals')
-        },
-        {
-          value: this.boundModule.issues,
-          label: this.$t('todo.common.form.moduleSelect.text.modules.issues')
+    /**
+     * @description returns the module name for given id
+     */
+    selectedModuleName(): string {
+      if (this.modulesWithRecordsData.length === 0 || !this.selectedModuleId) {
+        return null;
+      }
+
+      for (let moduleData of this.modulesWithRecordsData) {
+        if (moduleData.id == this.selectedModuleId) {
+          return moduleData.name;
         }
-      ]
+      }
+
+      throw new BaseError(`No module name found for module id: ${this.selectedModuleId}`);
     },
+    /**
+     * @description returns module options array
+     */
+    moduleOptions(): Array<Record> {
+      if (!this.todoStateStore) {
+        return [];
+      }
+
+      let moduleOptions = [];
+      for (let moduleData of this.modulesWithRecordsData) {
+        moduleOptions.push({
+          value: moduleData.id,
+          label: moduleData.name
+        })
+      }
+
+      return moduleOptions;
+    },
+    /**
+     * @description returns module selectable records options array
+     */
     recordOptions(): Array<Record> {
-      return [
-        {
-          value: 1,
-          label: "Dummy 1"
-        },
-        {
-          value: 2,
-          label: "Dummy 2"
-        },
-        {
-          value: 3,
-          label: "Dummy 3"
-        },
-        {
-          value: 4,
-          label: "Dummy 4"
-        },
-        {
-          value: 5,
-          label: "Dummy 5"
-        },
-      ]
+      if (!this.todoStateStore) {
+        return [];
+      }
+
+      let options = [];
+      if (!this.selectedModuleId) {
+        return options;
+      }
+
+      let entries = this.modulesWithRecordsData.find((moduleData) => moduleData.id == this.selectedModuleId)?.entries ?? [];
+      for (let entry of entries) {
+        options.push({
+          value: entry.id,
+          label: entry.name
+        })
+      }
+
+      return options;
+    }
+  },
+  methods: {
+    /**
+     * @description clear the selected module and record
+     */
+    clearSelections(): void {
+      this.setUsedData(null, null);
+    },
+    /**
+     * @description set used record id from initially provided data
+     */
+    setUsedData(module: string | null, record: string | null): void {
+      this.selectedModuleId = module;
+      if (this.selectedModuleId) {
+        // that's a must because record select is only visible if certain module is selected, else record entry won't be pre-selected
+        this.$nextTick(() => {
+          this.selectedRecord = record;
+        })
+      }
     }
   },
   mounted(): void {
-    this.selectedModule = this.initialModule;
-    if (this.selectedModule) {
-      // that's a must because record select is only visible if certain module is selected, else record entry won't be pre-selected
-      this.$nextTick(() => {
-        this.selectedRecord = this.initialRecord;
-      })
-    }
+    this.setUsedData(this.initialModule, this.initialRecord);
+    this.todoStateStore = TodoModuleState();
+    this.todoStateStore.fetchModulesWithRecordsData(this.forceFetchedRecordIds)
   },
   watch: {
-    selectedModule(): void {
-      if (this.selectedModule !== this.boundModule.issues) {
+    'todoStateStore.modulesWithRecordsData': {
+      deep: true,
+      handler: function() {
+        this.canShowSelect = false;
+        this.modulesWithRecordsData = this.todoStateStore?.modulesWithRecordsData ?? [];
+        this.$nextTick(() => {
+          this.canShowSelect = true;
+        })
+      }
+    },
+    selectedRecord(): void {
+      this.$emit('recordChange', this.selectedRecord);
+    },
+    selectedModuleId(): void {
+      this.$emit('moduleChange', this.selectedModuleId);
+      if (!this.selectedModuleId) {
         this.selectedRecord = null;
+        this.selectedModuleName = null;
+        return;
+      }
+
+      this.selectedModuleName = this.moduleNameForId;
+      if (this.selectedModuleId !== this.boundModule.issues) {
+        this.selectedRecord = null;
+        return;
       }
     }
   }

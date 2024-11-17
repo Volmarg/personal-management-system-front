@@ -5,9 +5,12 @@ import BaseError from "@/scripts/Core/Error/BaseError";
 export default {
   data(): ComponentData {
     return {
+      /**
+       * @description this must be kept in sync with backend db entries in `module` table
+       */
       boundModule: {
-        goals: "goals",
-        issues: "issues"
+        goals: "My Goals",
+        issues: "My Issues"
       }
     }
   },

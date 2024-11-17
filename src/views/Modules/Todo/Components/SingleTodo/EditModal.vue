@@ -8,6 +8,11 @@
     >
       <template #content>
         <Tabs :tabs-with-content="tabsContent"
+              @update-confirm-click="$emit('updateConfirmClick'); $emit('modalClosed');"
+              @create-click="$emit('createClick')"
+              @close-modal="$emit('modalClosed')"
+              @edit-click="$emit('editElementClick', $event)"
+              @remove-click="$emit('deleteElementClick', $event)"
               id="todoEditModal"
         />
       </template>
@@ -20,7 +25,7 @@
             class="w-full sm:w-auto m-0-force"
             button-classes="w-full sm:w-auto"
             text-classes="text-center w-full"
-            @click="save"
+            @click="$emit('deleteClick')"
         />
       </template>
     </Modal>
@@ -37,7 +42,8 @@ import MediumButtonWithIcon         from "@/components/Navigation/Button/MediumB
 import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {TodoModuleState} from "@/scripts/Vue/Store/TodoModuleState";
 
 export default {
   data(): ComponentData {
@@ -72,7 +78,12 @@ export default {
   ],
   emits: [
     "modalClosed",
-    "confirmClick",
+    "updateConfirmClick",
+    "deleteClick",
+    "deleteElementClick",
+    "editElementClick",
+    "createClick",
+    "editClick",
   ],
   computed: {
     /**
@@ -81,18 +92,18 @@ export default {
     tabsContent(): Array<Record<string, unknown>> {
       return [
         {
-          tabName: this.$t('todo.common.editModal.text.tab.todoList.label'),
-          tabComponent: TabElements,
-          tabComponentProps: {
-            todoData: this.todoData
-          }
-        },
-        {
           tabName: this.$t('todo.common.editModal.text.tab.edit.label'),
           tabComponent: TabEdit,
           tabComponentProps: {
             todoData: this.todoData,
             canSelectModule: this.canSelectModule,
+          }
+        },
+        {
+          tabName: this.$t('todo.common.editModal.text.tab.todoList.label'),
+          tabComponent: TabElements,
+          tabComponentProps: {
+            todoData: this.todoData
           }
         }
       ];
@@ -103,14 +114,20 @@ export default {
      * @description handles the situation when modal get closed. Will pass the event further
      */
     onModalClosed(): void {
+      TodoModuleState().fetchModulesWithRecordsData();
       this.$emit('modalClosed');
-    },
+    }
   },
   updated(): void{
     this.showModal = this.isModalVisible;
   },
   created(): void {
     this.initialSmallSizeModal = "medium";
+  },
+  watch: {
+    isModalVisible(): void {
+      this.showModal = this.isModalVisible;
+    }
   }
 }
 </script>
