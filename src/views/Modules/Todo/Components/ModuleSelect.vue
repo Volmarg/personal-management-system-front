@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col">
     <MultiSelect
         :label="$t('todo.common.form.moduleSelect.text.module')"
         :options="moduleOptions"
