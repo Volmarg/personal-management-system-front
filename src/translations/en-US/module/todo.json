@@ -48,8 +48,8 @@
                     }
                 },
                 "createEditTodoElement": {
-                    "headerNew": "Add new todo element",
-                    "headerEdit": "Edit todo element",
+                    "headerNew": "Add new element",
+                    "headerEdit": "Edit element",
                     "name": {
                         "label": "Name"
                     },
@@ -59,8 +59,8 @@
                 },
                 "createEditTodo": {
                     "header": {
-                        "edit": "Edit todo",
-                        "new": "Add new todo"
+                        "edit": "Edit entry",
+                        "new": "Add new entry"
                     },
                     "name": {
                         "label": "Name"

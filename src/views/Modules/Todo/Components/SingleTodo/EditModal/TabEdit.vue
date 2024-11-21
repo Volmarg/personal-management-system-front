@@ -5,8 +5,8 @@
       <h2 class="text-lg mb-2">{{ $t('todo.common.form.createEditTodo.header.edit') }}</h2>
       <CreateEditForm :initial-desc="todoData.description"
                       :initial-name="todoData.name"
-                      :initial-module="todoData?.module?.id ?? ''"
-                      :initial-module-record="recordId"
+                      :initial-module-id="todoData?.module?.id ?? ''"
+                      :initial-module-record-id="recordId"
                       :initial-show-on-dashboard="todoData.showOnDashboard"
                       :force-fetched-record-ids="forceFetchedRecordIds"
                       :id="todoData.id"

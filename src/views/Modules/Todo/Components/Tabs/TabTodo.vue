@@ -1,11 +1,11 @@
 <template>
-  <TodoBaseList :all-todo="allTodo"
-                :module="null"
+  <TodoGroupBase :all-todo="allTodo"
+                 :module-name="null"
   />
 </template>
 
 <script lang="ts">
-import TodoBaseList  from "@/views/Modules/Todo/Components/TodoBaseList.vue";
+import TodoGroupBase  from "@/views/Modules/Todo/Components/TodoGroupBase.vue";
 
 export default {
   props: {
@@ -15,7 +15,7 @@ export default {
     }
   },
   components: {
-    TodoBaseList
+    TodoGroupBase
   },
 }
 </script>

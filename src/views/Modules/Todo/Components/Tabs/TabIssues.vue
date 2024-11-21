@@ -1,13 +1,13 @@
 <template>
-  <TodoBaseList :all-todo="allTodo"
-                :module="boundModule.issues"
+  <TodoGroupBase :all-todo="allTodo"
+                 :module-name="boundModule.issues"
   />
 </template>
 
 <script lang="ts">
 import TodoModuleMixin from "@/views/Modules/Todo/Mixin/TodoModuleMixin.vue";
 
-import TodoBaseList from "@/views/Modules/Todo/Components/TodoBaseList.vue";
+import TodoGroupBase from "@/views/Modules/Todo/Components/TodoGroupBase.vue";
 
 export default {
   props: {
@@ -17,7 +17,7 @@ export default {
     }
   },
   components: {
-    TodoBaseList
+    TodoGroupBase
   },
   mixins: [
     TodoModuleMixin

@@ -9,13 +9,15 @@
   />
 
   <ModuleSelect :options="years"
-                :initial-module="form.module"
+                :initial-module-id="form.moduleId"
                 :initial-record="form.recordId"
                 :force-fetched-record-ids="forceFetchedRecordIds"
                 @record-change="form.recordId = $event"
                 @module-change="form.moduleId = $event"
-                class="mb-6"
-                v-if="canSelectModule"
+                :class="{
+                  'mb-6': canSelectModule
+                }"
+                v-show="canSelectModule"
                 ref="moduleSelect"
   />
 
@@ -59,7 +61,6 @@ export default {
       form: {
         name: '',
         description: '',
-        module: null,
         moduleId: null,
         recordId: null,
         showOnDashboard: false,
@@ -82,12 +83,12 @@ export default {
       required: false,
       default: ''
     },
-    initialModule: {
+    initialModuleId: {
       type: String,
       required: false,
       default: null
     },
-    initialModuleRecord: {
+    initialModuleRecordId: {
       type: Number,
       required: false,
       default: null
@@ -129,7 +130,6 @@ export default {
     clearFormData(): void {
       this.form.name = '';
       this.form.description = '';
-      this.form.module = null;
       this.form.moduleId = null;
       this.form.recordId = null;
       this.form.showOnDashboard = false;
@@ -169,9 +169,14 @@ export default {
   created(): void {
     this.form.name = this.initialName;
     this.form.description = this.initialDesc;
-    this.form.module = this.initialModule;
-    this.form.recordId = this.initialModuleRecord;
+    this.form.moduleId = this.initialModuleId;
+    this.form.recordId = this.initialModuleRecordId;
     this.form.showOnDashboard = this.initialShowOnDashboard;
+  },
+  watch: {
+    initialModuleId(): void {
+      this.form.moduleId = this.initialModuleId;
+    }
   }
 }
 </script>

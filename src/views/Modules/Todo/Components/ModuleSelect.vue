@@ -1,37 +1,39 @@
 <template>
-  <MultiSelect
-      :label="$t('todo.common.form.moduleSelect.text.module')"
-      :options="moduleOptions"
-      @change="onOptionChanged"
-      @select="onOptionChanged"
-      @deselect="onOptionChanged"
-      @clear="onOptionChanged"
-      @paste="onOptionChanged"
-      v-model="selectedModuleId"
-      mode="single"
-      :allow-show-options-list="true"
-      :allow-create-options="false"
-      :can-clear="true"
-      v-if="canShowSelect"
-  />
+  <div>
+    <MultiSelect
+        :label="$t('todo.common.form.moduleSelect.text.module')"
+        :options="moduleOptions"
+        @change="onOptionChanged"
+        @select="onOptionChanged"
+        @deselect="onOptionChanged"
+        @clear="onOptionChanged"
+        @paste="onOptionChanged"
+        v-model="selectedModuleId"
+        mode="single"
+        :allow-show-options-list="true"
+        :allow-create-options="false"
+        :can-clear="true"
+        v-if="canShowSelect"
+    />
 
-  <MultiSelect
-      :label="$t('todo.common.form.moduleSelect.text.record')"
-      :options="recordOptions"
-      class="mt-6"
-      @change="onOptionChanged"
-      @select="onOptionChanged"
-      @deselect="onOptionChanged"
-      @clear="onOptionChanged"
-      @paste="onOptionChanged"
-      v-model="selectedRecord"
-      mode="single"
-      :allow-show-options-list="true"
-      :allow-create-options="false"
-      :can-clear="true"
-      :required="true"
-      v-if="selectedModuleName === boundModule.issues && canShowSelect"
-  />
+    <MultiSelect
+        :label="$t('todo.common.form.moduleSelect.text.record')"
+        :options="recordOptions"
+        class="mt-6"
+        @change="onOptionChanged"
+        @select="onOptionChanged"
+        @deselect="onOptionChanged"
+        @clear="onOptionChanged"
+        @paste="onOptionChanged"
+        v-model="selectedRecord"
+        mode="single"
+        :allow-show-options-list="true"
+        :allow-create-options="false"
+        :can-clear="true"
+        :required="true"
+        v-if="selectedModuleName === boundModule.issues && canShowSelect"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -61,13 +63,13 @@ export default {
       required: false,
       default: () => [],
     },
-    initialModule: {
-      type: [String, null],
+    initialModuleId: {
+      type: [Number, null],
       required: false,
       default: null,
     },
     initialRecord: {
-      type: [String, null],
+      type: [Number, null],
       required: false,
       default: null,
     }
@@ -151,8 +153,8 @@ export default {
     /**
      * @description set used record id from initially provided data
      */
-    setUsedData(module: string | null, record: string | null): void {
-      this.selectedModuleId = module;
+    setUsedData(moduleId: number | null, record: number | null): void {
+      this.selectedModuleId = moduleId;
       if (this.selectedModuleId) {
         // that's a must because record select is only visible if certain module is selected, else record entry won't be pre-selected
         this.$nextTick(() => {
@@ -161,12 +163,20 @@ export default {
       }
     }
   },
-  mounted(): void {
-    this.setUsedData(this.initialModule, this.initialRecord);
+  beforeMount(): void {
     this.todoStateStore = TodoModuleState();
     this.todoStateStore.fetchModulesWithRecordsData(this.forceFetchedRecordIds)
   },
+  mounted(): void {
+    this.setUsedData(this.initialModuleId, this.initialRecord);
+  },
   watch: {
+    initialModuleId(): void {
+      this.setUsedData(this.initialModuleId, this.initialRecord);
+    },
+    initialRecord(): void {
+      this.setUsedData(this.initialModuleId, this.initialRecord);
+    },
     'todoStateStore.modulesWithRecordsData': {
       deep: true,
       handler: function() {

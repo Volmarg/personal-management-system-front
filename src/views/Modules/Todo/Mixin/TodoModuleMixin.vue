@@ -1,5 +1,6 @@
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
 import BaseError from "@/scripts/Core/Error/BaseError";
 
 export default {

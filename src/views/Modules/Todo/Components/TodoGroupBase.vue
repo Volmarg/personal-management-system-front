@@ -23,7 +23,7 @@ export default {
       type: Array,
       required: true,
     },
-    module: {
+    moduleName: {
       type: [String, null],
       required: true,
     }
@@ -40,7 +40,7 @@ export default {
      * @description returns the list of todo objects used in this component for given module
      */
     usedTodo(): Array<Record> {
-      return this.allTodo.filter((singleTodo) => singleTodo.module.name === this.module);
+      return this.allTodo.filter((singleTodo) => singleTodo.module.name === this.moduleName);
     },
   },
   methods: {

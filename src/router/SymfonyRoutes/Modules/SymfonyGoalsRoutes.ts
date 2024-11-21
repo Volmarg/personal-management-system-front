@@ -5,4 +5,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyGoalsRoutes extends SymfonyRoutes
 {
+    public static readonly GOALS_BASE_URL = "/module/my-goals";
 }
