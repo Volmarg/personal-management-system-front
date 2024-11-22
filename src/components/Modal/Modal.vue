@@ -1,6 +1,8 @@
 <template>
   <div v-if="isModalVisible || isVshowVisibility"
        v-show="isModalVisible"
+       @keydown.esc="$emit('modalClosed')"
+       tabindex="0"
   >
     <div class="modal-backdrop"
          :class="getBackdropClasses"
@@ -44,6 +46,7 @@
                      }"
                 >{{ title }}</div>
                 <div class="text-sm text-gray-500">
+                  <input type="checkbox" class="modal-focuser"/>
                   <slot name="content"></slot>
                 </div>
               </div>
@@ -271,6 +274,23 @@ export default {
           document.body.classList.remove(className);
         }
       }, 10)
+    },
+    /**
+     * @description focuses the top opened modal, that's needed for closing with ESC to work
+     *              might not work perfectly. The timeout is added as a quick fix for issue
+     *              with focusing not-yet existing element. If this will fail, then next attempt
+     *              should be mutation observer.
+     */
+    focusTopModal(timeout: number = 200): void {
+      setTimeout(() => {
+        let allInputs = document.querySelectorAll('.modal-focuser');
+        if (allInputs.length === 0) {
+          return;
+        }
+
+        let lastInput = allInputs[allInputs.length - 1];
+        lastInput.focus();
+      }, timeout);
     }
   },
   created(): void {
@@ -278,6 +298,11 @@ export default {
     this.isFadeAway     = !this.isVisible;
   },
   watch: {
+    isModalVisible(): void {
+      if (this.isModalVisible) {
+        this.focusTopModal();
+      }
+    },
     /**
      * @description handles modal fade away animation by setting the data prop responsible for class with animation to true,
      *              and after given time sets the general modal visibility prop.
@@ -297,6 +322,7 @@ export default {
         setTimeout( () => {
           this.isModalVisible = false;
           this.handleUnlockBodyScroll(className);
+          this.focusTopModal(0);
         }, this.config.modalFadeAwayTimeInMilliseconds)
       }else{
         document.body.classList.add(className);
@@ -324,5 +350,10 @@ export default {
 .modal-backdrop {
   // must be keep in sync of the modal z-index value, as this way it creates nice backdrop on any other modals that are opened behind
   z-index: 20;
+}
+
+.modal-focuser {
+  height: 0 !important;
+  @apply m-0 p-0 w-0 opacity-0 absolute pointer-events-none
 }
 </style>
