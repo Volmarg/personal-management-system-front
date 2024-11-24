@@ -135,12 +135,14 @@ export default {
      *      label               : "Job name",          > required
      *      isVisible           : false,               > optional
      *      dataValuePath       : "title.value",       > required
+     *      dataRawValuePath    : "title.rawValue",    > optional (becomes dataValuePath if not provided)
      *      dataIsComponentPath : "title.isComponent", > required
      *    },
      *    {
      *      label               : "Status",           > required
      *      isVisible           : true,               > optional
      *      dataValuePath       : "icon.value",       > required
+     *      dataRawValuePath    : "title.rawValue",   > optional (becomes dataValuePath if not provided)
      *      dataIsComponentPath : "icon.isComponent", > required
      * ]
      */
@@ -295,18 +297,22 @@ export default {
           let header = this.headers[colId];
           let keys = [
               header.dataValuePath,
+              header.dataRawValuePath,
               header.dataIsComponentPath,
               header.dataComponentPropertiesPath,
           ];
           let resolvedValues = ObjectValuesResolver.resolveKeysToValues(element.values, keys);
           let value          = resolvedValues[header.dataValuePath];
+          let rawValue       = resolvedValues[header.dataRawValuePath] ?? value;
           let isComponent    = resolvedValues[header.dataIsComponentPath];
           let componentProps = resolvedValues[header.dataComponentPropertiesPath] ?? null;
 
           rowData.push({
             uniqId         : `idx${rowId}${colId}`,
             fieldName      : header.label,
+            fieldId        : header.dataValuePath.split(".")[0],
             value          : value,
+            rawValue       : rawValue,
             isComponent    : isComponent,
             componentProps : componentProps
           })
