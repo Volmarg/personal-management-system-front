@@ -71,7 +71,7 @@ export class BackendModuleCaller {
         EventDispatcherService.emitShowFullPageLoader();
         return await new AppAxios().delete(calledUrl).then((response) => {
             EventDispatcherService.emitHideFullPageLoader();
-            return this.handleResponse(response, successMsg, failMsg, null , reload);
+            return this.handleResponse(response, successMsg, failMsg, reload);
         }).catch((error) => {
             EventDispatcherService.emitHideFullPageLoader();
             throw error;
