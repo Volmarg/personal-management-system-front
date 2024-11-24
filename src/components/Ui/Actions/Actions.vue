@@ -5,7 +5,11 @@
     <Edit v-if="canEdit"
           :handled-data="handledData"
           :form="editForm"
-          :update-url="updateUrl"
+          :base-url="baseUrl"
+          :record-id="recordId"
+          :parent-record-id="parentRecordId"
+          :fetch-all="fetchAll"
+          :store="store"
     >
       <template #form>
         <slot name="editForm"></slot>
@@ -17,7 +21,10 @@
 
     <Delete v-if="canDelete"
             :handled-data="handledData"
-            :remove-url="deleteUrl"
+            :base-url="baseUrl"
+            :record-id="recordId"
+            :fetch-all="fetchAll"
+            :store="store"
     >
       <template #representation>
         <slot name="deleteRepresentation"></slot>
@@ -30,6 +37,10 @@
 <script lang="ts">
 import Delete from "@/components/Ui/Actions/Delete.vue";
 import Edit   from "@/components/Ui/Actions/Edit.vue";
+
+import BaseError from "@/scripts/Core/Error/BaseError";
+
+import {StoreDefinition} from "pinia";
 
 export default {
   props: {
@@ -56,13 +67,38 @@ export default {
       type: [Object, null], // component
       required: true,
     },
-    updateUrl: {
-      type: [String, null],
+    isModule: {
+      type: Boolean,
       required: false,
-      default: null,
+      default: true,
+      validator(isModule: boolean): boolean {
+        if (!isModule) {
+          throw new BaseError("Actions are currently supported only for modules!")
+        }
+
+        return true;
+      }
     },
-    deleteUrl: {
-      type: [String, null],
+    baseUrl: {
+      type: String,
+      required: true,
+    },
+    recordId: {
+      type: Number,
+      required: true,
+    },
+    parentRecordId: {
+      type: [Number, null],
+      required: false,
+      default: null
+    },
+    fetchAll: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    store: {
+      type: [Object as StoreDefinition, null],
       required: false,
       default: null,
     }

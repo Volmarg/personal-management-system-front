@@ -1,5 +1,4 @@
 <script lang="ts">
-import BaseError from "@/scripts/Core/Error/BaseError";
 
 /**
  * @description example data source {[id:1, smth: 2, stuff: 3], [id: 2, smth: 3, stuff: 4]}
@@ -23,28 +22,6 @@ type SourceConfig = {
 
 export default {
   methods: {
-    /**
-     * @description will build url triggered when action is confirmed
-     */
-    buildUrl(baseUrl: string, sourceConfig: SourceConfig, dataSource: Array<Record>): string | number {
-      let matchingData = dataSource.find((data: Record) => data[sourceConfig.identifierName] === sourceConfig.identifierValue);
-      if (!matchingData) {
-        throw new BaseError("Could not get matching data from data source", {
-          sourceConfig: sourceConfig,
-          dataSource: dataSource,
-        });
-      }
-
-      let id = matchingData[sourceConfig.sourceValue] ?? null;
-      if (!id) {
-        throw new BaseError("Could not get id for matching data.", {
-          matchingData: matchingData,
-          sourceConfig: sourceConfig,
-        })
-      }
-
-      return baseUrl.replace(":id", id);
-    },
     /**
      * @description provides the data based on source config and delivered data source array
      */

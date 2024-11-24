@@ -24,6 +24,7 @@ export default {
   data(): ComponentData {
     return {
       showModal: false,
+      initialSmallSizeModal: "medium"
     }
   },
   props: {

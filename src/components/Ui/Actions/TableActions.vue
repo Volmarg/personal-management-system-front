@@ -1,9 +1,13 @@
 <template>
   <Actions actions-wrapper-classes="flex flex-row gap-x-1"
-           :handled-data="rowData"
+           :handled-data="formData"
+           :record-id="recordId"
            :edit-form="editActionForm"
-           :update-url="usedUpdateUrl"
-           :delete-url="usedDeleteUrl"
+           :is-module="isModule"
+           :base-url="baseUrl"
+           :parent-record-id="parentRecordId"
+           :fetch-all="fetchAll"
+           :store="store"
   >
     <template #deleteRepresentation>
       <div class="button bg-red-500">
@@ -27,9 +31,14 @@ import TableRowDataActionMixin from "@/components/Ui/Actions/Mixin/TableRowDataA
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import BaseError from "@/scripts/Core/Error/BaseError";
+
+import {StoreDefinition} from "pinia";
+
 export default {
   data(): ComponentData {
     return {
+      parentRecordId: null as number | null,
       usedUpdateUrl: this.editUrl,
       usedDeleteUrl: this.deleteUrl,
     }
@@ -43,13 +52,29 @@ export default {
       type: [Object, null], // component
       required: true,
     },
-    updateUrl: {
-      type: [String, null],
+    isModule: {
+      type: Boolean,
       required: false,
-      default: null,
+      default: true,
+      validator(isModule: boolean): boolean {
+        if (!isModule) {
+          throw new BaseError("Table actions are currently supported only for modules!")
+        }
+
+        return true;
+      }
     },
-    deleteUrl: {
-      type: [String, null],
+    baseUrl: {
+      type: String,
+      required: true,
+    },
+    fetchAll: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    store: {
+      type: [Object as StoreDefinition, null],
       required: false,
       default: null,
     }
@@ -60,26 +85,33 @@ export default {
   components: {
     Actions
   },
-  created(): void {
-    this.usedUpdateUrl = this.buildUrl(
-        this.updateUrl,
-        {
-          identifierName: 'fieldName',
-          identifierValue: 'Category',
-          sourceValue: 'value'
-        },
-        this.rowData
-    );
-    this.usedDeleteUrl = this.buildUrl(
-        this.deleteUrl,
-        {
-          identifierName: 'fieldName',
-          identifierValue: 'Category',
-          sourceValue: 'value'
-        },
-        this.rowData
-    );
-  }
+  computed: {
+    /**
+     * @description returns the record id extracted from the table row
+     */
+    recordId(): number {
+      let cells = Object.values(this.rowData);
+      let matchingCell = cells.find((cellData: Record) => cellData.fieldId == "id" || cellData.fieldId == "identifier");
+      if (!matchingCell) {
+        throw new BaseError("Could not determine record id for table actions", {
+          rowData: this.rowData
+        });
+      }
+
+      return matchingCell.rawValue;
+    },
+    /**
+     * @description transforms the row data into form data
+     */
+    formData(): Record {
+      let formData = {};
+      for (let cellData of this.rowData) {
+        formData[cellData.fieldId] = cellData.rawValue;
+      }
+
+      return formData;
+    },
+  },
 }
 </script>
 

@@ -3,15 +3,20 @@
     <slot name="representation"></slot>
   </div>
 
-  <RemoveModal :is-modal-visible="isRemoveModalVisible"
-               :handled-data="handledData"
-               @modal-closed="isRemoveModalVisible = false"
-               @remove-confirm-click="onRemoveConfirm"
-  />
+  <teleport to="body">
+    <RemoveModal :is-modal-visible="isRemoveModalVisible"
+                 :handled-data="handledData"
+                 @modal-closed="isRemoveModalVisible = false"
+                 @remove-confirm-click="onRemoveConfirm"
+                 ref="modal"
+    />
+  </teleport>
 </template>
 
 <script lang="ts">
 import RemoveModal from "@/components/Ui/Actions/Components/Delete/RemoveModal.vue";
+
+import ActionMixin from "@/components/Ui/Actions/Mixin/ActionMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -22,15 +27,18 @@ export default {
     }
   },
   props: {
-    handledData: {
-      type: Object,
+    recordId: {
+      type: Number,
       required: true,
     },
-    removeUrl: {
+    baseUrl: {
       type: String,
       required: true,
-    }
+    },
   },
+  mixins: [
+    ActionMixin,
+  ],
   components: {
     RemoveModal,
   },
@@ -38,12 +46,13 @@ export default {
     /**
      * @description will remove the data on backend + updates the view
      */
-    onRemoveConfirm(): void {
-      // todo:
-      console.log({
-        "what": "remove click",
-        "url": this.removeUrl
-      });
+    async onRemoveConfirm(): Promise<void> {
+      this.validateStoreFetchConf();
+      await this.$moduleCall.remove(this.baseUrl, this.recordId, !this.useStoreFetch);
+      if (this.useStoreFetch) {
+        this.initialisedStore.getAll();
+        this.$refs.modal.onModalClosed();
+      }
     },
   }
 }
