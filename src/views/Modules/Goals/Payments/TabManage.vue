@@ -1,25 +1,38 @@
 <template>
   <SimpleTable :headers="tableHeaders"
-               :data="tableData"
+               :data="usedTableData"
                ref="table"
                class="mt-4"
-               v-if="tableData.length > 0"
+               v-if="usedTableData.length > 0"
   />
 
   <NoResultsText v-else />
 </template>
 
 <script lang="ts">
-import NoResultsText from "@/components/Page/NoResultsText.vue";
-import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
+import TableActions     from "@/components/Ui/Actions/TableActions.vue";
+import NoResultsText    from "@/components/Page/NoResultsText.vue";
+import SimpleTable      from "@/components/Ui/Table/SimpleTable.vue";
+import CreateUpdateForm from "@/views/Modules/Goals/Payments/CreateUpdateForm.vue";
 
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import {GoalPaymentsState} from "@/scripts/Vue/Store/GoalPaymentsState";
+import SymfonyGoalsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyGoalsRoutes";
+
 export default {
   data(): ComponentData {
     return {
+      paymentsStore: null as GoalPaymentsState,
       tableHeaders: [
+        {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
         {
           label: this.$t('goals.payments.tab.manage.table.header.name.label'),
           dataValuePath : 'name.value',
@@ -52,73 +65,16 @@ export default {
         },
         {
           label: this.$t('goals.payments.tab.manage.table.header.showOnDashboard.label'),
-          dataValuePath : 'showOnDashboard.value',
-          dataIsComponentPath : 'showOnDashboard.isComponent',
+          dataValuePath : 'isForDashboard.value',
+          dataRawValuePath : 'isForDashboard.rawValue',
+          dataIsComponentPath : 'isForDashboard.isComponent',
           dataComponentPropertiesPath: null
         },
         {
           label: this.$t('goals.payments.tab.manage.table.header.actions.label'),
-          dataValuePath : null,
-          dataIsComponentPath : null,
-          dataComponentPropertiesPath: null
-        },
-      ],
-      tableData: [
-        {
-          values : {
-            name : {
-              value       : "New laptop",
-              isComponent : false,
-            },
-            start : {
-              value       : "2024-09-29",
-              isComponent : false,
-            },
-            end : {
-              value       : "2024-10-30",
-              isComponent : false,
-            },
-            goal : {
-              value       : "942",
-              isComponent : false,
-            },
-            collected : {
-              value       : "2206",
-              isComponent : false,
-            },
-            showOnDashboard : {
-              value       : this.$t(`goals.payments.tab.manage.table.header.showOnDashboard.state.${Number(true)}.label`),
-              isComponent : false,
-            }
-          }
-        },
-        {
-          values : {
-            name : {
-              value       : "Guitar",
-              isComponent : false,
-            },
-            start : {
-              value       : "2024-12-11",
-              isComponent : false,
-            },
-            end : {
-              value       : "2024-12-26",
-              isComponent : false,
-            },
-            goal : {
-              value       : "952",
-              isComponent : false,
-            },
-            collected : {
-              value       : "300",
-              isComponent : false,
-            },
-            showOnDashboard : {
-              value       : this.$t(`goals.payments.tab.manage.table.header.showOnDashboard.state.${Number(false)}.label`),
-              isComponent : false,
-            }
-          }
+          dataValuePath : 'actions.value',
+          dataIsComponentPath : 'actions.isComponent',
+          dataComponentPropertiesPath: 'actions.componentProps'
         },
       ],
     }
@@ -128,9 +84,62 @@ export default {
     NoResultsText
   },
   computed: {
+    /**
+     * @description returns the rows data for table
+     */
     usedTableData(): Array {
-      return this.tableData;
+      let data = [];
+      for (let singlePayment of this.paymentsStore.allEntries) {
+        data.push({
+          values: {
+            id: {
+              value: singlePayment.id,
+              isComponent : false,
+            },
+            name: {
+              value: singlePayment.name,
+              isComponent: false,
+            },
+            start: {
+              value: singlePayment.start,
+              isComponent: false,
+            },
+            end: {
+              value: singlePayment.end,
+              isComponent: false,
+            },
+            goal: {
+              value: singlePayment.goal,
+              isComponent: false,
+            },
+            collected: {
+              value: singlePayment.collected,
+              isComponent: false,
+            },
+            isForDashboard: {
+              value: this.$t(`goals.payments.tab.manage.table.header.showOnDashboard.state.${Number(singlePayment.showOnDashboard)}.label`),
+              rawValue: singlePayment.showOnDashboard,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: CreateUpdateForm,
+                baseUrl: SymfonyGoalsRoutes.GOAL_PAYMENTS_BASE_URL,
+                store: GoalPaymentsState,
+              }
+            }
+          }
+        })
+      }
+
+      return data;
     }
+  },
+  beforeMount(): void {
+    this.paymentsStore = GoalPaymentsState();
+    this.paymentsStore.getAll();
   },
 }
 </script>
