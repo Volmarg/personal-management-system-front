@@ -404,6 +404,9 @@ export default {
   watch: {
     searchValue(): void {
       this.refresh();
+    },
+    data(): void {
+      this.refresh();
     }
   }
 }
