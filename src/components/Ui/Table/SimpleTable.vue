@@ -310,7 +310,7 @@ export default {
           rowData.push({
             uniqId         : `idx${rowId}${colId}`,
             fieldName      : header.label,
-            fieldId        : header.dataValuePath.split(".")[0],
+            fieldId        : header.dataValuePath?.split(".")[0] ?? null,
             value          : value,
             rawValue       : rawValue,
             isComponent    : isComponent,
