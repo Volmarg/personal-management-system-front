@@ -76,7 +76,7 @@ export default class ObjectTypeProcessor {
         }
 
         let firstValue = resolvedValues[0];
-        if( StringTypeProcessor.isEmptyString(firstValue) ){
+        if( StringTypeProcessor.isEmptyString(firstValue, false) ){
             return null;
         }
 
