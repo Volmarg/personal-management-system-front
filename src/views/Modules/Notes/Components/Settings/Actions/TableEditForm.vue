@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import AddEditForm from "@/views/Modules/Notes/Components/Category/AddEditForm.vue";
+import AddEditForm from "@/views/Modules/Notes/Components/Settings/AddEditForm.vue";
 
 import TableRowDataActionMixin from "@/components/Ui/Actions/Mixin/TableRowDataActionMixin.vue";
 

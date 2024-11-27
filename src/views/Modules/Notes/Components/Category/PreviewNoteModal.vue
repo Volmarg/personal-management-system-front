@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
-           :title="(isEdit ? $t('notes.category.previewModal.header.editing.label') : '') + title"
+           :title="(isEdit ? $t('notes.category.previewModal.header.editing.label') : '') + note.title"
            :size="modalSize"
            :is-close-full-width="true"
            :footer-classes="{
@@ -11,18 +11,17 @@
     >
       <template #content>
         <div class="body"
-             v-html="body"
+             v-html="note.body"
              v-if="!isEdit"
         />
-
-        <Wyswig v-else
-                :initial-value="body"
+        <CreateUpdateForm v-else
+                          :initial-body="note.body"
+                          :initial-category="note.categoryId"
+                          :initial-title="note.title"
+                          :id="note.id"
+                          @submit="$emit('updateSubmit')"
         />
 
-        <CategorySelect v-if="isEdit"
-                        :selected="categoryId"
-                        :label="$t('notes.category.previewModal.form.category.label')"
-        />
       </template>
 
       <template #footerLeftSection>
@@ -46,19 +45,9 @@
                               text-classes="text-center w-full"
         />
 
-        <MediumButtonWithIcon :text="$t('notes.category.previewModal.button.update.label')"
-                              :margin-right-class-number="1"
-                              v-if="isEdit"
-                              @button-click="$emit('updateClick')"
-                              button-extra-classes="pt-3 pb-3 md:pt-1 md:pb-1"
-                              class="w-full md:w-auto"
-                              button-classes="w-full md:w-auto"
-                              text-classes="text-center w-full"
-        />
-
         <MediumButtonWithIcon :text="$t('notes.category.previewModal.button.delete.label')"
                               :margin-right-class-number="0"
-                              @button-click="$emit('deleteClick')"
+                              @button-click="$emit('deleteClick', {id: note.id})"
                               button-extra-classes="pt-3 pb-3 md:pt-1 md:pb-1"
                               background-color-class="bg-red-500"
                               class="w-full md:w-auto"
@@ -71,13 +60,13 @@
 </template>
 
 <script lang="ts">
-import Wyswig                       from "@/components/Form/Wyswig.vue";
-import Modal                        from "@/components/Modal/Modal.vue";
+import Modal                from "@/components/Modal/Modal.vue";
+import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import CreateUpdateForm     from "@/views/Modules/Notes/Components/Note/CreateUpdateForm.vue";
+
 import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
-import MediumButtonWithIcon         from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 import ResponsiveVarsMixin          from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
-import CategorySelect               from "@/views/Modules/Notes/Components/CategorySelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -90,28 +79,19 @@ export default {
     }
   },
   props: {
-    categoryId: {
-      type: Number,
+    note: {
+      type: Object,
       required: true,
-    },
-    title: {
-      type: String,
-      required: false,
     },
     isModalVisible: {
       type     : Boolean,
       required : true,
       default  : false,
     },
-    body: {
-      type: String,
-      required: true,
-    }
   },
   components: {
     MediumButtonWithIcon,
-    CategorySelect,
-    Wyswig,
+    CreateUpdateForm,
     Modal,
   },
   mixins: [
@@ -122,8 +102,8 @@ export default {
   emits: [
     "modalClosed",
     "addNewClick",
-    "updateClick",
     "deleteClick",
+    "updateSubmit",
   ],
   methods: {
     /**

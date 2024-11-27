@@ -8,6 +8,7 @@ import WindowService        from "@/scripts/Core/Services/WindowService";
 import ToastNotification, {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
 import BackendModuleCallConfig            from "@/scripts/Dto/BackendModuleCallConfig";
 import EventDispatcherService             from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
+import BaseError                          from "@/scripts/Core/Error/BaseError";
 
 /**
  * @description service used for calling the backed rest endpoint of modules, a simple wrapper
@@ -17,6 +18,7 @@ export class BackendModuleCaller {
 
     private static readonly KEY_ALL_RECORDS = 'allRecords';
     private static readonly KEY_SINGLE_RECORD = 'singleRecord';
+    private static readonly KEY_IS_LOCKED = 'isLocked';
 
     /**
      * @description handles creating module record
@@ -95,21 +97,51 @@ export class BackendModuleCaller {
 
         let singleRecord = response.data[BackendModuleCaller.KEY_SINGLE_RECORD];
         if (undefined === singleRecord) {
-            throw new BaseApiResponse(`Called 'get', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_SINGLE_RECORD}`);
+            throw new BaseError(`Called 'get', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_SINGLE_RECORD}`);
         }
 
         return singleRecord;
     }
 
     /**
+     * @description Toggles the lock state on module resource / entry.
+     *              Returns boolean, indicating:
+     *              - true  = is locked
+     *              - false = is unlocked
+     */
+    public async toggleLock(baseUrl: string, id: number): Promise<boolean> {
+        let calledUrl = SymfonyRoutes.buildUrl(UrlService.addTrailingSlash(baseUrl) + `toggle-lock/${id}`);
+
+        EventDispatcherService.emitShowFullPageLoader();
+        let response = await new AppAxios().patch(calledUrl, BaseApiResponse).then((response) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            return response;
+        }).catch((error) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            throw error;
+        });
+
+        let isLocked = response.data[BackendModuleCaller.KEY_IS_LOCKED];
+        if (undefined === isLocked) {
+            throw new BaseError(`Called 'toggleLock', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_IS_LOCKED}`);
+        }
+
+        return isLocked;
+    }
+
+    /**
      * @description returns all accessible module records
      */
-    public async getAll(baseUrl: string): Promise<Array> {
+    public async getAll(baseUrl: string, id: number | null = null): Promise<Array> {
         let url = SymfonyRoutes.buildUrl(`${baseUrl}/all`);
+        if (id) {
+            url += `/${id}`
+        }
+
         let response = await new AppAxios().get(url, BaseApiResponse);
         let allRecords = response.data[BackendModuleCaller.KEY_ALL_RECORDS];
         if (undefined === allRecords) {
-            throw new BaseApiResponse(`Called 'getAll', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_ALL_RECORDS}`);
+            throw new BaseError(`Called 'getAll', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_ALL_RECORDS}`);
         }
 
         return allRecords;

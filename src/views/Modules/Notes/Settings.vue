@@ -14,8 +14,8 @@
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import AddEditForm              from "@/views/Modules/Notes/Components/Category/AddEditForm.vue";
-import TableEditForm            from "@/views/Modules/Notes/Components/Category/Actions/TableEditForm.vue";
+import AddEditForm              from "@/views/Modules/Notes/Components/Settings/AddEditForm.vue";
+import TableEditForm            from "@/views/Modules/Notes/Components/Settings/Actions/TableEditForm.vue";
 import SimpleTable              from "@/components/Ui/Table/SimpleTable.vue";
 import Base                     from "@/views/Modules/Base.vue";
 import TableActions             from "@/components/Ui/Actions/TableActions.vue";
@@ -41,6 +41,13 @@ export default {
          * @description dummy data for now
          */
         headers: [
+          {
+            label: 'id',
+            dataValuePath : 'id.value',
+            isVisible: false,
+            dataIsComponentPath : null,
+            dataComponentPropertiesPath: null
+          },
           {
             label: this.$t('notes.settings.table.header.category.label'),
             dataValuePath : 'category.value',
@@ -76,6 +83,10 @@ export default {
       return [
         {
           values : {
+            id : {
+              value       : 1,
+              isComponent : false,
+            },
             category : {
               value       : "candies",
               isComponent : false,
@@ -88,6 +99,10 @@ export default {
           }
         },
         {
+          id : {
+            value       : 2,
+            isComponent : false,
+          },
           values : {
             category : {
               value       : "cookiez",

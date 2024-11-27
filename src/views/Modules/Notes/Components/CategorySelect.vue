@@ -14,18 +14,21 @@
       :allow-create-options="false"
       :can-clear="false"
       :required="true"
+      v-if="areOptionsReady"
   />
 </template>
 
 <script lang="ts">
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
-import {ComponentData}         from "@/scripts/Vue/Types/Components/types";
-import {notesModuleStateStore} from "@/scripts/Vue/Store/NotesModuleState";
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
+import {notesCategoriesModuleStateStore} from "@/scripts/Vue/Store/NotesCategoriesModuleState";
 
 export default {
   data(): ComponentData {
     return {
+      areOptionsReady: false,
       options: [],
       categories: [],
       value: 0,
@@ -56,6 +59,8 @@ export default {
         this.addOption(mainNode, 0)
         this.traverseNode(mainNode);
       }
+
+      this.areOptionsReady = true;
     },
     /**
      * @description takes one category node, and walks over the children (if there are any)
@@ -69,7 +74,7 @@ export default {
       for (let child of node.children) {
         // prevent dupes - something wrong with recursion, but whatever, this removes dupes
         if (!this.options.find(option => option.value == child.id)) {
-          let level = notesModuleStateStore().getCategoryNestingLevel(child.parentId);
+          let level = notesCategoriesModuleStateStore().getCategoryNestingLevel(child.parentId);
           this.addOption(child, level)
         }
 
@@ -101,8 +106,9 @@ export default {
   mounted(): void {
     this.value = this.selected;
   },
-  created(): void {
-    this.categories = notesModuleStateStore().getNestedCategories();
+  async created(): Promise<void> {
+    await notesCategoriesModuleStateStore().getAll();
+    this.categories = notesCategoriesModuleStateStore().getNestedCategories();
     this.traverseTree();
   }
 }

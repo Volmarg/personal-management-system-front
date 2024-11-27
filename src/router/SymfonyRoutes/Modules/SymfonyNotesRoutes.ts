@@ -5,4 +5,6 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyNotesRoutes extends SymfonyRoutes
 {
+    public static readonly NOTES_CATEGORIES_BASE_URL = "/module/my-notes-categories";
+    public static readonly NOTES_BASE_URL = "/module/my-notes";
 }

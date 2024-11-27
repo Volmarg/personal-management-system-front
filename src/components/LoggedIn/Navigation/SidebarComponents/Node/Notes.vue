@@ -29,7 +29,7 @@ import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarCompone
 import VueRouterNotes from "@/router/Modules/VueRouterNotes";
 
 import {ComponentData}         from "@/scripts/Vue/Types/Components/types";
-import {notesModuleStateStore} from "@/scripts/Vue/Store/NotesModuleState";
+import {notesCategoriesModuleStateStore} from "@/scripts/Vue/Store/NotesCategoriesModuleState";
 
 import CategoriesLevel from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Notes/CategoriesLevel.vue";
 
@@ -53,8 +53,9 @@ export default {
     SidebarMixin,
     ModuleBaseDataMixin
   ],
-  created(): void {
-    this.nestedCategories = notesModuleStateStore().getNestedCategories()
+  async created(): Promise<void> {
+    await notesCategoriesModuleStateStore().getAll();
+    this.nestedCategories = notesCategoriesModuleStateStore().getNestedCategories()
   },
 
 }

@@ -24,9 +24,6 @@
                     "stopEditing": {
                         "label": "Stop editing"
                     },
-                    "update": {
-                        "label": "Save changes"
-                    },
                     "delete": {
                         "label": "Delete"
                     }
@@ -61,6 +58,26 @@
                     "actions": {
                         "label": "Actions"
                     }
+                }
+            }
+        },
+        "common": {
+            "createUpdateForm": {
+                "header": {
+                    "create": "Add new note",
+                    "update": "Update note"
+                },
+                "title": {
+                    "label": "Title"
+                },
+                "body": {
+                    "label": "Body"
+                },
+                "category": {
+                    "label": "Category"
+                },
+                "submit": {
+                    "label": "Submit"
                 }
             }
         },

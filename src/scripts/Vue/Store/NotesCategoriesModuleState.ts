@@ -6,58 +6,26 @@ import {defineStore} from 'pinia'
 import Logger    from "@/scripts/Core/Logger";
 import BaseError from "@/scripts/Core/Error/BaseError";
 
-const notesModuleStateStore = defineStore('notesModuleState', {
+import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
+
+import SymfonyNotesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyNotesRoutes";
+
+const notesCategoriesModuleStateStore = defineStore('notesCategoriesModuleStateStore', {
     state: () => ({
-        categories: [
-            {
-                id: 1,
-                name: 'Icecream',
-                parentId: 4,
-            },
-            {
-                id: 2,
-                name: 'Cars',
-                parentId: null,
-            },
-            {
-                id: 3,
-                name: 'Sport cars',
-                parentId: 2,
-            },
-            {
-                id: 4,
-                name: 'Cold-sweets',
-                parentId: 6,
-            },
-            {
-                id: 5,
-                name: 'Recipies',
-                parentId: null,
-            },
-            {
-                id: 6,
-                name: 'Sweets',
-                parentId: 5,
-            },
-            {
-                id: 7,
-                name: 'Veggie',
-                parentId: 1,
-            }
-        ]
+        allEntries: [],
     }),
     actions: {
         /**
-         * @description pulls the array of categories from backend
+         * @description fetches all the goal payments
          */
-        async refreshCategories(): Promise<void> {
-            // todo
+        async getAll(): Promise<void> {
+            this.allEntries = await new BackendModuleCaller().getAll(SymfonyNotesRoutes.NOTES_CATEGORIES_BASE_URL);
         },
         /**
          * @description returns data for given category id, or throws exception if no category for this id was found
          */
         findCategory(id: number): Record<string, string> {
-            let category = this.categories.find((category) => category.id == id);
+            let category = this.allEntries.find((category) => category.id == id);
             if (!category) {
                 throw new BaseError(`No category found for id: ${id}`);
             }
@@ -77,7 +45,7 @@ const notesModuleStateStore = defineStore('notesModuleState', {
          */
         getNestedCategories(): Array {
             // sorting out first to make it easier to create nested group
-            let nestedStructure = [...this.categories];
+            let nestedStructure = [...this.allEntries];
             nestedStructure.sort((prevCategory, nextCategory) => {
                 let prevParentId = prevCategory.parentId ?? 0;
                 let nextParentId = nextCategory.parentId ?? 0;
@@ -150,9 +118,9 @@ const notesModuleStateStore = defineStore('notesModuleState', {
          * @description returns parent category if such exists for given parentId, if not then null is returned
          */
         getParentCategory(parentId: number): Record<string, any> | null {
-            return this.categories.find((category) => category.id == parentId) ?? null
+            return this.allEntries.find((category) => category.id == parentId) ?? null
         }
     }
 });
 
-export {notesModuleStateStore};
+export {notesCategoriesModuleStateStore};
