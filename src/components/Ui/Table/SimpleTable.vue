@@ -394,8 +394,8 @@ export default {
     /**
      * @description refreshes the table data
      */
-    refresh(): void {
-      this.filterShownResults(1, this.resultsPerPage);
+    refresh(pageNum: number): void {
+      this.filterShownResults(pageNum, this.resultsPerPage);
     }
   },
   created(): void {
@@ -403,10 +403,16 @@ export default {
   },
   watch: {
     searchValue(): void {
-      this.refresh();
+      this.refresh(1);
     },
     data(): void {
-      this.refresh();
+      this.refresh(this.currentPage);
+
+      // would be better to do `curr--`, but then it's unknown how much data is passed, don't want to calculate this for now
+      this.currentPage = 1;
+      if (this.visibleResults.length === 0) {
+        this.refresh(this.currentPage);
+      }
     }
   }
 }
