@@ -21,13 +21,15 @@
 <script lang="ts">
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {StoreDefinition} from "pinia";
 
 import {notesCategoriesModuleStateStore} from "@/scripts/Vue/Store/NotesCategoriesModuleState";
 
 export default {
   data(): ComponentData {
     return {
+      categoriesStore: null as null | StoreDefinition,
       areOptionsReady: false,
       options: [],
       categories: [],
@@ -74,7 +76,7 @@ export default {
       for (let child of node.children) {
         // prevent dupes - something wrong with recursion, but whatever, this removes dupes
         if (!this.options.find(option => option.value == child.id)) {
-          let level = notesCategoriesModuleStateStore().getCategoryNestingLevel(child.parentId);
+          let level = this.categoriesStore.getCategoryNestingLevel(child.parentId);
           this.addOption(child, level)
         }
 
@@ -101,15 +103,32 @@ export default {
     onOptionChanged(value: number): void {
       this.value = value;
       this.$emit('update:modelValue', value);
-    }
+    },
+    /**
+     * @description will build the categories based on the store data
+     */
+    buildCategories(): void {
+      this.options = [];
+      this.categories = this.categoriesStore.getNestedCategories();
+      this.traverseTree();
+    },
   },
   mounted(): void {
     this.value = this.selected;
   },
-  async created(): Promise<void> {
-    await notesCategoriesModuleStateStore().getAll();
-    this.categories = notesCategoriesModuleStateStore().getNestedCategories();
-    this.traverseTree();
+  async beforeMount(): Promise<void> {
+    this.categoriesStore = notesCategoriesModuleStateStore();
+    await this.categoriesStore.getAll();
+    this.buildCategories();
+  },
+  watch: {
+    'categoriesStore.allEntries': {
+      deep: true,
+      handler: function () {
+        this.buildCategories();
+      }
+    }
   }
+
 }
 </script>

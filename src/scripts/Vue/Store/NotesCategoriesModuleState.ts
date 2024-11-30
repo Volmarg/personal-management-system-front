@@ -65,11 +65,9 @@ const notesCategoriesModuleStateStore = defineStore('notesCategoriesModuleStateS
                 let parentCatIdx = nestedStructure.findIndex((nestedCat) => nestedCat.id === handledCategory.parentId);
 
                 /**
-                 * @description this should not happen, but let's print an error and let user use the navigation in its current form,
-                 *              else it can't be fixed with gui. Exception would mean = GUI dies.
+                 * @description can happen when child category got parent category deleted. Can't do anything here.
                  */
                 if (-1 === parentCatIdx) {
-                    Logger.error(`There is a category with parent id which does not exist! Category name: ${handledCategory.name}`);
                     continue;
                 }
 

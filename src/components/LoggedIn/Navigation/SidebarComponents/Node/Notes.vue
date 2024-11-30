@@ -36,6 +36,8 @@ import CategoriesLevel from "@/components/LoggedIn/Navigation/SidebarComponents/
 export default {
   data(): ComponentData {
     return {
+      canRefresh: true,
+      categoriesStore: [],
       nestedCategories: [],
     }
   },
@@ -53,10 +55,34 @@ export default {
     SidebarMixin,
     ModuleBaseDataMixin
   ],
-  async created(): Promise<void> {
-    await notesCategoriesModuleStateStore().getAll();
-    this.nestedCategories = notesCategoriesModuleStateStore().getNestedCategories()
+  methods: {
+    /**
+     * @description will build the categories tree. Refresh check is necessary, else watcher ends up in endless loop
+     */
+    async buildCategories(): Promise<void> {
+      if (!this.canRefresh) {
+        return;
+      }
+
+      this.canRefresh = false;
+      this.nestedCategories = [];
+      await this.categoriesStore.getAll();
+      this.nestedCategories = this.categoriesStore.getNestedCategories()
+      this.canRefresh = true;
+    },
   },
+  async beforeMount(): Promise<void> {
+    this.categoriesStore = notesCategoriesModuleStateStore();
+    this.buildCategories();
+  },
+  watch: {
+    'categoriesStore.allEntries': {
+      deep: true,
+      handler: function() {
+        this.buildCategories();
+      }
+    }
+  }
 
 }
 </script>
