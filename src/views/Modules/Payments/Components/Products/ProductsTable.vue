@@ -50,6 +50,13 @@ export default {
       rejectionFilter: null,
       headers: [
         {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('payments.productPrices.table.header.name.label'),
           dataValuePath : 'name.value',
           dataIsComponentPath : 'name.isComponent',
@@ -75,7 +82,8 @@ export default {
         },
         {
           label: this.$t('payments.productPrices.table.header.rejected.label'),
-          dataValuePath : 'rejectedLabel.value',
+          dataValuePath : 'rejected.value',
+          dataRawValuePath : 'rejected.rawValue',
           dataIsComponentPath : 'rejected.isComponent',
           dataComponentPropertiesPath: null
         },
@@ -86,11 +94,17 @@ export default {
           dataComponentPropertiesPath: null
         },
         {
-          label: this.$t('payments.productPrices.table.header.actions.label'),
-          dataValuePath : null,
-          dataIsComponentPath : null,
+          label: this.$t('payments.productPrices.table.header.homeCurrency.label'),
+          dataValuePath : 'homeCurrencyPrice.value',
+          dataIsComponentPath : 'homeCurrencyPrice.isComponent',
           dataComponentPropertiesPath: null
-        }
+        },
+        {
+          label: this.$t('payments.productPrices.table.header.actions.label'),
+          dataValuePath : 'actions.value',
+          dataIsComponentPath : 'actions.isComponent',
+          dataComponentPropertiesPath: 'actions.componentProps'
+        },
       ],
     }
   },
@@ -112,7 +126,7 @@ export default {
     usedData(): Array {
       let usedData = [];
       for (let dataChunk of this.data) {
-        if ((this.rejectionFilter === true || this.rejectionFilter === false) && dataChunk.values.rejected.value !== this.rejectionFilter) {
+        if ((this.rejectionFilter === true || this.rejectionFilter === false) && dataChunk.values.rejected.rawValue !== this.rejectionFilter) {
           continue;
         }
 

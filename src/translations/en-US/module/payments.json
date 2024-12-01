@@ -145,6 +145,9 @@
                     }
                 },
                 "header": {
+                    "header": {
+                        "new": "Add new product"
+                    },
                     "name": {
                         "label": "Name"
                     },

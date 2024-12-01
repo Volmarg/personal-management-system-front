@@ -1,5 +1,11 @@
 {
     "generic": {
+        "bool": {
+            "yesNo": {
+                "0": "No",
+                "1": "Yes"
+            }
+        },
         "action": {
             "common": {
                 "button": {

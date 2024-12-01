@@ -1,60 +1,12 @@
 <template>
-  <Base :info-block-description="$t('payments.productPrices.newForm.header')">
-    <ProductsTable :data="tableData"/>
+  <Base :info-block-description="$t('payments.productPrices.description')">
+    <ProductsTable :data="usedTableData"/>
   </Base>
 
   <Container>
-    <div class="flex justify-center mt-10">
-      <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-        <h2 class="text-lg">{{ $t('payments.bills.management.newForm.header') }}</h2>
-
-        <FormInput type="text"
-                   v-model="form.name"
-                   :label="$t('payments.productPrices.newForm.name.label')"
-        />
-
-        <FormInput type="number"
-                   v-model="form.price"
-                   :label="$t('payments.productPrices.newForm.price.label')"
-        />
-
-        <FormInput type="text"
-                   v-model="form.market"
-                   :label="$t('payments.productPrices.newForm.market.label')"
-        />
-
-        <FormInput type="text"
-                   v-model="form.products"
-                   :label="$t('payments.productPrices.newForm.products.label')"
-        />
-
-        <FormInput type="text"
-                   v-model="form.information"
-                   :label="$t('payments.productPrices.newForm.information.label')"
-        />
-
-        <div class="mb-4 flex flex-row hover:opacity-70 cursor-pointer">
-          <Checkbox class="transform scale-75"
-                    v-model="form.rejected"
-                    ref="checkbox"
-          />
-          <label class="checkbox checkbox-all align-self-center ml-1 cursor-pointer"
-                 @click="this.$refs.checkbox.toggle()"
-          >
-            {{ $t('payments.productPrices.newForm.rejected.label') }}
-          </label>
-        </div>
-
-        <MediumButtonWithIcon :text="$t('payments.productPrices.newForm.submit.label')"
-                              button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                              class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
-                              button-classes="w-full md:w-auto m-0-force"
-                              text-classes="text-center w-full"
-                              @button-click="onNewSubmit"
-        />
-
-      </div>
-    </div>
+    <AddEditForm @submit="refreshPageState"
+                 :header="$t('payments.productPrices.table.header.header.new')"
+    />
   </Container>
 
 </template>
@@ -62,106 +14,108 @@
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import AddEditForm   from "@/views/Modules/Payments/Components/Products/AddEditForm.vue";
 import ProductsTable from "@/views/Modules/Payments/Components/Products/ProductsTable.vue";
 import Container     from "@/components/Ui/Containers/Container.vue";
 import Base          from "@/views/Modules/Base.vue";
-import FormInput     from "@/components/Form/Input.vue";
-import Checkbox      from "@/components/Form/Checkbox.vue";
+import TableActions  from "@/components/Ui/Actions/TableActions.vue";
 
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import {StoreDefinition} from "pinia";
+
+import {PaymentProductsState} from "@/scripts/Vue/Store/PaymentProductsState";
+
+import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        name: null,
-        price: null,
-        market: null,
-        products: null,
-        information: null,
-        rejected: false,
-      },
-      tableData: [
-        {
-          values : {
-            name : {
-              value       : "Bread",
-              isComponent : false,
-            },
-            market : {
-              value       : "Lidl",
-              isComponent : false,
-            },
-            products : {
-              value       : "Full grain",
-              isComponent : false,
-            },
-            information : {
-              value       : "Super tasty!",
-              isComponent : false,
-            },
-            rejected : {
-              value       : true,
-              isComponent : false,
-            },
-            rejectedLabel : {
-              value       : "Yes",
-              isComponent : false,
-            },
-            price : {
-              value       : 10.25,
-              isComponent : false,
-            }
-          }
-        },
-        {
-          values : {
-            name : {
-              value       : "Candy",
-              isComponent : false,
-            },
-            market : {
-              value       : "Aldi",
-              isComponent : false,
-            },
-            products : {
-              value       : "Tiny candy",
-              isComponent : false,
-            },
-            information : {
-              value       : "Super-small!",
-              isComponent : false,
-            },
-            rejected : {
-              value       : false,
-              isComponent : false,
-            },
-            rejectedLabel : {
-              value       : "No",
-              isComponent : false,
-            },
-            price : {
-              value       : 0.25,
-              isComponent : false,
-            }
-          }
-        }
-      ]
+      products: [],
+      stateStore: null as [StoreDefinition | null],
     }
   },
   components: {
-    MediumButtonWithIcon, FormInput,
+    AddEditForm,
     Container,
     Base,
-    Checkbox,
     ProductsTable
+  },
+  computed: {
+    /**
+     * @description returns the rows data for table
+     */
+    usedTableData(): Array {
+      let data = [];
+      for (let product of this.products) {
+        data.push({
+          values : {
+            id : {
+              value       : product.id,
+              isComponent : false,
+            },
+            name : {
+              value       : product.name,
+              isComponent : false,
+            },
+            market : {
+              value       : product.market,
+              isComponent : false,
+            },
+            products : {
+              value       : product.products,
+              isComponent : false,
+            },
+            information : {
+              value       : product.information,
+              isComponent : false,
+            },
+            rejected : {
+              value       : this.$t(`generic.bool.yesNo.${Number(product.rejected)}`),
+              rawValue    : product.rejected,
+              isComponent : false,
+            },
+            price : {
+              value       : product.price,
+              isComponent : false,
+            },
+            homeCurrencyPrice : {
+              value       : product.homeCurrencyPrice,
+              isComponent : false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyPaymentsRoutes.PRODUCT_PRICES_BASE_URL,
+                store: PaymentProductsState,
+              }
+            }
+          }
+        })
+      }
+
+      return data;
+    },
   },
   methods: {
     /**
-     * @description handle clicking on the submit form button
+     * @description fetches latest data set from db and updates front
      */
-    onNewSubmit(): void {
-      // todo
+    async refreshPageState(): Promise<void> {
+      await this.stateStore.getAll();
+      this.products = this.stateStore.allEntries;
+    }
+  },
+  beforeMount(): void {
+    this.stateStore = PaymentProductsState();
+    this.refreshPageState();
+  },
+  watch: {
+    'stateStore.allEntries': {
+      deep: true,
+      handler: function() {
+        this.products = this.stateStore.allEntries;
+      }
     }
   }
 }
