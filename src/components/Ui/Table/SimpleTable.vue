@@ -335,7 +335,7 @@ export default {
     /**
      * @description will filter the results shown on page
      */
-    filterShownResults(currentPage: number, countOfResultsPerPage: number): void {
+    filterShownResults(currentPage: number, countOfResultsPerPage: number, retryWithFirst: boolean = true): void {
       let visibleResults = [] as Array<unknown>;
       this.$nextTick( () => {
         let resultOffset = (currentPage-1) * countOfResultsPerPage;
@@ -356,6 +356,12 @@ export default {
           if (visibleResults.length >= countOfResultsPerPage) {
             break;
           }
+        }
+
+        if (visibleResults.length === 0 && retryWithFirst) {
+          // would be better to do `curr--`, but then it's unknown how much data is passed, don't want to calculate this for now
+          this.currentPage = 1;
+          this.filterShownResults(1, countOfResultsPerPage, false)
         }
 
         this.visibleResults = visibleResults;
@@ -407,12 +413,6 @@ export default {
     },
     data(): void {
       this.refresh(this.currentPage);
-
-      // would be better to do `curr--`, but then it's unknown how much data is passed, don't want to calculate this for now
-      this.currentPage = 1;
-      if (this.visibleResults.length === 0) {
-        this.refresh(this.currentPage);
-      }
     }
   }
 }
