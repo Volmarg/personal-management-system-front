@@ -68,7 +68,9 @@ export default {
       this.nestedCategories = [];
       await this.categoriesStore.getAll();
       this.nestedCategories = this.categoriesStore.getNestedCategories()
-      this.canRefresh = true;
+      this.$nextTick(() => {
+        this.canRefresh = true;
+      })
     },
   },
   async beforeMount(): Promise<void> {
