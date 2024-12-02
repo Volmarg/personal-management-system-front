@@ -18,6 +18,10 @@ export default {
     handleSort(header: Record<string, unknown>, index: number): void {
       let isSorted = false;
 
+      if (this.visibleResults.length === 0) {
+        return;
+      }
+
       // not supported for component based cols
       if (this.visibleResults[0][index].isComponent) {
         return;
