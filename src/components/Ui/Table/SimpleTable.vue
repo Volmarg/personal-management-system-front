@@ -73,7 +73,7 @@
       </tbody>
     </table>
 
-    <Pagination :number-of-results="rowsData.length"
+    <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
                 :initial-current-page="currentPage"
                 :initial-count-of-result-per-page="resultsPerPage"
                 @page-number-changes="onPaginationPageNumberChange"
@@ -110,6 +110,7 @@ export default {
       searchValue: null,
       currentPage: 1,
       visibleResults: [],
+      searchMatchingResults: [],
     }
   },
   props: {
@@ -337,6 +338,7 @@ export default {
      */
     filterShownResults(currentPage: number, countOfResultsPerPage: number, retryWithFirst: boolean = true): void {
       let visibleResults = [] as Array<unknown>;
+      this.searchMatchingResults = [];
       this.$nextTick( () => {
         let resultOffset = (currentPage-1) * countOfResultsPerPage;
         let resultsCount = 0;
@@ -382,14 +384,17 @@ export default {
         }
 
         if (TypeChecker.isString(cellData.value) && cellData.value.toLowerCase().includes(this.searchValue.toLowerCase())){
+          this.searchMatchingResults.push(oneRowData);
           return true;
         }
 
         if (TypeChecker.isNumber(cellData.value) && cellData.value.toString().includes(this.searchValue)){
+          this.searchMatchingResults.push(oneRowData);
           return true;
         }
 
         if (TypeChecker.isBoolean(cellData.value) && cellData.value === BoolTypeProcessor.boolStringToRealBool(this.searchValue)) {
+          this.searchMatchingResults.push(oneRowData);
           return true;
         }
       }
