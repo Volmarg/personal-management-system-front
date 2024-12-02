@@ -385,7 +385,7 @@ export default {
           return true;
         }
 
-        if (TypeChecker.isNumber(cellData.value) && cellData.value === this.searchValue){
+        if (TypeChecker.isNumber(cellData.value) && cellData.value.toString().includes(this.searchValue)){
           return true;
         }
 
