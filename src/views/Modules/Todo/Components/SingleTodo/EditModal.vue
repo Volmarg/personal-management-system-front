@@ -42,8 +42,8 @@ import MediumButtonWithIcon         from "@/components/Navigation/Button/MediumB
 import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
-import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
-import {TodoModuleState} from "@/scripts/Vue/Store/TodoModuleState";
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {TodoState}     from "@/scripts/Vue/Store/Module/Todo/TodoState";
 
 export default {
   data(): ComponentData {
@@ -114,7 +114,7 @@ export default {
      * @description handles the situation when modal get closed. Will pass the event further
      */
     onModalClosed(): void {
-      TodoModuleState().fetchModulesWithRecordsData();
+      TodoState().fetchModulesWithRecordsData();
       this.$emit('modalClosed');
     }
   },

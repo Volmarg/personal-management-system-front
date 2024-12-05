@@ -3,7 +3,7 @@
  */
 import {defineStore} from 'pinia'
 
-const storageModuleState = defineStore('storageModuleState', {
+const StorageState = defineStore('storageModuleState', {
     state: () => ({
         activeNodeData: {},
         selectedFilesData: []
@@ -39,4 +39,4 @@ const storageModuleState = defineStore('storageModuleState', {
     }
 });
 
-export {storageModuleState};
+export {StorageState};

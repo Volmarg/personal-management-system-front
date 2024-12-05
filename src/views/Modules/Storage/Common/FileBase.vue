@@ -64,8 +64,9 @@
 import Checkbox  from "@/components/Form/Checkbox.vue";
 import EditModal from "@/views/Modules/Storage/Common/Modal/EditModal.vue";
 
-import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
-import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   data(): ComponentData {
@@ -162,11 +163,11 @@ export default {
   watch: {
     isSelected(): void {
       if (this.isSelected) {
-        storageModuleState().addSelectedFiles(this.fileData);
+        StorageState().addSelectedFiles(this.fileData);
         return;
       }
 
-      storageModuleState().removeSelectedFile(this.fileData);
+      StorageState().removeSelectedFile(this.fileData);
     }
   }
 }

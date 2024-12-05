@@ -52,7 +52,7 @@ import Accordion      from "@/components/Ui/Accordion/Accordion.vue";
 import AddEditForm    from "@/views/Modules/Payments/Components/MonthlyPayments/AddEditForm.vue";
 import TableActions   from "@/components/Ui/Actions/TableActions.vue";
 
-import {PaymentMonthlyState} from "@/scripts/Vue/Store/PaymentMonthlyState";
+import {PaymentsState}       from "@/scripts/Vue/Store/Module/Payments/Monthly/PaymentsState";
 import {ComponentData}       from "@/scripts/Vue/Types/Components/types";
 import {StoreDefinition}     from "pinia";
 
@@ -123,7 +123,7 @@ export default {
               componentProps : {
                 editActionForm: AddEditForm,
                 baseUrl: SymfonyPaymentsRoutes.MONTHLY_BASE_URL,
-                store: PaymentMonthlyState,
+                store: PaymentsState,
               }
             }
           },
@@ -243,7 +243,7 @@ export default {
     },
   },
   async beforeMount(): Promise<void> {
-    this.store = PaymentMonthlyState();
+    this.store = PaymentsState();
     await this.refreshPageState();
     this.openActivePanel();
   },

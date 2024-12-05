@@ -15,12 +15,12 @@ import SinglePaymentBlock from "@/views/Modules/Goals/Payments/SinglePaymentBloc
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import {GoalPaymentsState} from "@/scripts/Vue/Store/GoalPaymentsState";
+import {PaymentsState} from "@/scripts/Vue/Store/Module/Goals/Payments/PaymentsState";
 
 export default {
   data(): ComponentData {
     return {
-      paymentsStore: null as GoalPaymentsState,
+      paymentsStore: null as PaymentsState,
     }
   },
   components: {
@@ -28,7 +28,7 @@ export default {
     NoResultsText
   },
   beforeMount(): void {
-    this.paymentsStore = GoalPaymentsState();
+    this.paymentsStore = PaymentsState();
     this.paymentsStore.getAll();
   },
 }

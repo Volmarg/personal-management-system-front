@@ -59,7 +59,8 @@ import RemoveFiles   from "@/views/Modules/Storage/Common/SideNav/RemoveFiles.vu
 import TransferFiles from "@/views/Modules/Storage/Common/SideNav/TransferFiles.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
+
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   data(): ComponentData {
@@ -89,7 +90,7 @@ export default {
      * @description check if any file is selected
      */
     isAnyFileSelected(): boolean {
-      return storageModuleState().selectedFilesData.length != 0;
+      return StorageState().selectedFilesData.length != 0;
     }
   }
 }

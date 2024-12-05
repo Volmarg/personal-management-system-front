@@ -18,13 +18,14 @@ import CreateUpdateForm from "@/views/Modules/Goals/Payments/CreateUpdateForm.vu
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import {GoalPaymentsState} from "@/scripts/Vue/Store/GoalPaymentsState";
+import {PaymentsState} from "@/scripts/Vue/Store/Module/Goals/Payments/PaymentsState";
+
 import SymfonyGoalsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyGoalsRoutes";
 
 export default {
   data(): ComponentData {
     return {
-      paymentsStore: null as GoalPaymentsState,
+      paymentsStore: null as PaymentsState,
       tableHeaders: [
         {
           label: 'id',
@@ -127,7 +128,7 @@ export default {
               componentProps : {
                 editActionForm: CreateUpdateForm,
                 baseUrl: SymfonyGoalsRoutes.GOAL_PAYMENTS_BASE_URL,
-                store: GoalPaymentsState,
+                store: PaymentsState,
               }
             }
           }
@@ -138,7 +139,7 @@ export default {
     }
   },
   beforeMount(): void {
-    this.paymentsStore = GoalPaymentsState();
+    this.paymentsStore = PaymentsState();
     this.paymentsStore.getAll();
   },
 }

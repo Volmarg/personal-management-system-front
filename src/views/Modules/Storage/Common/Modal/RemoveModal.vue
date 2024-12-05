@@ -22,7 +22,8 @@ import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResp
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
-import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
+
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   emits: [
@@ -53,7 +54,7 @@ export default {
      * @description returns selected files data
      */
     selectedFiles(): Array<Record> {
-      return storageModuleState().selectedFilesData;
+      return StorageState().selectedFilesData;
     }
   },
   methods: {

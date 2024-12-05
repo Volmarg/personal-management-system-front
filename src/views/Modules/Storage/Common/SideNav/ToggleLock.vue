@@ -26,7 +26,7 @@
 import FullRoundButtonWithIcon from "@/components/Navigation/Button/FullRoundButtonWithIcon.vue";
 import FloatingBox             from "@/components/Ui/Containers/FloatingBox.vue";
 
-import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   props: {
@@ -47,7 +47,7 @@ export default {
      * @description check if current dir is locked
      */
     isLocked(): boolean {
-      return storageModuleState().activeNodeData.isLocked;
+      return StorageState().activeNodeData.isLocked;
     },
   },
   methods: {

@@ -8,7 +8,7 @@ import {BackendModuleCaller}     from "@/scripts/Core/Services/Request/BackendMo
 
 import BaseError from "@/scripts/Core/Error/BaseError";
 
-const moduleCommonState = defineStore('moduleCommonState', {
+const CommonState = defineStore('moduleCommonState', {
     state: () => ({
         allRelationModules: [],
     }),
@@ -39,4 +39,4 @@ const moduleCommonState = defineStore('moduleCommonState', {
     }
 });
 
-export {moduleCommonState};
+export {CommonState};

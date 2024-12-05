@@ -22,7 +22,7 @@ import TabManage from "@/views/Modules/Goals/Payments/TabManage.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import {GoalPaymentsState} from "@/scripts/Vue/Store/GoalPaymentsState";
+import {PaymentsState} from "@/scripts/Vue/Store/Module/Goals/Payments/PaymentsState";
 
 export default {
   data(): ComponentData {
@@ -60,7 +60,7 @@ export default {
      * @description updates the payments store after submitting the form
      */
     onSubmit(): void {
-      GoalPaymentsState().getAll();
+      PaymentsState().getAll();
     }
   }
 }

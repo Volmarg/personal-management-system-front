@@ -23,7 +23,7 @@ import SymfonyGoalsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyGoalsRoute
 
 import TodoModuleMixin from "@/views/Modules/Todo/Mixin/TodoModuleMixin.vue";
 
-import {moduleCommonState} from "@/scripts/Vue/Store/ModuleCommonState";
+import {CommonState} from "@/scripts/Vue/Store/Module/CommonState";
 
 export default {
   data(): ComponentData {
@@ -55,7 +55,7 @@ export default {
     }
   },
   async beforeMount(): Promise<void> {
-    this.moduleId = await moduleCommonState().getRelationModuleId(this.boundModule.goals);
+    this.moduleId = await CommonState().getRelationModuleId(this.boundModule.goals);
   }
 }
 </script>

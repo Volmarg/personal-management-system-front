@@ -7,7 +7,7 @@ import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModule
 
 import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
 
-const PaymentMonthlyState = defineStore('paymentMonthlyState', {
+const PaymentsState = defineStore('paymentMonthlyState', {
     state: () => ({
         allEntries: [],
     }),
@@ -21,4 +21,4 @@ const PaymentMonthlyState = defineStore('paymentMonthlyState', {
     }
 });
 
-export {PaymentMonthlyState};
+export {PaymentsState};

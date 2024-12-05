@@ -3,14 +3,13 @@
  */
 import {defineStore} from 'pinia'
 
-import Logger    from "@/scripts/Core/Logger";
 import BaseError from "@/scripts/Core/Error/BaseError";
 
 import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
 
 import SymfonyNotesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyNotesRoutes";
 
-const notesCategoriesModuleStateStore = defineStore('notesCategoriesModuleStateStore', {
+const CategoriesState = defineStore('NotesCategoriesModuleStateStore', {
     state: () => ({
         allEntries: [],
     }),
@@ -121,4 +120,4 @@ const notesCategoriesModuleStateStore = defineStore('notesCategoriesModuleStateS
     }
 });
 
-export {notesCategoriesModuleStateStore};
+export {CategoriesState};

@@ -22,7 +22,7 @@ import TableActions  from "@/components/Ui/Actions/TableActions.vue";
 
 import {StoreDefinition} from "pinia";
 
-import {PaymentProductsState} from "@/scripts/Vue/Store/PaymentProductsState";
+import {ProductsState} from "@/scripts/Vue/Store/Module/Payments/Products/ProductsState";
 
 import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
 
@@ -87,7 +87,7 @@ export default {
               componentProps : {
                 editActionForm: AddEditForm,
                 baseUrl: SymfonyPaymentsRoutes.PRODUCT_PRICES_BASE_URL,
-                store: PaymentProductsState,
+                store: ProductsState,
               }
             }
           }
@@ -107,7 +107,7 @@ export default {
     }
   },
   beforeMount(): void {
-    this.stateStore = PaymentProductsState();
+    this.stateStore = ProductsState();
     this.refreshPageState();
   },
   watch: {

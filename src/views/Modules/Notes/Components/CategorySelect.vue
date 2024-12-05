@@ -24,7 +24,7 @@ import MultiSelect from "@/components/Form/MultiSelect.vue";
 import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
 import {StoreDefinition} from "pinia";
 
-import {notesCategoriesModuleStateStore} from "@/scripts/Vue/Store/NotesCategoriesModuleState";
+import {CategoriesState} from "@/scripts/Vue/Store/Module/Notes/CategoriesState";
 
 export default {
   data(): ComponentData {
@@ -117,7 +117,7 @@ export default {
     this.value = this.selected;
   },
   async beforeMount(): Promise<void> {
-    this.categoriesStore = notesCategoriesModuleStateStore();
+    this.categoriesStore = CategoriesState();
     await this.categoriesStore.getAll();
     this.buildCategories();
   },

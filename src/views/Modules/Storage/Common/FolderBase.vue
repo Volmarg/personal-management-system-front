@@ -34,7 +34,8 @@ import SideNav       from "@/views/Modules/Storage/Common/SideNav.vue";
 import FoldersTree   from "@/views/Modules/Storage/Common/FoldersTree.vue";
 import FolderContent from "@/views/Modules/Storage/Common/FolderContent.vue";
 import Container     from "@/components/Ui/Containers/Container.vue";
-import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
+
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   props: {
@@ -59,10 +60,10 @@ export default {
     SideNav,
   },
   beforeMount() {
-    storageModuleState().clearSelectedFiles();
+    StorageState().clearSelectedFiles();
   },
   updated(): void {
-    storageModuleState().clearSelectedFiles();
+    StorageState().clearSelectedFiles();
   }
 }
 </script>

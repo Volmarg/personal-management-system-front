@@ -8,7 +8,7 @@ import BaseApiResponse   from "@/scripts/Response/BaseApiResponse";
 
 import AppAxios from "@/scripts/Core/Services/Request/AppAxios";
 
-const TodoModuleState = defineStore('todoModuleState', {
+const TodoState = defineStore('todoModuleState', {
     state: () => ({
         modulesWithRecordsData: null,
     }),
@@ -25,4 +25,4 @@ const TodoModuleState = defineStore('todoModuleState', {
     }
 });
 
-export {TodoModuleState};
+export {TodoState};

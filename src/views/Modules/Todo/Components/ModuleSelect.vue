@@ -41,8 +41,9 @@ import TodoModuleMixin from "@/views/Modules/Todo/Mixin/TodoModuleMixin.vue";
 
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
-import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
-import {TodoModuleState} from "@/scripts/Vue/Store/TodoModuleState";
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {TodoState}     from "@/scripts/Vue/Store/Module/Todo/TodoState";
+
 
 import BaseError from "@/scripts/Core/Error/BaseError";
 
@@ -51,7 +52,7 @@ export default {
     return {
       canShowSelect: true,
       modulesWithRecordsData: [],
-      todoStateStore: null as null | TodoModuleState,
+      todoStateStore: null as null | TodoState,
       selectedModuleId: null,
       selectedRecord: null,
       options: [],
@@ -164,7 +165,7 @@ export default {
     }
   },
   beforeMount(): void {
-    this.todoStateStore = TodoModuleState();
+    this.todoStateStore = TodoState();
     this.todoStateStore.fetchModulesWithRecordsData(this.forceFetchedRecordIds)
   },
   mounted(): void {

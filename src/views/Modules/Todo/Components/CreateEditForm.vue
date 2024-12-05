@@ -53,7 +53,7 @@ import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
 import SymfonyTodoRoutes       from "@/router/SymfonyRoutes/Modules/SymfonyTodoRoutes";
 import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
 
-import {TodoModuleState} from "@/scripts/Vue/Store/TodoModuleState";
+import {TodoState} from "@/scripts/Vue/Store/Module/Todo/TodoState";
 
 export default {
   data(): ComponentData {
@@ -161,7 +161,7 @@ export default {
 
       if (response.success) {
         this.$emit('submit');
-        await TodoModuleState().fetchModulesWithRecordsData();
+        await TodoState().fetchModulesWithRecordsData();
         this.clearFormData();
       }
     }

@@ -33,7 +33,7 @@
 
 <script lang="ts">
 
-import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   props: {
@@ -61,7 +61,7 @@ export default {
         return;
       }
 
-      storageModuleState().activeNodeData = node;
+      StorageState().activeNodeData = node;
     }
   },
 }

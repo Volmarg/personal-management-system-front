@@ -22,7 +22,7 @@ import TableActions             from "@/components/Ui/Actions/TableActions.vue";
 
 import SymfonyNotesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyNotesRoutes";
 
-import {notesCategoriesModuleStateStore} from "@/scripts/Vue/Store/NotesCategoriesModuleState";
+import {CategoriesState} from "@/scripts/Vue/Store/Module/Notes/CategoriesState";
 
 export default {
   data(): ComponentData {
@@ -109,7 +109,7 @@ export default {
               componentProps : {
                 editActionForm: AddEditForm,
                 baseUrl: SymfonyNotesRoutes.NOTES_CATEGORIES_BASE_URL,
-                store: notesCategoriesModuleStateStore,
+                store: CategoriesState,
               }
             }
           }
@@ -135,7 +135,7 @@ export default {
     },
   },
   beforeMount(): void {
-    this.categoriesStore = notesCategoriesModuleStateStore();
+    this.categoriesStore = CategoriesState();
   },
   watch: {
     'categoriesStore.allEntries': {

@@ -21,8 +21,9 @@
 
 <script lang="ts">
 
-import NoResultsText        from "@/components/Page/NoResultsText.vue";
-import {storageModuleState} from "@/scripts/Vue/Store/StorageModuleState";
+import NoResultsText from "@/components/Page/NoResultsText.vue";
+
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   props: {
@@ -39,7 +40,7 @@ export default {
      * @description gets the data of currently active node
      */
     nodeData(): Record {
-      return storageModuleState().activeNodeData;
+      return StorageState().activeNodeData;
     }
   }
 }
