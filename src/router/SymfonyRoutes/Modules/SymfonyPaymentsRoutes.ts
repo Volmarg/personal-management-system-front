@@ -6,4 +6,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
 export default class SymfonyPaymentsRoutes extends SymfonyRoutes
 {
     public static readonly PRODUCT_PRICES_BASE_URL = "/module/payment/product-prices";
+    public static readonly MONTHLY_BASE_URL = "/module/payment/monthly";
 }

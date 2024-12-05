@@ -9,9 +9,12 @@
 
     <Accordion v-for="(data, yearMonth) in dataForYear"
                :key="JSON.stringify(data)"
+               :id="md5Service.hash(yearMonth)"
     >
-      <AccordionPanel class="accordion-panel">
-        <template #title>{{ yearMonth }}</template>
+      <AccordionPanel class="accordion-panel"
+                      :ref="`accordionPanel-${md5Service.hash(yearMonth)}`"
+      >
+        <template #title>{{ yearMonth }} ({{paymentTotal(yearMonth)}})</template>
         <template #content>
           <Container class="mb-6">
             <PaymentsTable :data="data" />
@@ -34,12 +37,7 @@
       </AccordionPanel>
     </Accordion>
 
-    <NewEntryForm @date-change="form.date = $event"
-                  @money-change="form.money = $event"
-                  @description-change="form.description = $event"
-                  @type-change="form.type = $event"
-                  :types="allTypes"
-    />
+    <AddEditForm @submit="refreshPageState" />
 
   </Base>
 </template>
@@ -51,11 +49,16 @@ import Navbar         from "@/views/Modules/Payments/Components/MonthlyPayments/
 import PaymentsTable  from "@/views/Modules/Payments/Components/MonthlyPayments/PaymentsTable.vue";
 import AccordionPanel from "@/components/Ui/Accordion/Panel.vue";
 import Accordion      from "@/components/Ui/Accordion/Accordion.vue";
-import NewEntryForm   from "@/views/Modules/Payments/Components/MonthlyPayments/NewEntry.vue";
+import AddEditForm    from "@/views/Modules/Payments/Components/MonthlyPayments/AddEditForm.vue";
+import TableActions   from "@/components/Ui/Actions/TableActions.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {PaymentMonthlyState} from "@/scripts/Vue/Store/PaymentMonthlyState";
+import {ComponentData}       from "@/scripts/Vue/Types/Components/types";
+import {StoreDefinition}     from "pinia";
 
-import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import StringTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
+import Md5Service            from "@/scripts/Core/Services/Crypto/Md5Service";
 
 export default {
   data(): ComponentData {
@@ -66,191 +69,10 @@ export default {
         description: null,
         type: null,
       },
+      md5Service: Md5Service,
       selectedYear: null,
-      paymentsData: [
-        {
-          values : {
-            date : {
-              value       : "2024-10-03",
-              isComponent : false,
-            },
-            money : {
-              value       : 134,
-              isComponent : false,
-            },
-            description : {
-              value       : "Lidl food",
-              isComponent : false,
-            },
-            type : {
-              value       : "food",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            date : {
-              value       : "2024-10-08",
-              isComponent : false,
-            },
-            money : {
-              value       : 22.14,
-              isComponent : false,
-            },
-            description : {
-              value       : "Book",
-              isComponent : false,
-            },
-            type : {
-              value       : "private",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            date : {
-              value       : "2024-10-10",
-              isComponent : false,
-            },
-            money : {
-              value       : 63,
-              isComponent : false,
-            },
-            description : {
-              value       : "More food",
-              isComponent : false,
-            },
-            type : {
-              value       : "food",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            date : {
-              value       : "2024-11-10",
-              isComponent : false,
-            },
-            money : {
-              value       : 99,
-              isComponent : false,
-            },
-            description : {
-              value       : "Headache pills",
-              isComponent : false,
-            },
-            type : {
-              value       : "meds",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            date : {
-              value       : "2025-01-01",
-              isComponent : false,
-            },
-            money : {
-              value       : 11,
-              isComponent : false,
-            },
-            description : {
-              value       : "Game",
-              isComponent : false,
-            },
-            type : {
-              value       : "private",
-              isComponent : false,
-            },
-          }
-        },
-      ],
-      tableData: [
-        {
-          values : {
-            date : {
-              value       : "2024-10-03",
-              isComponent : false,
-            },
-            money : {
-              value       : 134,
-              isComponent : false,
-            },
-            description : {
-              value       : "Lidl food",
-              isComponent : false,
-            },
-            type : {
-              value       : "food",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            date : {
-              value       : "2024-10-10",
-              isComponent : false,
-            },
-            money : {
-              value       : 63,
-              isComponent : false,
-            },
-            description : {
-              value       : "More food",
-              isComponent : false,
-            },
-            type : {
-              value       : "food",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            date : {
-              value       : "2024-11-10",
-              isComponent : false,
-            },
-            money : {
-              value       : 99,
-              isComponent : false,
-            },
-            description : {
-              value       : "Headache pills",
-              isComponent : false,
-            },
-            type : {
-              value       : "meds",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            date : {
-              value       : "2025-01-01",
-              isComponent : false,
-            },
-            money : {
-              value       : 11,
-              isComponent : false,
-            },
-            description : {
-              value       : "Game",
-              isComponent : false,
-            },
-            type : {
-              value       : "private",
-              isComponent : false,
-            },
-          }
-        },
-      ]
+      store: null as null | StoreDefinition,
+      allPayments: [] as Array,
     }
   },
   components: {
@@ -260,16 +82,52 @@ export default {
     Navbar,
     PaymentsTable,
     Container,
-    NewEntryForm,
+    AddEditForm,
   },
   computed: {
     /**
-     * @description returns data for selected year
+     * @description transforms backend data into front friendly data
      */
-    allTypes(): Array<string> {
+    paymentsData(): Array {
       let data = [];
-      for (let dataSet of this.paymentsData) {
-        data.push(dataSet.values.type.value);
+      for (let product of this.allPayments) {
+        data.push({
+          values : {
+            id : {
+              value       : product.id,
+              isComponent : false,
+            },
+            date : {
+              value       : product.date,
+              isComponent : false,
+            },
+            money : {
+              value       : product.money,
+              isComponent : false,
+            },
+            description : {
+              value       : product.description,
+              isComponent : false,
+            },
+            typeName : {
+              value       : product.typeName,
+              isComponent : false,
+            },
+            typeId: {
+              value       : product.typeId,
+              isComponent : false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyPaymentsRoutes.MONTHLY_BASE_URL,
+                store: PaymentMonthlyState,
+              }
+            }
+          },
+        })
       }
 
       return data;
@@ -313,7 +171,7 @@ export default {
 
       let year = yearMonth.match(/[0-9]{4}/);
       for (let yearMonthData of this.dataPerYearsAndMonths[year][yearMonth]) {
-        let type = StringTypeProcessor.ucFirst(yearMonthData.values.type.value);
+        let type = StringTypeProcessor.ucFirst(yearMonthData.values.typeName.value);
         if (!data[type]) {
           data[type] = 0;
         }
@@ -324,11 +182,80 @@ export default {
 
       data[this.$t('payments.monthly.text.summary')] = summaryCost;
 
+      // need to format the values, because JS result of adding 0.1 + 0.2 is 0.300000000003
+      for (let type in data) {
+        let value = data[type];
+        data[type] = value.toFixed(2);
+      }
+
       return data;
-    }
+    },
+    /**
+     * @description returns summary of all payments for given yearm and month
+     */
+    paymentTotal(yearMonth: string): number {
+      let summaryCost = 0;
+
+      let year = yearMonth.match(/[0-9]{4}/);
+      for (let yearMonthData of this.dataPerYearsAndMonths[year][yearMonth]) {
+        summaryCost += yearMonthData.values.money.value
+      }
+
+      return summaryCost.toFixed(2);
+    },
+    /**
+     * @description updates page state by pulling db state and rebuilding front
+     */
+    async refreshPageState(): Promise<void> {
+      await this.store.getAll();
+      this.allPayments = this.store.allEntries;
+      this.selectedYear = Math.max(...Object.keys(this.dataPerYearsAndMonths).sort());
+    },
+    /**
+     * @description Opens the active tab (based on the url hash). The problem is that the way that data is getting reloaded
+     *              via storage, and an array of data sets, it would normally close the panel for which data was modified.
+     *
+     *              This is a bit fishy, using setTimeout here because of known issue where panel is destroyed
+     *              and created anew, and as such the matching ref could be already destroyed component.
+     *
+     *              There is no easy way to track when all the panels are rendered thus calculating timeout based
+     *              on amount of months (data sets) for given year.
+     */
+    openActivePanel(): void {
+      setTimeout(() => {
+        if (!this.$route.hash) {
+          return;
+        }
+
+        let id = this.$route.hash.replace("#", '');
+        if (!id) {
+          return;
+        }
+
+        let panels = this.$refs[`accordionPanel-${id}`];
+        if (!panels || panels.length === 0) {
+          return;
+        }
+
+        let panel = panels[0];
+        panel.toggle(true);
+      }, 10 * Object.keys(this.dataPerYearsAndMonths).length)
+    },
   },
-  mounted(): void {
-    this.selectedYear = Math.max(...Object.keys(this.dataPerYearsAndMonths).sort());
+  async beforeMount(): Promise<void> {
+    this.store = PaymentMonthlyState();
+    await this.refreshPageState();
+    this.openActivePanel();
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function () {
+        this.allPayments = this.store.allEntries;
+        this.selectedYear = Math.max(...Object.keys(this.dataPerYearsAndMonths).sort());
+        this.openActivePanel();
+      }
+    }
   }
 }
 </script>
