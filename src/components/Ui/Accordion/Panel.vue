@@ -1,6 +1,6 @@
 <template>
   <li>
-    <input type="checkbox" :checked="!isInitOpen">
+    <input type="checkbox" :checked="isChecked" v-model="isChecked">
     <i></i>
     <h2>
       <slot name="title"></slot>
@@ -18,7 +18,7 @@ export default {
   name: "AccordionPanel",
   data(): ComponentData {
     return {
-      isInitOpen: false,
+      isChecked: false,
     }
   },
   props: {
@@ -33,10 +33,23 @@ export default {
       default: 0
     }
   },
+  methods: {
+    /**
+     * @description toggle open state for accordion panel
+     */
+    toggle(isOpened: boolean): void {
+      this.$nextTick(() => {
+        this.isChecked = isOpened;
+      });
+    },
+  },
   mounted(): void {
-    setTimeout(() => {
-      this.isInitOpen = this.initiallyOpen;
-    }, this.initialOpenDelayMs)
+    this.toggle(this.initiallyOpen);
+  },
+  watch: {
+    modelValue(): void {
+      this.isChecked = this.modelValue;
+    }
   }
 }
 </script>

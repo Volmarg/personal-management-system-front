@@ -1,5 +1,8 @@
 <template>
-  <div class="accordion">
+  <div class="accordion"
+       @click="onClick"
+       :id="id"
+  >
     <ul class="panels-wrapper">
       <slot></slot>
     </ul>
@@ -9,6 +12,27 @@
 <script lang="ts">
 export default {
   name: "Accordion",
+  props: {
+    id: {
+      type: [null, String],
+      required: false,
+      default: null,
+    }
+  },
+  emits: [
+    'click',
+  ],
+  methods: {
+    /**
+     * @description sets the accordion id as hash in url.
+     * @todo would be nice to remove the hash when accordion is closed, but that's going to be trickier - not doing now
+     */
+    onClick(): void {
+      if (this.id) {
+        this.$router.push({path: this.$route.path, hash: `#${this.id}`})
+      }
+    }
+  }
 }
 </script>
 
@@ -109,7 +133,7 @@ export default {
     z-index: 1;
     opacity: 0;
   }
-  .panels-wrapper > li input[type=checkbox]:checked ~ p {
+  .panels-wrapper > li input[type=checkbox]:not(:checked) ~ p {
     margin-top: 0;
     max-height: 0;
     opacity: 0;
@@ -118,10 +142,10 @@ export default {
       display: none;
     }
   }
-  .panels-wrapper > li input[type=checkbox]:checked ~ i:before {
+  .panels-wrapper > li input[type=checkbox]:not(:checked) ~ i:before {
     transform: translate(2px, 0) rotate(45deg);
   }
-  .panels-wrapper > li input[type=checkbox]:checked ~ i:after {
+  .panels-wrapper > li input[type=checkbox]:not(:checked) ~ i:after {
     transform: translate(-2px, 0) rotate(-45deg);
   }
 
