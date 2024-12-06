@@ -36,7 +36,7 @@
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import Container            from "@/components/Ui/Containers/Container.vue";
 import FormInput            from "@/components/Form/Input.vue";
-import TypeSelect           from "@/views/Modules/Payments/Components/MonthlyPayments/TypeSelect.vue";
+import TypeSelect           from "@/views/Modules/Payments/Components/Common/PaymentTypeSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 

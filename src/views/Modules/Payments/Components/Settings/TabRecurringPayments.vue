@@ -1,7 +1,7 @@
 <template>
   <div>
     <SimpleTable :headers="headers"
-                 :data="data"
+                 :data="usedTableData"
                  ref="table"
                  class="mt-4"
                  v-if="data.length > 0"
@@ -11,61 +11,45 @@
 
   <hr class="mt-5 mb-5" />
 
-  <div class="flex justify-center">
-    <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-      <h2 class="text-lg">{{ $t('payments.settings.tab.recurringPayments.table.newForm.header') }}</h2>
+  <AddEditForm :header="$t('payments.settings.tab.recurringPayments.table.newForm.header')"
+               @submit="refreshPageState"
+  />
 
-      <FormInput type="text"
-                 :model-value="form.dayOfMonth"
-                 :label="$t('payments.settings.tab.recurringPayments.table.newForm.dayOfMonth.label')"
-      />
-
-      <FormInput type="number"
-                 :model-value="form.amount"
-                 :label="$t('payments.settings.tab.recurringPayments.table.newForm.money.label')"
-      />
-
-      <FormInput type="text"
-                 :model-value="form.description"
-                 :label="$t('payments.settings.tab.recurringPayments.table.newForm.description.label')"
-      />
-
-      <PaymentTypeSelect :data="paymentTypesData"
-                         v-model="form.type"
-      />
-
-
-      <MediumButtonWithIcon :text="$t('payments.settings.tab.recurringPayments.table.newForm.submit.label')"
-                            button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                            class="w-full mb-1 md:col-start-1 md:col-end-2 mt-5"
-                            button-classes="w-full md:w-auto m-0-force"
-                            text-classes="text-center w-full"
-                            @button-click="onNewSubmit"
-      />
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
 
-import PaymentTypeSelect    from "@/views/Modules/Payments/Components/Settings/PaymentTypeSelect.vue";
-import SimpleTable          from "@/components/Ui/Table/SimpleTable.vue";
-import NoResultsText        from "@/components/Page/NoResultsText.vue";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import FormInput            from "@/components/Form/Input.vue";
+import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
+import NoResultsText from "@/components/Page/NoResultsText.vue";
+import AddEditForm   from "@/views/Modules/Payments/Components/Settings/RecurringPayments/AddEditForm.vue";
+import TableActions  from "@/components/Ui/Actions/TableActions.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
+import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
+
+import {RecurringPaymentState} from "@/scripts/Vue/Store/Module/Payments/Settings/RecurringPaymentState";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        dayOfMonth: null,
-        amount: null,
-        description: null,
-        type: null,
-      },
+      store: null as null | RecurringPaymentState,
+      allPayments: [],
       headers: [
+        {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
+          label: 'typeId',
+          dataValuePath : 'typeId.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
         {
           label: this.$t('payments.settings.tab.recurringPayments.table.header.dayOfMonth'),
           dataValuePath : 'dayOfMonth.value',
@@ -74,8 +58,8 @@ export default {
         },
         {
           label: this.$t('payments.settings.tab.recurringPayments.table.header.money'),
-          dataValuePath : 'money.value',
-          dataIsComponentPath : 'money.isComponent',
+          dataValuePath : 'amount.value',
+          dataIsComponentPath : 'amount.isComponent',
           dataComponentPropertiesPath: null
         },
         {
@@ -92,9 +76,9 @@ export default {
         },
         {
           label: this.$t('payments.settings.tab.recurringPayments.table.header.actions'),
-          dataValuePath : null,
-          dataIsComponentPath : null,
-          dataComponentPropertiesPath: null
+          dataValuePath : 'actions.value',
+          dataIsComponentPath : 'actions.isComponent',
+          dataComponentPropertiesPath: 'actions.componentProps'
         }
       ]
     }
@@ -110,19 +94,79 @@ export default {
     }
   },
   components: {
-    FormInput,
-    MediumButtonWithIcon,
-    PaymentTypeSelect,
+    AddEditForm,
     NoResultsText,
     SimpleTable
   },
+  computed: {
+    /**
+     * @description returns the rows data for table
+     */
+    usedTableData(): Array {
+      let data = [];
+      for (let payment of this.allPayments) {
+        data.push({
+          values: {
+            id: {
+              value: payment.id,
+              isComponent : false,
+            },
+            typeId: {
+              value: payment.typeId,
+              isComponent: false,
+            },
+            dayOfMonth: {
+              value: payment.dayOfMonth,
+              isComponent: false,
+            },
+            amount: {
+              value: payment.amount,
+              isComponent: false,
+            },
+            description: {
+              value: payment.description,
+              isComponent: false,
+            },
+            type: {
+              value: payment.typeName,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyPaymentsRoutes.SETTINGS_RECURRING_PAYMENT_BASE_URL,
+                store: RecurringPaymentState,
+              }
+            }
+          }
+        })
+      }
+
+      return data;
+    }
+  },
   methods: {
     /**
-     * @description handle user submitting the new-form
+     * @description fetches data from db and updates the page state
      */
-    onNewSubmit(): void {
-      // todo
+    async refreshPageState(): Promise<void> {
+      await this.store.getAll();
+      this.allPayments = this.store.allEntries;
     }
-  }
+  },
+  async beforeMount(): Promise<void> {
+    this.store = RecurringPaymentState();
+    this.refreshPageState();
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function(): void {
+        this.allPayments = this.store.allEntries;
+      }
+    }
+  },
 }
 </script>
