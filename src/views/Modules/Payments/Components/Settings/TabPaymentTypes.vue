@@ -1,7 +1,7 @@
 <template>
   <div>
     <SimpleTable :headers="headers"
-                 :data="data"
+                 :data="usedTableData"
                  ref="table"
                  class="mt-4"
                  v-if="data.length > 0"
@@ -11,43 +11,39 @@
 
   <hr class="mt-5 mb-5" />
 
-  <div class="flex justify-center">
-    <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-      <h2 class="text-lg">{{ $t('payments.settings.tab.paymentTypes.table.newForm.header') }}</h2>
+  <AddEditForm :header="$t('payments.settings.tab.paymentTypes.table.newForm.header')"
+               @submit="refreshPageState"
+  />
 
-      <FormInput type="text"
-                 :model-value="form.name"
-                 :label="$t('payments.settings.tab.paymentTypes.table.newForm.typeName.label')"
-      />
-
-      <MediumButtonWithIcon :text="$t('payments.settings.tab.paymentTypes.table.newForm.submit.label')"
-                            button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                            class="w-full mb-1 md:col-start-1 md:col-end-2 mt-5"
-                            button-classes="w-full md:w-auto m-0-force"
-                            text-classes="text-center w-full"
-                            @button-click="onNewSubmit"
-      />
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
 
 
-import SimpleTable          from "@/components/Ui/Table/SimpleTable.vue";
-import NoResultsText        from "@/components/Page/NoResultsText.vue";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import FormInput            from "@/components/Form/Input.vue";
+import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
+import NoResultsText from "@/components/Page/NoResultsText.vue";
+import TableActions  from "@/components/Ui/Actions/TableActions.vue";
+import AddEditForm   from "@/views/Modules/Payments/Components/Settings/PaymentTypes/AddEditForm.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
+import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
+
+import {PaymentTypesState} from "@/scripts/Vue/Store/Module/Payments/Settings/PaymentTypesState";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        name: null,
-      },
+      store: null as null | PaymentTypesState,
+      allTypes: [],
       headers: [
+        {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
         {
           label: this.$t('payments.settings.tab.paymentTypes.table.header.name'),
           dataValuePath : 'name.value',
@@ -56,10 +52,10 @@ export default {
         },
         {
           label: this.$t('payments.settings.tab.paymentTypes.table.header.actions'),
-          dataValuePath : null,
-          dataIsComponentPath : null,
-          dataComponentPropertiesPath: null
-        }
+          dataValuePath : 'actions.value',
+          dataIsComponentPath : 'actions.isComponent',
+          dataComponentPropertiesPath: 'actions.componentProps'
+        },
       ]
     }
   },
@@ -70,17 +66,62 @@ export default {
     }
   },
   components: {
-    FormInput,
-    MediumButtonWithIcon,
+    AddEditForm,
     NoResultsText,
     SimpleTable
   },
+  computed: {
+    /**
+     * @description returns the rows data for table
+     */
+    usedTableData(): Array {
+      let data = [];
+      for (let type of this.allTypes) {
+        data.push({
+          values: {
+            id: {
+              value: type.id,
+              isComponent : false,
+            },
+            name: {
+              value: type.name,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyPaymentsRoutes.SETTINGS_PAYMENT_TYPE_BASE_URL,
+                store: PaymentTypesState,
+              }
+            }
+          }
+        })
+      }
+
+      return data;
+    }
+  },
   methods: {
     /**
-     * @description handle user submitting the new-form
+     * @description fetches data from db and updates the page state
      */
-    onNewSubmit(): void {
-      // todo
+    async refreshPageState(): Promise<void> {
+      await this.store.getAll();
+      this.allTypes = this.store.allEntries;
+    }
+  },
+  async beforeMount(): Promise<void> {
+    this.store = PaymentTypesState();
+    this.refreshPageState();
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function(): void {
+        this.allTypes = this.store.allEntries;
+      }
     }
   }
 }

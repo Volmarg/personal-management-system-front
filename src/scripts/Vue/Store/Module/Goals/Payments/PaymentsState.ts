@@ -7,7 +7,7 @@ import SymfonyGoalsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyGoalsRoute
 
 import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
 
-const GoalPaymentsState = defineStore('goalPaymentsState', {
+const PaymentsState = defineStore('goalPaymentsState', {
     state: () => ({
         allEntries: [],
     }),
@@ -21,4 +21,4 @@ const GoalPaymentsState = defineStore('goalPaymentsState', {
     }
 });
 
-export {GoalPaymentsState};
+export {PaymentsState};

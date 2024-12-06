@@ -24,12 +24,12 @@ import {StoreDefinition} from "pinia";
 
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
-import {PaymentMonthlyState} from "@/scripts/Vue/Store/PaymentMonthlyState";
+import {PaymentTypesState} from "@/scripts/Vue/Store/Module/Payments/Settings/PaymentTypesState";
 
 export default {
   data(): ComponentData {
     return {
-      allPayments: [],
+      allTypes: [],
       store: null as null | StoreDefinition,
       selected: null,
     }
@@ -47,17 +47,17 @@ export default {
     options(): Array<Record<string, string>> {
       let options = [];
       let pushedIds = [];
-      for (let payment of this.allPayments) {
-        if (pushedIds.includes(payment.typeId)) {
+      for (let type of this.allTypes) {
+        if (pushedIds.includes(type.id)) {
           continue;
         }
 
         options.push({
-          label: StringTypeProcessor.ucFirst(payment.typeName),
-          value: payment.typeId,
+          label: StringTypeProcessor.ucFirst(type.name),
+          value: type.id,
         })
 
-        pushedIds.push(payment.typeId);
+        pushedIds.push(type.id);
       }
 
       return options;
@@ -74,15 +74,15 @@ export default {
     }
   },
   async beforeMount(): Promise<void> {
-    this.store = PaymentMonthlyState();
+    this.store = PaymentTypesState();
     await this.store.getAll();
-    this.allPayments = this.store.allEntries;
+    this.allTypes = this.store.allEntries;
   },
   watch: {
     'store.allEntries': {
       deep: true,
       handler: async function() {
-        this.allPayments = this.store.allEntries;
+        this.allTypes = this.store.allEntries;
       }
     }
   }
