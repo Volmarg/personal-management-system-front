@@ -46,7 +46,7 @@ export class BackendModuleCaller {
         let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordUpdated');
         let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.recordCouldNotBeUpdated');
 
-        let url = UrlService.addTrailingSlash(SymfonyRoutes.buildUrl(config.baseUrl)) + config.id;
+        let url = SymfonyRoutes.buildUrl((config.id ? UrlService.addTrailingSlash(config.baseUrl) + config.id : config.baseUrl));
         if (config.parentId) {
             url += `/${config.parentId}`;
         }
@@ -83,8 +83,8 @@ export class BackendModuleCaller {
     /**
      * @description returns response which contains single module record
      */
-    public async get(baseUrl: string, id: number): Promise<Record> {
-        let calledUrl = SymfonyRoutes.buildUrl(UrlService.addTrailingSlash(baseUrl) + id);
+    public async get(baseUrl: string, id: number | null = null): Promise<Record> {
+        let calledUrl = SymfonyRoutes.buildUrl((id ? UrlService.addTrailingSlash(baseUrl) + id : baseUrl));
 
         EventDispatcherService.emitShowFullPageLoader();
         let response = await new AppAxios().get(calledUrl, BaseApiResponse).then((response) => {
