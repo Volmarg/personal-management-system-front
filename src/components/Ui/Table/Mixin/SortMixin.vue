@@ -29,17 +29,17 @@ export default {
 
       this.activeSortColumn = header.label;
       if (this.activeSortDirection === "desc") {
-        if (!isNaN(this.visibleResults[0][index].value) && !isSorted){
+        if (!isSorted && TypeChecker.isNumber(this.visibleResults[0][index].value)){
           this.visibleResults.sort((prev, next) => next[index].value - prev[index].value);
           isSorted = true;
         }
 
-        if (this.visibleResults[0][index].value.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/) && moment(this.visibleResults[0][index].value).isValid() && !isSorted ) {
+        if (!isSorted && this.visibleResults[0][index].value.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/) && moment(this.visibleResults[0][index].value).isValid()) {
           this.visibleResults.sort((prev, next) => moment(next[index].value).valueOf() - moment(prev[index].value).valueOf());
           isSorted = true;
         }
 
-        if (TypeChecker.isString(this.visibleResults[0][index].value) && !isSorted) {
+        if (!isSorted && TypeChecker.isString(this.visibleResults[0][index].value)) {
           this.visibleResults.sort((prev, next) => next[index].value.localeCompare(prev[index].value));
         }
 
@@ -47,17 +47,17 @@ export default {
         return;
       }
 
-      if (!isNaN(this.visibleResults[0][index].value) && !isSorted){
+      if (!isSorted && TypeChecker.isNumber(this.visibleResults[0][index].value)){
         this.visibleResults.sort((prev, next) => prev[index].value - next[index].value);
         isSorted = true;
       }
 
-      if (moment(this.visibleResults[0][index].value).isValid() && !isSorted) {
+      if (!isSorted && this.visibleResults[0][index].value.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/) && moment(this.visibleResults[0][index].value).isValid()) {
         this.visibleResults.sort((prev, next) => moment(prev[index].value).valueOf() - moment(next[index].value).valueOf());
         isSorted = true;
       }
 
-      if (TypeChecker.isString(this.visibleResults[0][index].value) && !isSorted) {
+      if (!isSorted && TypeChecker.isString(this.visibleResults[0][index].value)) {
         this.visibleResults.sort((prev, next) => prev[index].value.localeCompare(next[index].value));
       }
 
