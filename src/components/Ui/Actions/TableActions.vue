@@ -52,6 +52,11 @@ export default {
       type: [Object, null], // component
       required: true,
     },
+    identifierFieldName: {
+      type: [String, null],
+      required: false,
+      default: null
+    },
     isModule: {
       type: Boolean,
       required: false,
@@ -92,6 +97,10 @@ export default {
     recordId(): number {
       let cells = Object.values(this.rowData);
       let matchingCell = cells.find((cellData: Record) => cellData.fieldId == "id" || cellData.fieldId == "identifier");
+      if (!matchingCell && this.identifierFieldName) {
+        matchingCell = cells.find((cellData: Record) => cellData.fieldId == this.identifierFieldName);
+      }
+
       if (!matchingCell) {
         throw new BaseError("Could not determine record id for table actions", {
           rowData: this.rowData
