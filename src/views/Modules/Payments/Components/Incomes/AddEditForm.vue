@@ -26,7 +26,7 @@
                               class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
                               button-classes="w-full md:w-auto m-0-force"
                               text-classes="text-center w-full"
-                              @button-click="onNewSubmit"
+                              @button-click="onSubmit"
         />
 
       </div>
@@ -41,6 +41,10 @@ import CurrencySelect       from "@/views/Modules/Payments/Components/CurrencySe
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
+import SymfonyPaymentsRoutes   from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
+import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
+
 export default {
   data(): ComponentData {
     return {
@@ -52,31 +56,74 @@ export default {
       },
     }
   },
+  props: {
+    id: {
+      type: [Number, null],
+      required: false,
+      default: null
+    },
+    date: {
+      type: [String, null],
+      required: false,
+      default: null
+    },
+    amount: {
+      type: [Number, null],
+      required: false,
+      default: null
+    },
+    information: {
+      type: [String, null],
+      required: false,
+      default: null
+    },
+    currency: {
+      type: [String, null],
+      required: false,
+      default: null
+    },
+  },
   components: {
     MediumButtonWithIcon,
     Container,
     FormInput,
     CurrencySelect,
   },
-  emits: [
-    "dateChange",
-    "amountChange",
-    "informationChange",
-    "currencyChange",
-  ],
-  watch: {
-    'form.date'(): void {
-      this.$emit('dateChange', this.form.date);
+  methods: {
+    /**
+     * @description resets the form state
+     */
+    clearForm(): void {
+      this.form.date = null;
+      this.form.amount = null;
+      this.form.information = null;
+      this.form.currency = null;
     },
-    'form.amount'(): void {
-      this.$emit('amountChange', this.form.money);
-    },
-    'form.information'(): void {
-      this.$emit('informationChange', this.form.description);
-    },
-    'form.currency'(): void {
-      this.$emit('typeChange', this.form.type);
-    },
+    /**
+     * @description handle submitting form data - send data to backend
+     */
+    async onSubmit(): void {
+      let config = new BackendModuleCallConfig(SymfonyPaymentsRoutes.INCOMES_BASE_URL, this.id, BaseApiResponse, this.form);
+      config.reload = false;
+
+      let response: BaseApiResponse;
+      if (this.id) {
+        response = await this.$moduleCall.update(config);
+      } else {
+        response = await this.$moduleCall.new(config);
+      }
+
+      if (response.success) {
+        this.$emit('submit');
+        this.clearForm();
+      }
+    }
+  },
+  beforeMount(): void {
+    this.form.date = this.date;
+    this.form.amount = this.amount;
+    this.form.information = this.information;
+    this.form.currency = this.currency;
   }
 }
 </script>

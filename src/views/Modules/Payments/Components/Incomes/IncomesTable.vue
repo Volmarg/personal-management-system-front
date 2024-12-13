@@ -24,6 +24,13 @@ export default {
       yearFilter: null,
       headers: [
         {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('payments.incomes.table.header.amount.label'),
           dataValuePath : 'amount.value',
           dataIsComponentPath : 'amount.isComponent',
@@ -49,9 +56,9 @@ export default {
         },
         {
           label: this.$t('payments.incomes.table.header.actions.label'),
-          dataValuePath : null,
-          dataIsComponentPath : null,
-          dataComponentPropertiesPath: null
+          dataValuePath : 'actions.value',
+          dataIsComponentPath : 'actions.isComponent',
+          dataComponentPropertiesPath: 'actions.componentProps'
         }
       ],
     }

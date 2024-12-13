@@ -21,14 +21,13 @@ import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import {FinancesCurrenciesState} from "@/scripts/Vue/Store/Module/System/Settings/FinancesCurrenciesState";
+
 export default {
   data(): ComponentData {
     return {
       selected: null,
-      currencies: {
-        "eur": "€",
-        "pln": "zł"
-      }
+      currenciesData: [],
     }
   },
   components: {
@@ -43,10 +42,10 @@ export default {
      */
     options(): Array<Record<string, string>> {
       let options = [];
-      for (let currencyCode in this.currencies) {
+      for (let currency of this.currenciesData) {
         options.push({
-          label: this.currencies[currencyCode],
-          value: currencyCode
+          label: `${currency.name} (${currency.symbol})`,
+          value: currency.name
         })
       }
 
@@ -63,5 +62,9 @@ export default {
       this.$emit('change', value);
     }
   },
+  async mounted(): Promise<void> {
+    await FinancesCurrenciesState().getAll();
+    this.currenciesData = FinancesCurrenciesState().allEntries;
+  }
 }
 </script>
