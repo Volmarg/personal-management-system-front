@@ -22,16 +22,14 @@ import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import {BillsState} from "@/scripts/Vue/Store/Module/Payments/Bills/BillsState";
+
 export default {
   data(): ComponentData {
     return {
+      store: null as null | BillsState,
+      bills: [],
       selected: null,
-    }
-  },
-  props: {
-    bills: {
-      type: Array,
-      required: true
     }
   },
   components: {
@@ -66,5 +64,10 @@ export default {
       this.$emit('change', value);
     },
   },
+  async beforeMount(): Promise<void> {
+    this.store = BillsState()
+    await this.store.getAll();
+    this.bills = this.store.allEntries;
+  }
 }
 </script>

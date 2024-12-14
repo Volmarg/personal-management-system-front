@@ -16,7 +16,7 @@
           </div>
         </template>
         <template #content>
-          <BillElementsTable :data="getBillTableData(bill.elements)"
+          <BillElementsTable :data="getBillTableData(bill.elements, bill.id)"
                              class="mb-5"
           />
         </template>
@@ -30,62 +30,32 @@
   <hr class="mt-10 mb-5"/>
 
   <!-- form -->
-  <div class="flex justify-center mt-10">
-    <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-      <h2 class="text-lg">{{ $t('payments.bills.overview.newForm.header') }}</h2>
-
-      <FormInput type="text"
-                 v-model="form.name"
-                 :label="$t('payments.bills.overview.newForm.name.label')"
-      />
-
-      <FormInput type="number"
-                 v-model="form.amount"
-                 :label="$t('payments.bills.overview.newForm.amount.label')"
-      />
-
-      <FormInput type="date"
-                 v-model="form.date"
-                 :label="$t('payments.bills.overview.newForm.date.label')"
-      />
-
-      <BillSelect :bills="data" />
-
-      <MediumButtonWithIcon :text="$t('payments.bills.overview.newForm.submit.label')"
-                            button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                            class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
-                            button-classes="w-full md:w-auto m-0-force"
-                            text-classes="text-center w-full"
-                            @button-click="onNewSubmit"
-      />
-
-    </div>
-  </div>
+  <AddEditForm :header="$t('payments.bills.overview.newForm.header')"
+               @submit="refreshPageState"
+  />
 
 </template>
 
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import AddEditForm       from "@/views/Modules/Payments/Components/Bills/Items/AddEditForm.vue";
 import AccordionPanel    from "@/components/Ui/Accordion/Panel.vue";
 import Accordion         from "@/components/Ui/Accordion/Accordion.vue";
 import NoResultsText     from "@/components/Page/NoResultsText.vue";
 import BillElementsTable from "@/views/Modules/Payments/Components/Bills/BillElementsTable.vue";
 import BillMarker        from "@/views/Modules/Payments/Components/Bills/BillMarker.vue";
-import BillSelect        from "@/views/Modules/Payments/Components/Bills/BillSelect.vue";
+import TableActions      from "@/components/Ui/Actions/TableActions.vue";
 
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import FormInput            from "@/components/Form/Input.vue";
+import {BillsState} from "@/scripts/Vue/Store/Module/Payments/Bills/BillsState";
+
+import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        date: null,
-        name: null,
-        bill: null,
-        amount: null,
-      }
+      allBills: [],
+      store: null as null | BillsState,
     }
   },
   props: {
@@ -95,32 +65,52 @@ export default {
     }
   },
   components: {
-    FormInput,
-    MediumButtonWithIcon,
+    AddEditForm,
     NoResultsText,
     Accordion,
     AccordionPanel,
     BillElementsTable,
     BillMarker,
-    BillSelect
   },
   methods: {
     /**
      * @description returns array with structure used by bills table
      */
-    getBillTableData(elements: Array): Array {
+    getBillTableData(elements: Array, billId: number): Array {
       let data = [];
       for (let element of elements) {
-        let rowValues = {};
-        for (let key of Object.keys(element)) {
-          rowValues[key] = {
-            value: element[key],
-            isComponent: false,
-          };
-        }
-
         data.push({
-          values: rowValues
+          values: {
+            id: {
+              value: element.id,
+              isComponent : false,
+            },
+            billId: {
+              value: billId,
+              isComponent : false,
+            },
+            amount: {
+              value: element.amount,
+              isComponent: false,
+            },
+            date: {
+              value: element.date,
+              isComponent: false,
+            },
+            name: {
+              value: element.name,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps: {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyPaymentsRoutes.BILLS_ITEMS_BASE_URL,
+                store: BillsState,
+              }
+            }
+          }
         })
       }
 
@@ -138,11 +128,16 @@ export default {
       return amount;
     },
     /**
-     * @description handle user submitting the "new entry form"
+     * @description fetches data from db and updates the page state
      */
-    onNewSubmit(): void {
-      // todo
+    async refreshPageState(): Promise<void> {
+      await this.store.getAll();
+      this.allBills = this.store.allEntries;
     }
+  },
+  async beforeMount(): Promise<void> {
+    this.store = BillsState();
+    this.refreshPageState();
   }
 }
 </script>

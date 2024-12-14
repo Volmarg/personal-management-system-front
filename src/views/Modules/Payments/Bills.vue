@@ -1,5 +1,5 @@
 <template>
-  <Base :info-block-description="$t('calendar.description')"
+  <Base :info-block-description="$t('payments.bills.description')"
         :is-in-container="false"
   >
     <Tabs :tabs-with-content="tabsContent" />
@@ -16,46 +16,13 @@ import TabOverview   from "@/views/Modules/Payments/Components/Bills/TabOverview
 import TabManagement from "@/views/Modules/Payments/Components/Bills/TabManagement.vue";
 import TabLegend     from "@/views/Modules/Payments/Components/Bills/TabLegend.vue";
 
+import {BillsState} from "@/scripts/Vue/Store/Module/Payments/Bills/BillsState";
+
 export default {
   data(): ComponentData {
     return {
-      billsData: [
-        {
-          id: 1,
-          name: "Concert",
-          startDate: "2019-08-03",
-          endDate: "2019-08-08",
-          information: "Woodstock 2019",
-          plannedAmount: 1500,
-          elements: [
-            {
-              amount: 130,
-              name: "Cookies",
-              date: "2019-08-05"
-            },
-            {
-              amount: 800,
-              name: "Beer",
-              date: "2019-08-04"
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: "Friends meeting",
-          startDate: "2022-02-10",
-          endDate: "2022-02-10",
-          information: "Meeting with friends",
-          plannedAmount: 100,
-          elements: [
-            {
-              amount: 221.25,
-              name: "Food",
-              date: "2022-02-10"
-            },
-          ]
-        }
-      ]
+      store: null as BillsState | null,
+      billsData: [],
     }
   },
   components: {
@@ -87,6 +54,19 @@ export default {
           tabComponent: TabLegend,
         },
       ];
+    }
+  },
+  async beforeMount(): Promise<void> {
+    this.store = BillsState();
+    await this.store.getAll();
+    this.billsData = this.store.allEntries;
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function(): void {
+        this.billsData = this.store.allEntries;
+      }
     }
   }
 }
