@@ -44,7 +44,7 @@ export default {
     getOwedEntries(owedByMe: boolean): Record<string, Record<string, string | number >> | null {
       let data = {};
       for (let chunk of this.data) {
-        if (chunk.values.owedByMe.value === owedByMe) {
+        if (chunk.values.owedByMe.rawValue === owedByMe) {
           let key = chunk.values.target.value + chunk.values.currency.value;
           if (!Object.keys(data).includes(key)) {
             data[key] = {

@@ -21,6 +21,20 @@ export default {
       yearFilter: null,
       headers: [
         {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
+          label: 'owedByMe',
+          dataValuePath : 'owedByMe.rawValue',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('payments.moneyOwed.table.header.target.label'),
           dataValuePath : 'target.value',
           dataIsComponentPath : 'target.isComponent',
@@ -52,9 +66,9 @@ export default {
         },
         {
           label: this.$t('payments.moneyOwed.table.header.actions.label'),
-          dataValuePath : null,
-          dataIsComponentPath : null,
-          dataComponentPropertiesPath: null
+          dataValuePath : 'actions.value',
+          dataIsComponentPath : 'actions.isComponent',
+          dataComponentPropertiesPath: 'actions.componentProps'
         },
       ],
     }
