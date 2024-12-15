@@ -49,39 +49,14 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import {ChartDataset} from "chart.js/dist/types";
 import {color} from "chart.js/helpers";
 
+import SymfonyReportsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyReportsRoutes";
+
 export default {
   data(): ComponentData {
     return {
       yearFilter: null,
       allYears: [],
-      /**
-       * @description temp data, must be sorted on backend and might need to fill out the missing values for each month in range
-       *              then would need to somehow filter on front the labels for 0 values and 0 values themselves.
-       */
-      chartData: {
-        "with-bills": [
-          {value: 11, label: "2023-02"},
-          {value: 565, label: "2023-06"},
-          {value: 30, label: "2024-08"},
-          {value: 50, label: "2024-07"},
-          {value: 120, label: "2024-06"},
-          {value: 1506, label: "2024-05"},
-          {value: 11, label: "2024-04"},
-          {value: 65, label: "2024-03"},
-          {value: 155, label: "2024-02"},
-        ],
-        "without-bills": [
-          {value: 15, label: "2023-01"},
-          {value: 236, label: "2023-02"},
-          {value: 12, label: "2024-03"},
-          {value: 2, label: "2024-04"},
-          {value: 268, label: "2024-05"},
-          {value: 2506, label: "2024-06"},
-          {value: 96, label: "2024-03"},
-          {value: 35, label: "2024-02"},
-          {value: 222, label: "2024-12"}
-        ]
-      },
+      chartData: {},
     }
   },
   mixins: [
@@ -281,7 +256,8 @@ export default {
       this.allYears = [...new Set(this.allYears)];
     }
   },
-  mounted(): void {
+  async mounted(): Promise<void> {
+    this.chartData = await this.$moduleCall.getAll(SymfonyReportsRoutes.PAYMENTS_TOTAL_PER_MONTH_BASE_URL)
     this.buildYears();
     this.createChart(this.chartConfig, this.$refs.chartWrapper);
   }
