@@ -5,4 +5,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyReportsRoutes extends SymfonyRoutes
 {
+    public static readonly SAVINGS_BASE_URL = "/module/reports/savings";
 }

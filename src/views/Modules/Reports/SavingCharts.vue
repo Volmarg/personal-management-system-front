@@ -57,25 +57,14 @@ import {ChartConfiguration} from "chart.js/auto";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import SymfonyReportsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyReportsRoutes";
+
 export default {
   data(): ComponentData {
     return {
       yearFilter: null,
       allYears: [],
-      /**
-       * @description temp data, data must be sorted on backend,
-       */
-      chartData: [
-        {value: 11, label: "2023-02"},
-        {value: 565, label: "2023-06"},
-        {value: 30, label: "2024-08"},
-        {value: 50, label: "2024-07"},
-        {value: 120, label: "2024-06"},
-        {value: 1506, label: "2024-05"},
-        {value: 11, label: "2024-04"},
-        {value: 65, label: "2024-03"},
-        {value: 155, label: "2024-02"},
-      ],
+      chartData: [],
     }
   },
   mixins: [
@@ -253,7 +242,8 @@ export default {
       this.allYears = [...new Set(this.allYears)];
     }
   },
-  mounted(): void {
+  async mounted(): Promise<void> {
+    this.chartData = await this.$moduleCall.getAll(SymfonyReportsRoutes.SAVINGS_BASE_URL);
     this.buildYears();
     this.createChart(this.chartConfig, this.$refs.chartWrapper);
   }
