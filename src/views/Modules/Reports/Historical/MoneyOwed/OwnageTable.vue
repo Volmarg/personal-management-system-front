@@ -124,6 +124,9 @@ export default {
     this.setTargetSelectOptions();
   },
   watch: {
+    data(): void {
+      this.setTargetSelectOptions();
+    },
     targetFilter(): void {
       this.$refs.table.refresh();
     }
