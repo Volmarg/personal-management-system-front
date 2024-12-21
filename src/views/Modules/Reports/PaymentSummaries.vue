@@ -10,11 +10,13 @@
 import Base        from "@/views/Modules/Base.vue";
 import SimpleTable from "@/components/Ui/Table/SimpleTable.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
+import SymfonyReportsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyReportsRoutes";
 
 export default {
   data(): ComponentData {
     return {
+      paymentsPerTypes: {},
       table: {
         /**
          * @description dummy data for now
@@ -33,35 +35,7 @@ export default {
             dataComponentPropertiesPath: null
           }
         ],
-        /**
-         * @description dummy data for now
-         */
-        data: [
-          {
-            values : {
-              monthAndYear : {
-                value       : "2023.09",
-                isComponent : false,
-              },
-              money : {
-                value       : "96.35",
-                isComponent : false,
-              },
-            }
-          },
-          {
-            values : {
-              monthAndYear : {
-                value       : "2024.02",
-                isComponent : false,
-              },
-              money : {
-                value       : "65.24",
-                isComponent : false,
-              },
-            }
-          },
-        ]
+        data: []
       }
     }
   },
@@ -74,11 +48,39 @@ export default {
      * @description returns used / filtered out table data
      */
     usedTableData(): Array {
-      return this.table.data;
+      let tableData = [];
+
+      let sumPerMonthAndYear = {};
+      for (let type in this.paymentsPerTypes) {
+        for (let monthData of this.paymentsPerTypes[type]) {
+          if (!sumPerMonthAndYear[monthData.label]) {
+            sumPerMonthAndYear[monthData.label] = 0
+          }
+
+          sumPerMonthAndYear[monthData.label] += monthData.value
+        }
+      }
+
+      for (let month in sumPerMonthAndYear) {
+        tableData.push({
+          values: {
+            monthAndYear: {
+              value: month,
+              isComponent: false,
+            },
+            money: {
+              value: sumPerMonthAndYear[month],
+              isComponent: false,
+            },
+          }
+        });
+      }
+
+      return tableData;
     }
   },
-  methods: {
-
+  async beforeMount(): Promise<void> {
+    this.paymentsPerTypes = await this.$moduleCall.getAll(SymfonyReportsRoutes.PAYMENTS_TOTAL_PER_TYPE_BASE_URL);
   }
 }
 </script>
