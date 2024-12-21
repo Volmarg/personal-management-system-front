@@ -18,7 +18,8 @@ import ChartJsMixin from "@/mixins/Libs/ChartJsMixin.vue";
 import { ChartConfiguration } from "chart.js/auto";
 import { color } from 'chart.js/helpers';
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
+import SymfonyReportsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyReportsRoutes";
 
 export default {
   data(): ComponentData {
@@ -28,11 +29,7 @@ export default {
       /**
        * @description temp data
        */
-      chartData: [
-        {value: 20, label: "Personal"},
-        {value: 50, label: "Food"},
-        {value: 30, label: "Meds"},
-      ],
+      chartData: [],
     }
   },
   mixins: [
@@ -140,7 +137,35 @@ export default {
       };
     },
   },
-  mounted(): void {
+  methods: {
+    /**
+     * @description creates the chart data from backend data
+     */
+    async buildChartData(): Promise<void> {
+      let paymentsPerTypes = await this.$moduleCall.getAll(SymfonyReportsRoutes.PAYMENTS_TOTAL_PER_TYPE_BASE_URL);
+      let sumPerType = [];
+      let totalSum = 0;
+
+      for (let type in paymentsPerTypes) {
+        if (!sumPerType[type]) {
+          sumPerType[type] = 0;
+        }
+
+        paymentsPerTypes[type].map((entry: Record<string, string | number>) => sumPerType[type] += entry.value)
+        totalSum += sumPerType[type];
+      }
+
+      for (let type in sumPerType) {
+        this.chartData.push({
+          value: (sumPerType[type] / totalSum * 100).toFixed(2),
+          label: type,
+        })
+      }
+
+    }
+  },
+  async mounted(): Promise<void> {
+    await this.buildChartData();
     this.createChart(this.chartConfig, this.$refs.chartWrapper);
   }
 }
