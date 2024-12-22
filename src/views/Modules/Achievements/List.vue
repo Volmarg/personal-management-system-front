@@ -5,9 +5,8 @@
 
     <!-- cards -->
     <div class="flex flex-wrap">
-
       <div class="main-wrapper self-baseline"
-           v-for="(achievements, type) in achievementsTypes"
+           v-for="(achievements, type) in achievementsForTypes"
            :key="type"
       >
         <div class="container max-w-lg bg-white rounded dark:bg-gray-800 shadow-lg transform duration-200 easy-in-out m-1 md:m-6">
@@ -18,6 +17,7 @@
                        :type="type"
                        :name="achievement.name"
                        :description="achievement.description"
+                       @click="isEditModalVisible = true; activeAchievement = achievement;"
           />
 
         </div>
@@ -26,118 +26,77 @@
 
     <!-- bottom -->
     <Container>
-      <div class="flex justify-center">
-        <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-          <h2 class="text-lg">{{ $t('achievements.list.form.header') }}</h2>
-
-          <FormInput type="text"
-                     :model-value="form.name"
-                     :label="$t('achievements.list.form.name.label')"
-          />
-
-          <FormInput type="text"
-                     :model-value="form.description"
-                     :label="$t('achievements.list.form.description.label')"
-          />
-
-          <MediumButtonWithIcon :text="$t('achievements.list.form.submitButton.label')"
-                                button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                                class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
-                                button-classes="w-full md:w-auto m-0-force"
-                                text-classes="text-center w-full"
-                                @button-click="onNewSubmit"
-          />
-
-        </div>
-      </div>
+      <AddEditForm :header="$t('achievements.list.form.header')"
+                   @submit="fetchData"
+      />
     </Container>
   </Base>
+
+  <RemoveModal :is-modal-visible="isRemoveModalVisible"
+               :achievement-data="activeAchievement"
+               @modal-closed="isRemoveModalVisible = false; activeAchievement = null;"
+               @remove-confirm-click="onRemoveConfirm"
+               class="relative z-30"
+  />
+
+  <EditModal :is-modal-visible="isEditModalVisible"
+             :achievement-data="activeAchievement"
+             @modal-closed="isEditModalVisible = false; activeAchievement = null;"
+             @confirm-click="isEditModalVisible = false; activeAchievement = null; fetchData()"
+             @remove-click="isRemoveModalVisible = true"
+             class="relative z-21"
+  />
 </template>
 
 <script lang="ts">
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}           from "@/scripts/Vue/Types/Components/types";
+import SymfonyAchievementsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyAchievementsRoutes";
 
-import Achievement          from "@/views/Modules/Achievements/Components/Achievement.vue";
-import Container            from "@/components/Ui/Containers/Container.vue";
-import FormInput            from "@/components/Form/Input.vue";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import Base                 from "@/views/Modules/Base.vue";
+import AddEditForm from "@/views/Modules/Achievements/Components/AddEditForm.vue";
+import Achievement from "@/views/Modules/Achievements/Components/Achievement.vue";
+import Container   from "@/components/Ui/Containers/Container.vue";
+import Base        from "@/views/Modules/Base.vue";
+import EditModal   from "@/views/Modules/Achievements/Components/EditModal.vue";
+import RemoveModal from "@/views/Modules/Achievements/Components/RemoveModal.vue";
 
 export default {
   data(): ComponentData {
     return {
-      /**
-       * @description dummy data
-       */
-      achievementsTypes: {
-        "simple": [
-          {
-            name: "This is a name",
-            description: "This is a description. This is a description. This is a description. This is a description. This is a description"
-          },
-          {
-            name: "This is a name",
-            description: "This is a description"
-          }
-        ],
-        "medium": [
-          {
-            name: "This is a name",
-            description: "This is a description"
-          },
-          {
-            name: "This is a name",
-            description: "This is a description"
-          },
-          {
-            name: "This is a name",
-            description: "This is a description"
-          }
-        ],
-        "hard": [
-          {
-            name: "This is a name",
-            description: "This is a description"
-          },
-          {
-            name: "This is a name",
-            description: "This is a description"
-          }
-        ],
-        "hardcore": [
-          {
-            name: "This is a name",
-            description: "This is a description"
-          },
-          {
-            name: "This is a name",
-            description: "This is a description"
-          }
-        ],
-      },
-      form: {
-        name: '',
-        description: '',
-      },
-      /**
-       * @description dummy data for now
-       */
+      activeAchievement: null,
+      isRemoveModalVisible: false,
+      isEditModalVisible: false,
+      achievementsForTypes: [],
     }
   },
   components: {
-    MediumButtonWithIcon,
+    RemoveModal,
+    EditModal,
+    AddEditForm,
     Achievement,
     Container,
-    FormInput,
     Base,
   },
   methods: {
     /**
-     * @description triggered when user submits the form, updates front and back
+     * @description handle record removal, close modals, update list, removes entry on backend
      */
-    onNewSubmit(): void {
-      //
+    async onRemoveConfirm(): Promise<void> {
+      this.isRemoveModalVisible = false;
+      this.isEditModalVisible = false;
+      await this.$moduleCall.remove(SymfonyAchievementsRoutes.ACHIEVEMENTS_BASE_URL, this.activeAchievement.id, false);
+
+      this.activeAchievement = null;
+      this.fetchData();
     },
+    /**
+     * @description fetches the achievements from backend
+     */
+    async fetchData(): Promise<void> {
+      this.achievementsForTypes = await this.$moduleCall.getAll(SymfonyAchievementsRoutes.ACHIEVEMENTS_BASE_URL);
+    }
+  },
+  beforeMount(): void {
+    this.fetchData();
   }
 }
 </script>

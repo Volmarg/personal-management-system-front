@@ -9,3 +9,7 @@
     opacity: 0.6;
   }
 }
+
+.hover-zoom {
+  @apply cursor-pointer hover:scale-110 transform transition-transform ease-in-out
+}

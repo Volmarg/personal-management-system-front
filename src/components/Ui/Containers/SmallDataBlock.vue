@@ -1,7 +1,7 @@
 <template>
   <div class="widget w-full p-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800"
        :class="{
-        'interactive': isInteractive,
+        'hover-zoom': isInteractive,
         'fixed-size': !isLargeScreenBreakingPoint && !showElementsInBlock,
         'auto-size': isLargeScreenBreakingPoint && !showElementsInBlock,
         'elements-in-block': showElementsInBlock,
@@ -97,7 +97,4 @@ export default {
   @apply w-full my-2 px-2 lg:w-1/2
 }
 
-.interactive {
-  @apply cursor-pointer hover:scale-110 transform transition-transform ease-in-out
-}
 </style>

@@ -5,4 +5,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyAchievementsRoutes extends SymfonyRoutes
 {
+    public static readonly ACHIEVEMENTS_BASE_URL = "/module/achievements";
 }
