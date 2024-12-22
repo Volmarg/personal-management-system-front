@@ -21,6 +21,13 @@ export default {
       targetSelectOptions: [],
       headers: [
         {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('job.settings.tabs.managePool.table.headers.year.label'),
           dataValuePath : 'year.value',
           dataIsComponentPath : 'year.isComponent',
@@ -42,7 +49,7 @@ export default {
           label: this.$t('job.settings.tabs.managePool.table.headers.actions.label'),
           dataValuePath : 'actions.value',
           dataIsComponentPath : 'actions.isComponent',
-          dataComponentPropertiesPath: null
+          dataComponentPropertiesPath: 'actions.componentProps'
         },
       ],
     }
