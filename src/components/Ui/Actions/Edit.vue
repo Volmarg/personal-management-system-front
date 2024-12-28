@@ -29,6 +29,7 @@ import EditModal from "@/components/Ui/Actions/Components/Edit/EditModal.vue";
 import ActionMixin from "@/components/Ui/Actions/Mixin/ActionMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import TypeChecker     from "@/scripts/Core/Services/Types/TypeChecker";
 
 export default {
   data(): ComponentData {
@@ -72,10 +73,10 @@ export default {
     onFormSubmit(): void {
       this.validateStoreFetchConf();
       if (this.useStoreFetch) {
-        this.initialisedStore.getAll();
+        this.fetchStoreData();
         this.$refs.modal.onModalClosed();
       }
-    },
+    }
   }
 }
 </script>

@@ -50,7 +50,7 @@ export default {
       this.validateStoreFetchConf();
       await this.$moduleCall.remove(this.baseUrl, this.recordId, !this.useStoreFetch);
       if (this.useStoreFetch) {
-        this.initialisedStore.getAll();
+        this.fetchStoreData();
         this.$refs.modal.onModalClosed();
       }
     },

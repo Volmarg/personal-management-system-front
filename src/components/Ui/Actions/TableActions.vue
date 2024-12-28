@@ -79,7 +79,7 @@ export default {
       default: true,
     },
     store: {
-      type: [Object as StoreDefinition, null],
+      type: [Object as StoreDefinition, null, Array],
       required: false,
       default: null,
     }
