@@ -1,5 +1,5 @@
 /**
- * @description defines the store for job holidays pools
+ * @description defines the store for spent job holidays
  */
 import {defineStore} from 'pinia'
 
@@ -7,18 +7,18 @@ import SymfonyJobRoutes from "@/router/SymfonyRoutes/Modules/SymfonyJobRoutes";
 
 import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
 
-const PoolsState = defineStore('jobHolidaysPoolsState', {
+const DaysSpentState = defineStore('jobHolidaysDaysSpentState', {
     state: () => ({
         allEntries: [],
     }),
     actions: {
         /**
-         * @description fetches all the holidays pools
+         * @description fetches all the spent job holidays
          */
         async getAll(): Promise<void> {
-            this.allEntries = await new BackendModuleCaller().getAll(SymfonyJobRoutes.SETTINGS_HOLIDAYS_POOL_BASE_URL);
+            this.allEntries = await new BackendModuleCaller().getAll(SymfonyJobRoutes.HOLIDAYS_SPENT_BASE_URL);
         },
     }
 });
 
-export {PoolsState};
+export {DaysSpentState};

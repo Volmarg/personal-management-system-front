@@ -20,22 +20,35 @@
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {PoolsState}    from "@/scripts/Vue/Store/Module/Job/Holidays/PoolsState";
 
 export default {
   data(): ComponentData {
     return {
+      poolsStore: null as null | PoolsState,
+      pools: [],
       selectOptions: [],
       selectedValue: 0,
     }
   },
-  props: {
-    options: {
-      type: Array,
-      required: true,
-    }
-  },
   components: {
     MultiSelect
+  },
+  computed: {
+    /**
+     * @description returns select options
+     */
+    options(): Array {
+      let options = [];
+      for(let pool of this.pools){
+        options.push({
+          label: pool.year,
+          value: pool.year,
+        })
+      }
+
+      return options;
+    }
   },
   methods: {
     /**
@@ -46,5 +59,18 @@ export default {
       this.$emit('update:modelValue', value);
     }
   },
+  async beforeMount(): Promise<void> {
+    this.poolsStore = PoolsState();
+    await this.poolsStore.getAll();
+    this.pools = this.poolsStore.allEntries;
+  },
+  watch: {
+    'poolsStore.allEntries': {
+      deep: true,
+      handler: function () {
+        this.pools = this.poolsStore.allEntries;
+      }
+    }
+  }
 }
 </script>

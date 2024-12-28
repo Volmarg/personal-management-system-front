@@ -7,7 +7,7 @@
       <h2 class="text-lg text-center md:text-right pr-0 md:pr-6 mb-1">{{ $t('job.holidays.shared.filter.byYear.header') }}</h2>
     </div>
 
-    <div class="flex flex-col md:flex-row justify-end">
+    <div class="flex flex-col md:flex-row justify-end flex-wrap gap-y-2">
       <MediumButtonWithIcon :text="$t('job.holidays.shared.filter.byYear.button.showAll.label')"
                             @button-click="applyYearFilter(null)"
                             button-classes="w-full md:w-auto flex justify-center md:block"
@@ -37,18 +37,24 @@
 </template>
 
 <script lang="ts">
-import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
-import NoResultsText from "@/components/Page/NoResultsText.vue";
+import SimpleTable          from "@/components/Ui/Table/SimpleTable.vue";
+import NoResultsText        from "@/components/Page/NoResultsText.vue";
+import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
 export default {
   data(): ComponentData {
     return {
-      allYears: [],
       yearFilter: null,
       headers: [
+        {
+          label: 'id',
+          dataValuePath : 'id.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
         {
           label: this.$t('job.holidays.tabs.spent.table.headers.year.label'),
           dataValuePath : 'year.value',
@@ -69,9 +75,9 @@ export default {
         },
         {
           label: this.$t('job.holidays.tabs.spent.table.headers.actions.label'),
-          dataValuePath : 'actions.value',
-          dataIsComponentPath : 'actions.isComponent',
-          dataComponentPropertiesPath: null
+          dataValuePath : "actions.value",
+          dataIsComponentPath : "actions.isComponent",
+          dataComponentPropertiesPath: "actions.componentProps"
         }
       ],
     }
@@ -103,6 +109,17 @@ export default {
 
       return usedData;
     },
+    /**
+     * @description build array of available years
+     */
+    allYears(): Array {
+      let allYears = [];
+      for (let rowData of this.data) {
+        allYears.push(rowData.values.year.value.match(/[0-9]{4}/)[0]);
+      }
+
+      return allYears = [...new Set(allYears)];
+    }
   },
   methods: {
     /**
@@ -112,19 +129,6 @@ export default {
       this.yearFilter = year;
       this.$refs.table.refresh();
     },
-    /**
-     * @description build array of available years
-     */
-    buildYears(): void {
-      for (let rowData of this.data) {
-        this.allYears.push(rowData.values.year.value.match(/[0-9]{4}/)[0]);
-      }
-
-      this.allYears = [...new Set(this.allYears)];
-    }
   },
-  mounted(): void {
-    this.buildYears();
-  }
 }
 </script>

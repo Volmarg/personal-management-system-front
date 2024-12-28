@@ -1,6 +1,6 @@
 <template>
   <HolidaysSpentTable :data="usedTableData"
-                       v-if="tableData.length > 0"
+                       v-if="usedTableData.length > 0"
   />
 
   <NoResultsText v-else />
@@ -9,47 +9,19 @@
 <script lang="ts">
 import NoResultsText      from "@/components/Page/NoResultsText.vue";
 import HolidaysSpentTable from "@/views/Modules/Job/Holidays/HolidaysSpentTable.vue";
+import AddEditForm        from "@/views/Modules/Job/Holidays/AddEditForm.vue";
+import TableActions       from "@/components/Ui/Actions/TableActions.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import SymfonyJobRoutes from "@/router/SymfonyRoutes/Modules/SymfonyJobRoutes";
+import {DaysSpentState} from "@/scripts/Vue/Store/Module/Job/Holidays/DaysSpentState";
+import {PoolsState}     from "@/scripts/Vue/Store/Module/Job/Holidays/PoolsState";
 
 export default {
-  data(): ComponentData {
-    return {
-      tableData: [
-        {
-          values : {
-            year : {
-              value       : "2023",
-              isComponent : false,
-            },
-            daysSpent : {
-              value       : "2",
-              isComponent : false,
-            },
-            information : {
-              value       : "Fun time",
-              isComponent : false,
-            }
-          }
-        },
-        {
-          values : {
-            year : {
-              value       : "2023",
-              isComponent : false,
-            },
-            daysSpent : {
-              value       : "12",
-              isComponent : false,
-            },
-            information : {
-              value       : "Long break!",
-              isComponent : false,
-            },
-          }
-        },
-      ],
-    }
+  props: {
+    holidays: {
+      type: Array,
+      require: true,
+    },
   },
   components: {
     HolidaysSpentTable,
@@ -57,7 +29,39 @@ export default {
   },
   computed: {
     usedTableData(): Array {
-      return this.tableData;
+      let data = [];
+      for (let holiday of this.holidays) {
+        data.push({
+          values : {
+            id: {
+              value: holiday.id,
+              isComponent: false,
+            },
+            year: {
+              value: String(holiday.year),
+              isComponent: false,
+            },
+            daysSpent: {
+              value: holiday.daysSpent,
+              isComponent: false,
+            },
+            information: {
+              value: holiday.information,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyJobRoutes.HOLIDAYS_SPENT_BASE_URL,
+                store: [DaysSpentState, PoolsState],
+              }
+            }
+          }
+        })
+      }
+      return data;
     }
   },
 }

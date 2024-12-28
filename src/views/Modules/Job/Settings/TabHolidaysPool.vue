@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     /**
-     * @description returns array with structure used by bills table
+     * @description returns array with structure used by pools table
      */
     tableData(): Array {
       let data = [];
@@ -55,7 +55,7 @@ export default {
               isComponent: true,
               componentProps: {
                 editActionForm: AddEditForm,
-                baseUrl: SymfonyJobRoutes.HOLIDAYS_POOL_BASE_URL,
+                baseUrl: SymfonyJobRoutes.SETTINGS_HOLIDAYS_POOL_BASE_URL,
                 store: PoolsState,
               }
             }
@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     /**
-     * @description refreshes store state and so the page content
+     * @description refreshes store state and the page content
      */
     async getPools(): Promise<void> {
       await this.poolsStore.getAll();

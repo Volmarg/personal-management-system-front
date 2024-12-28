@@ -5,5 +5,6 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyJobRoutes extends SymfonyRoutes
 {
-    public static readonly HOLIDAYS_POOL_BASE_URL = "/module/job/holidays/pool";
+    public static readonly SETTINGS_HOLIDAYS_POOL_BASE_URL = "/module/job/settings/holidays/pool";
+    public static readonly HOLIDAYS_SPENT_BASE_URL = "/module/job/holidays/days-spent";
 }
