@@ -245,16 +245,27 @@ export default {
      */
     preselectValueHandler(): void {
       if (this.modelValue) {
-        this.value = this.modelValue;
+        this.setValueForMode(this.modelValue);
         return;
       }
 
       for (let option of this.options) {
         if (option.selected) {
-          this.value = option.value;
+          this.setValueForMode(option.value);
           break;
         }
       }
+    },
+    /**
+     * @description sets the value based on the used mode
+     */
+    setValueForMode(value): void {
+      if (this.modes.tags) {
+        this.value = [value];
+        return;
+      }
+
+      this.value = value;
     },
     /**
      * @description handles passing forward the multiselect value,
