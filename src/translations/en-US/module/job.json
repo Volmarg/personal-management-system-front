@@ -159,18 +159,16 @@
                 "summary": {
                     "label": "Summary",
                     "texts": {
-                        "gotForUsage": "I've got <span class='time-for-usage'>{time}</span> for <b>{type}</b> left to spend",
-                        "disclaimer": {
-                            "rounding": "Days are rounded down to the nearest <b>0.25</b>"
-                        },
+                        "generalUsage": "general usage",
+                        "gotForUsage": "I've got <span class='time-for-usage'>{time}</span> for <b>{goal}</b> left to spend",
                         "totally": {
                             "header": "Totally"
                         },
                         "hours": {
-                            "label": "Hours"
+                            "label": "Hours / Minutes"
                         },
                         "days": {
-                            "label": "Days"
+                            "label": "day/s"
                         }
                     }
                 },

@@ -11,7 +11,6 @@
       mode="single"
       :allow-show-options-list="true"
       :allow-create-options="false"
-      :can-clear="false"
       :required="true"
   />
 </template>
@@ -19,23 +18,43 @@
 <script lang="ts">
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}     from "@/scripts/Vue/Types/Components/types";
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 export default {
   data(): ComponentData {
     return {
+      types: [
+        "made",
+        "spent",
+      ],
       selectOptions: [],
-      selectedValue: 0,
+      selectedValue: this.modelValue,
     }
   },
   props: {
-    options: {
-      type: Array,
-      required: true,
-    }
+    modelValue: {
+      required: false,
+    },
   },
   components: {
     MultiSelect
+  },
+  computed: {
+    /**
+     * @description returns the select options
+     */
+    options(): Array {
+      let options = [];
+      for (let type of this.types) {
+        options.push({
+          label: StringTypeProcessor.ucFirst(type),
+          value: type,
+        })
+      }
+
+      return options;
+    },
   },
   methods: {
     /**
@@ -46,5 +65,10 @@ export default {
       this.$emit('update:modelValue', value);
     }
   },
+  watch: {
+    modelValue(): void {
+      this.selectedValue = this.modelValue;
+    }
+  }
 }
 </script>

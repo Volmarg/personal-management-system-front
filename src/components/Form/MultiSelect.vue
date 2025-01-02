@@ -5,6 +5,7 @@
         'h-full'           : isFullHeight,
         'tags-multiselect' : isTagMode,
       }"
+      v-if="isVisible"
   >
     <section
         class="w-full"
@@ -117,6 +118,13 @@ export default {
   data(): ComponentData {
     return {
       value: null,
+      /**
+       * @description multiselect has some issues with updating the options, if new options is added to the array of options
+       *              then the label is visible twice in the select. Debugged this already and the options are created properly.
+       *              Something is wrong in the library itself. Found out that hiding the component for the moment
+       *              when options are updated works fine. This "blink" is not visible for users - at least for now.
+       */
+      isVisible: true,
       modes: {
         single : "single",
         multi  : "multiple",
@@ -260,7 +268,7 @@ export default {
      * @description sets the value based on the used mode
      */
     setValueForMode(value): void {
-      if (this.modes.tags) {
+      if (this.isTagMode) {
         this.value = [value];
         return;
       }
@@ -327,14 +335,14 @@ export default {
      * @description check if options can be listed on click
      */
     canShowOptionList(): boolean {
-      return !(this.modes.tags === this.mode) || this.allowShowOptionsList;
+      return !this.isTagMode || this.allowShowOptionsList;
     },
     /**
      * @description check if options can be created if they don't exist
      */
     canCreateOption(): boolean {
       return (
-              this.modes.tags === this.mode
+              this.isTagMode
           &&  this.allowCreateOptions
       );
     },
@@ -461,7 +469,11 @@ export default {
     options: {
       deep: true,
       handler(): void {
-        this.preselectValueHandler();
+        this.isVisible = false;
+        this.$nextTick(() => {
+          this.preselectValueHandler();
+          this.isVisible = true;
+        })
       }
     },
     /**
@@ -475,6 +487,10 @@ export default {
       }
     },
     modelValue(newValue: unknown): void {
+      if (this.isTagMode && !TypeChecker.isNull(newValue) && !TypeChecker.isArray(newValue)) {
+        throw new BaseError("New value in tags mode should be either null or an array!", {value: newValue});
+      }
+
       this.$nextTick(() => {
         this.value = newValue;
       })
