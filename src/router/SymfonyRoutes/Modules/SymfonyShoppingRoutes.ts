@@ -5,4 +5,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyShoppingRoutes extends SymfonyRoutes
 {
+    public static readonly PLANS_BASE_URL = "/module/shopping/plans";
 }
