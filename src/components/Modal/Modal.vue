@@ -40,7 +40,7 @@
                  }"
             >
               <div class="flex flex-col w-full">
-                <div class="text-lg mb-2 font-bold modal-header-label"
+                <div class="text-lg mb-2 font-bold modal-header-label text-center"
                      :class="{
                         'mt-2': !hasBodyPadding
                      }"
