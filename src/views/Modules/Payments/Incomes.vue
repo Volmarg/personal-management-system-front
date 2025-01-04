@@ -67,7 +67,7 @@ export default {
               isComponent: true,
               componentProps : {
                 editActionForm: AddEditForm,
-                baseUrl: SymfonyPaymentsRoutes.SETTINGS_PAYMENT_TYPE_BASE_URL,
+                baseUrl: SymfonyPaymentsRoutes.INCOMES_BASE_URL,
                 store: IncomeState,
               }
             }
