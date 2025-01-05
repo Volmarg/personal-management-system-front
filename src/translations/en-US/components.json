@@ -1,8 +1,22 @@
 {
     "components": {
+        "actions": {
+            "edit": {
+                "label": "Edit"
+            },
+            "remove": {
+                "label": "Remove"
+            },
+            "copy": {
+                "label": "Copy"
+            }
+        },
         "modal": {
             "buttons": {
                 "cancel": "Cancel"
+            },
+            "text": {
+                "removeRecord": "Do You really want to remove this entry?"
             }
         }
     }

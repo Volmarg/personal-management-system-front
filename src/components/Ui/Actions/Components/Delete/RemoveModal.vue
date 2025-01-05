@@ -8,7 +8,9 @@
                   :size="modalSize"
     >
       <template #content>
-
+        <p class="text-center">
+          {{ $t('components.modal.text.removeRecord') }}
+        </p>
       </template>
     </WarningModal>
 

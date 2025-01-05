@@ -1,5 +1,10 @@
 <template>
-  <div @click="isEditModalVisible=true">
+  <div @click="isEditModalVisible=true"
+       v-tippy="{
+          content: $t('components.actions.edit.label'),
+          placement: 'top'
+       }"
+  >
     <slot name="representation"></slot>
   </div>
   <teleport to="body">

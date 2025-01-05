@@ -1,5 +1,10 @@
 <template>
-  <div @click="isRemoveModalVisible=true">
+  <div @click="isRemoveModalVisible=true"
+       v-tippy="{
+          content: $t('components.actions.remove.label'),
+          placement: 'top'
+       }"
+  >
     <slot name="representation"></slot>
   </div>
 
