@@ -42,11 +42,11 @@
           <td v-for="(cellData, cellIndex) in rowData"
               :key="cellIndex"
               :class="{
-                'hidden': $refs[`header${cellIndex}`][0].classList.contains('hidden'),
+                'hidden': isColumnVisible(cellIndex),
               }"
           >
             <!-- emitting event seems not to be working here -->
-            <component v-if="cellData.isComponent"
+            <component v-if="cellData.isComponent || !isColumnVisible(cellIndex)"
                        :is="cellData.value"
                        v-bind.prop="{
                          ...cellData.componentProps,
@@ -66,7 +66,10 @@
                        })"
             />
             <span v-else>
-              {{ cellData.value }}
+              <!-- this is VERY important, especially for passwords module, where the passwords should not be present in DOM! -->
+              <span v-if="!isColumnVisible(cellIndex)">
+                {{ cellData.value }}
+              </span>
             </span>
           </td>
         </tr>
@@ -322,10 +325,17 @@ export default {
         rowsData.push(rowData);
       }
 
+      console.log(rowsData);
       return rowsData;
     }
   },
   methods: {
+    /**
+     * @description checks if the column should be shown, by checking if the header related to given cellIndex is visible.
+     */
+    isColumnVisible(cellIndex: string): boolean {
+      return this.$refs[`header${cellIndex}`][0].classList.contains('hidden');
+    },
     /**
      * @description will handle the event when page number changes on pagination
      */
