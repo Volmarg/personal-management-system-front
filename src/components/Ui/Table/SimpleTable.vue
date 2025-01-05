@@ -46,7 +46,7 @@
               }"
           >
             <!-- emitting event seems not to be working here -->
-            <component v-if="cellData.isComponent || !isColumnVisible(cellIndex)"
+            <component v-if="cellData.isComponent"
                        :is="cellData.value"
                        v-bind.prop="{
                          ...cellData.componentProps,
@@ -325,7 +325,6 @@ export default {
         rowsData.push(rowData);
       }
 
-      console.log(rowsData);
       return rowsData;
     }
   },
