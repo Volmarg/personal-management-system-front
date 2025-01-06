@@ -4,6 +4,7 @@
                          :disabled="disabled"
                          @password-changed="onPasswordChanged"
                          @password-generated="onPasswordGenerated"
+                         v-model="password"
   >
 
     <vue-input
@@ -39,8 +40,8 @@ export default {
   setup: (): ComponentSetup => ({ v$: useVuelidate() }),
   data(): ComponentData {
     return {
-      password          : "",
-      confirmedPassword : "",
+      password          : this.modelValue,
+      confirmedPassword : this.modelValue,
       violations        : {
         password: [],
         confirmedPassword: []
@@ -52,6 +53,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    modelValue: {
+      required: false,
+      default: ""
     }
   },
   validations(): ComponentValidation {

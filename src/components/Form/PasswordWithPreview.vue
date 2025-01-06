@@ -71,7 +71,7 @@ export default {
   data(): ComponentData {
     return {
       isPreview : false,
-      password  : "",
+      password  : this.modelValue,
     }
   },
   props: {
@@ -90,6 +90,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    modelValue: {
+      required: false,
+      default: "",
     }
   },
   emits: [
