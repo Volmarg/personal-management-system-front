@@ -64,6 +64,7 @@ import {
     faSortUp,
     faDownload,
     faRandom,
+    faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -150,6 +151,7 @@ export default class Fontawesome
         library.add(faDownload);
         library.add(faEdit);
         library.add(faRandom);
+        library.add(faCopy);
 
         return FontAwesomeIcon;
     }
