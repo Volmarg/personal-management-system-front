@@ -8,6 +8,8 @@
            :parent-record-id="parentRecordId"
            :fetch-all="fetchAll"
            :store="store"
+           :can-copy-to-clipboard="canCopyToClipboard"
+           :copied-data-key="copiedDataKey"
   >
     <template #deleteRepresentation>
       <div class="button bg-red-500">
@@ -18,6 +20,14 @@
     <template #editRepresentation>
       <div class="button bg-blue-500">
         <fa icon="edit" />
+      </div>
+    </template>
+
+    <template #copyToClipboardRepresentation>
+      <div class="button bg-blue-500">
+        <fa icon="copy"
+            class="ml-0.5"
+        />
       </div>
     </template>
 
@@ -56,6 +66,15 @@ export default {
       type: [String, null],
       required: false,
       default: null
+    },
+    canCopyToClipboard: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    copiedDataKey: {
+      type: String,
+      required: false,
     },
     isModule: {
       type: Boolean,

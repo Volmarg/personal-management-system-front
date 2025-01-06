@@ -31,12 +31,22 @@
       </template>
     </Delete>
 
+    <CopyToClipboard v-if="canCopyToClipboard"
+                     :handled-data="handledData"
+                     :copied-data-key="copiedDataKey"
+    >
+      <template #representation>
+        <slot name="copyToClipboardRepresentation"></slot>
+      </template>
+    </CopyToClipboard>
+
   </div>
 </template>
 
 <script lang="ts">
-import Delete from "@/components/Ui/Actions/Delete.vue";
-import Edit   from "@/components/Ui/Actions/Edit.vue";
+import Delete          from "@/components/Ui/Actions/Delete.vue";
+import Edit            from "@/components/Ui/Actions/Edit.vue";
+import CopyToClipboard from "@/components/Ui/Actions/CopyToClipboard.vue";
 
 import BaseError from "@/scripts/Core/Error/BaseError";
 
@@ -53,6 +63,15 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    canCopyToClipboard: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    copiedDataKey: {
+      type: String,
+      required: false,
     },
     actionsWrapperClasses: {
       type: String,
@@ -104,6 +123,7 @@ export default {
     }
   },
   components: {
+    CopyToClipboard,
     Delete,
     Edit,
   }

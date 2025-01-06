@@ -91,6 +91,9 @@
             "confirm": {
                 "label": "Confirm"
             }
+        },
+        "text": {
+            "copiedToClipboard": "Copied to clipboard (You can paste it with CTRL+V)."
         }
     }
 }
