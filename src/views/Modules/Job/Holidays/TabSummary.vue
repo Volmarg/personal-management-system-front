@@ -55,7 +55,7 @@ export default {
 
       for (let year in sumSpentPerYear) {
         let sumSpent = sumSpentPerYear[year];
-        let maxForYear = this.pools.find((pool) => pool.year == year).days;
+        let maxForYear = this.pools.find((pool) => pool.year == year)?.days ?? null;
 
         data.push({
           values: {
