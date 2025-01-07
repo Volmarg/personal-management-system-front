@@ -41,7 +41,7 @@ export default {
   data(): ComponentData {
     return {
       password          : this.modelValue,
-      confirmedPassword : this.modelValue,
+      confirmedPassword : null,
       violations        : {
         password: [],
         confirmedPassword: []
@@ -80,6 +80,13 @@ export default {
   ],
   methods: {
     /**
+     * @description clears the inputs
+     */
+    clear(): void {
+      this.password = null;
+      this.confirmedPassword = null;
+    },
+    /**
      * @description handle case when password changes
      */
     onPasswordChanged(password: string): void {
@@ -108,6 +115,11 @@ export default {
       this.violations = this.vuelidateErrorsToArrayOfViolationsForProperties(this.v$.$errors);
 
       return this.isVuelidateResultValid;
+    }
+  },
+  watch: {
+    modelValue(): void {
+      this.password = this.modelValue;
     }
   },
   components: {

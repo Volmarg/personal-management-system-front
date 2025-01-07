@@ -139,6 +139,11 @@ export default {
     onPasswordInput(): void {
       this.$emit('passwordChanged', this.password)
     }
+  },
+  watch: {
+    modelValue(): void {
+      this.password = this.modelValue;
+    }
   }
 }
 </script>

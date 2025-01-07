@@ -19,23 +19,39 @@
 <script lang="ts">
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {StoreDefinition} from "pinia";
+import {GroupsStore}     from "@/scripts/Vue/Store/Module/Passwords/GroupsStore";
+
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 export default {
   data(): ComponentData {
     return {
       selectOptions: [],
+      groups: [],
+      store: null as null | StoreDefinition,
       selectedLimit: 0,
-    }
-  },
-  props: {
-    options: {
-      type: Array,
-      required: true,
     }
   },
   components: {
     MultiSelect
+  },
+  computed: {
+    /**
+     * @description returns select data
+     */
+    options(): Array {
+      let options = [];
+      for (let group of this.groups) {
+        options.push({
+          label: StringTypeProcessor.ucFirst(group.name),
+          value: group.id,
+        })
+      }
+
+      return options;
+    }
   },
   methods: {
     /**
@@ -46,5 +62,18 @@ export default {
       this.$emit('update:modelValue', value);
     }
   },
+  async beforeMount(): Promise<void> {
+    this.store = GroupsStore();
+    await this.store.getAll();
+    this.groups = this.store.allEntries;
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function () {
+        this.groups = this.store.allEntries;
+      }
+    }
+  }
 }
 </script>

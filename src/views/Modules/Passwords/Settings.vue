@@ -1,111 +1,108 @@
 <template>
-  <Base :info-block-description="$t('passwords.settings.description')">
+  <Base :info-block-description="$t('passwords.settings.groups.description')">
     <SimpleTable :headers="table.headers"
-                 :data="table.data"
+                 :data="tableData"
     />
 
-    <div class="flex justify-center">
-      <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-        <h2 class="text-lg">{{ $t('passwords.settings.form.new.header') }}</h2>
-
-        <FormInput type="text"
-                   :model-value="form.name"
-                   :label="$t('passwords.settings.form.new.name.label')"
-        />
-
-        <MediumButtonWithIcon :text="$t('passwords.settings.form.new.submitButton.label')"
-                              button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                              class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
-                              button-classes="w-full md:w-auto m-0-force"
-                              text-classes="text-center w-full"
-                              @button-click="onNewSubmit"
-        />
-
-      </div>
-    </div>
+    <AddEditForm :header="$t('passwords.settings.groups.form.new.header')"
+                 @submit="store.getAll"
+    />
   </Base>
 </template>
 
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import SimpleTable              from "@/components/Ui/Table/SimpleTable.vue";
-import FormInput                from "@/components/Form/Input.vue";
-import MediumButtonWithIcon     from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import Base                     from "@/views/Modules/Base.vue";
+import SimpleTable  from "@/components/Ui/Table/SimpleTable.vue";
+import Base         from "@/views/Modules/Base.vue";
+import TableActions from "@/components/Ui/Actions/TableActions.vue";
+import AddEditForm  from "@/views/Modules/Passwords/Settings/Group/AddEditForm.vue";
+
+import SymfonyPasswordsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPasswordsRoutes";
+
+import {GroupsStore}     from "@/scripts/Vue/Store/Module/Passwords/GroupsStore";
+import {StoreDefinition} from "pinia";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        name: '',
-      },
-      /**
-       * @description dummy data for now
-       */
+      store: null as null | StoreDefinition,
+      groups: [],
       table: {
-        /**
-         * @description dummy data for now
-         */
         headers: [
           {
-            label: 'Name',
+            label: 'id',
+            dataValuePath : 'id.value',
+            isVisible: false,
+            dataIsComponentPath : null,
+            dataComponentPropertiesPath: null
+          },
+          {
+            label: this.$t('passwords.settings.groups.table.headers.name.label'),
             dataValuePath : 'name.value',
             dataIsComponentPath : 'name.isComponent',
             dataComponentPropertiesPath: null
           },
           {
-            label: 'Actions',
+            label: this.$t('passwords.settings.groups.table.headers.actions.label'),
             dataValuePath : 'actions.value',
             dataIsComponentPath : 'actions.isComponent',
-            dataComponentPropertiesPath: null
+            dataComponentPropertiesPath: 'actions.componentProps'
           },
         ],
-        /**
-         * @description dummy data for now
-         */
-        data: [
-          {
-            values : {
-              name : {
-                value       : "name",
-                isComponent : false,
-              },
-              actions : {
-                value       : "act",
-                isComponent : false,
-              }
-            }
-          },
-          {
-            values : {
-              name : {
-                value       : "name2",
-                isComponent : false,
-              },
-              actions : {
-                value       : "act2",
-                isComponent : false,
-              }
-            }
-          }
-        ]
       }
     }
   },
   components: {
-    MediumButtonWithIcon,
+    AddEditForm,
     SimpleTable,
-    FormInput,
     Base,
   },
-  methods: {
+  computed: {
     /**
-     * @description triggered when user submits the form, updates front and back
+     * @description returns table data
      */
-    onNewSubmit(): void {
-      //
+    tableData(): Array {
+      let data = [];
+      for (let group of this.groups) {
+        data.push({
+          values: {
+            id: {
+              value: group.id,
+              isComponent: false,
+            },
+            name: {
+              value: group.name,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyPasswordsRoutes.PASSWORDS_GROUPS_BASE_URL,
+                store: GroupsStore,
+              }
+            }
+          }
+        })
+      }
+
+      return data;
     },
+  },
+  async beforeMount(): Promise<void> {
+    this.store = GroupsStore();
+    await this.store.getAll();
+    this.groups = this.store.allEntries;
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function() {
+        this.groups = this.store.allEntries;
+      }
+    }
   }
 }
 </script>

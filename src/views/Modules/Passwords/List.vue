@@ -1,189 +1,158 @@
 <template>
   <Base :info-block-description="$t('passwords.list.description')">
     <SimpleTable :headers="table.headers"
-                 :data="table.data"
+                 :data="tableData"
     />
 
-    <div class="flex justify-center">
-      <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-        <h2 class="text-lg">{{ $t('passwords.list.form.header') }}</h2>
-        <FormInput type="text"
-                   :model-value="form.login"
-                   :label="$t('passwords.list.form.new.login.label')"
-        />
-
-        <FormInput type="text"
-                   :model-value="form.url"
-                   :label="$t('passwords.list.form.new.url.label')"
-        />
-
-        <FormInput type="text"
-                   :model-value="form.description"
-                   :label="$t('passwords.list.form.new.description.label')"
-        />
-
-        <GroupSelect :options="groups"
-                     v-model="form.group"
-                     class="mb-6"
-        />
-
-        <PasswordWithConfirmation @both-passwords-changed="form.password = $event"
-                                  @password-changed="form.password = $event"
-        />
-
-        <MediumButtonWithIcon :text="$t('passwords.list.form.new.submitButton.label')"
-                              button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                              class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
-                              button-classes="w-full md:w-auto m-0-force"
-                              text-classes="text-center w-full"
-                              @button-click="onNewSubmit"
-        />
-
-      </div>
-    </div>
+    <AddEditForm :header="$t('passwords.list.form.header')"
+                 @submit="store.getAll"
+    />
   </Base>
 </template>
 
 <script lang="ts">
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {StoreDefinition} from "pinia";
+import {PasswordsStore}  from "@/scripts/Vue/Store/Module/Passwords/PasswordsStore";
 
-import GroupSelect              from "@/views/Modules/Passwords/Components/GroupSelect.vue";
-import SimpleTable              from "@/components/Ui/Table/SimpleTable.vue";
-import FormInput                from "@/components/Form/Input.vue";
-import MediumButtonWithIcon     from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import Base                     from "@/views/Modules/Base.vue";
-import PasswordWithConfirmation from "@/components/Form/PasswordWithConfirmation.vue";
+import SimpleTable  from "@/components/Ui/Table/SimpleTable.vue";
+import Base         from "@/views/Modules/Base.vue";
+import TableActions from "@/components/Ui/Actions/TableActions.vue";
+import AddEditForm  from "@/views/Modules/Passwords/List/AddEditForm.vue";
+
+import SymfonyPasswordsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPasswordsRoutes";
+import StringTypeProcessor    from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        login: '',
-        password: '',
-        url: '',
-        description: '',
-        group: null,
-      },
-      /**
-       * @description dummy data for now
-       */
-      groups: [
-        {
-          label: "Group1",
-          value: "g1"
-        },
-        {
-          label: "Group2",
-          value: "g2"
-        },
-      ],
+      store: null as null | StoreDefinition,
+      passwords: [],
       table: {
-        /**
-         * @description dummy data for now
-         */
         headers: [
           {
-            label: 'Login',
+            label: 'id',
+            dataValuePath : 'id.value',
+            isVisible: false,
+            dataIsComponentPath : null,
+            dataComponentPropertiesPath: null
+          },
+          {
+            label: 'groupId',
+            dataValuePath : 'groupId.value',
+            isVisible: false,
+            dataIsComponentPath : null,
+            dataComponentPropertiesPath: null
+          },
+          {
+            label: this.$t('passwords.list.table.headers.password.label'),
+            dataValuePath : 'password.value',
+            isVisible: false,
+            dataIsComponentPath : null,
+            dataComponentPropertiesPath: null
+          },
+          {
+            label: this.$t('passwords.list.table.headers.login.label'),
             dataValuePath : 'login.value',
-            dataIsComponentPath : 'name.isComponent',
+            dataIsComponentPath : 'login.isComponent',
             dataComponentPropertiesPath: null
           },
           {
-            label: 'Url',
+            label: this.$t('passwords.list.table.headers.url.label'),
             dataValuePath : 'url.value',
-            dataIsComponentPath : 'name.isComponent',
+            dataIsComponentPath : 'url.isComponent',
             dataComponentPropertiesPath: null
           },
           {
-            label: 'Description',
+            label: this.$t('passwords.list.table.headers.description.label'),
             dataValuePath : 'description.value',
-            dataIsComponentPath : 'name.isComponent',
+            dataIsComponentPath : 'description.isComponent',
             dataComponentPropertiesPath: null
           },
           {
-            label: 'Group',
-            dataValuePath : 'group.value',
-            dataIsComponentPath : 'name.isComponent',
+            label: this.$t('passwords.list.table.headers.group.label'),
+            dataValuePath : 'groupName.value',
+            dataIsComponentPath : 'groupName.isComponent',
             dataComponentPropertiesPath: null
           },
           {
-            label: 'Actions',
+            label: this.$t('passwords.list.table.headers.actions.label'),
             dataValuePath : 'actions.value',
             dataIsComponentPath : 'actions.isComponent',
-            dataComponentPropertiesPath: null
+            dataComponentPropertiesPath: 'actions.componentProps'
           },
         ],
-        /**
-         * @description dummy data for now
-         */
-        data: [
-          {
-            values : {
-              login : {
-                value       : "name",
-                isComponent : false,
-              },
-              url : {
-                value       : "name",
-                isComponent : false,
-              },
-              description : {
-                value       : "name",
-                isComponent : false,
-              },
-              group : {
-                value       : "name",
-                isComponent : false,
-              },
-              actions : {
-                value       : "name",
-                isComponent : false,
-              }
-            }
-          },
-          {
-            values : {
-              login : {
-                value       : "login2",
-                isComponent : false,
-              },
-              url : {
-                value       : "url2",
-                isComponent : false,
-              },
-              description : {
-                value       : "description2",
-                isComponent : false,
-              },
-              group : {
-                value       : "group2",
-                isComponent : false,
-              },
-              actions : {
-                value       : "actions2",
-                isComponent : false,
-              }
-            }
-          }
-        ]
       }
     }
   },
   components: {
-    PasswordWithConfirmation,
-    MediumButtonWithIcon,
+    AddEditForm,
     SimpleTable,
-    GroupSelect,
-    FormInput,
     Base,
   },
-  methods: {
-    /**
-     * @description triggered when user submits the form, updates front and back
-     */
-    onNewSubmit(): void {
-      //
-    },
+  computed: {
+    tableData(): Array {
+      let data = [];
+      for (let password of this.passwords) {
+        data.push({
+          values: {
+            id: {
+              value: password.id,
+              isComponent: false,
+            },
+            password: {
+              value: password.password,
+              isComponent: false,
+            },
+            login: {
+              value: password.login,
+              isComponent: false,
+            },
+            url: {
+              value: password.url,
+              isComponent: false,
+            },
+            description: {
+              value: password.description,
+              isComponent: false,
+            },
+            groupId: {
+              value: password.groupId,
+              isComponent: false,
+            },
+            groupName: {
+              value: StringTypeProcessor.ucFirst(password.groupName),
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                canCopyToClipboard: true,
+                copiedDataKey: 'password',
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyPasswordsRoutes.PASSWORDS_BASE_URL,
+                store: PasswordsStore,
+              }
+            }
+          }
+        });
+      }
+      return data;
+    }
+  },
+  async beforeMount(): Promise<void> {
+    this.store = PasswordsStore();
+    await this.store.getAll();
+    this.passwords = this.store.allEntries;
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function() {
+        this.passwords = this.store.allEntries;
+      }
+    }
   }
 }
 </script>
