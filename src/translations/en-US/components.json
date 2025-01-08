@@ -1,5 +1,13 @@
 {
     "components": {
+        "yearSelect": {
+            "label": "Year",
+            "option": {
+                "all": {
+                    "label": "All"
+                }
+            }
+        },
         "actions": {
             "edit": {
                 "label": "Edit"

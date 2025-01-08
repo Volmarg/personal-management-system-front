@@ -4,6 +4,7 @@
       <h2 class="text-lg mb-2">{{ header }}</h2>
 
       <YearSelect v-model="form.year"
+                  :years="years"
                   class="mb-6"
       />
 
@@ -31,9 +32,11 @@
 <script lang="ts">
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import FormInput            from "@/components/Form/Input.vue";
-import YearSelect           from "@/views/Modules/Job/Holidays/YearSelect.vue";
+import YearSelect           from "@/components/Form/YearSelect.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {PoolsState}      from "@/scripts/Vue/Store/Module/Job/Holidays/PoolsState";
+import {StoreDefinition} from "pinia";
 
 import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
 import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
@@ -42,6 +45,7 @@ import SymfonyJobRoutes        from "@/router/SymfonyRoutes/Modules/SymfonyJobRo
 export default {
   data(): ComponentData {
     return {
+      poolsStore: null as null | StoreDefinition,
       form: {
         daysSpent: null,
         information: null,
@@ -81,6 +85,14 @@ export default {
     MediumButtonWithIcon,
     FormInput,
   },
+  computed: {
+    /**
+     * @description returns all years in pools
+     */
+    years(): Array {
+      return this.poolsStore.allEntries.map((pool:Record) => pool.year);
+    }
+  },
   methods: {
     /**
      * @description wipes the form data
@@ -114,6 +126,9 @@ export default {
     this.form.daysSpent = this.daysSpent;
     this.form.information = this.information;
     this.form.year = this.year;
+
+    this.poolsStore = PoolsState();
+    await this.poolsStore.getAll();
   },
 }
 </script>

@@ -7,22 +7,13 @@
       <h2 class="text-lg text-center md:text-right pr-0 md:pr-6 mb-1">{{ $t('job.holidays.shared.filter.byYear.header') }}</h2>
     </div>
 
-    <div class="flex flex-col md:flex-row justify-end flex-wrap gap-y-2">
-      <MediumButtonWithIcon :text="$t('job.holidays.shared.filter.byYear.button.showAll.label')"
-                            @button-click="applyYearFilter(null)"
-                            button-classes="w-full md:w-auto flex justify-center md:block"
-                            text-classes="text-center"
-                            class="w-full md:w-auto mb-1 md:mb-0"
-      />
-
-      <MediumButtonWithIcon v-for="year in allYears"
-                            button-classes="w-full md:w-auto flex justify-center md:block"
-                            text-classes="text-center"
-                            class="w-full md:w-auto mb-1 md:mb-0"
-                            :key="year"
-                            :text="year"
-                            @button-click="applyYearFilter(year)"
-      />
+    <div class="w-full flex justify-end">
+      <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/6 md:mr-2">
+        <YearSelect :years="allYears"
+                    :allow-all-option="true"
+                    v-model="yearFilter"
+        />
+      </div>
     </div>
   </div>
 
@@ -37,9 +28,9 @@
 </template>
 
 <script lang="ts">
-import SimpleTable          from "@/components/Ui/Table/SimpleTable.vue";
-import NoResultsText        from "@/components/Page/NoResultsText.vue";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
+import NoResultsText from "@/components/Page/NoResultsText.vue";
+import YearSelect    from "@/components/Form/YearSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -89,7 +80,7 @@ export default {
     }
   },
   components: {
-    MediumButtonWithIcon,
+    YearSelect,
     NoResultsText,
     SimpleTable
   },
@@ -121,12 +112,8 @@ export default {
       return allYears = [...new Set(allYears)];
     }
   },
-  methods: {
-    /**
-     * @description react to user clicking on year filter, will non-directly filter table data
-     */
-    applyYearFilter(year: string | null): void {
-      this.yearFilter = year;
+  watch: {
+    yearFilter(): void {
       this.$refs.table.refresh();
     },
   },
