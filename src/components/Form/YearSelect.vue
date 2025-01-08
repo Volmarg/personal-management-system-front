@@ -1,6 +1,6 @@
 <template>
   <MultiSelect
-      :label="$t('job.holidays.shared.form.year.label')"
+      :label="$t('components.yearSelect.label')"
       :options="options"
       @change="onOptionChanged"
       @select="onOptionChanged"
@@ -11,7 +11,7 @@
       mode="single"
       :allow-show-options-list="true"
       :allow-create-options="false"
-      :can-clear="false"
+      :can-clear="true"
       :required="true"
   />
 </template>
@@ -20,16 +20,18 @@
 import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import {PoolsState}    from "@/scripts/Vue/Store/Module/Job/Holidays/PoolsState";
 
 export default {
   data(): ComponentData {
     return {
-      poolsStore: null as null | PoolsState,
-      pools: [],
-      selectOptions: [],
-      selectedValue: 0,
+      selectedValue: null,
     }
+  },
+  props: {
+    years: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     MultiSelect
@@ -40,10 +42,10 @@ export default {
      */
     options(): Array {
       let options = [];
-      for(let pool of this.pools){
+      for (let year of this.years) {
         options.push({
-          label: pool.year,
-          value: pool.year,
+          label: year,
+          value: year,
         })
       }
 
@@ -52,24 +54,11 @@ export default {
   },
   methods: {
     /**
-     * @description will save + emit the selected country when country selection option changes
+     * @description will save + emit the selected value
      */
     onOptionChanged(value: number): void {
       this.selectedValue = value;
       this.$emit('update:modelValue', value);
-    }
-  },
-  async beforeMount(): Promise<void> {
-    this.poolsStore = PoolsState();
-    await this.poolsStore.getAll();
-    this.pools = this.poolsStore.allEntries;
-  },
-  watch: {
-    'poolsStore.allEntries': {
-      deep: true,
-      handler: function () {
-        this.pools = this.poolsStore.allEntries;
-      }
     }
   }
 }
