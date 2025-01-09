@@ -14,23 +14,15 @@
           <h2 class="text-lg text-center md:text-right pr-0 md:pr-6 mb-1">{{ $t('reports.saving.eachMonth.chart.filter.filterByYear.header') }}</h2>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-end">
-          <MediumButtonWithIcon :text="$t('reports.saving.eachMonth.chart.filter.filterByYear.showAll.label')"
-                                @button-click="applyYearFilter(null)"
-                                button-classes="w-full md:w-auto flex justify-center md:block"
-                                text-classes="text-center"
-                                class="w-full md:w-auto mb-1 md:mb-0"
-          />
-
-          <MediumButtonWithIcon v-for="year in this.allYears"
-                                button-classes="w-full md:w-auto flex justify-center md:block"
-                                text-classes="text-center"
-                                class="w-full md:w-auto mb-1 md:mb-0"
-                                :key="year"
-                                :text="year"
-                                @button-click="applyYearFilter(year)"
-          />
+        <div class="w-full flex justify-end">
+          <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/6 md:mr-2">
+            <YearSelect :years="allYears"
+                        :allow-all-option="true"
+                        @update:modelValue="applyYearFilter($event)"
+            />
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -48,8 +40,8 @@
 </template>
 
 <script lang="ts">
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import Base                 from "@/views/Modules/Base.vue";
+import Base       from "@/views/Modules/Base.vue";
+import YearSelect from "@/components/Form/YearSelect.vue";
 
 import ChartJsMixin from "@/mixins/Libs/ChartJsMixin.vue";
 
@@ -71,7 +63,7 @@ export default {
     ChartJsMixin
   ],
   components: {
-    MediumButtonWithIcon,
+    YearSelect,
     Base,
   },
   computed: {
