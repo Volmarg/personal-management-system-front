@@ -1,10 +1,12 @@
 <template>
-  <div class="filter">
-    <h2 class="header">{{ $t('reports.historical.moneyOwed.tabs.shared.filter.header') }}</h2>
-    <TargetSelect :options="targetSelectOptions"
-                  v-model="targetFilter"
-                  class="target-select"
-    />
+  <div class="filter-wrapper">
+    <div class="filter">
+      <h2 class="header">{{ $t('reports.historical.moneyOwed.tabs.shared.filter.header') }}</h2>
+      <TargetSelect :options="targetSelectOptions"
+                    v-model="targetFilter"
+                    class="target-select"
+      />
+    </div>
   </div>
   <SimpleTable :headers="headers"
                :data="usedData"
@@ -137,13 +139,17 @@ export default {
 <style lang="scss" scoped>
 .filter {
   .header {
-    @apply text-left text-xl mb-2
+    @apply text-right text-xl mb-2
   }
 
   .target-select {
-    @apply lg:w-1/5 md:w-1/2
+    @apply mb-2
   }
 
-  @apply flex justify-start mb-2 mt-10 mr-4 flex-col
+  @apply self-end lg:w-1/5 md:w-1/2
+}
+
+.filter-wrapper {
+  @apply flex justify-end mb-2 mt-10 mr-4 flex-col
 }
 </style>
