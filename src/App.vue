@@ -49,6 +49,10 @@
 
     <DevFooterBar/>
 
+    <textarea class="hidden"
+              id="clipboardDataHolder"
+    />
+
   </section>
 </template>
 
