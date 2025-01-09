@@ -3,11 +3,12 @@
         :is-in-container="false"
   >
     <Navbar :data="dataPerYearsAndMonths"
-            @year-filter-click="selectedYear = $event"
+            :preselected-year="selectedYear"
+            @year-filter-change="selectedYear = $event"
             class="mb-6"
     />
 
-    <Accordion v-for="(data, yearMonth) in dataForYear"
+    <Accordion v-for="(data, yearMonth) in accordionsData"
                :key="JSON.stringify(data)"
                :id="md5Service.hash(yearMonth)"
     >
@@ -133,9 +134,21 @@ export default {
       return data;
     },
     /**
-     * @description returns data for selected year
+     * @description returns data for accordions, based on the selected year
      */
-    dataForYear(): Record<string, Record<string, unknown>> {
+    accordionsData(): Record<string, Record<string, unknown>> {
+      if (!this.selectedYear) {
+        let allEntries = {};
+        for (let year in this.dataPerYearsAndMonths) {
+          allEntries = {
+            ...allEntries,
+            ...this.dataPerYearsAndMonths[year],
+          }
+        }
+
+        return allEntries;
+      }
+
       return this.dataPerYearsAndMonths[this.selectedYear];
     },
     /**

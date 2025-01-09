@@ -5,37 +5,61 @@
     <div>
       <h2 class="text-lg text-center md:text-right pr-0 md:pr-6 mb-1">{{ $t('payments.monthly.filter.label') }}</h2>
     </div>
-    <div class="flex flex-col md:flex-row justify-end">
-      <MediumButtonWithIcon v-for="year in years"
-                            button-classes="w-full md:w-auto flex justify-center md:block"
-                            text-classes="text-center"
-                            class="w-full md:w-auto mb-1 md:mb-0"
-                            :key="year"
-                            :text="year"
-                            @button-click="$emit('yearFilterClick', year)"
-      />
+
+    <div class="w-full flex justify-end">
+      <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/6">
+        <YearSelect :years="years"
+                    :allow-all-option="true"
+                    v-model="selectedYear"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import YearSelect from "@/components/Form/YearSelect.vue";
+
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {
-  components: {MediumButtonWithIcon},
+  data(): ComponentData {
+    return {
+      selectedYear: null,
+    }
+  },
   props: {
+    preselectedYear: {
+      type: [String, null],
+      required: false,
+      default: null,
+    },
     data: {
       type: Object,
       required: true,
     }
   },
   emits: [
-    "yearFilterClick",
+    "yearFilterChange",
   ],
+  components: {
+    YearSelect
+  },
   computed: {
     years(): Array<number> {
       return Object.keys(this.data);
     }
   },
+  beforeMount(): void {
+    this.selectedYear = this.preselectedYear;
+  },
+  watch: {
+    selectedYear(): void {
+      this.$emit('yearFilterChange', this.selectedYear);
+    },
+    preselectedYear(): void {
+      this.selectedYear = this.preselectedYear;
+    }
+  }
 }
 </script>
