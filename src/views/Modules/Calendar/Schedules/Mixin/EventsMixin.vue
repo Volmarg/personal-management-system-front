@@ -1,6 +1,7 @@
 <script lang="ts">
 
-import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import SymfonyCalendarRoutes from "@/router/SymfonyRoutes/Modules/SymfonyCalendarRoutes";
+import StringTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 import UtilsMixin        from "@/views/Modules/Calendar/Schedules/Mixin/UtilsMixin.vue";
 import BackendCallsMixin from "@/views/Modules/Calendar/Schedules/Mixin/BackendCallsMixin.vue";
@@ -26,6 +27,8 @@ export default {
   methods: {
     /**
      * @description returns all schedules from calendar
+     * @see EventsMixin.deleteSchedule
+     * @see EventsMixin.saveSchedule
      */
     applyEvents(): void {
       this.calendarInstance.on({
@@ -40,17 +43,16 @@ export default {
      * @description handles the case when the schedule is created upon click
      */
     beforeCreateSchedule: (schedule) => {
-      let ajaxCallUrl = '/modules/schedules/save-schedule';
+      let ajaxCallUrl = SymfonyCalendarRoutes.buildUrl(SymfonyCalendarRoutes.CALENDAR_SCHEDULE_BASE_URL);
 
       let popupContainer = document.querySelector('.tui-full-calendar-popup-container');
       if (popupContainer) {
         let allRemindersArray = window.calendarView.getAllRemindersArrayFromCreationPopup();
-
-        schedule.body           = popupContainer.querySelector('#body').getAttribute('value') as string;
+        schedule.body           = popupContainer.querySelector('#body').value as string;
         schedule.recurrenceRule = allRemindersArray.join(",");
       }
 
-      window.calendarView.saveSchedule(schedule, ajaxCallUrl, window.calendarView.lastClickedScheduleId);
+      window.calendarView.saveSchedule(schedule, ajaxCallUrl, "post");
       window.calendarView.lastClickedScheduleId = null;
     },
     /**
@@ -60,7 +62,7 @@ export default {
      */
     beforeUpdateSchedule: (event) => {
       let creationPopupContainer = document.querySelector('.tui-full-calendar-popup-container');
-      let ajaxCallUrl            = `/modules/schedules/save-schedule/${event.schedule.id}`;
+      let ajaxCallUrl            = SymfonyCalendarRoutes.buildUrl(SymfonyCalendarRoutes.CALENDAR_SCHEDULE_BASE_URL + `/${event.schedule.id}`);
       let changes                = event.changes;
 
       // no changes in standard properties
@@ -70,10 +72,22 @@ export default {
 
       changes.body = event.schedule.body;
       if (creationPopupContainer) {
-        changes.body = creationPopupContainer.querySelector('#body').getAttribute('value') as string;
+        let bodyInput = creationPopupContainer.querySelector('#body');
 
-        let allRemindersArray = window.calendarView.getAllRemindersArrayFromCreationPopup();
-        changes.recurrenceRule = allRemindersArray.join(",");
+        /**
+         * @description this is valid - there is a problem when popup is open and even is dragged.
+         *              Found out that when this happens then the input is not present.
+         *              There is no need to read the data in such case, the earlier fetched event data
+         *              is going to be passed to backed.
+         *
+         *              Downside is: "data inserted before drag" is lost - but it's fine.
+         */
+        if (bodyInput) {
+          changes.body = creationPopupContainer.querySelector('#body').value as string;
+
+          let allRemindersArray = window.calendarView.getAllRemindersArrayFromCreationPopup();
+          changes.recurrenceRule = allRemindersArray.join(",");
+        }
       }
 
       /**
@@ -92,16 +106,15 @@ export default {
 
       let updatedSchedule = window.calendarView.buildUpdatedSchedule(event.schedule, changes);
 
-      window.calendarView.calendarInstance.deleteSchedule(event.schedule.id, event.schedule.calendarId);
-      window.calendarView.saveSchedule(updatedSchedule, ajaxCallUrl);
+      window.calendarView.saveSchedule(updatedSchedule, ajaxCallUrl, "patch");
       window.calendarView.lastClickedScheduleId = null;
     },
     /**
      * @description handles removal of schedule
      */
     beforeDeleteSchedule: (event) => {
-      window.calendarView.deleteSchedule(event.schedule.id);
-      window.calendarView.calendarInstance.deleteSchedule(event.schedule.id, event.schedule.calendarId);
+      let ajaxCallUrl = SymfonyCalendarRoutes.buildUrl(SymfonyCalendarRoutes.CALENDAR_SCHEDULE_BASE_URL + `/${event.schedule.id}`);
+      window.calendarView.deleteSchedule(event.schedule.id, ajaxCallUrl);
       window.calendarView.lastClickedScheduleId = null;
     },
     /**

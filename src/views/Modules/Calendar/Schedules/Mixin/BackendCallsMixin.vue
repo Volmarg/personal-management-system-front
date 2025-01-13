@@ -4,7 +4,10 @@ import UtilsMixin from "@/views/Modules/Calendar/Schedules/Mixin/UtilsMixin.vue"
 
 import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 
-import Calendar, {ISchedule} from "tui-calendar";
+import {ISchedule}     from "tui-calendar";
+import {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
+import {CalendarStore} from "@/scripts/Vue/Store/Module/Calendar/CalendarStore";
+import moment          from "moment/moment";
 
 export default {
   mixins: [
@@ -15,78 +18,63 @@ export default {
     /**
      * @description will create new schedule
      */
-    saveSchedule(scheduleData: ISchedule, ajaxCallUrl: string, createInstance: boolean = true): void {
-      console.log("Calling saveSchedule with url: " + ajaxCallUrl);
+    saveSchedule(scheduleData: ISchedule, ajaxCallUrl: string, method: string): void {
       let calendar = this.findCalendar(scheduleData.calendarId);
 
-      let startDate = scheduleData.start.toDate();
-      let endDate   = scheduleData.end.toDate();
+      // fixes the issue with dates being saved with incorrect offset due to timezone
+      let startDate = moment(scheduleData.start.toDate()).format('Y-MM-DD HH:mm:ss.SSS Z');
+      let endDate   = moment(scheduleData.end.toDate()).format('Y-MM-DD HH:mm:ss.SSS Z');
 
       let dataBag  = {
-        title       : scheduleData.title,
         body        : scheduleData.body,
-        isAllDay    : scheduleData.isAllDay,
-        start       : startDate,
-        end         : endDate,
         category    : scheduleData.isAllDay ? 'allday' : 'time',
+        end         : endDate,
+        start       : startDate,
+        title       : scheduleData.title,
         location    : scheduleData.location,
+        isAllDay    : scheduleData.isAllDay,
         calendarId  : calendar.id,
         reminders   : scheduleData.recurrenceRule,
       };
 
-      // this.$rootEvent.showFullPageLoader();
-      // this.$axios.post(ajaxCallUrl, dataBag)
-      //     .then( (response) => {
-      //       this.$rootEvent.hideFullPageLoader();
-      //
-      //       // this.handleFailedBackendResponse()
-      //       // show notification on success
-      //
-      //       let usedScheduleId = ( ("undefined" === typeof scheduleData.id) ? ++this.lastUsedScheduleId : scheduleData.id);
-      //
-      //       var schedule = {
-      //         id             : usedScheduleId.toString(),
-      //         title          : scheduleData.title,
-      //         body           : scheduleData.body,
-      //         isAllDay       : scheduleData.isAllDay,
-      //         start          : scheduleData.start,
-      //         end            : scheduleData.end,
-      //         category       : scheduleData.isAllDay ? 'allday' : 'time',
-      //         location       : scheduleData.location,
-      //         recurrenceRule : scheduleData.recurrenceRule,
-      //
-      //         calendarId  : calendar.id,
-      //         color       : "#ffffff",
-      //         bgColor     : calendar.bgColor,
-      //         dragBgColor : calendar.bgColor,
-      //         borderColor : calendar.borderColor,
-      //       };
-      //
-      //       if (createInstance) {
-      //         this.calendarInstance.createSchedules([schedule]);
-      //       }
-      //     })
-      //     .catch( (reason) => {
-      //       this.$rootEvent.hideFullPageLoader()
-      //       throw {
-      //         "message" : "Could not handle saving new schedule in database",
-      //         "reason"  : reason,
-      //       }
-      //     })
+      this.$rootEvent.showFullPageLoader();
+      this.$axios[method](ajaxCallUrl, dataBag)
+          .then((response) => {
+            this.$rootEvent.hideFullPageLoader();
+            if (!this.handleFailedBackendResponse(response, ajaxCallUrl)) {
+              return;
+            }
+
+            this.$rootEvent.showNotification(ToastTypeEnum.success, this.$t('calendar.tabs.schedules.msg.saved'));
+            CalendarStore().getAll()
+          }).catch( (reason) => {
+            this.$rootEvent.hideFullPageLoader()
+            throw {
+              "message" : "Could not handle saving new schedule in database",
+              "reason"  : reason,
+            }
+          })
     },
     /**
      * @description do delete the event
      */
-    deleteSchedule(scheduleId: string): void {
-      console.log("Calling deleteSchedule");
-      // this.$rootEvent.showFullPageLoader()
+    deleteSchedule(scheduleId: string, ajaxUrl: string): void {
+      this.$rootEvent.showFullPageLoader()
+      this.$axios.delete(ajaxUrl).then((response) => {
+        this.$rootEvent.hideFullPageLoader();
+        if (!this.handleFailedBackendResponse(response, ajaxUrl)) {
+          return;
+        }
 
-      // todo: set proper url
-      // this.$axios.get(`/modules/schedules/delete/${scheduleId}`).then( (response) => {
-      //   this.$rootEvent.hideFullPageLoader()
-      //   // this.handleFailedBackendResponse()
-      //   // show notification on success
-      // });
+        this.$rootEvent.showNotification(ToastTypeEnum.success, this.$t('calendar.tabs.schedules.msg.deleted'));
+        CalendarStore().getAll()
+      }).catch((reason) => {
+        this.$rootEvent.hideFullPageLoader()
+        throw {
+          "message": "Could not handle deleting new schedule in database",
+          "reason": reason,
+        }
+      });
     }
   }
 }

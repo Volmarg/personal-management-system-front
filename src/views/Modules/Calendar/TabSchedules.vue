@@ -14,7 +14,9 @@
   />
 
   <div class="flex flex-row justify-between pt-10">
-    <CalendarList @calendar-filter="onCalendarFilter" />
+    <CalendarList @calendar-filter="onCalendarFilter"
+                  :calendars-data="calendarsData"
+    />
 
     <div class="w-full">
       <div id="calendar"/>
@@ -33,8 +35,8 @@ import DetailPopupMixin from "@/views/Modules/Calendar/Schedules/Mixin/DetailPop
 
 import * as Calendar from "tui-calendar";
 
-import {ComponentData}            from "@/scripts/Vue/Types/Components/types";
-import {ICalendarInfo, ISchedule} from "tui-calendar";
+import {ComponentData}                      from "@/scripts/Vue/Types/Components/types";
+import {ICalendarInfo, IOptions, ISchedule} from "tui-calendar";
 
 import moment from "moment";
 import Logger from "@/scripts/Core/Logger";
@@ -48,106 +50,16 @@ import Logger from "@/scripts/Core/Logger";
 export default {
   data(): ComponentData {
     return {
+      defaultView: 'week',
       selectedScheduleId: null,
       calendarInstance: null,
       visibleSchedules: [],
-      calendars: [
-        {
-          title: "My Calendar",
-          color: 'rgb(59, 130, 246)',
-          id: 1,
-        },
-        {
-          title: "Work",
-          color: 'rgb(255, 98, 0)',
-          id: 2,
-        },
-        {
-          title: "Doctor",
-          color: 'rgb(5, 150, 105)',
-          id: 3,
-        }
-      ],
-      schedules: [
-        {
-          id: 1,
-          title: 'Test 1',
-          location: "Some location 1",
-          isAllDay: false,
-          start: moment().toISOString(),
-          end: moment().add(45, 'minutes').toISOString(),
-          goingDuration: 30,
-          comingDuration: 30,
-          color: '#FFFFFF',
-          isVisible: true,
-          bgColor: '#69BB2D',
-          dragBgColor: '#69BB2D',
-          borderColor: '#69BB2D',
-          calendarId: 1,
-          category: 'allday',
-          dueDateClass: '',
-          customStyle: 'cursor: default;',
-          isPending: false,
-          isFocused: false,
-          isReadOnly: false,
-          isPrivate: false,
-          attendees: '',
-          state: '',
-          reminders: {"5":"2024-07-01 05:22:09","4":"2024-07-06 04:22:09","3":"2024-07-10 17:22:09","2":"2024-07-15 12:22:09"}
-        },
-        {
-          id: 2,
-          title: 'Test 2',
-          location: "Some location 2",
-          isAllDay: false,
-          start: moment().toISOString(),
-          end: moment().add(115, 'minutes').toISOString(),
-          goingDuration: 30,
-          comingDuration: 30,
-          color: '#FFFFFF',
-          isVisible: true,
-          bgColor: 'red',
-          dragBgColor: 'red',
-          borderColor: 'red',
-          calendarId: 2,
-          category: 'time',
-          dueDateClass: '',
-          customStyle: 'cursor: default;',
-          isPending: false,
-          isFocused: false,
-          isReadOnly: false,
-          isPrivate: false,
-          attendees: '',
-          state: '',
-          reminders: {"5":"2024-07-01 05:22:09","4":"2024-07-06 04:22:09","3":"2024-07-10 17:22:09","2":"2024-07-15 12:22:09"}
-        },
-        {
-          id: 3,
-          title: 'Test 3',
-          location: "Some location 3",
-          isAllDay: false,
-          start: moment().add(10, 'days').toISOString(),
-          end: moment().add(10, 'days').toISOString(),
-          goingDuration: 30,
-          comingDuration: 30,
-          color: '#FFFFFF',
-          isVisible: true,
-          bgColor: 'red',
-          dragBgColor: 'red',
-          borderColor: 'red',
-          calendarId: 3,
-          category: 'time',
-          dueDateClass: '',
-          customStyle: 'cursor: default;',
-          isPending: false,
-          isFocused: false,
-          isReadOnly: false,
-          isPrivate: false,
-          attendees: '',
-          state: '',
-          reminders: {"5":"2024-07-01 05:22:09","4":"2024-07-06 04:22:09","3":"2024-07-10 17:22:09","2":"2024-07-15 12:22:09"}
-        }
-      ] as Array<ISchedule>
+    }
+  },
+  props: {
+    calendarsData: {
+      type: Array,
+      required: true,
     }
   },
   components: {
@@ -160,6 +72,46 @@ export default {
     EventsMixin,
     DetailPopupMixin
   ],
+  computed: {
+    /**
+     * @description returns all the schedules across all the calendars
+     */
+    schedules(): Array {
+      let schedules: Array<ISchedule> = [];
+      for (let calendar of this.calendarsData) {
+        for (let schedule of calendar.schedules) {
+          schedules.push({
+            id: schedule.id,
+            title: schedule.title,
+            body: schedule.body,
+            location: schedule.location,
+            isAllDay:schedule.isAllDay,
+            start:schedule.start,
+            end:schedule.end,
+            goingDuration: schedule.goingDuration,
+            comingDuration: schedule.comingDuration,
+            color: schedule.color,
+            isVisible: schedule.isVisible,
+            bgColor: schedule.bgColor,
+            dragBgColor: schedule.dragBgColor,
+            borderColor: schedule.borderColor,
+            calendarId: schedule.calendarId,
+            category: schedule.category,
+            dueDateClass: schedule.dueDateClass,
+            customStyle: schedule.customStyle,
+            isPending: schedule.isPending,
+            isFocused: schedule.isFocused,
+            isReadOnly: schedule.isReadOnly,
+            isPrivate: schedule.isPrivate,
+            attendees: schedule.attendees,
+            state: schedule.state,
+            reminders: schedule.reminders
+          })
+        }
+      }
+      return schedules;
+    }
+  },
   methods: {
     /**
      * @description builds the visible date range string - based on selected view
@@ -196,12 +148,15 @@ export default {
      *              Theoretically everything should be fine, if saving / loading / data storing etc. is handled properly.
      */
     onViewChange(type: string): void {
+      let currDate = this.calendarInstance.getDate();
       this.calendarInstance.destroy();
-      this.initCalendar();
+      this.initCalendar()
+      this.applyEvents();
       this.setSchedules();
       this.setCalendars();
       this.calendarInstance.changeView(type, true);
       this.modifyDetailPopup();
+      this.calendarInstance.setDate(currDate);
     },
     /**
      * @description set schedules in calendar
@@ -225,7 +180,7 @@ export default {
      */
     initCalendar(): void {
       this.calendarInstance = new Calendar('#calendar', {
-        defaultView: 'week',
+        defaultView: this.defaultView,
         taskView: false,
         scheduleView: true,
         useCreationPopup: true,
@@ -237,38 +192,61 @@ export default {
         month: {
           startDayOfWeek: 1
         },
-      });
+      } as IOptions);
     },
     /**
      * @description sets the calendars
      */
     setCalendars(): void {
       let calendarsData = [] as Array<ICalendarInfo>;
-      for (let calendar of this.calendars) {
+      for (let calendar of this.calendarsData) {
         calendarsData.push({
           id          : calendar.id,
           bgColor     : calendar.color,
+          borderColor : calendar.color,
           dragBgColor : calendar.color,
-          name        : calendar.title,
-          borderColor : '',
-        })
+          color       : calendar.color,
+          name        : calendar.name,
+        });
       }
       this.calendarInstance.setCalendars(calendarsData);
     }
   },
   mounted(): void {
     this.initCalendar();
-    this.setSchedules();
     this.modifyDetailPopup();
-    this.setCalendars();
-    this.setLastUsedScheduleId();
     this.applyEvents();
-    this.visibleSchedules = this.getAllSchedules(true)
+    this.setLastUsedScheduleId();
 
     // this is fishy but else calendar events can't access view component so...
     window.calendarView = this;
   },
   watch: {
+    /**
+     * @description known issues:
+     *              - Code side issue. Because of this logic in here, if You add something in code, the calendar / filters etc.
+     *                data will be wiped. Calendar works itself, it's just what it is - how the calendar works. This is not a problem
+     *                for user, but rather for dev. You just need to reload the page whenever You change something somewhere in code.
+     *                Theoretically in future if it's an issue, could add a button for DEV role "reload calendar".
+     */
+    calendarsData: {
+      deep: true,
+      handler: function (): void {
+        if (this.calendarInstance) {
+          let currDate = this.calendarInstance.getDate();
+
+          this.calendarInstance.destroy();
+          this.initCalendar();
+          this.modifyDetailPopup();
+          this.applyEvents();
+          this.setSchedules();
+          this.setCalendars();
+          this.setLastUsedScheduleId();
+          this.visibleSchedules = this.getAllSchedules(true)
+          this.calendarInstance.setDate(currDate);
+        }
+      }
+    },
     selectedScheduleId(): void {
       if (!this.selectedScheduleId) {
         return;
@@ -311,8 +289,12 @@ export default {
 
 .tui-full-calendar-time-schedule-content-time,
 .tui-full-calendar-time-schedule-content-travel-time,
-.tui-full-calendar-weekday-schedule-title
+.tui-full-calendar-month-more-allday
 {
   color: #ffffff !important;
+}
+
+.tui-full-calendar-weekday-schedule-title {
+  @apply text-left
 }
 </style>

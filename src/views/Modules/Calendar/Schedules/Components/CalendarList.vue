@@ -32,23 +32,12 @@ export default {
   data(): ComponentData {
     return {
       viewAllChecked: true,
-      calendars: [
-        {
-          title: "My Calendar",
-          color: 'rgb(59, 130, 246)',
-          id: 1,
-        },
-        {
-          title: "Work",
-          color: 'rgb(255, 98, 0)',
-          id: 2,
-        },
-        {
-          title: "Doctor",
-          color: 'rgb(5, 150, 105)',
-          id: 3,
-        }
-      ]
+    }
+  },
+  props: {
+    calendarsData: {
+      type: Array,
+      required: true,
     }
   },
   components: {
@@ -58,6 +47,23 @@ export default {
   emits: [
     "calendarFilter"
   ],
+  computed: {
+    /**
+     * @description returns the minimalistic calendars data
+     */
+    calendars(): Array {
+      let calendars = [] as Array;
+      for (let calendar of this.calendarsData) {
+        calendars.push({
+          id: calendar.id,
+          color: calendar.color,
+          title: calendar.name,
+        });
+      }
+
+      return calendars;
+    }
+  },
   methods: {
     /**
      * @description check if all the calendar filter checkboxes are checked

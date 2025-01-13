@@ -3,7 +3,11 @@
         "description": "Fully interactive calendar with support of schedules groups management",
         "tabs": {
             "schedules": {
-                "label": "Schedules"
+                "label": "Schedules",
+                "msg": {
+                    "saved": "Schedule has been saved",
+                    "deleted": "Schedule has been deleted"
+                }
             },
             "settings": {
                 "label": "Settings"

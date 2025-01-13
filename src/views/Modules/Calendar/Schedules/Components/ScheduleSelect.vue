@@ -50,7 +50,7 @@ export default {
       let options = [];
       for (let schedule of this.schedules as Array<ISchedule>) {
         options.push({
-          label: schedule.title + " (" + moment(schedule.start).format("YYYY-MM-DD") + ")",
+          label: schedule.title + " (" + moment(schedule.start.toDate()).format("YYYY-MM-DD") + ")",
           value: schedule.id
         })
       }

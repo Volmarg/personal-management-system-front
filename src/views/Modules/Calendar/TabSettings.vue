@@ -1,84 +1,76 @@
 <template>
   <CalendarsTable :data="tableData" />
-
-  <div class="flex justify-center">
-    <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-      <h2 class="text-lg mb-2">{{ $t('calendar.settings.newEntry.header') }}</h2>
-
-      <FormInput type="text"
-                 :model-value="form.name"
-                 :label="$t('calendar.settings.newEntry.form.name.label')"
-      />
-
-      <FormInput type="color"
-                 :model-value="form.color"
-                 :label="$t('calendar.settings.newEntry.form.color.label')"
-      />
-
-      <MediumButtonWithIcon :text="$t('calendar.settings.newEntry.form.submit.label')"
-                            button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                            class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
-                            button-classes="w-full md:w-auto m-0-force"
-                            text-classes="text-center w-full"
-                            @button-click="onNewSubmit"
-      />
-
-    </div>
-  </div>
+  <AddEditForm :header="$t('calendar.settings.newEntry.header')"
+               @submit="store.getAll"
+  />
 </template>
 
 <script lang="ts">
+import SymfonyCalendarRoutes from "@/router/SymfonyRoutes/Modules/SymfonyCalendarRoutes";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {CalendarStore}   from "@/scripts/Vue/Store/Module/Calendar/CalendarStore";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {StoreDefinition} from "pinia";
 
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import CalendarsTable       from "@/views/Modules/Calendar/Settings/Components/CalendarsTable.vue";
-import FormInput            from "@/components/Form/Input.vue";
+import AddEditForm    from "@/views/Modules/Calendar/Settings/Components/AddEditForm.vue";
+import CalendarsTable from "@/views/Modules/Calendar/Settings/Components/CalendarsTable.vue";
+import TableActions   from "@/components/Ui/Actions/TableActions.vue";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        name: null,
-        color: null,
-      },
-      tableData: [
-        {
-          values : {
-            name : {
-              value       : "work",
-              isComponent : false,
-            },
-            color : {
-              value       : "red",
-              isComponent : false,
-            },
-          }
-        },
-        {
-          values : {
-            name : {
-              value       : "doctor",
-              isComponent : false,
-            },
-            color : {
-              value       : "green",
-              isComponent : false,
-            },
-          }
-        },
-      ],
+      store: null as null | StoreDefinition,
+    }
+  },
+  props: {
+    calendarsData: {
+      type: Array,
+      required: true,
     }
   },
   components: {
-    FormInput,
-    MediumButtonWithIcon,
+    AddEditForm,
     CalendarsTable
   },
-  methods: {
-    onNewSubmit(): void {
-      // todo
+  computed: {
+    /**
+     * @description returns the data that will be used in table
+     */
+    tableData(): Array {
+      let usedData = [];
+      for (let calendar of this.calendarsData) {
+        usedData.push({
+          values: {
+            id: {
+              value: calendar.id,
+              isComponent: false,
+            },
+            name: {
+              value: calendar.name,
+              isComponent: false,
+            },
+            color: {
+              value: calendar.color,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps: {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyCalendarRoutes.CALENDAR_MANAGE_BASE_URL,
+                store: CalendarStore,
+              }
+            }
+          }
+        })
+      }
+
+      return usedData;
     }
+  },
+  beforeMount(): void {
+    this.store = CalendarStore();
   }
 }
 </script>
