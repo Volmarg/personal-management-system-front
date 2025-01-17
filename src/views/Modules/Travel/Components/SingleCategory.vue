@@ -2,17 +2,14 @@
   <div class="w-full">
     <Accordion>
       <AccordionPanel class="accordion-panel">
-        <template #title>{{categoryName}}</template>
+        <template #title>{{ideaData.categoryName}}</template>
         <template #content>
-          <div class="mb-5 flex w-full">
-            <LocationCard v-for="locationData in locationsData"
+          <div class="mb-5 flex w-full flex-wrap justify-center">
+            <LocationCard v-for="locationData in ideaData.locations"
                           :key="JSON.stringify(locationData)"
-                          :country="locationData.country"
-                          :image-url="locationData.imageUrl"
-                          :location="locationData.location"
-                          :map-url="locationData.mapUrl"
-                          @edit-click="$emit('editClick')"
-                          @remove-click="$emit('removeClick')"
+                          :location-data="locationData"
+                          @edit-click="$emit('editClick', $event)"
+                          @remove-click="$emit('removeClick', $event)"
             />
 
           </div>
@@ -30,14 +27,10 @@ import LocationCard from "@/views/Modules/Travel/Components/LocationCard.vue";
 
 export default {
   props: {
-    categoryName: {
-      type: String,
+    ideaData: {
+      type: Object,
       required: true,
     },
-    locationsData: {
-      type: Array,
-      required: true
-    }
   },
   components: {
     Accordion,

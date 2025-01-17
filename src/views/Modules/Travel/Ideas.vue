@@ -1,14 +1,13 @@
 <template>
-  <Base :info-block-description="$t('travels.description')"
+  <Base :info-block-description="$t('travels.ideas.description')"
         :is-in-container="false"
   >
-    <div v-if="ideasData.length > 0">
-      <SingleCategory v-for="ideaData in ideasData"
-                     :key="JSON.stringify(ideaData)"
-                     :category-name="ideaData.categoryName"
-                     :locations-data="ideaData.locations"
-                      @edit-click="isEditModalVisible = true"
-                      @remove-click="isRemoveModalVisible = true"
+    <div v-if="structuredIdeas.length > 0">
+      <SingleCategory v-for="ideaData in structuredIdeas"
+                     :key="ideaData.categoryName"
+                      :idea-data="ideaData"
+                      @edit-click="isAddEditModalVisible = true; handledLocationData = $event.locationData"
+                      @remove-click="isRemoveModalVisible = true; handledLocationData = $event.locationData"
       />
     </div>
 
@@ -17,23 +16,22 @@
     </div>
   </Base>
 
-  <AddNewModal :is-modal-visible="isAddNewModalVisible"
-               @modal-closed="isAddNewModalVisible = false"
-  />
-
-  <EditModal :is-modal-visible="isEditModalVisible"
-             @modal-closed="isEditModalVisible = false"
-             @confirm-click="onEditConfirm"
+  <AddEditModal :is-modal-visible="isAddEditModalVisible"
+                :edited-data="handledLocationData"
+                :header="addEditHeader"
+                @modal-closed="isAddEditModalVisible = false; handledLocationData = null;"
+                @form-submitted="isAddEditModalVisible = false; handledLocationData = null; store.getAll()"
   />
 
   <RemoveModal :is-modal-visible="isRemoveModalVisible"
+               :id="handledLocationData?.id ?? null"
                @modal-closed="isRemoveModalVisible = false"
-               @remove-confirm-click="onRemoveConfirm"
+               @remove-confirm-click="isRemoveModalVisible = false; handledLocationData = null; store.getAll()"
   />
 
   <FloatingRoundedPlus class="mb-10"
-                       @click="isAddNewModalVisible = true"
-                       v-tippy="$t('travels.button.addNew.hoverText')"
+                       @click="isAddEditModalVisible = true"
+                       v-tippy="$t('travels.ideas.button.addNew.hoverText')"
   />
 
 </template>
@@ -43,82 +41,88 @@ import Base           from "@/views/Modules/Base.vue";
 import SingleCategory from "@/views/Modules/Travel/Components/SingleCategory.vue";
 import NoResultsText  from "@/components/Page/NoResultsText.vue";
 
-import EditModal   from "@/views/Modules/Travel/Components/EditModal.vue";
-import AddNewModal from "@/views/Modules/Travel/Components/AddNewModal.vue";
-import RemoveModal from "@/views/Modules/Travel/Components/RemoveModal.vue";
+import AddEditModal from "@/views/Modules/Travel/Ideas/AddEditModal.vue";
+import RemoveModal  from "@/views/Modules/Travel/Components/RemoveModal.vue";
 
 import FloatingRoundedPlus from "@/components/Ui/Floating/FloatingRoundedPlus.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}    from "@/scripts/Vue/Types/Components/types";
+import {StoreDefinition}  from "pinia";
+import {TravelIdeasStore} from "@/scripts/Vue/Store/Module/Travel/IdeasStore";
 
 export default {
   data(): ComponentData {
     return {
-      isAddNewModalVisible: false,
-      isEditModalVisible: false,
+      store: null as null | StoreDefinition,
+      handledLocationData: null as null | Record,
+      ideas: [],
+      isAddEditModalVisible: false,
       isRemoveModalVisible: false,
-      /**
-       * @description dummy data
-       */
-      ideasData: [
-        {
-          categoryName: "Country name 1",
-          locations: [
-            {
-              location: 'location',
-              country: 'country',
-              imageUrl: 'http://personal-management-system.pl/assets/images/modules/travels/jasper-national-park-medicine-lake.jpg',
-              mapUrl: 'http://www.mapcrunch.com/p/-14.892871_-70.588343_-163.81_-5_0'
-            },
-            {
-              location: 'location',
-              country: 'country',
-              imageUrl: 'http://personal-management-system.pl/assets/images/modules/travels/moraine_lake_banff.jpg',
-              mapUrl: 'http://www.mapcrunch.com/p/-14.892871_-70.588343_-163.81_-5_0'
-            }
-          ]
-        },
-        {
-          categoryName: "Country name 2",
-          locations: [
-            {
-              location: 'location',
-              country: 'country',
-              imageUrl: 'http://personal-management-system.pl/assets/images/modules/travels/jasper-national-park-medicine-lake.jpg',
-              mapUrl: 'http://www.mapcrunch.com/p/-14.892871_-70.588343_-163.81_-5_0'
-            },
-            {
-              location: 'location',
-              country: 'country',
-              imageUrl: 'http://personal-management-system.pl/assets/images/modules/travels/moraine_lake_banff.jpg',
-              mapUrl: 'http://www.mapcrunch.com/p/-14.892871_-70.588343_-163.81_-5_0'
-            }
-          ]
-        }
-      ]
     }
   },
   components: {
     Base,
-    EditModal,
-    AddNewModal,
+    AddEditModal,
     RemoveModal,
     SingleCategory,
     NoResultsText,
     FloatingRoundedPlus,
   },
-  methods: {
+  computed: {
     /**
-     * @description handle user confirming edit dialog, updates front and backend
+     * @description returns header for the add/edit modal
      */
-    onEditConfirm(): void {
-      //
+    addEditHeader(): string {
+      if (!this.handledLocationData) {
+        return this.$t('travels.ideas.form.header.add');
+      }
+
+      return this.$t('travels.ideas.form.header.edit');
     },
     /**
-     * @description handle user confirming remove dialog, updates front and backend
+     * @description returns the categories data in form friendly for already prepared view structure
      */
-    onRemoveConfirm: void {
-      //
+    structuredIdeas(): Array {
+      let data = [];
+      let categoriesData = [];
+      for (let idea of this.ideas) {
+        if (!categoriesData[idea.category]) {
+          categoriesData[idea.category] = {locations: [] as Array<Record>};
+        }
+
+        categoriesData[idea.category].locations.push({
+          id: idea.id,
+          location: idea.location,
+          country: idea.country,
+          category: idea.category,
+          imageUrl: idea.imageUrl,
+          mapUrl: idea.mapUrl,
+        })
+      }
+
+      for (let category in categoriesData) {
+        let categoryData = categoriesData[category];
+
+        data.push({
+          categoryName: category,
+          locations: categoryData.locations
+        });
+      }
+
+      return data;
+    }
+  },
+  async beforeMount(): Promise<void> {
+    this.store = TravelIdeasStore();
+    await this.store.getAll();
+    this.ideas = this.store.allEntries;
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function() {
+        this.ideas = this.store.allEntries;
+      }
     }
   }
 }

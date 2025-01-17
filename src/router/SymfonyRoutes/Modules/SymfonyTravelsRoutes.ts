@@ -5,4 +5,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyTravelsRoutes extends SymfonyRoutes
 {
+    public static readonly IDEAS_BASE_URL = "/module/travels/ideas";
 }
