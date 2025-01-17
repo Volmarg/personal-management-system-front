@@ -9,12 +9,9 @@
     />
 
     <Accordion v-for="(data, yearMonth) in accordionsData"
-               :key="JSON.stringify(data)"
-               :id="md5Service.hash(yearMonth)"
+               :key="yearMonth"
     >
-      <AccordionPanel class="accordion-panel"
-                      :ref="`accordionPanel-${md5Service.hash(yearMonth)}`"
-      >
+      <AccordionPanel class="accordion-panel">
         <template #title>{{ yearMonth }} ({{paymentTotal(yearMonth)}})</template>
         <template #content>
           <Container class="mb-6">
@@ -59,7 +56,6 @@ import {StoreDefinition}     from "pinia";
 
 import StringTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 import SymfonyPaymentsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
-import Md5Service            from "@/scripts/Core/Services/Crypto/Md5Service";
 
 export default {
   data(): ComponentData {
@@ -70,7 +66,6 @@ export default {
         description: null,
         type: null,
       },
-      md5Service: Md5Service,
       selectedYear: null,
       store: null as null | StoreDefinition,
       allPayments: [] as Array,
@@ -223,42 +218,11 @@ export default {
       await this.store.getAll();
       this.allPayments = this.store.allEntries;
       this.selectedYear = Math.max(...Object.keys(this.dataPerYearsAndMonths).sort());
-    },
-    /**
-     * @description Opens the active tab (based on the url hash). The problem is that the way that data is getting reloaded
-     *              via storage, and an array of data sets, it would normally close the panel for which data was modified.
-     *
-     *              This is a bit fishy, using setTimeout here because of known issue where panel is destroyed
-     *              and created anew, and as such the matching ref could be already destroyed component.
-     *
-     *              There is no easy way to track when all the panels are rendered thus calculating timeout based
-     *              on amount of months (data sets) for given year.
-     */
-    openActivePanel(): void {
-      setTimeout(() => {
-        if (!this.$route.hash) {
-          return;
-        }
-
-        let id = this.$route.hash.replace("#", '');
-        if (!id) {
-          return;
-        }
-
-        let panels = this.$refs[`accordionPanel-${id}`];
-        if (!panels || panels.length === 0) {
-          return;
-        }
-
-        let panel = panels[0];
-        panel.toggle(true);
-      }, 10 * Object.keys(this.dataPerYearsAndMonths).length)
-    },
+    }
   },
   async beforeMount(): Promise<void> {
     this.store = PaymentsState();
     await this.refreshPageState();
-    this.openActivePanel();
   },
   watch: {
     'store.allEntries': {
@@ -266,7 +230,6 @@ export default {
       handler: function () {
         this.allPayments = this.store.allEntries;
         this.selectedYear = Math.max(...Object.keys(this.dataPerYearsAndMonths).sort());
-        this.openActivePanel();
       }
     }
   }
