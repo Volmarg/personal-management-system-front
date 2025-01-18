@@ -31,7 +31,22 @@
                     }
                 },
                 "contactGroup": {
-                    "label": "Contact group"
+                    "label": "Contact group",
+                    "form": {
+                        "header": "Add new",
+                        "name": {
+                            "label": "Name"
+                        },
+                        "submitButton": {
+                            "label": "Submit"
+                        }
+                    },
+                    "table": {
+                        "headers": {
+                            "name": "Name",
+                            "actions": "Actions"
+                        }
+                    }
                 }
             }
         }

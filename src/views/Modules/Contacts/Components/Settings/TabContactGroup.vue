@@ -1,102 +1,102 @@
 <template>
   <SimpleTable :headers="table.headers"
-               :data="table.data"
+               :data="tableData"
   />
-
-  <div class="flex justify-center">
-    <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
-      <h2 class="text-lg">{{ $t('contacts.settings.tabs.contactType.form.header') }}</h2>
-      <FormInput type="text"
-                 :model-value="form.name"
-                 :label="$t('contacts.settings.tabs.contactType.form.name.label')"
-      />
-
-      <MediumButtonWithIcon :text="$t('contacts.settings.tabs.contactType.form.submitButton.label')"
-                            button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                            class="w-full mb-1 md:col-start-1 md:col-end-2"
-                            button-classes="w-full md:w-auto m-0-force"
-                            text-classes="text-center w-full"
-                            @button-click="onNewSubmit"
-      />
-    </div>
-  </div>
+  <AddEditForm :header="$t('contacts.settings.tabs.contactGroup.form.header')"
+               @submit="store.getAll"
+  />
 </template>
 
 <script lang="ts">
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {StoreDefinition} from "pinia";
+import {GroupStore}      from "@/scripts/Vue/Store/Module/Contacts/GroupStore";
 
-import SimpleTable          from "@/components/Ui/Table/SimpleTable.vue";
-import FormInput            from "@/components/Form/Input.vue";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import AddEditForm  from "@/views/Modules/Contacts/Components/Settings/Group/AddEditForm.vue";
+import SimpleTable  from "@/components/Ui/Table/SimpleTable.vue";
+import TableActions from "@/components/Ui/Actions/TableActions.vue";
+
+import SymfonyContactsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyContactsRoutes";
 
 export default {
   data(): ComponentData {
     return {
-      form: {
-        name: ''
-      },
+      store: null as null | StoreDefinition,
+      groups: [],
       table: {
-        /**
-         * @description dummy data for now
-         */
         headers: [
           {
-            label: 'Name',
+            label: 'id',
+            dataValuePath : 'id.value',
+            isVisible: false,
+            dataIsComponentPath : null,
+            dataComponentPropertiesPath: null
+          },
+          {
+            label: this.$t('contacts.settings.tabs.contactGroup.table.headers.name'),
             dataValuePath : 'name.value',
             dataIsComponentPath : 'name.isComponent',
             dataComponentPropertiesPath: null
           },
           {
-            label: 'Actions',
+            label: this.$t('contacts.settings.tabs.contactGroup.table.headers.actions'),
             dataValuePath : 'actions.value',
             dataIsComponentPath : 'actions.isComponent',
-            dataComponentPropertiesPath: null
+            dataComponentPropertiesPath: 'actions.componentProps'
           },
         ],
-        /**
-         * @description dummy data for now
-         */
-        data: [
-          {
-            values : {
-              name : {
-                value       : "name",
-                isComponent : false,
-              },
-              actions : {
-                value       : "actions",
-                isComponent : false,
-              },
-            }
-          },
-          {
-            values : {
-              name : {
-                value       : "name2",
-                isComponent : false,
-              },
-              actions : {
-                value       : "actions2",
-                isComponent : false,
-              },
-            }
-          }
-        ]
       }
     }
   },
   components: {
-    MediumButtonWithIcon,
+    AddEditForm,
     SimpleTable,
-    FormInput,
   },
-  methods: {
+  computed: {
     /**
-     * @description triggered when user submits the form, updates front and back
+     * @description returns table data
      */
-    onNewSubmit(): void {
-      //
+    tableData(): Array {
+      let data = [];
+      for (let group of this.groups) {
+        data.push({
+          values: {
+            id: {
+              value: group.id,
+              isComponent: false,
+            },
+            name: {
+              value: group.name,
+              isComponent: false,
+            },
+            actions: {
+              value: TableActions,
+              isComponent: true,
+              componentProps : {
+                editActionForm: AddEditForm,
+                baseUrl: SymfonyContactsRoutes.GROUPS_BASE_URL,
+                store: GroupStore,
+              }
+            }
+          }
+        })
+      }
+
+      return data;
     },
+  },
+  async beforeMount(): Promise<void> {
+    this.store = new GroupStore();
+    await this.store.getAll();
+    this.groups = this.store.allEntries;
+  },
+  watch: {
+    'store.allEntries': {
+      deep: true,
+      handler: function() {
+        this.groups = this.store.allEntries;
+      }
+    }
   }
 }
 </script>
