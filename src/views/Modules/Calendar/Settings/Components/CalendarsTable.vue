@@ -28,6 +28,13 @@ export default {
           dataComponentPropertiesPath: null
         },
         {
+          label: 'color',
+          dataValuePath : 'color.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('calendar.settings.table.headers.name.label'),
           dataValuePath : 'name.value',
           dataIsComponentPath : 'name.isComponent',
@@ -35,9 +42,9 @@ export default {
         },
         {
           label: this.$t('calendar.settings.table.headers.color.label'),
-          dataValuePath : 'color.value',
-          dataIsComponentPath : 'color.isComponent',
-          dataComponentPropertiesPath: null
+          dataValuePath : 'colorDisplay.value',
+          dataIsComponentPath : 'colorDisplay.isComponent',
+          dataComponentPropertiesPath: 'colorDisplay.componentProps'
         },
         {
           label: this.$t('calendar.settings.table.headers.actions.label'),

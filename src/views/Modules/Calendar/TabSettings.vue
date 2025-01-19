@@ -15,6 +15,7 @@ import {StoreDefinition} from "pinia";
 import AddEditForm    from "@/views/Modules/Calendar/Settings/Components/AddEditForm.vue";
 import CalendarsTable from "@/views/Modules/Calendar/Settings/Components/CalendarsTable.vue";
 import TableActions   from "@/components/Ui/Actions/TableActions.vue";
+import ColorInfoBlock from "@/components/Ui/ColorInfoBlock.vue";
 
 export default {
   data(): ComponentData {
@@ -52,6 +53,13 @@ export default {
             color: {
               value: calendar.color,
               isComponent: false,
+            },
+            colorDisplay: {
+              value: ColorInfoBlock,
+              isComponent: true,
+              componentProps : {
+                colorHex: calendar.color,
+              }
             },
             actions: {
               value: TableActions,
