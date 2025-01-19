@@ -8,6 +8,11 @@
                  :label="$t('contacts.settings.tabs.contactGroup.form.name.label')"
       />
 
+      <FormInput type="color"
+                 v-model="form.color"
+                 :label="$t('contacts.settings.tabs.contactGroup.form.color.label')"
+      />
+
       <MediumButtonWithIcon :text="$t('contacts.settings.tabs.contactGroup.form.submitButton.label')"
                             button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
                             class="w-full mb-1 md:col-start-1 md:col-end-2"
@@ -31,8 +36,10 @@ import SymfonyContactsRoutes   from "@/router/SymfonyRoutes/Modules/SymfonyConta
 export default {
   data(): ComponentData {
     return {
+      defaultColor: '#000000',
       form: {
         name: null,
+        color: this.defaultColor,
       },
     }
   },
@@ -44,6 +51,11 @@ export default {
     },
     id: {
       type: [Number, null],
+      required: false,
+      default: null,
+    },
+    color: {
+      type: [String, null],
       required: false,
       default: null,
     },
@@ -63,6 +75,7 @@ export default {
      */
     clearForm(): void {
       this.form.name = null;
+      this.form.color = this.defaultColor;
     },
     /**
      * @description handle submitting form data - send data to backend
@@ -86,6 +99,7 @@ export default {
   },
   async beforeMount(): Promise<void> {
     this.form.name = this.name;
+    this.form.color = this.color ?? this.defaultColor;
   },
 }
 </script>

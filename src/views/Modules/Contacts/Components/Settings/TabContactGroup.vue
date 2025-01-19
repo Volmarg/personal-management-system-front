@@ -12,9 +12,10 @@ import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
 import {StoreDefinition} from "pinia";
 import {GroupStore}      from "@/scripts/Vue/Store/Module/Contacts/GroupStore";
 
-import AddEditForm  from "@/views/Modules/Contacts/Components/Settings/Group/AddEditForm.vue";
-import SimpleTable  from "@/components/Ui/Table/SimpleTable.vue";
-import TableActions from "@/components/Ui/Actions/TableActions.vue";
+import ColorInfoBlock from "@/components/Ui/ColorInfoBlock.vue";
+import AddEditForm    from "@/views/Modules/Contacts/Components/Settings/Group/AddEditForm.vue";
+import SimpleTable    from "@/components/Ui/Table/SimpleTable.vue";
+import TableActions   from "@/components/Ui/Actions/TableActions.vue";
 
 import SymfonyContactsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyContactsRoutes";
 
@@ -33,10 +34,23 @@ export default {
             dataComponentPropertiesPath: null
           },
           {
+            label: 'color',
+            dataValuePath : 'color.value',
+            isVisible: false,
+            dataIsComponentPath : null,
+            dataComponentPropertiesPath: null
+          },
+          {
             label: this.$t('contacts.settings.tabs.contactGroup.table.headers.name'),
             dataValuePath : 'name.value',
             dataIsComponentPath : 'name.isComponent',
             dataComponentPropertiesPath: null
+          },
+          {
+            label: this.$t('contacts.settings.tabs.contactGroup.table.headers.color'),
+            dataValuePath : 'colorDisplay.value',
+            dataIsComponentPath : 'colorDisplay.isComponent',
+            dataComponentPropertiesPath: 'colorDisplay.componentProps'
           },
           {
             label: this.$t('contacts.settings.tabs.contactGroup.table.headers.actions'),
@@ -68,6 +82,17 @@ export default {
             name: {
               value: group.name,
               isComponent: false,
+            },
+            color: {
+              value: `#${group.color}`,
+              isComponent: false,
+            },
+            colorDisplay: {
+              value: ColorInfoBlock,
+              isComponent: true,
+              componentProps : {
+                colorHex: `#${group.color}`,
+              }
             },
             actions: {
               value: TableActions,
