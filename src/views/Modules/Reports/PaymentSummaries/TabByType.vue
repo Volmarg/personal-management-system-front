@@ -37,7 +37,6 @@ import ChartJsMixin from "@/mixins/Libs/ChartJsMixin.vue";
 import {ChartConfiguration} from "chart.js/auto";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import {ChartDataset} from "chart.js/dist/types";
 import {color} from "chart.js/helpers";
 
 import SymfonyReportsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyReportsRoutes";
@@ -57,11 +56,11 @@ export default {
     YearSelect,
   },
   computed: {
-    datasets(): Array<ChartDataset> {
-      let datasets = [] as Array<ChartDataset>;
+    datasets(): Array {
+      let datasets = [] as Array;
       for (let dataType in this.chartData) {
         let data = this.chartData[dataType];
-        let dataset: ChartDataset = {
+        let dataset = {
           fill: false,
           label: dataType,
           data: this.getDatasetValues(data),
