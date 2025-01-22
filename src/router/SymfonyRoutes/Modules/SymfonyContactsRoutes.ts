@@ -6,4 +6,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
 export default class SymfonyContactsRoutes extends SymfonyRoutes
 {
     public static readonly GROUPS_BASE_URL = "/module/contacts/group";
+    public static readonly TYPES_BASE_URL = "/module/contacts/type";
 }
