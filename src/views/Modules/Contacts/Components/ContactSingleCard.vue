@@ -3,14 +3,21 @@
     <div class="container max-w-lg bg-white rounded dark:bg-gray-800 shadow-lg transform duration-200 easy-in-out m-1 md:m-6">
 
       <!-- top color fill -->
-      <div class="h-32 overflow-hidden">
-        <div class="bg-blue-200 h-full" />
+      <div class="h-32 overflow-hidden z-1">
+        <div class="h-full opacity-30 z-1"
+             :class="{
+              'bg-blue-200': !contactData.groupColor
+             }"
+             :style="{
+              'background-color': `#${contactData.groupColor}`
+             }"
+        />
       </div>
 
       <!-- image wrapper -->
-      <div class="flex justify-center px-5 -mt-12 mb-5">
+      <div class="flex justify-center px-5 -mt-12 mb-5 z-2 relative">
         <span clspanss="block relative h-32 w-32">
-          <img src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
+          <img :src="contactData.imagePath"
                class="mx-auto object-cover rounded-full h-24 w-24 bg-white p-1"
           />
         </span>
@@ -18,27 +25,27 @@
 
       <div class="">
         <div class="px-7 mb-8">
-          <h2 class="text-3xl font-bold"
+          <h2 class="text-2xl font-bold"
               :style="{
                 'color': textColor
               }"
-          >Beth J. Greene</h2>
-          <p class="mt-2 text-gray-500">Illustrator</p>
+          >{{ contactData.name }}</h2>
+          <p class="mt-2 text-gray-500">{{ contactData.description }}</p>
           <hr class="mt-1"/>
-          <p class="mt-2 text-gray-500">Group</p>
+          <p class="mt-2 text-gray-500">{{ contactData.groupName }}</p>
 
           <!-- contact types -->
           <div class="contact-types-wrapper">
             <div class="contact-types"
             >
               <div class="contact-data"
-                   v-for="contactType in contactTypes"
-                   :key="JSON.stringify(contactType)"
+                   v-for="contactType in contactData.types"
+                   :key="JSON.stringify(contactType.uuid)"
               >
-                <div class="img-wrapper"><img :src="contactType.imgUrl" /></div>
+                <div class="img-wrapper"><img :src="contactType.icon_path" /></div>
                 <div class="contact-details">
                   <p>{{contactType.name}}</p>
-                  <p>{{contactType.value}}</p>
+                  <p>{{contactType.details}}</p>
                 </div>
               </div>
             </div>
@@ -53,7 +60,7 @@
                             class="w-full mb-1 pl-2 pr-2 md:col-start-1 md:col-end-2"
                             button-classes="w-full m-0-force"
                             text-classes="text-center w-full"
-                            @button-click="$emit('editClick')"
+                            @button-click="$emit('editClick', {contactData: contactData})"
       />
 
       <MediumButtonWithIcon :text="$t('contacts.button.remove.label')"
@@ -61,7 +68,7 @@
                             button-classes="w-full m-0-force"
                             text-classes="text-center w-full"
                             background-color-class="bg-red-500"
-                            @button-click="$emit('removeClick')"
+                            @button-click="$emit('removeClick', {contactData: contactData})"
       />
     </div>
 
@@ -70,51 +77,14 @@
 </template>
 
 <script lang="ts">
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
 export default {
-  data(): ComponentData {
-    return {
-      /**
-       * @description dummy data
-       */
-      contactTypes: [
-        {
-          imgUrl: 'http://personal-management-system.pl/upload/images/system/contactIcons/linkedin.png',
-          name: "Linkedin",
-          value: "#Linkedin"
-        },
-        {
-          imgUrl: 'http://personal-management-system.pl/upload/images/system/contactIcons/spotify.png',
-          name: "Spotify",
-          value: "@Spotify"
-        },
-        {
-          imgUrl: 'http://personal-management-system.pl/upload/images/system/contactIcons/mail.png',
-          name: "Email",
-          value: "@Mail"
-        },
-        {
-          imgUrl: 'http://personal-management-system.pl/upload/images/system/contactIcons/steam.png',
-          name: "Steam",
-          value: "~Steam"
-        },
-        {
-          imgUrl: 'http://personal-management-system.pl/upload/images/system/contactIcons/mobile.png',
-          name: "Mobile",
-          value: "+Mobile"
-        },
-        {
-          imgUrl: 'http://personal-management-system.pl/upload/images/system/contactIcons/github.png',
-          name: "Github",
-          value: "[]Github"
-        },
-      ]
-    }
-  },
   props: {
+    contactData: {
+      type: Object,
+      required: true,
+    },
     textColor: {
       type: String,
       required: false,

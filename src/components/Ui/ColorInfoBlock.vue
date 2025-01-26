@@ -11,7 +11,12 @@ export default {
   props: {
     colorHex: {
       required: true,
-    }
+    },
+    maxWidth: {
+      type: [String, null],
+      required: false,
+      default: '80px'
+    },
   },
 }
 </script>
@@ -22,6 +27,6 @@ export default {
   max-height: $height !important;
   height: $height !important;
 
-  max-width: 80px;
+  max-width: v-bind(maxWidth);
 }
 </style>

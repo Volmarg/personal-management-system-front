@@ -123,14 +123,6 @@ export default {
       return data;
     }
   },
-  methods: {
-    /**
-     * @description triggered when user submits the form, updates front and back
-     */
-    onNewSubmit(): void {
-      //
-    },
-  },
   async beforeMount(): Promise<void> {
     this.store = TypeStore();
     await this.store.getAll();

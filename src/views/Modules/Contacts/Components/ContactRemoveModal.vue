@@ -2,13 +2,13 @@
   <div>
 
     <WarningModal :is-visible="showModal"
-                  :title="$t('todo')"
+                  :title="$t('generic.action.remove.dialog.header')"
                   @modal-closed="onModalClosed"
-                  @confirm="$emit('removeConfirmClick')"
+                  @confirm="onConfirm"
                   :size="modalSize"
     >
       <template #content>
-        {{$t('todo')}}
+        {{$t('components.modal.text.removeRecord')}}
       </template>
     </WarningModal>
 
@@ -22,6 +22,7 @@ import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResp
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
+import SymfonyContactsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyContactsRoutes";
 
 export default {
   emits: [
@@ -34,6 +35,10 @@ export default {
     }
   },
   props: {
+    identifier: {
+      type: Number,
+      required: true,
+    },
     isModalVisible: {
       type     : Boolean,
       required : true,
@@ -48,6 +53,14 @@ export default {
     ResponsiveModalSizeMixin,
   ],
   methods: {
+    /**
+     * @description removes entry on backend and closes the modal
+     */
+    async onConfirm(): Promise<void> {
+      await this.$moduleCall.remove(SymfonyContactsRoutes.CONTACTS_BASE_URL, this.identifier, false);
+      this.$emit('removeConfirmClick');
+      this.$emit('modalClosed');
+    },
     /**
      * @description handles the situation when modal get closed. Will pass the event further
      */

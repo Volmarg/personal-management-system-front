@@ -75,7 +75,7 @@
                     "label": "Contacts",
                     "children": {
                         "contacts": {
-                            "label": "Contacts"
+                            "label": "List"
                         },
                         "settings": {
                             "label": "Settings"
