@@ -1,5 +1,3 @@
-import EnvReader            from "@/scripts/Core/System/EnvReader";
-import LocalStorageService  from "@/scripts/Core/Services/Storage/LocalStorageService";
 import SymfonyRoutes from "@/router/SymfonyRoutes";
 
 /**
@@ -23,9 +21,9 @@ export default class SymfonySecurityRoutes extends SymfonyRoutes {
     static readonly URL_REGISTER_USER = "/register-user";
 
     /**
-     * @description handles requesting sending password reset link
+     * @description checks if registration is possible
      */
-    static readonly URL_REQUEST_PASSWORD_RESET_LINK_USER = "/request-password-reset-link"
+    static readonly URL_CAN_REGISTER_CHECK = "/can-register";
 
     /**
      * @description once this url is called the user will be activated

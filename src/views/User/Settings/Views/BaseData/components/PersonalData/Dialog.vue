@@ -135,7 +135,7 @@ export default {
       this.v$.$validate();
 
       let isAddressDataValid = this.$refs.addressComponent.isValid();
-      this.violations        = this.vuelidateErrorsToArrayOfViolationsForProperties(this.v$.$errors);
+      this.violations        = this.vuelidateErrorsToPropsViolation(this.v$.$errors);
 
       return  (
                 isAddressDataValid

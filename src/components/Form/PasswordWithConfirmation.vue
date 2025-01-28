@@ -1,5 +1,5 @@
 <template>
-  <password-with-preview :shown-label="$t('security.register.form.password.label')"
+  <password-with-preview :shown-label="usedPasswordLabel"
                          :violations="violations.password"
                          :disabled="disabled"
                          @password-changed="onPasswordChanged"
@@ -9,7 +9,7 @@
 
     <vue-input
         type="password"
-        :label="$t('security.register.form.confirmPassword.label')"
+        :label="usedConfirmPasswordLabel"
         class="mt-6 mb-0-force"
         :is-required="true"
         :errors="violations.confirmedPassword"
@@ -26,6 +26,8 @@
 import VueInput            from "@/components/Form/Input.vue";
 import PasswordWithPreview from "@/components/Form/PasswordWithPreview.vue";
 import useVuelidate        from "@vuelidate/core";
+
+import ValueValidationAwareMixin from "@/mixins/Awarness/ValueValidationAwareMixin.vue";
 
 import VuelidateHandler   from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
 import {helpers, required, sameAs} from "@vuelidate/validators";
@@ -57,15 +59,25 @@ export default {
     modelValue: {
       required: false,
       default: ""
+    },
+    passwordLabel: {
+      type: [String, null],
+      required: false,
+      default: null,
+    },
+    confirmPasswordLabel: {
+      type: [String, String],
+      required: false,
+      default: null,
     }
   },
   validations(): ComponentValidation {
     return {
       password: {
-        required: helpers.withMessage(this.$t('validations.required'), required),
+        required: helpers.withMessage(this.msgRequiredField, required),
       },
       confirmedPassword: {
-        required: helpers.withMessage(this.$t('validations.required'), required),
+        required: helpers.withMessage(this.msgRequiredField, required),
         sameAsPassword: sameAs(this.password, 'password')
       }
     }
@@ -77,7 +89,22 @@ export default {
   ],
   mixins: [
     VuelidateHandler,
+    ValueValidationAwareMixin,
   ],
+  computed: {
+    /**
+     * @description returns password input label
+     */
+    usedPasswordLabel(): string {
+      return this.passwordLabel ? this.passwordLabel : this.$t('security.register.form.password.label');
+    },
+    /**
+     * @description returns password confirmation input label
+     */
+    usedConfirmPasswordLabel(): string {
+      return this.confirmPasswordLabel ? this.confirmPasswordLabel : this.$t('security.register.form.confirmPassword.label');
+    },
+  },
   methods: {
     /**
      * @description clears the inputs
@@ -112,7 +139,7 @@ export default {
      */
     validateInput(): boolean {
       this.v$.$validate();
-      this.violations = this.vuelidateErrorsToArrayOfViolationsForProperties(this.v$.$errors);
+      this.violations = this.vuelidateErrorsToPropsViolation(this.v$.$errors);
 
       return this.isVuelidateResultValid;
     }

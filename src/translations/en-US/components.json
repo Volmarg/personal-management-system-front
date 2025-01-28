@@ -26,6 +26,14 @@
             "text": {
                 "removeRecord": "Do You really want to remove this entry?"
             }
+        },
+        "passwordWithPreview": {
+            "togglePreview": {
+                "label": "Toggle preview"
+            },
+            "generatePassword": {
+                "label": "Generate password"
+            }
         }
     }
 }

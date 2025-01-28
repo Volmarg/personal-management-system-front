@@ -1,0 +1,10 @@
+{
+    "validation": {
+        "type": {
+            "requiredField": "This field is required"
+        },
+        "other": {
+            "genericInvalidFields": "Some fields have invalid values"
+        }
+    }
+}

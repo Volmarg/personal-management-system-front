@@ -1,23 +1,14 @@
 {
     "security": {
-        "forgotPassword": {
-            "header": {
-                "label": "Reset password"
-            },
-            "form": {
-                "email": {
-                    "label": "Email address"
-                },
-                "submit": {
-                    "label": "Send new password"
-                }
-            }
-        },
         "register": {
             "header": {
                 "label": "Register"
             },
             "texts": {
+                "msg": {
+                    "disabled": "Registration has been disabled",
+                    "success": "Registration was successful, You can now log in,"
+                },
                 "links": {
                     "alreadyGotAnAccount": {
                         "label": "Already got an account?",
@@ -42,11 +33,11 @@
                 "confirmPassword": {
                     "label": "Confirm password"
                 },
-                "previewPassword": {
-                    "text": "Preview password"
+                "lockPassword": {
+                    "text": "Lock password"
                 },
-                "generatePassword": {
-                    "label": "Generate password"
+                "confirmLockPassword": {
+                    "label": "Confirm lock password"
                 },
                 "submit": {
                     "label": "Submit"

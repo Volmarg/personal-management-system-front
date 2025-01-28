@@ -7,9 +7,13 @@ import VueRouter                     from "@/router/VueRouter";
 import JwtTokenHandler               from "@/scripts/Core/Security/JwtTokenHandler";
 import TypeChecker                   from "@/scripts/Core/Services/Types/TypeChecker";
 import Nprogress                     from "@/scripts/Libs/Nprogress";
-import ToastNotification             from "@/scripts/Libs/ToastNotification";
 import VueRouterUser                 from "@/router/VueRouterUser";
 import WindowService                 from "@/scripts/Core/Services/WindowService";
+import SymfonySecurityRoutes         from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
+import AppAxios                      from "@/scripts/Core/Services/Request/AppAxios";
+import EventDispatcherService        from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
+
+import ToastNotification, {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
 
 /**
  * @description handles setting guards to the vue router - meaning, restrictions of when / under which circumstances
@@ -56,6 +60,7 @@ export default class VueRouterGuards
         router = this.checkIfRequiredRouteRoleGranted(router);
         router = this.redirectPanelStartPage(router);
         router = this.scrollUpOnPageVisit(router);
+        router = this.denyRegister(router);
 
         return router;
     }
@@ -134,6 +139,28 @@ export default class VueRouterGuards
                 next();
             }
 
+        });
+
+        return router;
+    }
+
+    /**
+     * @description will deny access to registration page if registration is disabled
+     */
+    private denyRegister(router: Router): Router {
+        router.beforeEach( async (to, from, next) => {
+            if (to.name === VueRouter.ROUTE_NAME_REGISTER) {
+                let response = await (new AppAxios).get(SymfonySecurityRoutes.buildUrl(SymfonySecurityRoutes.URL_CAN_REGISTER_CHECK));
+                if (response.code !== 200) {
+                    EventDispatcherService.emitShowNotification(ToastTypeEnum.info, null, 'security.register.texts.msg.disabled');
+                    await router.push(VueRouter.ROUTE_PATH_HOME);
+                } else {
+                    next();
+                }
+                return;
+            }
+
+            next();
         });
 
         return router;

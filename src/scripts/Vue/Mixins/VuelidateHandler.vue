@@ -17,7 +17,7 @@ export default {
     /**
      * @description will return array of violation for each property
      */
-    vuelidateErrorsToArrayOfViolationsForProperties(errorObjects: Array<ErrorObject>): Record<string, Array<string>> {
+    vuelidateErrorsToPropsViolation(errorObjects: Array<ErrorObject>): Record<string, Array<string>> {
       let violationsForFields = {};
       if(0 === errorObjects.length){
         this.isVuelidateResultValid = true;

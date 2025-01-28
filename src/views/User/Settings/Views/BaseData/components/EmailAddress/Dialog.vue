@@ -137,7 +137,7 @@ export default {
     validateForm(): boolean {
       this.v$.$validate();
 
-      this.violations = this.vuelidateErrorsToArrayOfViolationsForProperties(this.v$.$errors);
+      this.violations = this.vuelidateErrorsToPropsViolation(this.v$.$errors);
 
       return  (0 === Object.keys(this.violations).length);
     }

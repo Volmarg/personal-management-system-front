@@ -82,7 +82,9 @@
           </div>
 
           <!-- Register -->
-          <div class="flex flex-row w-full mt-1 justify-center lg:justify-start">
+          <div class="flex flex-row w-full mt-1 justify-center lg:justify-start"
+               v-if="canRegister"
+          >
 
             <span class="text-secondary mr-1">{{ $t('security.login.links.register.label') }}</span><span>
             <router-link :to="routePaths.registerPage"
@@ -94,24 +96,9 @@
             </span>
           </div>
 
-          <!-- Remind password -->
-          <div class="flex flex-row w-full mt-1 justify-center lg:justify-start">
-            <span class="text-secondary mr-1">{{ $t('security.login.links.forgotPassword.label') }}</span><span>
-            <a class="link"
-               @click.prevent="isRemindPasswordModalVisible = true"
-               :class="{
-                  'disabled-text-link': systemDisabledState.isDisabled
-               }"
-            >{{ $t('security.login.links.forgotPassword.linkText') }}</a></span>
-          </div>
-
         </div>
       </div>
     </div>
-
-    <remind-password-modal :is-modal-visible="isRemindPasswordModalVisible"
-                           @modal-closed="this.isRemindPasswordModalVisible = false"
-    />
 
   </div>
 </template>
@@ -134,7 +121,6 @@ import PublicFolderAccessTokenMixin from "@/mixins/System/PublicFolderAccessToke
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import VueInput             from "@/components/Form/Input.vue";
 import AsteriskRequired     from "@/components/Form/AsteriskRequired.vue";
-import RemindPasswordModal  from "@/components/Security/Modal/RemindPasswordModal.vue";
 import useVuelidate         from "@vuelidate/core";
 import {email, helpers, required} from "@vuelidate/validators";
 import VuelidateHandler     from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
@@ -150,11 +136,11 @@ export default {
   setup: (): ComponentSetup => ({ v$: useVuelidate() }),
   data(): ComponentData {
     return {
+      canRegister: false,
       systemDisabledState: systemDisabledStore(),
       isDev: EnvReader.isDev(),
       email: EnvReader.isDev() || EnvReader.isDemo() ? EnvReader.getPrefilledLoginEmail() : '',
       password: EnvReader.isDev() || EnvReader.isDemo() ? EnvReader.getPrefilledLoginPassword() : '',
-      isRemindPasswordModalVisible: false,
       routePaths: {
         registerPage: VueRouter.ROUTE_PATH_REGISTER,
       },
@@ -186,7 +172,6 @@ export default {
   components: {
     "vue-input"             : VueInput,
     "asterisk-required"     : AsteriskRequired,
-    "remind-password-modal" : RemindPasswordModal,
     MediumButtonWithIcon
   },
   methods: {
@@ -195,7 +180,7 @@ export default {
      */
     validate(): void {
       this.v$.$validate();
-      this.violations = this.vuelidateErrorsToArrayOfViolationsForProperties(this.v$.$errors);
+      this.violations = this.vuelidateErrorsToPropsViolation(this.v$.$errors);
     },
     /**
      * @description handles logic for submission
@@ -284,6 +269,10 @@ export default {
       })
 
     }
+  },
+  async beforeMount(): Promise<void> {
+    let response = await this.$axios.get(SymfonySecurityRoutes.buildUrl(SymfonySecurityRoutes.URL_CAN_REGISTER_CHECK));
+    this.canRegister = response.code === 200;
   }
 }
 </script>
