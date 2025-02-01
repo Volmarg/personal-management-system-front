@@ -49,6 +49,7 @@ import SymfonyUserSettingRoutes from "@/router/SymfonyRoutes/User/Setting/Symfon
 import BaseApiResponse          from "@/scripts/Response/BaseApiResponse";
 import {ToastTypeEnum}          from "@/scripts/Libs/ToastNotification";
 import JwtTokenHandler          from "@/scripts/Core/Security/JwtTokenHandler";
+import {userStateStore}         from "@/scripts/Vue/Store/UserState";
 
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import LineAwesome          from "@/components/Ui/Icons/LineAwesome.vue";
@@ -66,7 +67,7 @@ export default {
   setup: (): ComponentSetup => ({v$: useVuelidate()}),
   data(): ComponentData {
     return {
-      username     : (new UserController()).getLoggedInUserData().firstname, //todo
+      username     : (new UserController()).getLoggedInUserData().username,
       loggedInUser : (new UserController()).getLoggedInUserData(),
       violations: {
         username : [],
@@ -123,6 +124,7 @@ export default {
           this.loggedInUser = userData;
 
           await JwtTokenHandler.requestJwtTokenAndWaitForIt();
+          userStateStore().loadUserData();
         }
 
         this.$rootEvent.hideFullPageLoader();
@@ -134,13 +136,9 @@ export default {
     validateForm(): boolean {
       this.v$.$validate();
 
-      let isAddressDataValid = this.$refs.addressComponent.isValid();
-      this.violations        = this.vuelidateErrorsToPropsViolation(this.v$.$errors);
+      this.violations = this.vuelidateErrorsToPropsViolation(this.v$.$errors);
 
-      return  (
-                isAddressDataValid
-            &&  0 === Object.keys(this.violations).length
-      )
+      return (0 === Object.keys(this.violations).length);
     }
   },
 }

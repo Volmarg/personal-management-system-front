@@ -7,7 +7,6 @@ import VueRouter                     from "@/router/VueRouter";
 import JwtTokenHandler               from "@/scripts/Core/Security/JwtTokenHandler";
 import TypeChecker                   from "@/scripts/Core/Services/Types/TypeChecker";
 import Nprogress                     from "@/scripts/Libs/Nprogress";
-import VueRouterUser                 from "@/router/VueRouterUser";
 import WindowService                 from "@/scripts/Core/Services/WindowService";
 import SymfonySecurityRoutes         from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 import AppAxios                      from "@/scripts/Core/Services/Request/AppAxios";
@@ -33,7 +32,6 @@ export default class VueRouterGuards
             VueRouter.ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION,
             VueRouter.ROUTE_NAME_USER_NOT_ACTIVATED,
             VueRouter.ROUTE_NAME_INFO,
-            VueRouterUser.ROUTE_NAME_EMAIL_CHANGE_CONFIRMATION,
         ];
     }
 

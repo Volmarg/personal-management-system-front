@@ -143,6 +143,8 @@ import {RightSidebarComponentData} from "@/scripts/Vue/Types/Components/Sidebar"
 import EnvReader                   from "@/scripts/Core/System/EnvReader";
 import PublicFolderService         from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
 
+import {userStateStore, UserStateStore} from "@/scripts/Vue/Store/UserState";
+
 export default {
   name: "UserMenu",
   data(): ComponentData {
@@ -155,7 +157,7 @@ export default {
       isAllowedToHideMenu : false,
       isUserMenuVisible   : false,
       jwtTokenHandler     : null,
-      loggedInUserData    : null,
+      userDataStore       : null as UserStateStore | null,
       isDeveloper         : false,
       dummyAvatarFilePath : '/image/system/dummy-avatar.png',
       avatarFilePath      : null,
@@ -185,7 +187,7 @@ export default {
      * @description return currently logged in username
      */
     username(): string {
-      return this.loggedInUserData?.username ?? "";
+      return this.userDataStore.user?.username ?? "";
     },
     /**
      * @description decide which arrow icon to show next to user menu
@@ -202,9 +204,9 @@ export default {
      *              cannot trigger it automatically
      */
     loadProfilePicturePath(): void {
-      let user = new UserController().getLoggedInUserData();
+      let user = this.userDataStore.user;
 
-      if (null !== user.profilePicturePath) {
+      if (null !== (user?.profilePicturePath ?? null)) {
         this.avatarFilePath = PublicFolderService.buildPathWithToken(EnvReader.getBackendBaseUrl() + user.profilePicturePath);
         return;
       }
@@ -287,10 +289,17 @@ export default {
   created(): void {
     this.jwtTokenHandler  = new JwtTokenHandler();
     let userController    = new UserController();
-    this.loggedInUserData = userController.getLoggedInUserData();
-    this.isDeveloper      = userController.isDeveloper();
 
+    this.userDataStore = userStateStore();
+    this.userDataStore.loadUserData();
+
+    this.isDeveloper = userController.isDeveloper();
     this.loadProfilePicturePath();
+  },
+  watch: {
+    'userDataStore.user.profilePicturePath'(): void {
+      this.loadProfilePicturePath();
+    }
   }
 }
 </script>

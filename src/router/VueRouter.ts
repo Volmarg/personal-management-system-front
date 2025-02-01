@@ -148,7 +148,6 @@ export default class VueRouter
                 ...VueRouterSearch.routesConfiguration,
             ],
         },
-        ...VueRouterUser.userSettingLandingPageRoutesConfiguration,
     ]
 
     /**

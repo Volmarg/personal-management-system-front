@@ -43,7 +43,8 @@
 
 import {ComponentData, ComponentSetup, ComponentValidation} from "@/scripts/Vue/Types/Components/types";
 
-import UserController           from "@/scripts/Core/Controller/UserController";
+import {userStateStore, UserStateStore} from "@/scripts/Vue/Store/UserState";
+
 import SymfonyRoutes            from "@/router/SymfonyRoutes";
 import SymfonyUserSettingRoutes from "@/router/SymfonyRoutes/User/Setting/SymfonyUserSettingRoutes";
 import BaseApiResponse          from "@/scripts/Response/BaseApiResponse";
@@ -65,8 +66,8 @@ export default {
   setup: (): ComponentSetup => ({v$: useVuelidate()}),
   data(): ComponentData {
     return {
-      emailAddress : (new UserController()).getLoggedInUserData().email,
-      loggedInUser : (new UserController()).getLoggedInUserData(),
+      userStore: null as UserStateStore | null,
+      emailAddress : '',
       violations: {
         emailAddress : [],
       },
@@ -121,7 +122,7 @@ export default {
       });
 
       this.$rootEvent.showFullPageLoader();
-      this.$axios.get(calledUrl).then( (response: BaseApiResponse) => {
+      this.$axios.get(calledUrl).then( async (response: BaseApiResponse) => {
         this.$rootEvent.hideFullPageLoader();
 
         if (response.isMessageSet()) {
@@ -129,6 +130,8 @@ export default {
           this.$rootEvent.showNotification(notificationType, response.message);
         }
 
+        await this.userStore.refreshUserData();
+        this.emailAddress = this.userStore.user.email;
       })
     },
     /**
@@ -141,6 +144,10 @@ export default {
 
       return  (0 === Object.keys(this.violations).length);
     }
+  },
+  created(): void {
+    this.userStore    = userStateStore();
+    this.emailAddress = this.userStore.user.email;
   }
 }
 </script>

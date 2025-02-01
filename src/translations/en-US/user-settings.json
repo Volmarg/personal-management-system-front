@@ -67,6 +67,22 @@
                                 "label": "Submit"
                             }
                         }
+                    },
+                    "changeLockPassword": {
+                        "label": "Change lock password",
+                        "dialog": {
+                            "header": "Change Your lock password",
+                            "button": {
+                                "cancel": {
+                                    "label": "Cancel"
+                                }
+                            }
+                        },
+                        "form": {
+                            "submit": {
+                                "label": "Submit"
+                            }
+                        }
                     }
                 }
             }

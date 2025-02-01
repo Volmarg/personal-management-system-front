@@ -11,20 +11,18 @@ export default class SymfonyUserSettingRoutes
     /**
      * @description handles changing the user E-Mail in settings
      */
-    static readonly URL_USER_BASE_DATA_EMAIL_SAVE             = "/user/base-data/email/request-change/:emailAddress";
-    static readonly URL_USER_BASE_DATA_EMAIL_SAVE_PARAM_EMAIL = "emailAddress";
-
-    /**
-     * @description once this url is called the user will be activated
-     *              This is NOT a confirmation url rather the real url for activation.
-     */
-    static readonly URL_CHANGE_EMAIL             = "/user/base-data/email/change/:token";
-    static readonly URL_CHANGE_EMAIL_PARAM_TOKEN = "token"
+    static readonly URL_USER_BASE_DATA_EMAIL_SAVE             = "/user/base-data/email/change/:emailAddress";
+    static readonly URL_USER_BASE_DATA_EMAIL_SAVE_PARAM_EMAIL = "emailAddress"
 
     /**
      * @description changes the user password
      */
     static readonly URL_CHANGE_PASSWORD = "/user/security/password/change";
+
+    /**
+     * @description changes the user lock password
+     */
+    static readonly URL_CHANGE_LOCK_PASSWORD = "/user/security/lock-password/change";
 
     /**
      * @description handles changing user profile image,
