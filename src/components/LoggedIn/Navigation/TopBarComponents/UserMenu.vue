@@ -140,7 +140,6 @@ import JwtTokenHandler from "@/scripts/Core/Security/JwtTokenHandler";
 import {shallowRef}    from "vue";
 
 import {RightSidebarComponentData} from "@/scripts/Vue/Types/Components/Sidebar";
-import EnvReader                   from "@/scripts/Core/System/EnvReader";
 import PublicFolderService         from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
 
 import {userStateStore, UserStateStore} from "@/scripts/Vue/Store/UserState";
@@ -159,7 +158,6 @@ export default {
       jwtTokenHandler     : null,
       userDataStore       : null as UserStateStore | null,
       isDeveloper         : false,
-      dummyAvatarFilePath : '/image/system/dummy-avatar.png',
       avatarFilePath      : null,
       docsUrl             : 'https://volmarg.github.io/',
       isLockModalVisible  : false,
@@ -205,13 +203,7 @@ export default {
      */
     loadProfilePicturePath(): void {
       let user = this.userDataStore.user;
-
-      if (null !== (user?.profilePicturePath ?? null)) {
-        this.avatarFilePath = PublicFolderService.buildPathWithToken(EnvReader.getBackendBaseUrl() + user.profilePicturePath);
-        return;
-      }
-
-      this.avatarFilePath = PublicFolderService.buildPathWithToken(this.dummyAvatarFilePath);
+      this.avatarFilePath = PublicFolderService.buildUrl(user.profilePicturePath);
     },
     /**
      * @description will handle the user logout action

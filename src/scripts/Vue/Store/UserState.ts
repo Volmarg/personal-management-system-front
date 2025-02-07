@@ -5,8 +5,9 @@ import {defineStore} from 'pinia'
 
 import {UserData}          from "@/scripts/Core/Types/UserData";
 import UserController      from "@/scripts/Core/Controller/UserController";
-import LocalStorageService from "@/scripts/Core/Services/Storage/LocalStorageService";
-import PromiseService      from "@/scripts/Core/Services/Promise/PromiseService";
+import AppAxios            from "@/scripts/Core/Services/Request/AppAxios";
+
+import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 
 const userStateStore = defineStore('userState', {
     state: () => ({
@@ -20,20 +21,11 @@ const userStateStore = defineStore('userState', {
             return (new UserController()).isUserLoggedIn();
         },
         /**
-         * @description refreshes user data from the jwt token once the jwt token changes,
-         *              - relies on {@see PromiseService} because even tho this method is called it's unknown when
-         *                backend will actually send the token since it's async due to websocket
+         * @description fetches new jwt token and loads updated user data into store,
          */
         async refreshUserData(): Promise<void> {
-            let currentJwt = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
-            await PromiseService.buildPeriodicallyCheckedPromise(() => {
-                if (currentJwt !== LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN)) {
-                    this.user = new UserController().getLoggedInUserData();
-                    return true;
-                }
-
-                return false;
-            })
+            await new AppAxios().get(SymfonySecurityRoutes.buildUrl(SymfonySecurityRoutes.URL_REFRESH_TOKEN));
+            this.loadUserData();
         },
         /**
          * @description loads the user data from jwt token

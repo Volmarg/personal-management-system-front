@@ -1,20 +1,28 @@
-import LocalStorageService from "@/scripts/Core/Services/Storage/LocalStorageService";
+import SymfonyFileRoutes from "@/router/SymfonyRoutes/SymfonyFileRoutes";
 
 /**
  * @description handles logic related to public folder data access
  */
 export default class PublicFolderService {
 
-    private static readonly TOKEN = "token";
-
     /**
-     * @description Will add the jwt token to the public file path, these require the token to be present in query because the files
-     *              such should be handled natively by browser, otherwise would make the ajax calls and then handle a bunch of rules,
-     *              like for example saving binary file etc.
+     * @description creates url for getting the file under public path
      */
-    public static buildPathWithToken(filePath: string): string
+    public static buildUrl(filePath: string): string
     {
-        return `${filePath}?${PublicFolderService.TOKEN}=${LocalStorageService.get(LocalStorageService.PUBLIC_FOLDER_AUTHENTICATION_TOKEN)}`;
+        // linux
+        if (filePath.startsWith("/")) {
+            filePath = filePath.replace("/", "")
+        }
+
+        // theoretically windows
+        if (filePath.startsWith("\\")) {
+            filePath = filePath.replace("\\", "")
+        }
+
+        return SymfonyFileRoutes.buildUrl(SymfonyFileRoutes.GET_FILE, {
+            [SymfonyFileRoutes.GET_FILE_PARAM_PATH]: filePath
+        });
     }
 
 }

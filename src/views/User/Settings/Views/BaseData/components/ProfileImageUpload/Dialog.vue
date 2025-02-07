@@ -8,8 +8,9 @@
 <script lang="ts">
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-
 import {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
+
+import {userStateStore} from "@/scripts/Vue/Store/UserState";
 
 import UploadDialog from "@/components/Ui/Upload/Dialog/UploadDialog.vue";
 import SymfonyRoutes from "@/router/SymfonyRoutes";
@@ -59,6 +60,10 @@ export default {
         if (response.isMessageSet()) {
           let notificationType = (response.success ? ToastTypeEnum.success : ToastTypeEnum.warning);
           this.$rootEvent.showNotification(notificationType, response.message);
+        }
+
+        if (response.success) {
+          userStateStore().refreshUserData();
         }
       })
 

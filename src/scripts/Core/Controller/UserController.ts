@@ -64,7 +64,7 @@ export default class UserController
             email              : email,
             userId             : userId,
             isSystemLocked     : isSystemLocked,
-            profilePicturePath : payload?.profilePicturePath ? payload.profilePicturePath : "/logo.svg",
+            profilePicturePath : payload.profilePicturePath,
         };
     }
 

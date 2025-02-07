@@ -264,11 +264,9 @@ export default {
         return true;
       }
 
-      for (let regexpString of this.configuration.fileNameValidationRegexps) {
-        if (file.name?.match(regexpString)) {
-          this.$rootEvent.showNotification(ToastTypeEnum.info, this.$t('generic.form.upload.test.invalidName'));
-          return false;
-        }
+      if (file.name?.includes("..")) {
+        this.$rootEvent.showNotification(ToastTypeEnum.info, this.$t('generic.form.upload.test.invalidName'));
+        return false;
       }
 
       return true;
