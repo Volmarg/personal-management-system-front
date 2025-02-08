@@ -409,7 +409,8 @@ export default {
         fileContent     : base64fileContent,
         fileName        : file.name,
         fileSize        : file.size, // yes, that should be avoided but the uploaded file size is wrong, to small on back, backend has still fallback in case this is manipulated
-        userDefinedName : file.userDefinedName,
+        userDefinedName : file.userDefinedName ?? '',
+        tags            : file.tags ?? [],
         uploadConfigId  : this.configuration.identifier,
         extraData       : this.extraData,
       };
@@ -464,10 +465,6 @@ export default {
   margin-top: 5px;
 }
 
-.file-info {
-  text-align: left;
-}
-
 .actions {
   margin-left: 20px;
   & .action {
@@ -477,6 +474,10 @@ export default {
 
 .upload-component * {
   cursor: pointer !important;
+}
+
+.uploaded-data-list {
+  @apply w-auto
 }
 
 </style>

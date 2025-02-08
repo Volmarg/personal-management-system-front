@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <ColorBorderBar v-for="file in files"
                     :key="file.id"
                     class="single-uploaded-file"
@@ -13,21 +12,27 @@
         >
 
           <div class="file-info">
-            <span>{{ file.name }}</span>
-            <span> ({{ bytesToMb(file.size) }} Mb) </span>
+            <p>{{ file.name }}</p>
+            <p> ({{ bytesToMb(file.size) }} Mb) </p>
           </div>
 
           <div class="extra"
                v-if="isExtraSectionActive"
           >
-            <v-input :label="$t('upload.extra.userDefinedFileName')"
+            <v-input :label="$t('generic.form.upload.field.fileName.label')"
                      type="text"
                      v-if="configuration.allowNaming"
-                     class="mt-6"
+                     class="mt-6 ml-2 w-full lg:w-2/5"
                      :ref="'userDefinedName' + file.id"
                      @input="onFileNameInput(file)"
-                     v-model="inputValues[file.id]"
+                     v-model="fileNames[file.id]"
                      :is-disabled="file.uploadHandled"
+            />
+
+            <TagInput v-model="fileTags[file.id]"
+                      @update:modelValue="onTagInput(file)"
+                      :is-disabled="file.uploadHandled"
+                      class="w-full lg:w-3/5 self-center lg:mr-4 ml-4"
             />
           </div>
 
@@ -39,7 +44,7 @@
                   :font-size="30"
                   color="red"
                   v-tippy="{
-                    content: $t('upload.status.malicious')
+                    content: $t('generic.form.upload.status.malicious.label')
                   }"
               />
 
@@ -51,7 +56,7 @@
                   :font-size="30"
                   color="red"
                   v-tippy="{
-                    content: $t('upload.status.error')
+                    content: $t('generic.form.upload.status.error.label')
                   }"
               />
 
@@ -63,7 +68,7 @@
                   :font-size="30"
                   color="green"
                   v-tippy="{
-                    content: $t('upload.status.success')
+                    content: $t('generic.form.upload.status.success.label')
                   }"
               />
 
@@ -81,7 +86,7 @@
                   class="hover:opacity-50 cursor-pointer"
                   @click.prevent="$emit('removeFile', file)"
                   v-tippy="{
-                    content: $t('upload.actions.remove')
+                    content: $t('generic.form.upload.actions.remove.label')
                   }"
               />
             </div>
@@ -99,14 +104,17 @@
 import LineAwesome    from "@/components/Ui/Icons/LineAwesome.vue";
 import ColorBorderBar from "@/components/Ui/Bar/ColorBorderBar.vue";
 import Input          from "@/components/Form/Input.vue";
+import TagInput       from "@/components/Ui/Upload/Component/components/TagInput.vue";
 
 import UploadStatusMixin from "@/components/Ui/Upload/Component/mixin/UploadStatusMixin.vue";
+
 import {VueUploadItem} from "vue-upload-component";
 
 export default {
   data() {
     return {
-      inputValues: {}
+      fileNames: {},
+      fileTags: {},
     }
   },
   props: {
@@ -120,10 +128,11 @@ export default {
     }
   },
   mixins: [
-    UploadStatusMixin
+    UploadStatusMixin,
   ],
   components: {
     ColorBorderBar,
+    TagInput,
     "la": LineAwesome,
     "v-input": Input,
   },
@@ -132,9 +141,7 @@ export default {
      * @description check if there is anything that defines extra section as active
      */
     isExtraSectionActive(): boolean {
-      return (
-        this.configuration.allowNaming
-      );
+      return (this.configuration.allowNaming || this.configuration.allowTagging);
     }
   },
   methods: {
@@ -167,7 +174,13 @@ export default {
      * @description handler for when file / data name is inserted
      */
     onFileNameInput(file: VueUploadItem) {
-      file.userDefinedName = this.inputValues[file.id];
+      file.userDefinedName = this.fileNames[file.id];
+    },
+    /**
+     * @description handler for when file / data name is inserted
+     */
+    onTagInput(file: VueUploadItem) {
+      file.tags = this.fileTags[file.id];
     }
   },
   emits: [
@@ -175,3 +188,18 @@ export default {
   ]
 }
 </script>
+
+<style lang="scss" scoped>
+.extra {
+  @apply flex flex-col lg:flex-row w-full lg:w-3/5 justify-between gap-x-5 self-end mb-4 lg:mb-0
+}
+
+.file-info {
+  * {
+    @apply break-all flex justify-center
+  }
+
+  @apply flex flex-col w-full lg:w-1/4
+}
+
+</style>

@@ -57,6 +57,30 @@
             },
             "upload": {
                 "header": "Upload Form",
+                "field": {
+                    "fileName": {
+                        "label": "File name"
+                    },
+                    "tags": {
+                        "label": "Tags"
+                    }
+                },
+                "actions": {
+                    "remove": {
+                        "label": "Remove"
+                    }
+                },
+                "status": {
+                    "success": {
+                        "label": "Success"
+                    },
+                    "error": {
+                        "label": "Error"
+                    },
+                    "malicious": {
+                        "label": "Failure - malicious file"
+                    }
+                },
                 "test": {
                     "fileToBig": "Select file is to big and cannot be uploaded. Max file size is (Mb): ",
                     "maxFileSize": "Max. file size: ",

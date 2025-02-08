@@ -3,7 +3,7 @@
     <Modal :title="$t('generic.dialog.uploadDialog.header')"
            :is-visible="isVisible"
            @modal-closed="$emit('modalClosed')"
-           :size="dialogSize"
+           :size="modalSize"
            :is-close-full-width="true"
     >
       <template #content>
@@ -22,9 +22,17 @@
 import Modal  from "@/components/Modal/Modal.vue";
 import Upload from "@/components/Ui/Upload/Component/Upload.vue";
 
-import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
+import ResponsiveVarsMixin      from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
+import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
+
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {
+  data(): ComponentData {
+    return {
+      initialSmallSizeModal: 'medium',
+    }
+  },
   props: {
     configurationId: {
       type     : String,
@@ -45,14 +53,7 @@ export default {
   },
   mixins: [
     ResponsiveVarsMixin,
+    ResponsiveModalSizeMixin,
   ],
-  computed: {
-    /**
-     * @description will decide size of the dialog
-     */
-    dialogSize(): string {
-      return (this.isPhoneBreakingPoint ? 'full' : 'medium');
-    }
-  }
 }
 </script>
