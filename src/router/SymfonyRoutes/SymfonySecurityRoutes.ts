@@ -26,6 +26,11 @@ export default class SymfonySecurityRoutes extends SymfonyRoutes {
     static readonly URL_CAN_REGISTER_CHECK = "/can-register";
 
     /**
+     * @description will toggle resources lock on/off
+     */
+    static readonly URL_TOGGLE_RESOURCES_LOCK= "/toggle-resources-lock";
+
+    /**
      * @description once this url is called the user will be activated
      *              This is NOT a confirmation url rather the real url for activation.
      */

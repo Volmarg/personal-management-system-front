@@ -2,6 +2,8 @@
     "other": {
         "lockModal": {
             "header": "Unlock system",
+            "headerLockBack": "Lock system",
+            "info": "This page will be reloaded upon submitting the form, any unsaved data <b>will be lost</b>",
             "form": {
                 "lock": {
                     "label": "Lock password"

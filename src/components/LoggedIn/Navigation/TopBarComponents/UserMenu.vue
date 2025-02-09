@@ -161,7 +161,7 @@ export default {
       avatarFilePath      : null,
       docsUrl             : 'https://volmarg.github.io/',
       isLockModalVisible  : false,
-      isSystemLocked      : true,
+      isSystemLocked      : userStateStore().user?.isSystemLocked ?? true,
       routePaths: {
         none           : VueRouter.ROUTE_PATH_NONE,
         userSettings   : VueRouter.ROUTE_PATH_USER_SETTINGS,
@@ -263,13 +263,7 @@ export default {
      */
     handleSystemLock(): void {
       this.hideUserMenu();
-
-      if (this.isSystemLocked) {
-        this.isLockModalVisible = true;
-        return;
-      }
-
-      // todo: lock back
+      this.isLockModalVisible = true;
     },
     /**
      * @description open docs page in new tab

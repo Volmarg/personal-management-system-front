@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
-           :title="$t('other.lockModal.header')"
+           :title="isSystemLocked ? $t('other.lockModal.header') : $t('other.lockModal.headerLockBack')"
            @modal-closed="onModalClosed"
            :size="modalSize"
     >
@@ -17,7 +17,10 @@
       </template>
 
       <template #content>
-        <div class="flex justify-center">
+        <i v-html="$t('other.lockModal.info')" />
+        <div class="flex justify-center"
+             v-if="isSystemLocked"
+        >
           <div class="mt-6 w-full flex flex-col">
             <FormInput type="password"
                        :label="$t('other.lockModal.form.lock.label')"
@@ -32,17 +35,23 @@
 </template>
 
 <script lang="ts">
-import FormInput                    from "@/components/Form/Input.vue";
-import Modal                        from "@/components/Modal/Modal.vue";
+import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import FormInput            from "@/components/Form/Input.vue";
+import Modal                from "@/components/Modal/Modal.vue";
+
 import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
+import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
+
+import {ComponentData}  from "@/scripts/Vue/Types/Components/types";
+import {ToastTypeEnum}  from "@/scripts/Libs/ToastNotification";
+import {userStateStore} from "@/scripts/Vue/Store/UserState";
 
 export default {
   data(): ComponentData {
     return {
+      isSystemLocked: userStateStore().user?.isSystemLocked ?? true,
       password: null,
       showModal: false,
     }
@@ -78,8 +87,23 @@ export default {
      * @description handle user submitting the lock/unlock system modal
      */
     onSubmit(): void {
-      // todo
-      this.$emit('modalClosed');
+      let url = SymfonySecurityRoutes.buildUrl(SymfonySecurityRoutes.URL_TOGGLE_RESOURCES_LOCK);
+      this.$rootEvent.showFullPageLoader();
+      this.$axios.post(url,{password: this.password}).then((response) => {
+
+        this.$rootEvent.hideFullPageLoader();
+        if (response.isMessageSet()) {
+          let notificationType = (response.success ? ToastTypeEnum.success : ToastTypeEnum.warning);
+          this.$rootEvent.showNotification(notificationType, response.message);
+        }
+
+        if (response.success){
+          /**
+           * @description reloading page is a must in this case, otherwise would need some complex logic to reload current page state
+           */
+          location.reload();
+        }
+      })
     }
   },
   updated(): void{
