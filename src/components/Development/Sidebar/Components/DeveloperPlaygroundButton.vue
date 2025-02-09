@@ -2,14 +2,14 @@
   <div>
 
     <div class="flex flex-row justify-end">
-      <QuestionMarkAbout :text="$t('developer.playground.helpText')"
+      <QuestionMarkAbout :text="$t('dev.playground.helpText')"
                      class="align-self-center"
       />
 
       <RouterLink :to="routes.developer.playgroud"
                    class="mt-2 block"
       >
-        <MediumButtonWithIcon :text="$t('developer.playground.label')"
+        <MediumButtonWithIcon :text="$t('dev.playground.label')"
                                  :margin-right-class-number="0"
         >
           <template #icon>

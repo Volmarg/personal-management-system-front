@@ -1,0 +1,16 @@
+{
+    "dev": {
+        "xdebugKey": {
+            "label": "Xdebug session key",
+            "helpText": "This name will be sent to the backend alongside with the Ajax calls, can be used for debugging. This string <b>must</b> be equal to that set in the browser plugin"
+        },
+        "symfonyProfiler": {
+            "label": "Symfony Profiler",
+            "helpText": "Go to symfony backend profiler"
+        },
+        "playground": {
+            "label": "Playground",
+            "helpText": "Open the playground view whee code can be tested. <b>DO NOT</b> push that code to repo"
+        }
+    }
+}

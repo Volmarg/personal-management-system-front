@@ -3,22 +3,22 @@
   <div class="w-100 flex justify-end dev-sidebar">
     <section class="w-3/4 flex flex-col mr-5">
 
-      <vue-input :label="$t('developer.xdebug.label')"
-                 :question-mark-text="$t('developer.xdebug.helpText')"
+      <vue-input :label="$t('dev.xdebugKey.label')"
+                 :question-mark-text="$t('dev.xdebugKey.helpText')"
                  type="text"
                  v-model="xdebugSessionName"
                  ref="xdebugSessionName"
       />
 
       <div class="flex flex-row justify-end">
-        <question-mark :text="$t('developer.symfonyProfiler.helpText')"
+        <question-mark :text="$t('dev.symfonyProfiler.helpText')"
                        class="align-self-center"
         />
 
         <a :href="absoluteProfilerUrl"
            target="_blank"
         >
-          <medium-button-with-icon :text="$t('developer.symfonyProfiler.label')"
+          <medium-button-with-icon :text="$t('dev.symfonyProfiler.label')"
                                    :margin-right-class-number="0"
           >
             <template #icon>

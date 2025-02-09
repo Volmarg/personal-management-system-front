@@ -44,7 +44,8 @@
             "storageVideoFolder": "Video storage",
             "storageUploadAdd": "Upload storage file",
             "storageUploadManage": "Manage storage files",
-            "SearchList": "Search results"
+            "SearchList": "Search results",
+            "DevelopmentPlayground": "Development playground"
         }
     }
 }
