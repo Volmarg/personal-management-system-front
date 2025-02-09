@@ -91,7 +91,10 @@ export default {
       this.$rootEvent.showFullPageLoader();
       this.$axios.post(url,{password: this.password}).then((response) => {
 
-        this.$rootEvent.hideFullPageLoader();
+        if (!response.success) {
+          this.$rootEvent.hideFullPageLoader();
+        }
+
         if (response.isMessageSet()) {
           let notificationType = (response.success ? ToastTypeEnum.success : ToastTypeEnum.warning);
           this.$rootEvent.showNotification(notificationType, response.message);
@@ -101,7 +104,9 @@ export default {
           /**
            * @description reloading page is a must in this case, otherwise would need some complex logic to reload current page state
            */
-          location.reload();
+          setTimeout(() => {
+            location.reload();
+          }, 1500) // let the user read response message
         }
       })
     }
