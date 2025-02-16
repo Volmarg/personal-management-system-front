@@ -47,12 +47,6 @@
     <AddNewTodoModal :is-modal-visible="isHandleTodoModalVisible"
                      :is-submit-visible="false"
                      @modal-closed="this.isHandleTodoModalVisible = false"
-                     @confirm-click="onHandleRelatedTodoConfirmed"
-                     @add-todo-click="addTodoClicked"
-                     @todo-element-toggle-state-click="todoElementToggleStateClicked"
-                     @todo-element-remove-click="todoElementRemoveClicked"
-                     @todo-element-update-click="todoElementUpdateClicked"
-                     @todo-element-add-click="todoElementAddClicked"
     />
 
     <ViewEditModal :is-modal-visible="isViewEditModalVisible"
@@ -235,53 +229,12 @@ export default {
     },
   },
   methods: {
+    // todo: wipe the methods if not used + events and props
     /**
      * @description handle user clicking on the hamburger menu, basically does toggle menu state
      */
     onHamburgerClick(): void {
       this.isMenuOpen = !this.isMenuOpen
-    },
-    /**
-     * @description handles user clicking on the add todo, and thus creating it
-     *              - updates front and backend
-     */
-    addTodoClicked(): void {
-      //
-    },
-    /**
-     * @description handles user clicking on the toggle-todo-element-state,
-     *              - updates front and backend
-     */
-    todoElementToggleStateClicked(): void {
-      //
-    },
-    /**
-     * @description handles user clicking on the remove-todo-element-state,
-     *              - updates front and backend
-     */
-    todoElementRemoveClicked(): void {
-      //
-    },
-    /**
-     * @description handles user clicking on the edit-todo-element and then saving changes,
-     *              - updates front and backend
-     */
-    todoElementUpdateClicked(): void {
-      //
-    },
-    /**
-     * @description handles user clicking on the add todo (when non exists yet),
-     *              - updates front and backend
-     */
-    todoElementAddClicked(): void {
-      //
-    },
-    /**
-     * @description handle user clicking on handling related todo action in the menu
-     *              displays dialog
-     */
-    onHandleRelatedTodoConfirmed(): void {
-      //
     },
     /**
      * @description handle user confirming record removal

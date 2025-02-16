@@ -18,7 +18,6 @@
             class="w-full sm:w-auto m-0-force"
             button-classes="w-full sm:w-auto"
             text-classes="text-center w-full"
-            @click="onCreateSubmit"
         />
       </template>
     </Modal>
@@ -66,10 +65,6 @@ export default {
   ],
   emits: [
     "modalClosed",
-    "addTodoClick",
-    "todoElementToggleStateClick",
-    "todoElementRemoveClick",
-    "todoElementUpdateClick",
     "todoElementAddClick"
   ],
   methods: {
@@ -79,16 +74,6 @@ export default {
     onModalClosed(): void {
       this.$emit('modalClosed');
     },
-    /**
-     * @description sends data to db, creates the related todo entry
-     */
-    onCreateSubmit(): void {
-      // todo: finish
-      let data = {
-        module: this.boundModule.issues,
-        id: 'provide-id-here'
-      }
-    }
   },
   updated(): void{
     this.showModal = this.isModalVisible;
