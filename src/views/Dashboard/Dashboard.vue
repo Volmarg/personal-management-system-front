@@ -6,25 +6,25 @@
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
     >
-      <GoalsPayments />
+      <GoalsPayments :data="goalPaymentsData"/>
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
     >
-      <GoalsProgress />
+      <GoalsProgress :data="goalProgressData" />
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
     >
-      <PendingIssues />
+      <PendingIssues :data="issues" />
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
     >
-      <Schedules />
+      <Schedules :data="schedules"/>
     </div>
   </div>
 </template>
@@ -39,10 +39,12 @@ import TopBar from "@/views/Dashboard/Components/TopBar.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import LocalStorageService from "@/scripts/Core/Services/Storage/LocalStorageService";
+import LocalStorageService    from "@/scripts/Core/Services/Storage/LocalStorageService";
+import SymfonyDashboardRoutes from "@/router/SymfonyRoutes/Modules/SymfonyDashboardRoutes";
 export default {
   data(): ComponentData {
     return {
+      widgetsData: [],
       conf: {
         widgetSize: 1,
       },
@@ -55,9 +57,38 @@ export default {
     Schedules,
     TopBar
   },
+  computed: {
+    /**
+     * @description provides "goal payments" widget data
+     */
+    goalPaymentsData(): Array {
+      return this.widgetsData['goalPayments'] ?? [];
+    },
+    /**
+     * @description provides "goal progress" widget data
+     */
+    goalProgressData(): Array {
+      return this.widgetsData['goalProgress'] ?? [];
+    },
+    /**
+     * @description provides "issues" widget data
+     */
+    issues(): Array {
+      return this.widgetsData['issues'] ?? [];
+    },
+    /**
+     * @description provides "schedules" widget data
+     */
+    schedules(): Array {
+      return this.widgetsData['schedules'] ?? [];
+    },
+  },
   created(): void {
     let savedSize = LocalStorageService.get(LocalStorageService.DASHBOARD_WIDGET_SIZE);
     this.conf.widgetSize = !savedSize ? 1 : parseInt(savedSize);
+  },
+  async beforeMount(): Promise<void> {
+    this.widgetsData = await this.$moduleCall.getAll(SymfonyDashboardRoutes.DASHBOARD_BASE_URL);
   }
 }
 </script>
