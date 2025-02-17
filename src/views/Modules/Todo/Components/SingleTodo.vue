@@ -12,7 +12,7 @@
       <!-- not supported for dashboard atm. -->
       <IsOnDashboardState :is-for-dashboard="showOnDashboard"
                           class="mr-2 self-end"
-                          v-if="false"
+                          v-if="isInteractive"
       />
     </template>
 
