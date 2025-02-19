@@ -18,12 +18,16 @@ import ColoredSwitch from "@/components/Ui/ColoredSwitch.vue";
 import DashboardMixin from "@/mixins/DashboardMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
-import BaseError from "@/scripts/Core/Error/BaseError";
+
+import SymfonySystemRoutes     from "@/router/SymfonyRoutes/Modules/SymfonySystemRoutes";
+import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
+import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
 
 export default {
   data(): ComponentData {
     return {
       dashboardWidgetsTableId: 'dashboardWidgets',
+      widgets: [],
       headers: [
         {
           label: 'id',
@@ -42,7 +46,8 @@ export default {
           label: this.$t('systemSettings.tab.dashboard.table.headers.displayWidget.label'),
           dataValuePath : 'displayWidget.value',
           dataIsComponentPath : 'displayWidget.isComponent',
-          dataComponentPropertiesPath: 'displayWidget.componentProps'
+          dataComponentPropertiesPath: 'displayWidget.componentProps',
+          dataComponentModelValuePath: 'displayWidget.componentModelValue'
         },
       ],
     }
@@ -55,45 +60,30 @@ export default {
   ],
   computed: {
     data(): Array {
-      return [
-        {
+      let rows = [];
+      for (let widgetData of this.widgets) {
+        rows.push({
           values : {
             id: {
-              value: this.widget.goalsProgress,
+              value: widgetData.name,
               isComponent : false,
               isVisible: false,
             },
             name : {
-              value       : this.$t('systemSettings.tab.dashboard.widgetToName.' + this.widget.goalsProgress),
+              value       : this.$t('systemSettings.tab.dashboard.widgetToName.' + widgetData.name),
               isComponent : false,
               componentProps: {}
             },
             displayWidget : {
               value          : ColoredSwitch,
               isComponent    : true,
-              componentProps : {}
+              componentModelValue : widgetData.enabled,
             },
           }
-        },
-        {
-          values : {
-            id: {
-              value: this.widget.goalsPayments,
-              isComponent : false,
-              isVisible: false,
-            },
-            name : {
-              value       : this.$t('systemSettings.tab.dashboard.widgetToName.' + this.widget.goalsPayments),
-              isComponent : false,
-            },
-            displayWidget : {
-              value          : ColoredSwitch,
-              isComponent    : true,
-              componentProps : {}
-            },
-          }
-        }
-      ]
+        })
+      }
+
+      return rows;
     }
   },
   methods: {
@@ -102,32 +92,40 @@ export default {
      */
     onComponentValueChange(data: Record) {
       if (data.tableId == this.dashboardWidgetsTableId) {
-        this.onWidgetVisibilityChange(data);
+        this.onWidgetVisibilityChange();
       }
     },
     /**
      * @description handles dashboard widget visibility change, updates the visibility state
+     *              Sending all widgets at once, because this is how the legacy code on backend works like
      */
-    onWidgetVisibilityChange(data: Record): void {
-      let widgetName = null;
-      for (let rowData of data.rowData) {
-        if (rowData.fieldName === "id") {
-          widgetName = rowData.value
-          break;
-        }
+    onWidgetVisibilityChange(): void {
+      let widgets = [];
+      for (let idx in this.$refs.table.data) {
+        widgets.push({
+          name: this.$refs.table.data[idx].values.id.value,
+          enabled: this.$refs.table.$refs[`componentidx${idx}2`][0].isActive,
+        });
       }
 
-      if (!widgetName) {
-        throw BaseError("Could not obtain widget name!");
-      }
-
-      let widgetState = {
-        widgetName: widgetName,
-        isVisible: data.value,
+      let dataBag = {
+        widgets: widgets
       };
 
-      // todo: implement backend call, at least this is how it's solved in code atm.
+      let config = new BackendModuleCallConfig(SymfonySystemRoutes.SETTINGS_DASHBOARD_WIDGET_VISIBILITY_BASE, null, BaseApiResponse, dataBag);
+      config.reload = false;
+
+      this.$moduleCall.update(config);
+    },
+    /**
+     * @description fetches all the widgets data
+     */
+    async fetchWidgets(): Promise<void> {
+      this.widgets = await this.$moduleCall.getAll(SymfonySystemRoutes.SETTINGS_DASHBOARD_WIDGET_VISIBILITY_BASE);
     }
+  },
+  beforeMount(): void {
+    this.fetchWidgets();
   }
 }
 </script>
