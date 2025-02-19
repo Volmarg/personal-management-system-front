@@ -8,4 +8,6 @@ export default class SymfonySystemRoutes extends SymfonyRoutes {
     private static readonly SETTINGS_FINANCES_BASE = "/module/system/settings/finances"
     public static readonly SETTINGS_FINANCES_BASE_URL = SymfonySystemRoutes.SETTINGS_FINANCES_BASE + "/currencies";
 
+    private static readonly SETTINGS_DASHBOARD_BASE = "/module/system/settings/dashboard"
+    public static readonly SETTINGS_DASHBOARD_WIDGET_VISIBILITY_BASE = SymfonySystemRoutes.SETTINGS_DASHBOARD_BASE + "/widgets/visibility";
 }

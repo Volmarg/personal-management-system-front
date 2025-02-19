@@ -45,6 +45,9 @@
                 'hidden': isColumnVisible(cellIndex),
               }"
           >
+            <!-- Normally this would break the components behaviour, but am setting model value only once when component is loaded, might turn out to be buggy -->
+            {{setComponentModelValue(cellData)}}
+
             <!-- emitting event seems not to be working here -->
             <component v-if="cellData.isComponent"
                        :is="cellData.value"
@@ -109,6 +112,10 @@ export default {
   name: "SimpleTable",
   data(): ComponentData {
     return {
+      /**
+       * @description currently using it only for passing modelValue, it's needed because otherwise all values are valid v-model values
+       */
+      blockerString: "not-set",
       componentValues: {},
       searchValue: null,
       currentPage: 1,
@@ -301,18 +308,21 @@ export default {
           let header = this.headers[colId];
           let keys = [
               header.dataValuePath,
+              header.dataComponentModelValuePath,
               header.dataRawValuePath,
               header.dataIsComponentPath,
               header.dataComponentPropertiesPath,
           ];
-          let resolvedValues = ObjectValuesResolver.resolveKeysToValues(element.values, keys);
-          let value          = resolvedValues[header.dataValuePath];
-          let rawValue       = resolvedValues[header.dataRawValuePath] ?? value;
-          let isComponent    = resolvedValues[header.dataIsComponentPath];
-          let componentProps = resolvedValues[header.dataComponentPropertiesPath] ?? null;
+          let resolvedValues      = ObjectValuesResolver.resolveKeysToValues(element.values, keys);
+          let value               = resolvedValues[header.dataValuePath];
+          let rawValue            = resolvedValues[header.dataRawValuePath] ?? value;
+          let isComponent         = resolvedValues[header.dataIsComponentPath];
+          let componentProps      = resolvedValues[header.dataComponentPropertiesPath] ?? null;
+          let componentModelValue = resolvedValues[header.dataComponentModelValuePath] ?? this.blockerString;
 
           rowData.push({
             uniqId         : `idx${rowId}${colId}`,
+            modelValue     : componentModelValue,
             fieldName      : header.label,
             fieldId        : header.dataValuePath?.split(".")[0] ?? null,
             value          : value,
@@ -329,6 +339,14 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description will set the delivered model value to the component
+     */
+    setComponentModelValue(cellData: Record): void {
+      if (this.componentValues[cellData.uniqId] === undefined && cellData.isComponent && cellData.modelValue !== this.blockerString) {
+        this.componentValues[cellData.uniqId] = cellData.modelValue;
+      }
+    },
     /**
      * @description checks if the column should be shown, by checking if the header related to given cellIndex is visible.
      */

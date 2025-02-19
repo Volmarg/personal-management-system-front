@@ -17,7 +17,7 @@ export default class ObjectValuesResolver
     {
         let resolvedValues = {};
         for(let key of searchedKeys){
-            if( StringTypeProcessor.isEmptyString(key, false) ){
+            if( StringTypeProcessor.isEmptyString(key, false, false) ){
                 resolvedValues[key] = null;
                 continue;
             }

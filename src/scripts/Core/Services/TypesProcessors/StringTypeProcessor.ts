@@ -7,16 +7,10 @@ export default class StringTypeProcessor {
 
     /**
      * @description will check if given value is empty
-     *
-     * @param valueToCheck
-     * @param considerZeroEmpty
      */
-    public static isEmptyString(valueToCheck: string | number | null | undefined | boolean, considerZeroEmpty: boolean = true): boolean
+    public static isEmptyString(valueToCheck: string | number | null | undefined | boolean, considerZeroEmpty: boolean = true, doBoolCheck: boolean = true): boolean
     {
-        if(
-                valueToCheck === true
-            ||  valueToCheck === false
-        ){
+        if (doBoolCheck && (valueToCheck === true || valueToCheck === false)) {
             return !valueToCheck;
         }
 

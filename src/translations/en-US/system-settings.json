@@ -16,9 +16,9 @@
                 },
                 "widgetToName": {
                     "schedules":  "Schedules",
-                    "goalsProgress": "Goals progress",
-                    "goalsPayments":  "Goals payments",
-                    "pendingIssues": "Pending issues"
+                    "goalProgress": "Goals progress",
+                    "goalPayments":  "Goals payments",
+                    "issues": "Pending issues"
                 }
             },
             "finances": {
