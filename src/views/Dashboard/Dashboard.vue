@@ -5,24 +5,28 @@
   <div class="flex flex-row flex-wrap">
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+         v-if="isWidgetVisible('goalPayments')"
     >
       <GoalsPayments :data="goalPaymentsData"/>
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+         v-if="isWidgetVisible('goalProgress')"
     >
       <GoalsProgress :data="goalProgressData" />
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+         v-if="isWidgetVisible('issues')"
     >
       <PendingIssues :data="issues" />
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
+         v-if="isWidgetVisible('schedules')"
     >
       <Schedules :data="schedules"/>
     </div>
@@ -41,10 +45,12 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import LocalStorageService    from "@/scripts/Core/Services/Storage/LocalStorageService";
 import SymfonyDashboardRoutes from "@/router/SymfonyRoutes/Modules/SymfonyDashboardRoutes";
+import SymfonySystemRoutes    from "@/router/SymfonyRoutes/Modules/SymfonySystemRoutes";
 export default {
   data(): ComponentData {
     return {
       widgetsData: [],
+      widgetsVisibilityData: [],
       conf: {
         widgetSize: 1,
       },
@@ -83,11 +89,25 @@ export default {
       return this.widgetsData['schedules'] ?? [];
     },
   },
+  methods: {
+    /**
+     * @description check if widget is visible or not
+     */
+    isWidgetVisible($widgetName: string): boolean {
+      for (let widgetData of this.widgetsVisibilityData) {
+        if (widgetData.name === $widgetName) {
+          return widgetData.enabled;
+        }
+      }
+      return false;
+    },
+  },
   created(): void {
     let savedSize = LocalStorageService.get(LocalStorageService.DASHBOARD_WIDGET_SIZE);
     this.conf.widgetSize = !savedSize ? 1 : parseInt(savedSize);
   },
   async beforeMount(): Promise<void> {
+    this.widgetsVisibilityData = await this.$moduleCall.getAll(SymfonySystemRoutes.SETTINGS_DASHBOARD_WIDGET_VISIBILITY_BASE);
     this.widgetsData = await this.$moduleCall.getAll(SymfonyDashboardRoutes.DASHBOARD_BASE_URL);
   }
 }
