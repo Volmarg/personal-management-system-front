@@ -23,7 +23,7 @@
         </span>
       </router-link>
 
-      <TreeNode v-if="node.children.length > 1"
+      <TreeNode v-if="node.children.length > 0"
                 :nodes="node.children"
                 :storage-route-name="storageRouteName"
       />
