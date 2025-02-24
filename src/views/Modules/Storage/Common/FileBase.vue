@@ -37,11 +37,14 @@
                 v-model="isSelected"
                 ref="checkbox"
       />
-      <fa icon="download"
-          class="text-lg cursor-pointer hover:opacity-70 download"
-          v-tippy="$t('storage.nav.button.download.label')"
-          @click="$emit('downloadClick')"
-      />
+      <a :href="fileUrl"
+         download
+      >
+        <fa icon="download"
+            class="text-lg cursor-pointer hover:opacity-70 download"
+            v-tippy="$t('storage.nav.button.download.label')"
+        />
+      </a>
 
       <fa icon="edit"
           class="text-lg cursor-pointer hover:opacity-70 edit"
@@ -61,6 +64,8 @@
 </template>
 
 <script lang="ts">
+import FileHandlerMixin from "@/views/Modules/Storage/Mixin/FileHandlerMixin.vue";
+
 import Checkbox  from "@/components/Form/Checkbox.vue";
 import EditModal from "@/views/Modules/Storage/Common/Modal/EditModal.vue";
 
@@ -82,6 +87,10 @@ export default {
       type: Object,
       required: true,
     },
+    dirNodeData: {
+      type: Object,
+      required: true,
+    },
     moduleName: {
       type: String,
       required: true,
@@ -98,8 +107,10 @@ export default {
     }
   },
   emits: [
-    "downloadClick",
     "editClick",
+  ],
+  mixins: [
+    FileHandlerMixin
   ],
   components: {
     Checkbox,

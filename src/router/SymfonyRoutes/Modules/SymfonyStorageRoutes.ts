@@ -5,4 +5,5 @@ import SymfonyRoutes from "@/router/SymfonyRoutes";
  */
 export default class SymfonyStorageRoutes extends SymfonyRoutes
 {
+    public static readonly FOLDER_BASE_URL = "/module/storage/folder";
 }

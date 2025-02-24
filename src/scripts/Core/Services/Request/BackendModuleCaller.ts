@@ -64,7 +64,7 @@ export class BackendModuleCaller {
     /**
      * @description handles removing module record
      */
-    public async remove(baseUrl: string, id: number, reload: boolean = true): Promise<BaseApiResponse> {
+    public async remove(baseUrl: string, id: number | string, reload: boolean = true): Promise<BaseApiResponse> {
         let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordHasBeenRemoved');
         let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.recordCouldNotBeRemoved');
 
@@ -83,7 +83,7 @@ export class BackendModuleCaller {
     /**
      * @description returns response which contains single module record
      */
-    public async get(baseUrl: string, id: number | null = null): Promise<Record> {
+    public async get(baseUrl: string, id: number | string | null = null): Promise<Record> {
         let calledUrl = SymfonyRoutes.buildUrl((id ? UrlService.addTrailingSlash(baseUrl) + id : baseUrl));
 
         EventDispatcherService.emitShowFullPageLoader();
@@ -109,7 +109,7 @@ export class BackendModuleCaller {
      *              - true  = is locked
      *              - false = is unlocked
      */
-    public async toggleLock(baseUrl: string, id: number): Promise<boolean> {
+    public async toggleLock(baseUrl: string, id: number | string): Promise<boolean> {
         let calledUrl = SymfonyRoutes.buildUrl(UrlService.addTrailingSlash(baseUrl) + `toggle-lock/${id}`);
 
         EventDispatcherService.emitShowFullPageLoader();
@@ -132,10 +132,14 @@ export class BackendModuleCaller {
     /**
      * @description returns all accessible module records
      */
-    public async getAll(baseUrl: string, id: number | null = null): Promise<Array> {
+    public async getAll(baseUrl: string, id: number | string | null = null, parentId: number | string | null = null): Promise<Array> {
         let url = SymfonyRoutes.buildUrl(`${baseUrl}/all`);
         if (id) {
             url += `/${id}`
+        }
+
+        if (parentId) {
+            url += `/${parentId}`;
         }
 
         let response = await new AppAxios().get(url, BaseApiResponse);

@@ -15,9 +15,10 @@
                    ref="foldersTree"
       />
       <FolderContent :folder-content-classes="folderContentClasses">
-        <template #singleFile="{fileData}">
+        <template #singleFile="{fileData, dirNodeData}">
           <slot name="singleFile"
                 :file-data="fileData"
+                :dir-node-data="dirNodeData"
           ></slot>
         </template>
       </FolderContent>

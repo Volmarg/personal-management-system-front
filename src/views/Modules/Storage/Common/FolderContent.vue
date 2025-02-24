@@ -8,6 +8,7 @@
     >
       <slot name="singleFile"
             :file-data="file"
+            :dir-node-data="nodeData"
       ></slot>
     </div>
   </div>

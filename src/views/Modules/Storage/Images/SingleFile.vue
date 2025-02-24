@@ -1,11 +1,12 @@
 <template>
   <FileBase :file-data="fileData"
+            :dir-node-data="dirNodeData"
             :use-img-width-for-text-width="true"
             module-name="images"
             class="single-file"
   >
     <template #fileRepresentation>
-      <img :src="fileData.dummyTempUrl"
+      <img :src="fileUrl"
            class="single-file"
       />
     </template>
@@ -14,6 +15,9 @@
 
 <script lang="ts">
 import FileBase from "@/views/Modules/Storage/Common/FileBase.vue";
+
+import FileHandlerMixin from "@/views/Modules/Storage/Mixin/FileHandlerMixin.vue";
+
 export default {
   components: {
     FileBase
@@ -22,8 +26,15 @@ export default {
     fileData: {
       type: Object,
       required: true,
-    }
+    },
+    dirNodeData: {
+      type: Object,
+      required: true,
+    },
   },
+  mixins: [
+    FileHandlerMixin,
+  ]
 }
 </script>
 

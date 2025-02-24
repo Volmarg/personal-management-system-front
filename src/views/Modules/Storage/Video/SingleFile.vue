@@ -1,5 +1,6 @@
 <template>
   <FileBase :file-data="fileData"
+            :dir-node-data="dirNodeData"
             :select-on-file-representation-click="false"
             module-name="files"
             class="single-file"
@@ -7,7 +8,7 @@
     <template #fileRepresentation>
       <VideoPlayer
           class="video-player vjs-big-play-centered"
-          :src="fileData.dummyTempUrl"
+          :src="fileUrl"
           playsinline
           controls
           :fullscreen="true"
@@ -23,6 +24,8 @@
 import FileBase        from "@/views/Modules/Storage/Common/FileBase.vue";
 import { VideoPlayer } from '@videojs-player/vue'
 
+import FileHandlerMixin from "@/views/Modules/Storage/Mixin/FileHandlerMixin.vue";
+
 export default {
   components: {
     FileBase,
@@ -32,8 +35,15 @@ export default {
     fileData: {
       type: Object,
       required: true,
-    }
+    },
+    dirNodeData: {
+      type: Object,
+      required: true,
+    },
   },
+  mixins: [
+    FileHandlerMixin
+  ]
 }
 </script>
 

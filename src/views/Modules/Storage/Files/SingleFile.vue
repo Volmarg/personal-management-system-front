@@ -1,5 +1,6 @@
 <template>
   <FileBase :file-data="fileData"
+            :dir-node-data="dirNodeData"
             module-name="files"
             class="single-file"
   >
@@ -15,6 +16,9 @@
 
 <script lang="ts">
 import FileBase from "@/views/Modules/Storage/Common/FileBase.vue";
+
+import FileHandlerMixin from "@/views/Modules/Storage/Mixin/FileHandlerMixin.vue";
+
 export default {
   components: {
     FileBase
@@ -23,8 +27,15 @@ export default {
     fileData: {
       type: Object,
       required: true,
-    }
+    },
+    dirNodeData: {
+      type: Object,
+      required: true,
+    },
   },
+  mixins: [
+    FileHandlerMixin
+  ]
 }
 </script>
 
