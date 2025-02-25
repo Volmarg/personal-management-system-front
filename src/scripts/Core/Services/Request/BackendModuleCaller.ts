@@ -142,13 +142,20 @@ export class BackendModuleCaller {
             url += `/${parentId}`;
         }
 
-        let response = await new AppAxios().get(url, BaseApiResponse);
-        let allRecords = response.data[BackendModuleCaller.KEY_ALL_RECORDS];
-        if (undefined === allRecords) {
-            throw new BaseError(`Called 'getAll', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_ALL_RECORDS}`);
-        }
+        EventDispatcherService.emitShowFullPageLoader();
+        return await new AppAxios().get(url, BaseApiResponse).then((response) => {
+            EventDispatcherService.emitHideFullPageLoader();
 
-        return allRecords;
+            let allRecords = response.data[BackendModuleCaller.KEY_ALL_RECORDS];
+            if (undefined === allRecords) {
+                throw new BaseError(`Called 'getAll', but the expected key is not present in response. Expected: ${BackendModuleCaller.KEY_ALL_RECORDS}`);
+            }
+
+            return allRecords;
+        }).catch((error) => {
+            EventDispatcherService.emitHideFullPageLoader();
+            throw error;
+        });
     }
 
     /**
