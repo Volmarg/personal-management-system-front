@@ -7,13 +7,13 @@ export default class VueRouterStorage {
     static readonly ROUTE_GROUP = "storage"
 
     static readonly ROUTE_NAME_STORAGE_IMAGES_FOLDER  = VueRouterStorage.ROUTE_GROUP + "ImagesFolder";
-    static readonly ROUTE_PATH_STORAGE_IMAGES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/images/folder/:path/:dirname";
+    static readonly ROUTE_PATH_STORAGE_IMAGES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/images/folder";
 
     static readonly ROUTE_NAME_STORAGE_VIDEO_FOLDER  = VueRouterStorage.ROUTE_GROUP + "VideoFolder";
-    static readonly ROUTE_PATH_STORAGE_VIDEO_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/video/folder/:path/:dirname";
+    static readonly ROUTE_PATH_STORAGE_VIDEO_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/video/folder";
 
     static readonly ROUTE_NAME_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_GROUP + "FilesFolder";
-    static readonly ROUTE_PATH_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/files/folder/:path/:dirname";
+    static readonly ROUTE_PATH_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/files/folder";
 
     static readonly ROUTE_NAME_STORAGE_UPLOAD_ADD  = VueRouterStorage.ROUTE_GROUP + "UploadAdd";
     static readonly ROUTE_PATH_STORAGE_UPLOAD_ADD  = VueRouterStorage.ROUTE_PREFIX + "/upload/add";

@@ -34,10 +34,11 @@ export default {
       return VueRouterNotes.ROUTE_PATH_NOTES_CATEGORY.replace(":id", id);
     },
     /**
-     * @description returns the full url for the storage module
+     * @description returns the full url for the storage module. This could be changed at some point to maybe track storage dir
+     *              via pinia just to make the url prettier if ever needed.
      */
-    buildStorageUrl(path: string, dirname: string, basePath: string): string {
-      return basePath.replace(":path", encodeURIComponent(path)).replace(":dirname", dirname);
+    buildStorageUrl(path: string, basePath: string): string {
+      return basePath + `?dir=${path}`
     }
   }
 }

@@ -272,13 +272,13 @@ export default {
       let url = '';
       switch (moduleId) {
         case "files":
-          url = this.buildStorageUrl(searchResult.identifiers[1], searchResult.identifiers[0], VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER);
+          url = this.buildStorageUrl(searchResult.identifiers[1], VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER);
           break;
         case "images":
-          url = this.buildStorageUrl(searchResult.identifiers[1], searchResult.identifiers[0], VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER);
+          url = this.buildStorageUrl(searchResult.identifiers[1], VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER);
           break;
         case "video":
-          url = this.buildStorageUrl(searchResult.identifiers[1], searchResult.identifiers[0], VueRouterStorage.ROUTE_PATH_STORAGE_VIDEO_FOLDER);
+          url = this.buildStorageUrl(searchResult.identifiers[1], VueRouterStorage.ROUTE_PATH_STORAGE_VIDEO_FOLDER);
           break;
         case "notes":
           url = this.buildNotesCategoryUrl(searchResult.identifiers[0]);

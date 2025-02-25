@@ -6,7 +6,7 @@
            :size="modalSize"
     >
       <template #content>
-        {{$route.params.path}}
+        {{$route.query.dir}}
         <br>
         <br>
         {{fileData}}

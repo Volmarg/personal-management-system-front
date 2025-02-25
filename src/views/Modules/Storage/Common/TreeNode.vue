@@ -5,7 +5,7 @@
         class="node-child"
     >
       {{setActiveNodeData(node)}}
-      <router-link :to="{to: storageRouteName, params: {path: node.path, dirname: node.dirname}}">
+      <router-link :to="{to: storageRouteName, query: {dir: node.path}}">
         <span class="node-child-data">
           <fa icon="folder-open"
               class="folder-icon"
@@ -19,7 +19,7 @@
               class="folder-icon"
               v-else
           />
-        {{ node.dirname }}
+        <span class="dir-name">{{ node.dirname }}</span>
         </span>
       </router-link>
 
@@ -51,7 +51,7 @@ export default {
      * @description is current tree node active
      */
     isNodeActive(node: Record): boolean {
-      return this.$route.params.path == node.path;
+      return this.$route.query.dir == node.path;
     },
     /**
      * @description set data of active node into storage
@@ -78,10 +78,17 @@ export default {
 
 .folder-icon {
   font-size: 18px;
-  @apply text-blue-500
+}
+
+.dir-name {
+  @apply text-gray-700
 }
 
 .node-child-data {
   @apply hover:opacity-50 cursor-pointer
+}
+
+.active-folder-tree-node + .dir-name {
+  @apply text-blue-500
 }
 </style>

@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     routePath(): string {
-      return this.buildStorageUrl("/", this.$t('storage.rootDirName'), VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER);
+      return this.buildStorageUrl("/", VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER);
     }
   },
   mixins: [
