@@ -209,8 +209,8 @@
                         }
                     }
                 },
-                "video": {
-                    "label": "Video",
+                "videos": {
+                    "label": "Videos",
                     "children": {
                         "settings": {
                             "label": "Settings"

@@ -6,11 +6,16 @@
     >
       {{setActiveNodeData(node)}}
       <router-link :to="{to: storageRouteName, query: {dir: node.path}}">
-        <span class="node-child-data">
+        <span class="node-child-data"
+              :class="{
+                'locked-node-child-data': node.isLocked
+              }"
+        >
           <fa icon="folder-open"
               class="folder-icon"
               :class="{
-                'active-folder-tree-node': isNodeActive(node)
+                'active-folder-tree-node': isNodeActive(node),
+                'locked-node': node.isLocked
               }"
               v-if="isNodeActive(node)"
           />
@@ -88,7 +93,11 @@ export default {
   @apply hover:opacity-50 cursor-pointer
 }
 
-.active-folder-tree-node + .dir-name {
+.active-folder-tree-node:not(.locked-node) + .dir-name {
   @apply text-blue-500
+}
+
+.locked-node-child-data * {
+  @apply text-red-500
 }
 </style>

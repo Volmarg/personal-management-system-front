@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import ModuleWithFoldersSelect from "@/views/Modules/Storage/Upload/Components/ModuleWithFoldersSelect.vue";
+import ModuleWithFoldersSelect from "@/views/Modules/Storage/Common/ModuleWithFoldersSelect.vue";
 import Upload                  from "@/components/Ui/Upload/Component/Upload.vue";
 import Base                    from "@/views/Modules/Base.vue";
 

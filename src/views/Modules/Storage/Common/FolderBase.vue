@@ -1,7 +1,18 @@
 <template>
   <div class="flex justify-start flex-row flex-wrap  -mt-5 mb-5 ">
     <span class="text-lg text-left font-bold ml-2">
-      > {{ dirName }}
+      >
+      <fa v-if="activeNodeData.isLocked"
+          icon="lock"
+          class="text-red-500"
+      />
+
+      <fa v-else
+          icon="lock-open"
+          class="text-green-500"
+      />
+
+      {{ dirName }}
     </span>
     <span class="self-end text-tiny ml-2 mb-0.5">
        ({{$route.query.dir}})
@@ -70,6 +81,12 @@ export default {
      */
     dirName(): string {
       return this.$route.query.dir.split("/").reverse()[0] ?? '';
+    },
+    /**
+     * @description returns current active node data
+     */
+    activeNodeData(): string {
+      return StorageState().activeNodeData;
     }
   },
   methods: {

@@ -39,7 +39,6 @@ import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWit
 import FormInput            from "@/components/Form/Input.vue";
 import Modal                from "@/components/Modal/Modal.vue";
 
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
 import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
@@ -69,7 +68,6 @@ export default {
     FormInput,
   },
   mixins: [
-    FailedBackendResponseHandler,
     ResponsiveModalSizeMixin,
   ],
   emits: [

@@ -18,10 +18,6 @@
              @click="isAddFolderModalVisible=true"
   />
 
-  <Settings class="mb-6"
-            @click="isSettingsModalVisible=true"
-  />
-
   <AddFolderModal :is-modal-visible="isAddFolderModalVisible"
                   @modal-closed="isAddFolderModalVisible=false"
   />
@@ -30,16 +26,13 @@
                @modal-closed="isRemoveModalVisible=false"
   />
 
-  <SettingsModal :is-modal-visible="isSettingsModalVisible"
-                 @modal-closed="isSettingsModalVisible=false"
-  />
-
   <MoveFilesModal :is-modal-visible="isMoveFilesModalVisible"
                   @modal-closed="isMoveFilesModalVisible=false"
   />
 
   <UploadDialog :is-visible="isUploadModalVisible"
-                :configuration-id="123"
+                :configuration-id="uploadConfigId"
+                :extra-data="uploadExtraData"
                 @modal-closed="isUploadModalVisible=false"
   />
 </template>
@@ -48,13 +41,11 @@
 import MoveFilesModal from "@/views/Modules/Storage/Common/Modal/MoveFilesModal.vue";
 import AddFolderModal from "@/views/Modules/Storage/Common/Modal/AddFolderModal.vue";
 import RemoveModal    from "@/views/Modules/Storage/Common/Modal/RemoveModal.vue";
-import SettingsModal  from "@/views/Modules/Storage/Common/Modal/SettingsModal.vue";
 import UploadDialog   from "@/components/Ui/Upload/Dialog/UploadDialog.vue";
 
 import ToggleLock    from "@/views/Modules/Storage/Common/SideNav/ToggleLock.vue";
 import AddFolder     from "@/views/Modules/Storage/Common/SideNav/AddFolder.vue";
 import UploadFile    from "@/views/Modules/Storage/Common/SideNav/UploadFile.vue";
-import Settings      from "@/views/Modules/Storage/Common/SideNav/Settings.vue";
 import RemoveFiles   from "@/views/Modules/Storage/Common/SideNav/RemoveFiles.vue";
 import TransferFiles from "@/views/Modules/Storage/Common/SideNav/TransferFiles.vue";
 
@@ -65,9 +56,9 @@ import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 export default {
   data(): ComponentData {
     return {
+      uploadConfigId: StorageState().uploadConfigId,
       isAddFolderModalVisible: false,
       isRemoveModalVisible: false,
-      isSettingsModalVisible: false,
       isUploadModalVisible: false,
       isMoveFilesModalVisible: false,
     }
@@ -75,12 +66,10 @@ export default {
   components: {
     AddFolder,
     UploadFile,
-    Settings,
     RemoveFiles,
     TransferFiles,
     AddFolderModal,
     RemoveModal,
-    SettingsModal,
     UploadDialog,
     MoveFilesModal,
     ToggleLock,
@@ -91,6 +80,14 @@ export default {
      */
     isAnyFileSelected(): boolean {
       return StorageState().selectedFilesData.length != 0;
+    },
+    /**
+     * @description extra data provided for upload, forwarded further to backend on upload
+     */
+    uploadExtraData(): Record {
+      return {
+        uploadDir: this.$route.query.dir
+      }
     }
   }
 }

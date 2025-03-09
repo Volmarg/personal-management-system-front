@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import ModuleWithFoldersSelect from "@/views/Modules/Storage/Upload/Components/ModuleWithFoldersSelect.vue";
+import ModuleWithFoldersSelect from "@/views/Modules/Storage/Common/ModuleWithFoldersSelect.vue";
 import MediumButtonWithIcon    from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import Checkbox                from "@/components/Form/Checkbox.vue";
 

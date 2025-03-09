@@ -2,7 +2,7 @@
   <FileBase :file-data="fileData"
             :dir-node-data="dirNodeData"
             :select-on-file-representation-click="false"
-            module-name="files"
+            :module-name="moduleName"
             class="single-file"
   >
     <template #fileRepresentation>
@@ -26,6 +26,8 @@ import { VideoPlayer } from '@videojs-player/vue'
 
 import FileHandlerMixin from "@/views/Modules/Storage/Mixin/FileHandlerMixin.vue";
 
+import {StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+
 export default {
   components: {
     FileBase,
@@ -43,7 +45,15 @@ export default {
   },
   mixins: [
     FileHandlerMixin
-  ]
+  ],
+  computed: {
+    /**
+     * @description returns storage module name
+     */
+    moduleName() {
+      return StorageTypeEnum[StorageTypeEnum.videos];
+    }
+  },
 }
 </script>
 

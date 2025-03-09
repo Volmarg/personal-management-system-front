@@ -22,11 +22,14 @@
 </template>
 
 <script lang="ts">
+import ResponseHandlerMixin from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
 
 import FullRoundButtonWithIcon from "@/components/Navigation/Button/FullRoundButtonWithIcon.vue";
 import FloatingBox             from "@/components/Ui/Containers/FloatingBox.vue";
 
 import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+
+import SymfonyStorageRoutes from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
 
 export default {
   props: {
@@ -42,6 +45,9 @@ export default {
   emits: [
     'click'
   ],
+  mixins: [
+    ResponseHandlerMixin,
+  ],
   computed: {
     /**
      * @description check if current dir is locked
@@ -55,7 +61,19 @@ export default {
      * @description toggle lock on this dir
      */
     toggleLock(): void {
-      // todo:
+      let data = {
+        dir: this.$route.query.dir,
+        moduleName: StorageState().moduleName,
+      };
+
+      let url = SymfonyStorageRoutes.buildUrl(SymfonyStorageRoutes.FOLDER_TOGGLE_LOCK_URL);
+      this.$axios.post(url, data).then((response) => {
+        if (this.handleResponse(response)) {
+          StorageState().clearSelectedFiles();
+          StorageState().getAll();
+        }
+      })
+
     }
   }
 }

@@ -9,7 +9,8 @@
       <template #content>
 
         <Upload :configuration-id="configurationId"
-                @upload-finished="$emit('uploadFinished', $event)"
+                :extra-data="extraData"
+                @upload-finished="onUploadFinish"
         />
 
       </template>
@@ -26,6 +27,7 @@ import ResponsiveVarsMixin      from "@/mixins/Responsive/ResponsiveVarsMixin.vu
 import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   data(): ComponentData {
@@ -42,6 +44,13 @@ export default {
       type     : Boolean,
       required : false,
       default  : false,
+    },
+    extraData: {
+      type: Object,
+      required: false,
+      default: function() {
+        return {};
+      },
     }
   },
   emits: [
@@ -55,5 +64,14 @@ export default {
     ResponsiveVarsMixin,
     ResponsiveModalSizeMixin,
   ],
+  methods: {
+    /**
+     * @description will fetch the storage structure after upload is done, not closing dialog on purpose, because
+     *              it might turn out that some files upload will fail and user should be able to see which one.
+     */
+    onUploadFinish(): void {
+      StorageState().getAll();
+    }
+  }
 }
 </script>

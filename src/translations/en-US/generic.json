@@ -60,9 +60,6 @@
                 "field": {
                     "fileName": {
                         "label": "File name"
-                    },
-                    "tags": {
-                        "label": "Tags"
                     }
                 },
                 "actions": {
@@ -105,6 +102,9 @@
                     }
                 }
             }
+        },
+        "tags": {
+            "label": "Tags"
         },
         "asteriskFieldsAreRequired": "Asterisk fields are required",
         "clickHere": "Click here",

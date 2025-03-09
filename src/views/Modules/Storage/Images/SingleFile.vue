@@ -2,7 +2,7 @@
   <FileBase :file-data="fileData"
             :dir-node-data="dirNodeData"
             :use-img-width-for-text-width="true"
-            module-name="images"
+            :module-name="moduleName"
             class="single-file"
   >
     <template #fileRepresentation>
@@ -17,6 +17,8 @@
 import FileBase from "@/views/Modules/Storage/Common/FileBase.vue";
 
 import FileHandlerMixin from "@/views/Modules/Storage/Mixin/FileHandlerMixin.vue";
+
+import {StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   components: {
@@ -34,7 +36,15 @@ export default {
   },
   mixins: [
     FileHandlerMixin,
-  ]
+  ],
+  computed: {
+    /**
+     * @description returns storage module name
+     */
+    moduleName() {
+      return StorageTypeEnum[StorageTypeEnum.images];
+    }
+  },
 }
 </script>
 

@@ -46,6 +46,15 @@
         />
       </a>
 
+      <div :href="fileUrl"
+            @click="copyLink"
+      >
+        <fa icon="link"
+            class="text-lg cursor-pointer hover:opacity-70"
+            v-tippy="$t('storage.nav.button.link.label')"
+        />
+      </div>
+
       <fa icon="edit"
           class="text-lg cursor-pointer hover:opacity-70 edit"
           v-tippy="$t('storage.nav.button.edit.label')"
@@ -72,6 +81,8 @@ import EditModal from "@/views/Modules/Storage/Common/Modal/EditModal.vue";
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+
+import ClipboardService from "@/scripts/Core/Services/ClipboardService";
 
 export default {
   data(): ComponentData {
@@ -121,7 +132,11 @@ export default {
      * @description returns shown filename
      */
     fileName(): string {
-      let name = `${this.fileData.name}.${this.fileData.ext}`;
+      let name = this.fileData.name;
+      if (this.fileData.ext) {
+        name += `.${this.fileData.ext}`;
+      }
+
       if (name.length <= this.filenameMaxLen) {
         return name;
       }
@@ -167,6 +182,12 @@ export default {
 
       this.textWrapperMaxWidth = `${this.$refs.fileRepresentation.offsetWidth}px`;
     },
+    /**
+     * @description copies link to clipboard
+     */
+    copyLink(): void {
+      ClipboardService.copyToClipboard(this.fileUrl);
+    }
   },
   mounted(): void {
     this.setTextWrapperMaxWidth();
@@ -174,11 +195,11 @@ export default {
   watch: {
     isSelected(): void {
       if (this.isSelected) {
-        StorageState().addSelectedFiles(this.fileData);
+        StorageState().selectFile(this.fileData);
         return;
       }
 
-      StorageState().removeSelectedFile(this.fileData);
+      StorageState().deselectFile(this.fileData);
     }
   }
 }

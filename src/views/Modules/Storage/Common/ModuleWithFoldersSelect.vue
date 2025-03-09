@@ -47,174 +47,15 @@ import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import {StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+
+import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
+import SymfonyStorageRoutes from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
+
 export default {
   data(): ComponentData {
     return {
-      // parent - child paths must be proper else the result will be invalid
-      allModulesWithPaths: {
-        'video': [{
-          dirname: "Main folder - video",
-          path: "/data",
-          children: [
-            {
-              dirname: "folder 1",
-              path: "/data/folder 1",
-              children: [
-                {
-                  dirname: "A",
-                  path: "/data/folder 1/A",
-                  children: []
-                },
-                {
-                  dirname: "B",
-                  path: "/data/folder 1/B",
-                  children: []
-                },
-                {
-                  dirname: "c",
-                  path: "/data/folder 1/c",
-                  children: []
-                }
-              ]
-            },
-            {
-              dirname: "Folder 2",
-              path: "/data/Folder 2",
-              children: [
-                {
-                  dirname: "X",
-                  path: "/data/Folder 2/X",
-                  children: []
-                },
-                {
-                  dirname: "Y",
-                  path: "/data/Folder 2/Y",
-                  children: []
-                },
-                {
-                  dirname: "Z",
-                  path: "/data/Folder 2/Z",
-                  children: [
-                    {
-                      dirname: "Z1",
-                      path: "/data/Folder 2/Z/Z1",
-                      children: []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }],
-        'files': [{
-          dirname: "Main folder - Files",
-          path: "/data",
-          children: [
-            {
-              dirname: "FILES 1",
-              path: "/data/FILES 1",
-              children: [
-                {
-                  dirname: "A",
-                  path: "/data/FILES 1/A",
-                  children: []
-                },
-                {
-                  dirname: "B",
-                  path: "/data/FILES 1/B",
-                  children: []
-                },
-                {
-                  dirname: "c",
-                  path: "/data/FILES 1/c",
-                  children: []
-                }
-              ]
-            },
-            {
-              dirname: "Folder 2",
-              path: "/data/Folder 2",
-              children: [
-                {
-                  dirname: "X",
-                  path: "/data/Folder 2/X",
-                  children: []
-                },
-                {
-                  dirname: "Y",
-                  path: "/data/Folder 2/Y",
-                  children: []
-                },
-                {
-                  dirname: "Z",
-                  path: "/data/Folder 2/Z",
-                  children: [
-                    {
-                      dirname: "Z1",
-                      path: "/data/Folder 2/Z/Z1",
-                      children: []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }],
-        'images': [{
-          dirname: "Main folder - Images",
-          path: "/data",
-          children: [
-            {
-              dirname: "IMAGES 1",
-              path: "/data/IMAGES 1",
-              children: [
-                {
-                  dirname: "A",
-                  path: "/data/IMAGES 1/A",
-                  children: []
-                },
-                {
-                  dirname: "B",
-                  path: "/data/IMAGES 1/B",
-                  children: []
-                },
-                {
-                  dirname: "c",
-                  path: "/data/IMAGES 1/c",
-                  children: []
-                }
-              ]
-            },
-            {
-              dirname: "Folder 2",
-              path: "/data/Folder 2",
-              children: [
-                {
-                  dirname: "X",
-                  path: "/data/Folder 2/X",
-                  children: []
-                },
-                {
-                  dirname: "Y",
-                  path: "/data/Folder 2/Y",
-                  children: []
-                },
-                {
-                  dirname: "Z",
-                  path: "/data/Folder 2/Z",
-                  children: [
-                    {
-                      dirname: "Z1",
-                      path: "/data/Folder 2/Z/Z1",
-                      children: []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }]
-      },
+      modulesStructure: {},
       folderPathOptions: [],
       categories: [],
       selectedModule: null,
@@ -230,10 +71,8 @@ export default {
   },
   computed: {
     moduleOptions(): Array<Record> {
-      let supportedModules = ['files', 'video', 'images'];
       let options = [];
-
-      for (let module of supportedModules) {
+      for (let module of Object.keys(StorageTypeEnum).filter((val) => isNaN(val))) {
         options.push({
           label: this.$t(`navbar.rightSidebar.menu.${module}.label`),
           selectedLabel: this.$t(`navbar.rightSidebar.menu.${module}.label`),
@@ -257,10 +96,25 @@ export default {
         return level;
       }
 
-      let pathParts = checkedFullPath.split("/");
-      pathParts     = pathParts.filter(Boolean); // first element might be empty
+      /**
+       * Originally the code was prepared to work with root path being just one dir, but first storage logic was done,
+       * afterward existing logic was reused, and now root path is actually 2 dirs separated with slash.
+       * This logic here compensates for the problem, basically first split path will be the same as delivered root dir.
+       */
+      let splitPath = checkedFullPath.split("/");
+      let pathParts = [`${splitPath[0]}/${splitPath[1]}`];
+      for (let index in splitPath) {
+        if (0 == index || 1 == index) {
+          continue;
+        }
 
-      checkedPathPart += `/${pathParts[level - 1]}`;
+        pathParts.push(splitPath[index]);
+      }
+
+      pathParts = pathParts.filter(Boolean); // first element might be empty
+
+      // this is needed because root dir does not contain leading slash, while sub-dir must be glued with slash to parent dir
+      checkedPathPart += (level != 1 ? "/" : "") + `${pathParts[level - 1]}`;
 
       if (checkedPathPart === checkedFullPath) {
         return level;
@@ -298,7 +152,7 @@ export default {
         return;
       }
 
-      let dirsStructure = this.allModulesWithPaths[this.selectedModule];
+      let dirsStructure = this.modulesStructure[this.selectedModule];
 
       for (let mainNode of dirsStructure) {
         this.addOption(mainNode, 0)
@@ -317,7 +171,7 @@ export default {
       for (let child of node.children) {
         // prevent dupes - something wrong with recursion, but whatever, this removes dupes
         if (!this.folderPathOptions.find(option => option.value == child.path)) {
-          let rootLevelNode = this.allModulesWithPaths[this.selectedModule][0];
+          let rootLevelNode = this.modulesStructure[this.selectedModule][0];
           let level = this.getFolderLevel(child.path, rootLevelNode);
           this.addOption(child, level)
         }
@@ -357,7 +211,8 @@ export default {
   mounted(): void {
     this.value = this.selected;
   },
-  created(): void {
+  async created(): Promise<void> {
+    this.modulesStructure = await new BackendModuleCaller().getAll(SymfonyStorageRoutes.FOLDER_BASE_URL);
     this.traverseTree();
   },
   watch: {

@@ -19,12 +19,12 @@ import SingleFile from "@/views/Modules/Storage/Video/SingleFile.vue";
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import VueRouterStorage from "@/router/Modules/VueRouterStorage";
+import {StorageState, StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   data(): ComponentData {
     return {
       routeName: VueRouterStorage.ROUTE_NAME_STORAGE_VIDEO_FOLDER,
-      dirsStructure: [],
     }
   },
   mixins: [
@@ -35,7 +35,8 @@ export default {
     FolderBase
   },
   async beforeMount(): Promise<void> {
-    this.dirsStructure = await this.getDirsStructure('videos');
+    StorageState().uploadConfigId = '312s456d7gewse123rg7gh456g1s';
+    await this.getDirsStructure(StorageTypeEnum[StorageTypeEnum.videos]);
   }
 }
 </script>

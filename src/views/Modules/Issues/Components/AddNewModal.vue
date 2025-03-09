@@ -25,7 +25,6 @@
 <script lang="ts">
 import CreateEditForm               from "@/views/Modules/Issues/Components/CreateEditForm.vue";
 import Modal                        from "@/components/Modal/Modal.vue";
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
@@ -48,7 +47,6 @@ export default {
     Modal,
   },
   mixins: [
-    FailedBackendResponseHandler,
     ResponsiveModalSizeMixin,
   ],
   emits: [

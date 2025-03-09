@@ -247,7 +247,7 @@ export default {
       }
 
       let fileSize = file.size as unknown as number;
-      if (fileSize > this.allowedSizeBytes) {
+      if (this.allowedSizeBytes && fileSize > this.allowedSizeBytes) {
         let message = this.$t('generic.form.upload.test.fileToBig') + this.configuration?.maxFileSizeMb;
 
         this.$rootEvent.showNotification(ToastTypeEnum.info, message);
@@ -294,7 +294,7 @@ export default {
      * @description check file name validity
      */
     isExtensionValid(file?: VueUploadItem): boolean {
-      if (undefined === file) {
+      if (undefined === file || 0 === this.configuration.allowedExtensions.length) {
         return true;
       }
 

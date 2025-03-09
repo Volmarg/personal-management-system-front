@@ -39,7 +39,7 @@ import {ToastTypeEnum}              from "@/scripts/Libs/ToastNotification";
 import ResponsiveVarsMixin          from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
 import LineAwesome                  from "@/components/Ui/Icons/LineAwesome.vue";
 import MediumButtonWithIcon         from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
+import ResponseHandlerMixin         from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
 import NavButtons                   from "@/views/User/InfoPage/Components/NavButtons.vue";
 
 let jwtService = new JwtService();
@@ -47,7 +47,7 @@ let jwtService = new JwtService();
 export default {
   name: "PasswordResetConfirmation",
   mixins: [
-    FailedBackendResponseHandler,
+    ResponseHandlerMixin,
     ResponsiveVarsMixin
   ],
   components: {
@@ -77,7 +77,7 @@ export default {
 
       this.$axios.get(calledBackendUrl).then( (response) => {
         if(!response.success){
-          this.handleFailedBackendResponse(response, SymfonySecurityRoutes.URL_RESET_PASSWORD_USER_PARAM_TOKEN);
+          this.handleResponse(response, SymfonySecurityRoutes.URL_RESET_PASSWORD_USER_PARAM_TOKEN);
           return;
         }
 

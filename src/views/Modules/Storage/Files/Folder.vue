@@ -17,15 +17,15 @@ import FolderHandlerMixin from "@/views/Modules/Storage/Mixin/FolderHandlerMixin
 import FolderBase from "@/views/Modules/Storage/Common/FolderBase.vue";
 import SingleFile from "@/views/Modules/Storage/Files/SingleFile.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+import {StorageState, StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
-import VueRouterStorage from "@/router/Modules/VueRouterStorage";
+import VueRouterStorage  from "@/router/Modules/VueRouterStorage";
 
 export default {
   data(): ComponentData {
     return {
       routeName: VueRouterStorage.ROUTE_NAME_STORAGE_FILES_FOLDER,
-      dirsStructure: [],
     }
   },
   mixins: [
@@ -36,7 +36,8 @@ export default {
     SingleFile
   },
   async beforeMount(): Promise<void> {
-    this.dirsStructure = await this.getDirsStructure('files');
-  }
+    StorageState().uploadConfigId = '645dsf789shkdczs23431245jk687sd123';
+    await this.getDirsStructure(StorageTypeEnum[StorageTypeEnum.files]);
+  },
 }
 </script>

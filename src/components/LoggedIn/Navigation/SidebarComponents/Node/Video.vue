@@ -6,7 +6,7 @@
 
     <template #children>
       <SingleMenuElement :route-path="routePath"
-                         :label="$t('navbar.rightSidebar.menu.video.children.mainFolder.label')"
+                         :label="$t('navbar.rightSidebar.menu.videos.children.mainFolder.label')"
                          @click="onMenuElementClick"
       />
     </template>

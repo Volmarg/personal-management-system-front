@@ -29,7 +29,6 @@ import Modal                        from "@/components/Modal/Modal.vue";
 import CreateEditForm               from "@/views/Modules/Todo/Components/CreateEditForm.vue";
 import MediumButtonWithIcon         from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 import TodoModuleMixin              from "@/views/Modules/Todo/Mixin/TodoModuleMixin.vue";
 
@@ -59,7 +58,6 @@ export default {
     CreateEditForm,
   },
   mixins: [
-    FailedBackendResponseHandler,
     ResponsiveModalSizeMixin,
     TodoModuleMixin,
   ],

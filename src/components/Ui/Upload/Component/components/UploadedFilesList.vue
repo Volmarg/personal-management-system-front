@@ -29,8 +29,8 @@
                      :is-disabled="file.uploadHandled"
             />
 
-            <TagInput v-model="fileTags[file.id]"
-                      @update:modelValue="onTagInput(file)"
+            <TagInput v-model="tags"
+                      @update:modelValue="onTagInput(file, $event)"
                       :is-disabled="file.uploadHandled"
                       class="w-full lg:w-3/5 self-center lg:mr-4 ml-4"
             />
@@ -104,7 +104,7 @@
 import LineAwesome    from "@/components/Ui/Icons/LineAwesome.vue";
 import ColorBorderBar from "@/components/Ui/Bar/ColorBorderBar.vue";
 import Input          from "@/components/Form/Input.vue";
-import TagInput       from "@/components/Ui/Upload/Component/components/TagInput.vue";
+import TagInput       from "@/components/Form/TagInput.vue";
 
 import UploadStatusMixin from "@/components/Ui/Upload/Component/mixin/UploadStatusMixin.vue";
 
@@ -114,7 +114,10 @@ export default {
   data() {
     return {
       fileNames: {},
-      fileTags: {},
+      /**
+       * @description this isn't really used, but is necessary to set the tags properly directly on the file meta-data
+       */
+      tags: [],
     }
   },
   props: {
@@ -179,8 +182,8 @@ export default {
     /**
      * @description handler for when file / data name is inserted
      */
-    onTagInput(file: VueUploadItem) {
-      file.tags = this.fileTags[file.id];
+    onTagInput(file: VueUploadItem, tags: Array<string>) {
+      file.tags = tags;
     }
   },
   emits: [

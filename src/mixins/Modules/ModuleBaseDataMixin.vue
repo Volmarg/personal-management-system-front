@@ -15,7 +15,7 @@ export default {
       moduleTranslation: {
         files: this.$t('navbar.rightSidebar.menu.files.label'),
         images: this.$t('navbar.rightSidebar.menu.images.label'),
-        video: this.$t('navbar.rightSidebar.menu.video.label'),
+        video: this.$t('navbar.rightSidebar.menu.videos.label'),
         notes: this.$t('navbar.rightSidebar.menu.notes.label'),
       },
       modulePath: {

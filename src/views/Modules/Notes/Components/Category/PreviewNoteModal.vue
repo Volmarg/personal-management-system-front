@@ -64,7 +64,6 @@ import Modal                from "@/components/Modal/Modal.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import CreateUpdateForm     from "@/views/Modules/Notes/Components/Note/CreateUpdateForm.vue";
 
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 import ResponsiveVarsMixin          from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
 
@@ -95,7 +94,6 @@ export default {
     Modal,
   },
   mixins: [
-    FailedBackendResponseHandler,
     ResponsiveModalSizeMixin,
     ResponsiveVarsMixin,
   ],

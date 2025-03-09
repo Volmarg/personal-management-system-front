@@ -19,7 +19,6 @@
 <script lang="ts">
 import Modal                        from "@/components/Modal/Modal.vue";
 import AddEditForm                  from "@/views/Modules/Travel/Ideas/AddEditForm.vue";
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
@@ -55,7 +54,6 @@ export default {
     AddEditForm,
   },
   mixins: [
-    FailedBackendResponseHandler,
     ResponsiveModalSizeMixin,
   ],
   emits: [

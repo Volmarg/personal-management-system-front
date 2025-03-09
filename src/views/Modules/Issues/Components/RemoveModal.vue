@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import WarningModal                 from "@/components/Modal/WarningModal.vue";
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -44,7 +43,6 @@ export default {
     WarningModal,
   },
   mixins: [
-    FailedBackendResponseHandler,
     ResponsiveModalSizeMixin,
   ],
   methods: {

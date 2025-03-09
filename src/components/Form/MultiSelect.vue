@@ -22,7 +22,7 @@
         <multiselect class="multiselect-element appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      v-model="value"
                      :label="selectedLabelSource"
-                     :options="options"
+                     :options="usedOptions"
                      :mode="mode"
                      :can-clear="canClear"
                      :searchable="isSearchable"
@@ -129,7 +129,8 @@ export default {
         single : "single",
         multi  : "multiple",
         tags   : "tags",
-      }
+      },
+      usedOptions: [],
     }
   },
   props: {
@@ -217,7 +218,10 @@ export default {
     },
     options: {
       type     : Array,
-      required : true,
+      required : false,
+      default  : function() {
+        return [];
+      }
     },
     tagClasses: {
       type     : [String, null],
@@ -257,7 +261,7 @@ export default {
         return;
       }
 
-      for (let option of this.options) {
+      for (let option of this.usedOptions) {
         if (option.selected) {
           this.setValueForMode(option.value);
           break;
@@ -294,6 +298,24 @@ export default {
      */
     clear(): void {
       this.value = null;
+    },
+    /**
+     * @description creates array of used options. This method is necessary especially for the tags mode, where it turns
+     *              out that sometimes the "v-model" provided values will not be selected if these are not present in options.
+     */
+    rebuildUsedOptions(): void {
+      if (this.isTagMode && this.options.length === 0 && this.modelValue && !(this.modelValue.length === 1 && this.modelValue[0] === null)) {
+        this.usedOptions = [];
+        for (let value of this.modelValue) {
+          this.usedOptions.push({
+            label: value,
+            value: value,
+          })
+        }
+
+        return;
+      }
+      this.usedOptions = this.options;
     }
   },
   computed: {
@@ -365,7 +387,7 @@ export default {
      * @description will check if image is provided for ALL options
      */
     areImagesProvided(): boolean {
-      for (let option of this.options) {
+      for (let option of this.usedOptions) {
         if ("object" === typeof option) {
 
           let checkedOption: Record<string, string> = option;
@@ -382,7 +404,7 @@ export default {
      * @description will check if description is provided for ALL options
      */
     areDescriptionsProvided(): boolean {
-      for (let option of this.options) {
+      for (let option of this.usedOptions) {
         if ("object" === typeof option) {
 
           let checkedOption: Record<string, string> = option;
@@ -400,7 +422,7 @@ export default {
      */
     areComponentsProvided(): boolean {
       let hasProps = true;
-      for (let option of this.options) {
+      for (let option of this.usedOptions) {
         if ("object" === typeof option) {
 
           let checkedOption: Record<string, string> = option;
@@ -424,7 +446,7 @@ export default {
      * @description check if provided options are objects
      */
     areOptionsObjects(): boolean {
-      for (let option of this.options) {
+      for (let option of this.usedOptions) {
         if ("object" !== typeof option) {
           return false;
         }
@@ -464,16 +486,13 @@ export default {
   mounted(): void {
     this.attachOnFocusOutHandler();
     this.preselectValueHandler();
+    this.rebuildUsedOptions();
   },
   watch: {
     options: {
       deep: true,
       handler(): void {
-        this.isVisible = false;
-        this.$nextTick(() => {
-          this.preselectValueHandler();
-          this.isVisible = true;
-        })
+        this.rebuildUsedOptions();
       }
     },
     /**
@@ -491,6 +510,7 @@ export default {
         throw new BaseError("New value in tags mode should be either null or an array!", {value: newValue});
       }
 
+      this.rebuildUsedOptions();
       this.$nextTick(() => {
         this.value = newValue;
       })

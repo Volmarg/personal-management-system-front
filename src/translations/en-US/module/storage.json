@@ -4,6 +4,51 @@
             "addFiles": {
                 "header": "Upload files directly into storage module folder"
             },
+            "module": {
+                "updateModal": {
+                    "header": {
+                        "label": "Update file"
+                    },
+                    "form": {
+                        "name": {
+                            "label": "Name"
+                        },
+                        "tags": {
+                            "label": "Tags"
+                        },
+                        "submit": {
+                            "label": "Submit"
+                        }
+                    }
+                },
+                "removeModal": {
+                    "header": {
+                        "label": "Remove files"
+                    },
+                    "description": "Do You really want to remove selected files?"
+                },
+                "newFolderModal": {
+                    "header": {
+                        "label": "Add folder"
+                    },
+                    "form": {
+                        "name": {
+                            "label": "Name"
+                        },
+                        "submit": {
+                            "label": "Submit"
+                        }
+                    }
+                },
+                "moveModal": {
+                    "header": "Move files",
+                    "form": {
+                        "submit": {
+                            "label": "Submit"
+                        }
+                    }
+                }
+            },
             "manage": {
                 "header": "Management of uploaded data. Allows to rename folders, create new ones or copy / move data between directories in modules",
                 "tab": {
@@ -74,6 +119,9 @@
                 "download": {
                     "label": "Download"
                 },
+                "link": {
+                    "label": "Copy link"
+                },
                 "select": {
                     "label": "Select"
                 },
@@ -87,8 +135,8 @@
                     "label": "Move files"
                 },
                 "lock": {
-                    "doLock": "Click to lock",
-                    "unlock": "Click to unlock"
+                    "doLock": "Click to lock folder",
+                    "unlock": "Click to unlock folder"
                 }
             }
         },

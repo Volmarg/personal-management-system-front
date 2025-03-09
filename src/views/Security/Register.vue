@@ -88,7 +88,7 @@
 
 <script lang="ts">
 import BaseApiResponseViolationsToDataFieldsViolations from "@/scripts/Vue/Mixins/BaseApiResponseViolationsToDataFieldsViolations.vue";
-import FailedBackendResponseHandler                    from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
+import ResponseHandlerMixin                            from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
 import ValueValidationAwareMixin                       from "@/mixins/Awarness/ValueValidationAwareMixin.vue";
 
 import VueInput                 from "@/components/Form/Input.vue";
@@ -165,7 +165,7 @@ export default {
   },
   mixins: [
     BaseApiResponseViolationsToDataFieldsViolations,
-    FailedBackendResponseHandler,
+    ResponseHandlerMixin,
     VuelidateHandler,
     ValueValidationAwareMixin,
   ],
@@ -230,8 +230,7 @@ export default {
          */
         this.responseViolationsToFieldViolations(response);
         if( !response.success ){
-          /** @see FailedBackendResponseHandler **/
-          this.handleFailedBackendResponse(response, SymfonySecurityRoutes.URL_REGISTER_USER);
+          this.handleResponse(response, SymfonySecurityRoutes.URL_REGISTER_USER);
           this.$rootEvent.hideFullPageLoader();
           return;
         }

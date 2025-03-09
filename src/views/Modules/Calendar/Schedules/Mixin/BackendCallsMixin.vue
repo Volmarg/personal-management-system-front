@@ -2,7 +2,7 @@
 
 import UtilsMixin from "@/views/Modules/Calendar/Schedules/Mixin/UtilsMixin.vue";
 
-import FailedBackendResponseHandler from "@/scripts/Vue/Mixins/FailedBackendResponseHandler.vue";
+import ResponseHandlerMixin from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
 
 import {ISchedule}     from "tui-calendar";
 import {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
@@ -12,7 +12,7 @@ import moment          from "moment/moment";
 export default {
   mixins: [
     UtilsMixin,
-    FailedBackendResponseHandler,
+    ResponseHandlerMixin,
   ],
   methods: {
     /**
@@ -41,7 +41,7 @@ export default {
       this.$axios[method](ajaxCallUrl, dataBag)
           .then((response) => {
             this.$rootEvent.hideFullPageLoader();
-            if (!this.handleFailedBackendResponse(response, ajaxCallUrl)) {
+            if (!this.handleResponse(response, ajaxCallUrl)) {
               return;
             }
 
@@ -62,7 +62,7 @@ export default {
       this.$rootEvent.showFullPageLoader()
       this.$axios.delete(ajaxUrl).then((response) => {
         this.$rootEvent.hideFullPageLoader();
-        if (!this.handleFailedBackendResponse(response, ajaxUrl)) {
+        if (!this.handleResponse(response, ajaxUrl)) {
           return;
         }
 
