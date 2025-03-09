@@ -26,6 +26,12 @@
                    ref="foldersTree"
       />
       <FolderContent :folder-content-classes="folderContentClasses">
+        <template #description="{dirNodeData}">
+          <p class="dir-description"
+             v-html="dirNodeData.description"
+          >
+          </p>
+        </template>
         <template #singleFile="{fileData, dirNodeData}">
           <slot name="singleFile"
                 :file-data="fileData"
@@ -145,5 +151,10 @@ export default {
 .folder-container {
   min-height: 300px;
   @apply p-0 pr-4
+}
+
+.dir-description {
+  min-height: 20px;
+  @apply mb-2 mt-4 text-center
 }
 </style>

@@ -1,8 +1,15 @@
 <template>
-  <div class="tinmce-wrapper">
-    <Editor :init="wyswigConfig"
-            v-model="value"
-    />
+  <div class="flex flex-col">
+    <p v-if="label"
+       class="font-bold text-black text-left mb-1"
+    >
+      {{ label }}
+    </p>
+    <div class="tinmce-wrapper">
+      <Editor :init="wyswigConfig"
+              v-model="value"
+      />
+    </div>
   </div>
 </template>
 
@@ -57,6 +64,11 @@ export default {
     }
   },
   props: {
+    label: {
+      type: [String, null],
+      required: false,
+      default: null,
+    },
     initialValue: {
       type: String,
       required: false,

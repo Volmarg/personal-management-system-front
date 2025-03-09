@@ -1,22 +1,27 @@
 <template>
-  <div v-if="nodeData.files && nodeData.files.length > 0"
-       class="flex flex-row flex-wrap"
-  >
-    <div v-for="file in nodeData.files"
-                :key="JSON.stringify(file)"
-                :class="folderContentClasses"
+  <div class="w-full">
+    <slot name="description"
+          :dir-node-data="nodeData"
+    ></slot>
+    <div v-if="nodeData.files && nodeData.files.length > 0"
+         class="flex flex-row flex-wrap"
     >
-      <slot name="singleFile"
-            :file-data="file"
-            :dir-node-data="nodeData"
-      ></slot>
+      <div v-for="file in nodeData.files"
+                  :key="JSON.stringify(file)"
+                  :class="folderContentClasses"
+      >
+        <slot name="singleFile"
+              :file-data="file"
+              :dir-node-data="nodeData"
+        ></slot>
+      </div>
     </div>
-  </div>
 
-  <div class="flex justify-center flex-col w-full p-5"
-       v-else
-  >
-    <NoResultsText />
+    <div class="flex justify-center flex-col w-full p-5 align-self-center h-full"
+         v-else
+    >
+      <NoResultsText />
+    </div>
   </div>
 </template>
 

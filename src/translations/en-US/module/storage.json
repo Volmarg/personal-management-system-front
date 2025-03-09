@@ -47,6 +47,17 @@
                             "label": "Submit"
                         }
                     }
+                },
+                "settingsModal": {
+                    "header": "Settings",
+                    "form": {
+                        "description": {
+                            "label": "Folder description"
+                        },
+                        "submit": {
+                            "label": "Submit"
+                        }
+                    }
                 }
             },
             "manage": {
