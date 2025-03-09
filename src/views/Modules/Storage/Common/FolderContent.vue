@@ -1,8 +1,11 @@
 <template>
   <div class="w-full">
-    <slot name="description"
-          :dir-node-data="nodeData"
-    ></slot>
+    <div v-if="nodeData.files && nodeData.files.length > 0">
+      <slot name="description"
+            :dir-node-data="nodeData"
+      ></slot>
+    </div>
+
     <div v-if="nodeData.files && nodeData.files.length > 0"
          class="flex flex-row flex-wrap"
     >
