@@ -19,13 +19,19 @@
     </span>
   </div>
 
+  <div class="flex justify-end mb-4">
+    <SearchInput v-model="searchValue" />
+  </div>
+
   <Container extra-classes="folder-container">
     <div class="flex flex-row h-full">
       <FoldersTree :dirs-structure="dirsStructure"
                    :route-name="routeName"
                    ref="foldersTree"
       />
-      <FolderContent :folder-content-classes="folderContentClasses">
+      <FolderContent :folder-content-classes="folderContentClasses"
+                     :search-value="searchValue"
+      >
         <template #description="{dirNodeData}">
           <p class="dir-description"
              v-html="dirNodeData.description"
@@ -53,10 +59,17 @@ import SideNav       from "@/views/Modules/Storage/Common/SideNav.vue";
 import FoldersTree   from "@/views/Modules/Storage/Common/FoldersTree.vue";
 import FolderContent from "@/views/Modules/Storage/Common/FolderContent.vue";
 import Container     from "@/components/Ui/Containers/Container.vue";
+import SearchInput   from "@/components/Navigation/SearchInput.vue";
 
 import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {
+  data(): ComponentData {
+    return {
+      searchValue: '',
+    }
+  },
   props: {
     dirsStructure: {
       type: Array,
@@ -80,6 +93,7 @@ export default {
     FoldersTree,
     FolderContent,
     SideNav,
+    SearchInput,
   },
   computed: {
     /**
@@ -142,6 +156,12 @@ export default {
       handler: function() {
         this.redirectToRootDir();
       }
+    },
+    /**
+     * @description that's desired, else it's confusing that opened folder is empty
+     */
+    '$route.query.dir'(): void {
+      this.searchValue = '';
     }
   }
 }

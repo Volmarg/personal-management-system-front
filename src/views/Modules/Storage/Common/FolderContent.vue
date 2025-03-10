@@ -1,15 +1,15 @@
 <template>
   <div class="w-full">
-    <div v-if="nodeData.files && nodeData.files.length > 0">
+    <div v-if="visibleFiles.length > 0">
       <slot name="description"
             :dir-node-data="nodeData"
       ></slot>
     </div>
 
-    <div v-if="nodeData.files && nodeData.files.length > 0"
+    <div v-if="visibleFiles.length > 0"
          class="flex flex-row flex-wrap"
     >
-      <div v-for="file in nodeData.files"
+      <div v-for="file in visibleFiles"
                   :key="JSON.stringify(file)"
                   :class="folderContentClasses"
       >
@@ -34,17 +34,45 @@ import NoResultsText from "@/components/Page/NoResultsText.vue";
 
 import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+
 export default {
   props: {
     folderContentClasses: {
       type: String,
       required: false,
+    },
+    searchValue: {
+      type: String,
+      required: true,
     }
   },
   components: {
     NoResultsText,
   },
   computed: {
+    /**
+     * @description returns files in the folder, depending on the provided search criteria
+     */
+    visibleFiles(): Array {
+      let filteredFiles = [];
+      if (!this.nodeData?.files) {
+        return [];
+      }
+
+      if (StringTypeProcessor.isEmptyString(this.searchValue)) {
+        return this.nodeData.files;
+      }
+
+      for (let file of this.nodeData.files) {
+        let fileWithExt = file.name + (file.ext ? `.${file.ext}` : '');
+        if (fileWithExt.includes(this.searchValue)) {
+          filteredFiles.push(file);
+        }
+      }
+
+      return filteredFiles;
+    },
     /**
      * @description gets the data of currently active node
      */
