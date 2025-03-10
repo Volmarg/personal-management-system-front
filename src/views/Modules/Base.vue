@@ -36,7 +36,7 @@ import InformationBlock from "@/components/Page/InformationBlock.vue";
 import Container        from "@/components/Ui/Containers/Container.vue";
 import Accordion        from "@/components/Ui/Accordion/Accordion.vue";
 import AccordionPanel   from "@/components/Ui/Accordion/Panel.vue";
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}  from "@/scripts/Vue/Types/Components/types";
 
 export default {
   data(): ComponentData {

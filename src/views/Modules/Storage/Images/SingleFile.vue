@@ -1,6 +1,7 @@
 <template>
   <FileBase :file-data="fileData"
             :dir-node-data="dirNodeData"
+            :select-on-file-representation-click="false"
             :use-img-width-for-text-width="true"
             :module-name="moduleName"
             class="single-file"
@@ -8,6 +9,7 @@
     <template #fileRepresentation>
       <img :src="fileUrl"
            class="single-file"
+           @click='$emit("imageClick", {fileUrl: fileUrl})'
       />
     </template>
   </FileBase>
@@ -36,6 +38,9 @@ export default {
   },
   mixins: [
     FileHandlerMixin,
+  ],
+  emits: [
+    'imageClick'
   ],
   computed: {
     /**

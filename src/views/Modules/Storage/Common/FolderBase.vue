@@ -24,6 +24,8 @@
   </div>
 
   <Container extra-classes="folder-container">
+    <slot name="containerBeginning"></slot>
+
     <div class="flex flex-row h-full">
       <FoldersTree :dirs-structure="dirsStructure"
                    :route-name="routeName"

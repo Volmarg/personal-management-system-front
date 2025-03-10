@@ -3,6 +3,7 @@
       :visible="isVisible"
       @hide="$emit('hide')"
       :imgs="images"
+      :index="activeImageIndex"
   />
 </template>
 
@@ -22,6 +23,11 @@ export default {
       type: Boolean,
       required: true,
       default: false,
+    },
+    activeImageIndex: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     images: {
       type: Array,
