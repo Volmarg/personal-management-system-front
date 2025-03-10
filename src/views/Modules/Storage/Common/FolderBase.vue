@@ -33,6 +33,7 @@
       />
       <FolderContent :folder-content-classes="folderContentClasses"
                      :search-value="searchValue"
+                     @visible-files-change="$emit('visibleFilesChange', $event)"
       >
         <template #description="{dirNodeData}">
           <p class="dir-description"
@@ -89,6 +90,9 @@ export default {
   },
   mixins: [
     ModuleBaseDataMixin,
+  ],
+  emits: [
+    "visibleFilesChange"
   ],
   components: {
     Container,

@@ -1,6 +1,7 @@
 <template>
   <FolderBase :dirs-structure="dirsStructure"
               :route-name="routeName"
+              @visible-files-change="visibleFiles = $event"
   >
     <template #containerBeginning>
       <Lightbox :images="lightboxImages"
@@ -35,6 +36,7 @@ import PublicFolderService from "@/scripts/Core/Services/PublicFolder/PublicFold
 export default {
   data(): ComponentData {
     return {
+      visibleFiles: [],
       store: null as StorageState,
       lightboxActiveIndex: 0,
       isLightboxVisible: false,
@@ -54,11 +56,7 @@ export default {
      * @description images paths for the lightbox
      */
     lightboxImages(): Array {
-      if (!this.store.activeNodeData.files) {
-        return [];
-      }
-
-      return this.store.activeNodeData.files.map(file => {
+      return this.visibleFiles.map(file => {
             let filePath = `${this.store.activeNodeData.path}/` + file.name + (file.ext ? `.${file.ext}` : '');
             return PublicFolderService.buildUrl(filePath)
         }

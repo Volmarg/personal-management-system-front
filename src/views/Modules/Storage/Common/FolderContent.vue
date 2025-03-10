@@ -50,6 +50,9 @@ export default {
   components: {
     NoResultsText,
   },
+  emits: [
+    'visibleFilesChange'
+  ],
   computed: {
     /**
      * @description returns files in the folder, depending on the provided search criteria
@@ -61,6 +64,7 @@ export default {
       }
 
       if (StringTypeProcessor.isEmptyString(this.searchValue)) {
+        this.$emit('visibleFilesChange', this.nodeData.files);
         return this.nodeData.files;
       }
 
@@ -71,6 +75,7 @@ export default {
         }
       }
 
+      this.$emit('visibleFilesChange', filteredFiles);
       return filteredFiles;
     },
     /**
