@@ -156,7 +156,7 @@ export default {
 
       return `
         <div class="hover-content-wrapper">
-          <b>${this.$t('storage.fileHoverData.text.fileName')}</b>: ${this.fileData.name}.${this.fileData.ext}
+          <b>${this.$t('storage.fileHoverData.text.fileName')}</b>: ${this.fileData.name} ${this.fileData.ext ? "." + this.fileData.ext : ''}
           <br><br>
           <b>${this.$t('storage.fileHoverData.text.size')}</b>: ${this.fileData.size}
           <br><br>
