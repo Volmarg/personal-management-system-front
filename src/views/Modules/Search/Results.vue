@@ -84,6 +84,7 @@ import WindowService       from "@/scripts/Core/Services/WindowService";
 import VueRouterStorage    from "@/router/Modules/VueRouterStorage";
 import SymfonySystemRoutes from "@/router/SymfonyRoutes/Modules/SymfonySystemRoutes";
 import {StorageTypeEnum}   from "@/scripts/Vue/Store/Module/Storage/StorageState";
+import VueRouterSearch     from "@/router/Modules/VueRouterSearch";
 
 export default {
   data(): ComponentData {
@@ -140,7 +141,6 @@ export default {
      */
     hasAnyResults(): boolean {
       for (let moduleName of Object.keys(this.searchResults)) {
-        console.log(this.searchResults[moduleName]);
         if (this.searchResults[moduleName].length > 0) {
           return true;
         }
@@ -269,10 +269,6 @@ export default {
           throw new BaseError(`This module is not supported - cannot build url. Module: ${moduleId}`);
       }
 
-
-      console.log({
-        'going to': url
-      })
       this.$router.push(url);
       WindowService.scrollToTop();
     },
@@ -290,6 +286,9 @@ export default {
      * @description this is necessary because there is no page reload, so when user changes query the results must be re-fetched
      */
     '$route.query.query'(): void {
+      if (StringTypeProcessor.isEmptyString(this.$route.query.query) || this.$route.name !== VueRouterSearch.ROUTE_NAME_SEARCH_RESULTS) {
+        return;
+      }
       this.fetchData();
     }
   }
