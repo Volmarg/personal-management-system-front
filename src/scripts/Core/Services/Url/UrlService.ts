@@ -66,4 +66,22 @@ export default class UrlService
 
         return procolLessUrl;
     }
+
+    /**
+     * @description takes query params and appends them to the url, returns updated url.
+     *              This method does not check if url already contains query params,
+     *              by default assuming that it's not containing any params.
+     */
+    public static appendQueryParams(queryParams: Record, url: string): string {
+        if (Object.keys(queryParams).length == 0) {
+            return url;
+        }
+
+        let params = new URLSearchParams();
+        for (let key of Object.keys(queryParams)) {
+            params.set(key, queryParams[key]);
+        }
+
+        return url + `?${params.toString()}`;
+    }
 }

@@ -80,7 +80,7 @@ import EditModal from "@/views/Modules/Storage/Common/Modal/EditModal.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+import {StorageState, StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 import ClipboardService from "@/scripts/Core/Services/ClipboardService";
 
@@ -175,7 +175,7 @@ export default {
         this.textWrapperMaxWidth = 'auto';
       }
 
-      if (this.moduleName === "images") {
+      if (this.moduleName === StorageTypeEnum[StorageTypeEnum.images]) {
         this.textWrapperMaxWidth = `${getComputedStyle(this.$refs.fileRepresentation.querySelector('img')).width}`;
         return
       }

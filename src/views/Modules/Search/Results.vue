@@ -16,7 +16,9 @@
            :key="JSON.stringify(moduleResults)"
       >
 
-        <Accordion class="important-information-accordion">
+        <Accordion class="important-information-accordion"
+                   v-if="moduleResults.length > 0"
+        >
           <AccordionPanel class="accordion-panel">
             <template #title>
               <fa :icon="moduleIconName(moduleId)" /> {{ moduleName(moduleId) }}
@@ -55,6 +57,10 @@
         </Accordion>
 
       </div>
+
+    <div v-if="!hasAnyResults">
+      <NoResultsText />
+    </div>
   </Base>
 </template>
 
@@ -64,6 +70,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import Badge from "@/components/Ui/Badge/Badge.vue";
 import Base  from "@/views/Modules/Base.vue";
 
+import NoResultsText    from "@/components/Page/NoResultsText.vue";
 import Accordion        from "@/components/Ui/Accordion/Accordion.vue";
 import AccordionPanel   from "@/components/Ui/Accordion/Panel.vue";
 
@@ -74,7 +81,9 @@ import BaseError           from "@/scripts/Core/Error/BaseError";
 import TypeChecker         from "@/scripts/Core/Services/Types/TypeChecker";
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 import WindowService       from "@/scripts/Core/Services/WindowService";
-import VueRouterStorage from "@/router/Modules/VueRouterStorage";
+import VueRouterStorage    from "@/router/Modules/VueRouterStorage";
+import SymfonySystemRoutes from "@/router/SymfonyRoutes/Modules/SymfonySystemRoutes";
+import {StorageTypeEnum}   from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   data(): ComponentData {
@@ -87,53 +96,12 @@ export default {
           maxLen: 38
         }
       },
-      searchResults: {
-        "files": [
-          {
-            name: "File in folder.pdf",
-            identifiers: [
-              "X",
-              "/data/folder 2/X"
-            ]
-          }
-        ],
-        "images": [
-          {
-            name: "Name 1",
-            identifiers: [
-              "Y",
-              "/data/folder 2/Y"
-            ]
-          },
-        ],
-        "video": [
-          {
-            name: "Name 1",
-            identifiers: [
-              "Z",
-              "/data/folder 2/Z"
-            ]
-          }
-        ],
-        "notes": [
-          {
-            name: "Cars",
-            identifiers: [
-              2
-            ]
-          },
-          {
-            name: "Recipients",
-            identifiers: [
-              5
-            ]
-          }
-        ]
-      }
+      searchResults: {},
     }
   },
   components: {
     AccordionPanel,
+    NoResultsText,
     Accordion,
     Badge,
     Base,
@@ -166,6 +134,19 @@ export default {
       }
 
       return combinations.filter(Boolean);
+    },
+    /**
+     * @description check if there are any search results returned
+     */
+    hasAnyResults(): boolean {
+      for (let moduleName of Object.keys(this.searchResults)) {
+        console.log(this.searchResults[moduleName]);
+        if (this.searchResults[moduleName].length > 0) {
+          return true;
+        }
+      }
+
+      return false;
     }
   },
   methods: {
@@ -191,11 +172,12 @@ export default {
      *              Format of output depends on both data type and amount of identifiers in array.
      */
     getIdentifier(singleResult: Record, moduleId: string): string | number {
+
       let usedIdentifiers = [];
       switch (moduleId) {
-        case "files":
-        case "images":
-        case "video":
+        case StorageTypeEnum[StorageTypeEnum.files]:
+        case StorageTypeEnum[StorageTypeEnum.images]:
+        case StorageTypeEnum[StorageTypeEnum.videos]:
           usedIdentifiers = [singleResult.identifiers[1]];
           break;
         case "notes":
@@ -271,13 +253,13 @@ export default {
     onResultClick(searchResult: Record, moduleId: string): string {
       let url = '';
       switch (moduleId) {
-        case "files":
+        case StorageTypeEnum[StorageTypeEnum.files]:
           url = this.buildStorageUrl(searchResult.identifiers[1], VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER);
           break;
-        case "images":
+        case StorageTypeEnum[StorageTypeEnum.images]:
           url = this.buildStorageUrl(searchResult.identifiers[1], VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER);
           break;
-        case "video":
+        case StorageTypeEnum[StorageTypeEnum.videos]:
           url = this.buildStorageUrl(searchResult.identifiers[1], VueRouterStorage.ROUTE_PATH_STORAGE_VIDEO_FOLDER);
           break;
         case "notes":
@@ -287,8 +269,28 @@ export default {
           throw new BaseError(`This module is not supported - cannot build url. Module: ${moduleId}`);
       }
 
+
+      console.log({
+        'going to': url
+      })
       this.$router.push(url);
       WindowService.scrollToTop();
+    },
+    async fetchData(): Promise<void> {
+      this.searchResults = await this.$moduleCall.getAll(SymfonySystemRoutes.SEARCH_BASE, null, null, {
+        query: this.$route.query.query
+      });
+    }
+  },
+  created(): void {
+    this.fetchData();
+  },
+  watch: {
+    /**
+     * @description this is necessary because there is no page reload, so when user changes query the results must be re-fetched
+     */
+    '$route.query.query'(): void {
+      this.fetchData();
     }
   }
 }

@@ -3,26 +3,22 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import VueRouterNotes from "@/router/Modules/VueRouterNotes";
 
+import {StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+
 export default {
   data(): ComponentData {
     return {
       moduleIcon: {
-        files: 'folder-open',
-        images: 'image',
-        video: 'film',
+        [StorageTypeEnum[StorageTypeEnum.files]]: 'folder-open',
+        [StorageTypeEnum[StorageTypeEnum.images]]: 'image',
+        [StorageTypeEnum[StorageTypeEnum.videos]]: 'film',
         notes: 'book',
       },
       moduleTranslation: {
-        files: this.$t('navbar.rightSidebar.menu.files.label'),
-        images: this.$t('navbar.rightSidebar.menu.images.label'),
-        video: this.$t('navbar.rightSidebar.menu.videos.label'),
+        [StorageTypeEnum[StorageTypeEnum.files]]: this.$t('navbar.rightSidebar.menu.files.label'),
+        [StorageTypeEnum[StorageTypeEnum.images]]: this.$t('navbar.rightSidebar.menu.images.label'),
+        [StorageTypeEnum[StorageTypeEnum.videos]]: this.$t('navbar.rightSidebar.menu.videos.label'),
         notes: this.$t('navbar.rightSidebar.menu.notes.label'),
-      },
-      modulePath: {
-        files: '',
-        images: '',
-        video: '',
-        notes: '',
       }
     }
   },

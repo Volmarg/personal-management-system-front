@@ -132,7 +132,12 @@ export class BackendModuleCaller {
     /**
      * @description returns all accessible module records
      */
-    public async getAll(baseUrl: string, id: number | string | null = null, parentId: number | string | null = null): Promise<Array> {
+    public async getAll(
+        baseUrl: string,
+        id: number | string | null = null,
+        parentId: number | string | null = null,
+        queryParams: Record = {},
+    ): Promise<Array> {
         let url = SymfonyRoutes.buildUrl(`${baseUrl}/all`);
         if (id) {
             url += `/${id}`
@@ -141,6 +146,8 @@ export class BackendModuleCaller {
         if (parentId) {
             url += `/${parentId}`;
         }
+
+        url = UrlService.appendQueryParams(queryParams, url);
 
         EventDispatcherService.emitShowFullPageLoader();
         return await new AppAxios().get(url, BaseApiResponse).then((response) => {

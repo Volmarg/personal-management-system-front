@@ -1,7 +1,7 @@
 <template>
-  <SingleDropdownMenuElement :label="moduleTranslation.video">
+  <SingleDropdownMenuElement :label="moduleTranslation.videos">
     <template #icon>
-      <fa :icon="moduleIcon.video"/>
+      <fa :icon="moduleIcon.videos"/>
     </template>
 
     <template #children>

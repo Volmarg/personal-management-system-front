@@ -45,8 +45,6 @@ export default {
           [this.searchRouter.ROUTE_QUERY_PARAM_QUERY]: usedSearchValue
         }
       });
-
-      this.searchValue = '';
     }
   }
 }
