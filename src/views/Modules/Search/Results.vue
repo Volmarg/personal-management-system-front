@@ -3,10 +3,10 @@
     <h2 class="text-md font-bold text-left -mt-7 ml-2"> > {{ $t('search.resultsPage.subHeader.query') }} {{ query }}</h2>
     <h2 class="text-md font-bold text-left -mt-3 ml-2"> > {{ $t('search.resultsPage.subHeader.tags') }}</h2>
 
-    <div class="mt-2 mb-10 flex flex-row">
+    <div class="mt-2 mb-10 flex flex-row flex-wrap">
       <Badge v-for="variant in queryWordsVariants"
              :key="variant"
-             class="ml-1"
+             class="my-1 mx-1"
       >
         {{ variant }}
       </Badge>
@@ -127,14 +127,17 @@ export default {
       }
 
       let splitWords = this.query.split(" ");
-      let arrayOfCombinations = ArrayTypeProcessor.getStringCombinations(splitWords);
 
-      let combinations = [];
-      for (let combination of arrayOfCombinations) {
-        combinations.push(combination.join(" "));
-      }
+      let objectOfCombinations = {};
+      let currDepth = 0;
+      ArrayTypeProcessor.cartesianProduct(splitWords, objectOfCombinations, 2, currDepth, " ");
 
-      return combinations.filter(Boolean);
+      let arrayOfCombinations = [
+        ...splitWords,
+        ...Object.values(objectOfCombinations),
+      ]
+
+      return arrayOfCombinations.filter(Boolean);
     },
     /**
      * @description check if there are any search results returned
