@@ -51,7 +51,6 @@ export default class ArrayTypeProcessor {
      * @param input  array used for building product
      * @param result contains the resulting cartesian product
      *                              - combination of different values,
-     *                              - combination of the values themselves (["test"], results ["testtest"])
      *
      * @param depth         iterations of product (1 returns array itself, 2 is products made once, 3 twice with array from previous results)
      * @param currentDepth  currentDepth  internal variable to track how nested the current call is
