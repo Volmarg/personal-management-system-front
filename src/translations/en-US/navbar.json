@@ -30,6 +30,9 @@
                     "label": "About"
                 }
             },
+            "notification": {
+                "message": "Notifications"
+            },
             "timer": {
                 "timeLeft": {
                     "message": "Time left untill logged out"

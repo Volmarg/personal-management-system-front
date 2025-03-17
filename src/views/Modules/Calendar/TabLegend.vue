@@ -2,6 +2,7 @@
   <div class="text-left mt-5">
     <h2 class="font-bold text-lg mb-2">{{ $t('calendar.legend.notification.header') }}</h2>
     <ul>
+      <!-- If You ever change this then keep in mind that this is also used on backend for notifications -->
       <li><span class="color-circle bg-green-500"/><span class="text">{{ $t('calendar.legend.notification.in-30-60') }}</span></li>
       <li><span class="color-circle bg-orange-500"/><span class="text">{{ $t('calendar.legend.notification.in-14-30') }}</span></li>
       <li><span class="color-circle bg-red-500"/><span class="text">{{ $t('calendar.legend.notification.up-to-14') }}</span></li>

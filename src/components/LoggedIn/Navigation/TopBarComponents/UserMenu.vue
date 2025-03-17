@@ -19,8 +19,10 @@
       <button class="h-16 rounded-full mr-2 flex flex-row hover:opacity-70"
               @click="onUserAvatarClick()"
       >
-        <img class="h-8 w-8 rounded-full shadow align-self-center" :src="avatarFilePath" alt="avatar">
-        <p class="align-self-center ml-2">{{ username }}</p>
+        <img class="avatar" :src="avatarFilePath" alt="avatar">
+        <p class="align-self-center ml-2"
+           v-if="!isPhoneBreakingPoint"
+        >{{ username }}</p>
         <fa
             :icon="userMenuArrowAwesomeIconName"
             class="align-self-center ml-1 font-weight-bold"
@@ -133,6 +135,8 @@ import DeveloperSidebar  from "@/components/Development/Sidebar/DeveloperSidebar
 
 import Colors from "@/scripts/Vue/Mixins/Colors.vue";
 
+import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
+
 import VueRouter       from "@/router/VueRouter";
 import UserController  from "@/scripts/Core/Controller/UserController";
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
@@ -178,7 +182,8 @@ export default {
     LockModal,
   },
   mixins: [
-    Colors
+    Colors,
+    ResponsiveVarsMixin
   ],
   computed: {
     /**
@@ -302,5 +307,10 @@ export default {
   color: $logoutColor !important;
   fill: $logoutColor !important;
   font-weight: 600;
+}
+.avatar {
+  min-width: 30px !important; // because mobile view squashes the avatar
+  align-self: center;
+  @apply h-8 w-8 rounded-full shadow
 }
 </style>

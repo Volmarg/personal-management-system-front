@@ -70,7 +70,8 @@ import {
 
 import {
     faEye,
-    faCalendarAlt
+    faCalendarAlt,
+    faBell,
 } from '@fortawesome/free-regular-svg-icons';
 
 
@@ -154,6 +155,7 @@ export default class Fontawesome
         library.add(faRandom);
         library.add(faCopy);
         library.add(faLink);
+        library.add(faBell);
 
         return FontAwesomeIcon;
     }

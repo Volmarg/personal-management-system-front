@@ -9,6 +9,7 @@
         <!-- This span moves all elements after it `to right side` -->
         <span class="ml-auto"></span>
 
+        <Notification />
         <Timer />
 
         <user-menu @toggle-right-sidebar="$emit('toggleRightSidebar', $event)"
@@ -26,6 +27,7 @@ import Search           from "@/components/Modules/Search/Search.vue";
 import Hamburger        from "@/components/Navigation/Hamburger.vue";
 import UserMenu         from "@/components/LoggedIn/Navigation/TopBarComponents/UserMenu.vue";
 import Timer            from "@/components/LoggedIn/Navigation/Timer/Timer.vue";
+import Notification     from "@/components/LoggedIn/Navigation/Notifications/Notification.vue";
 
 import {RightSidebarComponentData} from "@/scripts/Vue/Types/Components/Sidebar";
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
@@ -46,6 +48,7 @@ export default {
     "user-menu"    : UserMenu,
     Timer,
     Search,
+    Notification
   },
   methods: {
     /**
