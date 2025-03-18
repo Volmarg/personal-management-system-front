@@ -1,12 +1,19 @@
 <template>
   <SearchInput class="transform scale-90"
+               :class="{
+                  'force-full': isForcedFull,
+               }"
                placeholder-trans-string="search.topNav.placeholder"
                @submit="onSubmit"
+               @focusin="isFocused = true"
+               @focusout="isFocused = false"
                v-model="searchValue"
   />
 </template>
 
 <script lang="ts">
+import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
+
 /**
  * @description handles searching for data through all supported modules
  */
@@ -18,15 +25,29 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 export default {
   data(): ComponentData {
     return {
+      isFocused: false,
       searchValue: '',
     }
   },
+  mixins: [
+    ResponsiveVarsMixin
+  ],
   components: {
-    SearchInput
+    SearchInput,
   },
   computed: {
     searchRouter(): VueRouterSearch {
       return VueRouterSearch;
+    },
+    /**
+     * @description decide if the search input should be forced full width
+     */
+    isForcedFull(): boolean {
+      if (this.isFocused && this.isPhoneBreakingPoint) {
+        return true;
+      }
+
+      return false;
     }
   },
   methods: {
@@ -49,3 +70,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.force-full {
+  width: 600px;
+  position: absolute;
+  z-index: 30;
+  transition: all 3s ease;
+  left: 40px;
+}
+</style>
