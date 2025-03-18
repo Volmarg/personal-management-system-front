@@ -15,11 +15,8 @@ export default class VueRouterStorage {
     static readonly ROUTE_NAME_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_GROUP + "FilesFolder";
     static readonly ROUTE_PATH_STORAGE_FILES_FOLDER  = VueRouterStorage.ROUTE_PREFIX + "/files/folder";
 
-    static readonly ROUTE_NAME_STORAGE_UPLOAD_ADD  = VueRouterStorage.ROUTE_GROUP + "UploadAdd";
-    static readonly ROUTE_PATH_STORAGE_UPLOAD_ADD  = VueRouterStorage.ROUTE_PREFIX + "/upload/add";
-
-    static readonly ROUTE_NAME_STORAGE_UPLOAD_MANAGE  = VueRouterStorage.ROUTE_GROUP + "UploadManage";
-    static readonly ROUTE_PATH_STORAGE_UPLOAD_MANAGE  = VueRouterStorage.ROUTE_PREFIX + "/upload/manage";
+    static readonly ROUTE_NAME_STORAGE_UPLOAD_MANAGE  = VueRouterStorage.ROUTE_GROUP + "Manage";
+    static readonly ROUTE_PATH_STORAGE_UPLOAD_MANAGE  = VueRouterStorage.ROUTE_PREFIX + "/storage/manage";
 
     public static readonly routesConfiguration: Array<RouteRecordRaw> = [
         {
@@ -36,11 +33,6 @@ export default class VueRouterStorage {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER,
             name: VueRouterStorage.ROUTE_NAME_STORAGE_FILES_FOLDER,
             component: (): Promise<Component> => import("@/views/Modules/Storage/Files/Folder.vue"),
-        },
-        {
-            path: VueRouterStorage.ROUTE_PATH_STORAGE_UPLOAD_ADD,
-            name: VueRouterStorage.ROUTE_NAME_STORAGE_UPLOAD_ADD,
-            component: (): Promise<Component> => import("@/views/Modules/Storage/Upload/Add.vue"),
         },
         {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_UPLOAD_MANAGE,

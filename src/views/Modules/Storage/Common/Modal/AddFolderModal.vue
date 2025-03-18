@@ -32,14 +32,11 @@
 <script lang="ts">
 import Modal                    from "@/components/Modal/Modal.vue";
 import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
-import ResponseHandlerMixin     from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
-
+import FolderHandlerMixin       from "@/views/Modules/Storage/Mixin/FolderHandlerMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
-
-import SymfonyStorageRoutes from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
 
 import FormInput            from "@/components/Form/Input.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
@@ -64,8 +61,8 @@ export default {
     Modal,
   },
   mixins: [
-    ResponseHandlerMixin,
     ResponsiveModalSizeMixin,
+    FolderHandlerMixin,
   ],
   emits: [
     "modalClosed",
@@ -81,21 +78,14 @@ export default {
     /**
      * @description creates new folder on the server
      */
-    onSubmit(): void {
-      let data = {
-        parentDir: this.$route.query.dir,
-        newDirName: this.name,
-      };
-
-      let url = SymfonyStorageRoutes.buildUrl(SymfonyStorageRoutes.FOLDER_CREATE_URL);
-      this.$axios.post(url, data).then((response) => {
-        if (this.handleResponse(response)) {
-          StorageState().clearSelectedFiles();
-          StorageState().getAll();
-          this.name = '';
-          this.$emit('modalClosed');
-        }
-      })
+    async onSubmit(): Promise<void> {
+      let isSuccess = await this.addFolder(this.$route.query.dir, this.name, true);
+      if (isSuccess) {
+        StorageState().clearSelectedFiles();
+        StorageState().getAll();
+        this.name = '';
+        this.$emit('modalClosed');
+      }
     }
   },
   updated(): void{

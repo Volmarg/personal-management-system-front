@@ -1,16 +1,12 @@
 <template>
-  <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.upload.label')">
+  <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.storage.label')">
     <template #icon>
       <fa icon="upload"/>
     </template>
 
     <template #children>
-      <SingleMenuElement :route-path="router.ROUTE_PATH_STORAGE_UPLOAD_ADD"
-                         :label="$t('navbar.rightSidebar.menu.upload.children.add.label')"
-                          @click="onMenuElementClick"
-      />
       <SingleMenuElement :route-path="router.ROUTE_PATH_STORAGE_UPLOAD_MANAGE"
-                         :label="$t('navbar.rightSidebar.menu.upload.children.manage.label')"
+                         :label="$t('navbar.rightSidebar.menu.storage.children.manage.label')"
                           @click="onMenuElementClick"
       />
     </template>

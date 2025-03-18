@@ -42,8 +42,7 @@
             "storageImagesFolder": "Images storage",
             "storageVideoSettings": "Videos storage settings",
             "storageVideoFolder": "Videos storage",
-            "storageUploadAdd": "Upload storage file",
-            "storageUploadManage": "Manage storage files",
+            "storageManage": "Manage storage files",
             "SearchList": "Search results",
             "DevelopmentPlayground": "Development playground"
         }

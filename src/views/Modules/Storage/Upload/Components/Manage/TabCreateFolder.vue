@@ -5,6 +5,7 @@
 
       <ModuleWithFoldersSelect @module-select-change="form.selectedModule = $event"
                                @folder-select-change="form.selectedPath = $event"
+                               ref="moduleWithDirSelect"
                                class="mb-4 s"
       />
 
@@ -28,6 +29,7 @@
 import ModuleWithFoldersSelect from "@/views/Modules/Storage/Common/ModuleWithFoldersSelect.vue";
 import MediumButtonWithIcon    from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import FormInput               from "@/components/Form/Input.vue";
+import FolderHandlerMixin      from "@/views/Modules/Storage/Mixin/FolderHandlerMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -46,12 +48,21 @@ export default {
     MediumButtonWithIcon,
     ModuleWithFoldersSelect,
   },
+  mixins: [
+    FolderHandlerMixin
+  ],
   methods: {
     /**
      * @description handler for submitting the folder creation form
      */
-    onSubmit(): void {
-      // todo
+    async onSubmit(): Promise<void> {
+      let isSuccess = await this.addFolder(this.form.selectedPath, this.form.folderName);
+      if (isSuccess) {
+        this.form.folderName = null;
+        this.form.selectedModule = null;
+        this.form.folderName = null;
+        this.$refs.moduleWithDirSelect.reload();
+      }
     }
   }
 }

@@ -18,6 +18,7 @@
           :required="true"
           class="module-with-folder-select"
           ref="moduleSelect"
+          v-if="isVisible"
       />
 
       <MultiSelect
@@ -37,6 +38,7 @@
           :required="true"
           class="mt-4 module-with-folder-select"
           ref="folderSelect"
+          v-if="isVisible"
       />
     </div>
   </div>
@@ -60,6 +62,7 @@ export default {
       categories: [],
       selectedModule: null,
       selectedFolderPath: null,
+      isVisible: true,
     }
   },
   emits: [
@@ -206,6 +209,19 @@ export default {
     onFolderOptionChanged(value: number): void {
       this.selectedFolderPath = value;
       this.$emit('folderSelectChange', value);
+    },
+    /**
+     * @description reloads the state of the module tree pickers
+     */
+    reload(): void {
+      this.isVisible = false;
+      this.selectedModule = null;
+      this.selectedFolderPath = null;
+      this.$nextTick(async () => {
+        this.modulesStructure = await new BackendModuleCaller().getAll(SymfonyStorageRoutes.FOLDER_BASE_URL);
+        this.traverseTree();
+        this.isVisible = true;
+      })
     }
   },
   mounted(): void {

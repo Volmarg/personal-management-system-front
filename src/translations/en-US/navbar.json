@@ -223,12 +223,9 @@
                         }
                     }
                 },
-                "upload": {
-                    "label": "Upload",
+                "storage": {
+                    "label": "Storage",
                     "children": {
-                        "add": {
-                            "label": "Add files"
-                        },
                         "manage": {
                             "label": "Manage"
                         }
