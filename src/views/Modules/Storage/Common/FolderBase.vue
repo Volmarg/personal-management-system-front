@@ -181,6 +181,6 @@ export default {
 
 .dir-description {
   min-height: 20px;
-  @apply mb-2 mt-4 text-center
+  @apply mb-2 mt-4 mx-6
 }
 </style>
