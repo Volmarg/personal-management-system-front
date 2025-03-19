@@ -5,6 +5,7 @@
 
       <ModuleWithFoldersSelect @module-select-change="form.selectedModule = $event"
                                @folder-select-change="form.selectedPath = $event"
+                               ref="moduleWithDirSelect"
                                class="mb-4 s"
       />
 
@@ -29,6 +30,8 @@ import ModuleWithFoldersSelect from "@/views/Modules/Storage/Common/ModuleWithFo
 import MediumButtonWithIcon    from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import FormInput               from "@/components/Form/Input.vue";
 
+import FolderHandlerMixin from "@/views/Modules/Storage/Mixin/FolderHandlerMixin.vue";
+
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {
@@ -41,6 +44,9 @@ export default {
       }
     }
   },
+  mixins: [
+    FolderHandlerMixin
+  ],
   components: {
     FormInput,
     MediumButtonWithIcon,
@@ -50,8 +56,14 @@ export default {
     /**
      * @description handler for submitting the folder rename form
      */
-    onSubmit(): void {
-      // todo
+    async onSubmit(): Promise<void> {
+      let isSuccess = await this.renameFolder(this.form.selectedPath, this.form.newFolderName);
+      if (isSuccess) {
+        this.form.selectedModule = null;
+        this.form.selectedPath = null;
+        this.form.newFolderName = null;
+        this.$refs.moduleWithDirSelect.reload();
+      }
     }
   }
 }

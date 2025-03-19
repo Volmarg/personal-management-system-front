@@ -40,6 +40,20 @@
         return this.$axios.post(url, data).then((response) => {
           return this.handleResponse(response);
         })
+      },
+      /**
+       * @description renames existing folder
+       */
+      async renameFolder(currDirPath: string, newDirName: string): Promise<boolean> {
+        let data = {
+          currDirPath: currDirPath,
+          newDirName: newDirName,
+        };
+
+        let url = SymfonyStorageRoutes.buildUrl(SymfonyStorageRoutes.FOLDER_RENAME_URL);
+        return this.$axios.post(url, data).then((response) => {
+          return this.handleResponse(response);
+        })
       }
     },
     watch: {
