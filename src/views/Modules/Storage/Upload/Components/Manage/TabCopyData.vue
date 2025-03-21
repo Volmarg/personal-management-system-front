@@ -6,12 +6,14 @@
       <h2 class="text-lg">{{ $t('storage.page.manage.tab.copyData.form.text.from.label') }}</h2>
       <ModuleWithFoldersSelect @module-select-change="form.from.selectedModule = $event"
                                @folder-select-change="form.from.selectedPath = $event"
+                               ref="moduleWithDirSelectFrom"
                                class="mb-4 s"
       />
 
       <h2 class="text-lg">{{ $t('storage.page.manage.tab.copyData.form.text.to.label') }}</h2>
       <ModuleWithFoldersSelect @module-select-change="form.to.selectedModule = $event"
                                @folder-select-change="form.to.selectedPath = $event"
+                               ref="moduleWithDirSelectTo"
                                class="mb-4 s"
       />
 
@@ -42,6 +44,8 @@ import ModuleWithFoldersSelect from "@/views/Modules/Storage/Common/ModuleWithFo
 import MediumButtonWithIcon    from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import Checkbox                from "@/components/Form/Checkbox.vue";
 
+import FolderHandlerMixin from "@/views/Modules/Storage/Mixin/FolderHandlerMixin.vue";
+
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {
@@ -65,12 +69,30 @@ export default {
     MediumButtonWithIcon,
     ModuleWithFoldersSelect,
   },
+  mixins: [
+    FolderHandlerMixin,
+  ],
   methods: {
     /**
      * @description handler for submitting the folder creation form
      */
-    onSubmit(): void {
-      // todo
+    async onSubmit(): Promise<void> {
+      let isSuccess = await this.moveOrCopyDir(
+          this.form.from.selectedPath,
+          this.form.to.selectedPath,
+          this.form.moveWholeFolder,
+          this.form.to.selectedModule,
+      );
+
+      if (isSuccess) {
+        this.form.from.selectedPath = null;
+        this.form.from.selectedModule = null;
+        this.form.to.selectedPath = null;
+        this.form.to.selectedModule = null;
+        this.form.moveWholeFolder = false;
+        this.$refs.moduleWithDirSelectFrom.reload();
+        this.$refs.moduleWithDirSelectTo.reload();
+      }
     },
     /**
      * @description toggle state of "move" checkbox

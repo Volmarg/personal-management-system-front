@@ -22,7 +22,6 @@
        * @description will fetch and set the dirs structure
        */
       async getDirsStructure(moduleName: string): Promise<Array> {
-        this.store = StorageState();
         this.store.moduleName = moduleName;
         await this.store.getAll();
         this.dirsStructure = this.store.allEntries;
@@ -54,7 +53,26 @@
         return this.$axios.post(url, data).then((response) => {
           return this.handleResponse(response);
         })
+      },
+      /**
+       * @description will move dir or copy its content copy dir between storages structure
+       */
+      async moveOrCopyDir(currDirPath: string, newDirPath: string, move: boolean, targetModuleName: string): Promise<boolean> {
+        let data = {
+          currDirPath: currDirPath,
+          newDirParentPath: newDirPath,
+          move: move,
+          targetModuleName: targetModuleName,
+        };
+
+        let url = SymfonyStorageRoutes.buildUrl(SymfonyStorageRoutes.FOLDER_MOVE_OR_COPY_URL);
+        return this.$axios.post(url, data).then((response) => {
+          return this.handleResponse(response);
+        })
       }
+    },
+    beforeMount() {
+      this.store = StorageState();
     },
     watch: {
       'store.allEntries': {
