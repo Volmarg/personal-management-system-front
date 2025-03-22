@@ -24,7 +24,7 @@
             <div class="logo">
               <a href="#" class="flex justify-center md:justify-start">
                 <img
-                    src="logo-white.svg"
+                    src="/public/logo-white.svg"
                     class="mb-3 w-1/2 md:w-2/4 lg:w-1/2"
                 >
               </a>

@@ -5,7 +5,7 @@
 
       <div class="logo flex-column">
         <router-link :to="routePaths.home" class="align-self-center">
-          <img src="logo.svg" />
+          <img src="/public/logo.svg" />
         </router-link>
       </div>
 

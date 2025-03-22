@@ -9,7 +9,7 @@
                 class="navbar-brand cursor-default"
                 @click.prevent
             >
-              <img src="logo.svg"
+              <img src="/public/logo.svg"
                    alt="img"
                    class="img-fluid sticky-logo top-bar-logo"></a>
             <button type="button"

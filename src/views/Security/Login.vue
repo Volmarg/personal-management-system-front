@@ -6,7 +6,7 @@
         <div class="lg:flex lg:flex-col w-full lg:w-1/2  text-white p-8 items-start justify-between relative background">
           <div class="uppercase font-bold text-base tracking-wider flex flex-row items-center lg:justify-start w-full whitespace-nowrap text-white justify-center mb-8 lg:mb-0">
             <a class="flex flex-row items-center justify-start space-x-2 logo-link" href="/">
-              <img src="logo-white.svg" />
+              <img src="/public/logo-white.svg" />
             </a>
           </div>
           <div class="flex flex-col w-full">
