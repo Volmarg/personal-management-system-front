@@ -11,6 +11,7 @@
 
       <LinksMenu />
       <Copyright />
+      <AuthorInfo />
     </footer>
 
   </div>
@@ -19,9 +20,11 @@
 <script lang="ts">
 import LinksMenu from "@/components/LoggedIn/Navigation/Footer/components/LinksMenu/LinksMenu.vue";
 import Copyright from "@/components/LoggedIn/Navigation/Footer/components/Copyright.vue";
+import AuthorInfo from "@/components/LoggedIn/Navigation/Footer/components/AuthorInfo.vue";
 
 export default {
   components: {
+    AuthorInfo,
     LinksMenu,
     Copyright
   }

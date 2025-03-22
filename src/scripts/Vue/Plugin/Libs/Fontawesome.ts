@@ -74,6 +74,11 @@ import {
     faBell,
 } from '@fortawesome/free-regular-svg-icons';
 
+import {
+    faGithub,
+    faLinkedin,
+    faXing,
+} from '@fortawesome/free-brands-svg-icons';
 
 /**
  * @description this class handles loading of fontawesome icons
@@ -156,6 +161,9 @@ export default class Fontawesome
         library.add(faCopy);
         library.add(faLink);
         library.add(faBell);
+        library.add(faGithub);
+        library.add(faLinkedin);
+        library.add(faXing);
 
         return FontAwesomeIcon;
     }
