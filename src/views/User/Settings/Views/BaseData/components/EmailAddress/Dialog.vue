@@ -22,6 +22,7 @@
 
       <MediumButtonWithIcon :text="$t('userSettings.tab.baseData.children.emailAddress.form.submit.label')"
                             :is-mobile-full-width="true"
+                            :disabled="isDemo"
                             @button-click="save"
                             class="submit-button"
       >
@@ -57,6 +58,7 @@ import Modal                from "@/components/Modal/Modal.vue";
 
 import VuelidateHandler from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
 
+import DemoAwareMixin      from "@/mixins/Awarness/DemoAwareMixin.vue";
 import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
 
 import useVuelidate      from "@vuelidate/core";
@@ -93,6 +95,7 @@ export default {
   mixins: [
     VuelidateHandler,
     ResponsiveVarsMixin,
+    DemoAwareMixin,
   ],
   components: {
     "la" : LineAwesome,
@@ -113,7 +116,7 @@ export default {
      * @description handles saving user data in DB
      */
     save(): void {
-      if (!this.validateForm()) {
+      if (this.isDemo || !this.validateForm()) {
         return;
       }
 

@@ -6,7 +6,7 @@
             },
             "texts": {
                 "msg": {
-                    "disabled": "Registration has been disabled",
+                    "disabled": "Demo version: registration has been disabled",
                     "success": "Registration was successful, You can now log in,"
                 },
                 "links": {

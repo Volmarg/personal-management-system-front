@@ -22,6 +22,7 @@
         <MediumButtonWithIcon
             background-color-class="bg-blue-500"
             :text="$t(`userSettings.tab.security.children.${translationGroup}.form.submit.label`)"
+            :disabled="isDemo"
             class="w-full sm:w-auto m-0-force"
             button-classes="w-full sm:w-auto"
             text-classes="text-center w-full"
@@ -40,6 +41,7 @@ import Modal                    from "@/components/Modal/Modal.vue";
 import MediumButtonWithIcon     from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import PasswordWithConfirmation from "@/components/Form/PasswordWithConfirmation.vue";
 
+import DemoAwareMixin      from "@/mixins/Awarness/DemoAwareMixin.vue";
 import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
@@ -72,6 +74,7 @@ export default {
   ],
   mixins: [
     ResponsiveVarsMixin,
+    DemoAwareMixin,
   ],
   components: {
     PasswordWithConfirmation,
@@ -113,7 +116,7 @@ export default {
      * @description handles sending the raw password to the backend
      */
     save(): void {
-      if (!this.validateForm()) {
+      if (this.isDemo || !this.validateForm()) {
         return;
       }
 

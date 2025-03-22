@@ -148,9 +148,15 @@ export default class VueRouterGuards
     private denyRegister(router: Router): Router {
         router.beforeEach( async (to, from, next) => {
             if (to.name === VueRouter.ROUTE_NAME_REGISTER) {
+                if (EnvReader.isDemo()) {
+                    EventDispatcherService.emitShowNotification(ToastTypeEnum.info, null, 'security.register.texts.msg.disabled');
+                    await router.push(VueRouter.ROUTE_PATH_HOME);
+                    return;
+                }
+
                 let response = await (new AppAxios).get(SymfonySecurityRoutes.buildUrl(SymfonySecurityRoutes.URL_CAN_REGISTER_CHECK));
                 if (response.code !== 200) {
-                    EventDispatcherService.emitShowNotification(ToastTypeEnum.info, null, 'security.register.texts.msg.disabled');
+                    EventDispatcherService.emitShowNotification(ToastTypeEnum.info, response.message);
                     await router.push(VueRouter.ROUTE_PATH_HOME);
                 } else {
                     next();
