@@ -11,5 +11,11 @@ export type ConfigLoaderEncryption = {
 export type ConfigLoaderGeneral = {
     directories: {
         translations: string,
+    },
+    demo: {
+        user: {
+            login: string,
+            password: string,
+        }
     }
 }

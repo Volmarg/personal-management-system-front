@@ -1,5 +1,11 @@
 {
   "directories": {
     "translations": "translations"
+  },
+  "demo": {
+    "user": {
+      "login": "admin@admin.admin",
+      "password": "admin"
+    }
   }
 }

@@ -107,6 +107,7 @@
 import SymfonyRoutes         from "@/router/SymfonyRoutes";
 import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 
+import ConfigLoader          from "@/scripts/Core/Services/ConfigLoader/ConfigLoader";
 import LocalStorageService   from "@/scripts/Core/Services/Storage/LocalStorageService";
 import StringTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 import Logger                from "@/scripts/Core/Logger";
@@ -268,11 +269,45 @@ export default {
         this.$router.push(VueRouter.ROUTE_PATH_LOGIN);
       })
 
+    },
+    /**
+     * @description will set email initial value
+     */
+    prefillEmail(): void {
+      if (EnvReader.isDemo()) {
+        this.email = ConfigLoader.general.demo.user.login;
+        return;
+      }
+
+      if (EnvReader.isDev()) {
+        this.email = EnvReader.getPrefilledLoginEmail();
+        return;
+      }
+
+      this.email = '';
+    },
+    /**
+     * @description will set password initial value
+     */
+    prefillPassword(): void {
+      if (EnvReader.isDemo()) {
+        this.password = ConfigLoader.general.demo.user.password;
+        return;
+      }
+
+      if (EnvReader.isDev()) {
+        this.password = EnvReader.getPrefilledLoginPassword();
+        return;
+      }
+
+      this.password = '';
     }
   },
   async beforeMount(): Promise<void> {
     let response = await this.$axios.get(SymfonySecurityRoutes.buildUrl(SymfonySecurityRoutes.URL_CAN_REGISTER_CHECK));
     this.canRegister = response.code === 200;
+    this.prefillEmail();
+    this.prefillPassword();
   }
 }
 </script>
