@@ -6,7 +6,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import UtilsMixin from "@/views/Modules/Calendar/Schedules/Mixin/UtilsMixin.vue";
 
-import * as TuiDatePicker from 'tui-date-picker'
+import TuiDatePicker from 'tui-date-picker'
 import ArrayTypeProcessor from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
 
 /**
