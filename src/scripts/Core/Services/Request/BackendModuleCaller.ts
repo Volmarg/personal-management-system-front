@@ -2,7 +2,6 @@ import BaseApiResponse      from "@/scripts/Response/BaseApiResponse";
 import AppAxios             from "@/scripts/Core/Services/Request/AppAxios";
 import UrlService           from "@/scripts/Core/Services/Url/UrlService";
 import SymfonyRoutes        from "@/router/SymfonyRoutes";
-import TranslationsProvider from "@/scripts/Vue/Provider/TranslationsProvider";
 import WindowService        from "@/scripts/Core/Services/WindowService";
 
 import ToastNotification, {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
@@ -24,15 +23,15 @@ export class BackendModuleCaller {
      * @description handles creating module record
      */
     public async new(config: BackendModuleCallConfig): Promise<BaseApiResponse> {
-        let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordCreated');
-        let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.couldNotCreateRecord');
+        let successTransStr = 'module.action.text.recordCreated';
+        let failTransStr    = 'module.action.text.couldNotCreateRecord';
 
         let calledUrl = SymfonyRoutes.buildUrl((config.parentId ? (UrlService.addTrailingSlash(config.baseUrl) + config.parentId) : config.baseUrl));
 
         EventDispatcherService.emitShowFullPageLoader();
         return await new AppAxios().post(calledUrl, config.dataBag, config.castedDto).then((response) => {
             EventDispatcherService.emitHideFullPageLoader();
-            return this.handleResponse(response, successMsg, failMsg, config.reload);
+            return this.handleResponse(response, successTransStr, failTransStr, config.reload);
         }).catch((error) => {
             EventDispatcherService.emitHideFullPageLoader();
             throw error;
@@ -43,8 +42,8 @@ export class BackendModuleCaller {
      * @description handles updating module record
      */
     public async update(config: BackendModuleCallConfig): Promise<BaseApiResponse> {
-        let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordUpdated');
-        let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.recordCouldNotBeUpdated');
+        let successTransStr = 'module.action.text.recordUpdated';
+        let failTransStr    = 'module.action.text.recordCouldNotBeUpdated';
 
         let url = SymfonyRoutes.buildUrl((config.id ? UrlService.addTrailingSlash(config.baseUrl) + config.id : config.baseUrl));
         if (config.parentId) {
@@ -54,7 +53,7 @@ export class BackendModuleCaller {
         EventDispatcherService.emitShowFullPageLoader();
         return await new AppAxios().patch(url, config.dataBag, config.castedDto).then((response) => {
             EventDispatcherService.emitHideFullPageLoader();
-            return this.handleResponse(response, successMsg, failMsg, config.reload);
+            return this.handleResponse(response, successTransStr, failTransStr, config.reload);
         }).catch((error) => {
             EventDispatcherService.emitHideFullPageLoader();
             throw error;
@@ -65,15 +64,15 @@ export class BackendModuleCaller {
      * @description handles removing module record
      */
     public async remove(baseUrl: string, id: number | string, reload: boolean = true): Promise<BaseApiResponse> {
-        let successMsg = await new TranslationsProvider().getTranslation('module.action.text.recordHasBeenRemoved');
-        let failMsg    = await new TranslationsProvider().getTranslation('module.action.text.recordCouldNotBeRemoved');
+        let successTransStr = 'module.action.text.recordHasBeenRemoved';
+        let failTransStr    = 'module.action.text.recordCouldNotBeRemoved';
 
         let calledUrl = SymfonyRoutes.buildUrl(UrlService.addTrailingSlash(baseUrl) + id);
 
         EventDispatcherService.emitShowFullPageLoader();
         return await new AppAxios().delete(calledUrl).then((response) => {
             EventDispatcherService.emitHideFullPageLoader();
-            return this.handleResponse(response, successMsg, failMsg, reload);
+            return this.handleResponse(response, successTransStr, failTransStr, reload);
         }).catch((error) => {
             EventDispatcherService.emitHideFullPageLoader();
             throw error;
@@ -181,22 +180,37 @@ export class BackendModuleCaller {
      */
     private handleResponse(
         response: BaseApiResponse,
-        successMessage: string | null = null,
-        failMsg: string | null = null,
+        successTransString: string | null = null,
+        failTransString: string | null = null,
         reload: boolean = true
     ): void {
 
         let type: string;
         let msg: string;
+        let usingTransStr = false;
         if (!response.success) {
             type = ToastNotification.getTypeFromCode(response.code)
-            msg = (response.message ? response.message : failMsg);
+            msg = failTransString;
+            if (response.message) {
+                msg = response.message
+                usingTransStr = true;
+            }
         } else {
             type = ToastTypeEnum.success;
-            msg = (successMessage ? successMessage : response.message);
+            msg = (successTransString ? successTransString : response.message);
+            msg = response.message;
+            if (successTransString) {
+                msg = successTransString
+                usingTransStr = true;
+            }
         }
 
-        ToastNotification.showAlert(type, msg);
+        if (usingTransStr) {
+            EventDispatcherService.emitShowNotification(type, null, msg);
+        } else {
+            EventDispatcherService.emitShowNotification(type, msg);
+        }
+
         if (reload) {
             WindowService.reloadHistory();
         }
