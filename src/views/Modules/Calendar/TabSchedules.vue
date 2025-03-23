@@ -35,7 +35,7 @@ import DetailPopupMixin from "@/views/Modules/Calendar/Schedules/Mixin/DetailPop
 
 import DataTransformerMixin from "@/views/Modules/Calendar/Schedules/Mixin/DataTransformerMixin.vue";
 
-import * as Calendar from "tui-calendar";
+import Calendar from 'tui-calendar';
 
 import {ComponentData}                      from "@/scripts/Vue/Types/Components/types";
 import {ICalendarInfo, IOptions, ISchedule} from "tui-calendar";
