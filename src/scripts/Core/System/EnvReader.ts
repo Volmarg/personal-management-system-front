@@ -1,6 +1,7 @@
-import BaseError         from "@/scripts/Core/Error/BaseError";
-import BoolTypeProcessor from "@/scripts/Core/Services/TypesProcessors/BoolTypeProcessor";
-import {AlertTypesEnums} from "@/components/Notification/Alert.vue"
+import BaseError           from "@/scripts/Core/Error/BaseError";
+import BoolTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/BoolTypeProcessor";
+import {AlertTypesEnums}   from "@/components/Notification/Alert.vue"
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 /**
  * @description handles reading of env data
@@ -51,12 +52,21 @@ export default class EnvReader {
     }
 
     /**
-     * @description get backend base url
+     * @description get backend base url.
+     *              If only port is provided then rest is going to be taken from the called url.
+     *              This solution was added to avoid necessity of setting backend url of other source,
+     *              since by designed it was planned that backend and front will be stored on the same devices / host.
+     *              It's still possible to provide different url, it's just avoided this way.
      */
     public static getBackendBaseUrl(): string
     {
-        EnvReader.validateEnvVariableExistence(EnvReader.ENV_KEY_VUE_APP_BACKEND_BASE_URL);
-        return import.meta.env[EnvReader.ENV_KEY_VUE_APP_BACKEND_BASE_URL] as string;
+        EnvReader.validateEnvVariableExistence(EnvReader.ENV_KEY_VUE_APP_BACKEND_BASE_URL)
+        let baseUrl = import.meta.env[EnvReader.ENV_KEY_VUE_APP_BACKEND_BASE_URL] as string;
+        if (StringTypeProcessor.isNumber(baseUrl)) {
+            return `${window.location.protocol}//${window.location.hostname}:${baseUrl}`;
+        }
+
+        return baseUrl;
     }
 
     /**
