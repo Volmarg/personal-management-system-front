@@ -441,7 +441,8 @@ export default {
   },
   watch: {
     searchValue(): void {
-      this.refresh(1);
+      this.currentPage = 1;
+      this.refresh(this.currentPage);
     },
     data(): void {
       this.refresh(this.currentPage);
