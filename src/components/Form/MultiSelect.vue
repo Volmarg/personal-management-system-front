@@ -273,6 +273,11 @@ export default {
      */
     setValueForMode(value): void {
       if (this.isTagMode) {
+        if (StringTypeProcessor.isEmptyString()) {
+          this.value = [];
+          return;
+        }
+
         this.value = [value];
         return;
       }
