@@ -12,6 +12,8 @@ import HolidaysSummaryTable from "@/views/Modules/Job/Holidays/HolidaysSummaryTa
 
 import {ComponentData}  from "@/scripts/Vue/Types/Components/types";
 
+import ArrayTypeProcessor from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
+
 export default {
   data(): ComponentData {
     return {
@@ -106,7 +108,7 @@ export default {
         })
       }
 
-      return data;
+      return ArrayTypeProcessor.sortObjects(data, "values.year.value");
     }
   }
 }

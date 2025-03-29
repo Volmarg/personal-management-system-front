@@ -12,6 +12,7 @@ import SimpleTable from "@/components/Ui/Table/SimpleTable.vue";
 
 import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
 import SymfonyReportsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyReportsRoutes";
+import ArrayTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
 
 export default {
   data(): ComponentData {
@@ -76,7 +77,7 @@ export default {
         });
       }
 
-      return tableData;
+      return ArrayTypeProcessor.sortObjects(tableData, "values.monthAndYear.value");
     }
   },
   async beforeMount(): Promise<void> {

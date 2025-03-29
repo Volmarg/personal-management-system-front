@@ -4,6 +4,8 @@
 import TypeChecker from "@/scripts/Core/Services/Types/TypeChecker";
 import BaseError from "@/scripts/Core/Error/BaseError";
 
+import {JSONPath} from "jsonpath-plus";
+
 export default class ArrayTypeProcessor {
 
     /**
@@ -103,6 +105,39 @@ export default class ArrayTypeProcessor {
             ArrayTypeProcessor.cartesianProduct(input, result, depth, currentDepth, char + stringBetween, stringBetweenOriginal);
         }
 
+    }
+
+    /**
+     * @description sorts the array of objects by object path
+     */
+    public static sortObjects(object: Array, path: string, direction: string = "DESC"): Array {
+        let validateValue = (value) => {
+            if (!TypeChecker.isScalar(value)) {
+                throw new BaseError(`Value of path ${path} is not scalar - cannot compare`)
+            }
+        }
+
+        if ("DESC" === direction) {
+            return object.sort(function (curr, next) {
+                let currValue = JSONPath(path, curr)[0] ?? 0;
+                let nextValue = JSONPath(path, next)[0] ?? 0;
+
+                validateValue(currValue);
+                validateValue(nextValue);
+
+                return (currValue < nextValue) ? 1 : ((nextValue < currValue) ? -1 : 0)
+            });
+        }
+
+        return object.sort(function (curr, next) {
+            let currValue = JSONPath(path, JSON.stringify(curr))[0] ?? 0;
+            let nextValue = JSONPath(path, JSON.stringify(next))[0] ?? 0;
+
+            validateValue(currValue);
+            validateValue(nextValue);
+
+            return (currValue > nextValue) ? 1 : ((nextValue > currValue) ? -1 : 0)
+        });
     }
 
 }
