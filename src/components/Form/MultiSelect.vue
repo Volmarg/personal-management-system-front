@@ -594,4 +594,8 @@ $imageSize: 30px;
 .multiselect-caret {
   z-index: 9;
 }
+
+.multiselect-dropdown, .multiselect-options {
+  overscroll-behavior: contain;
+}
 </style>
