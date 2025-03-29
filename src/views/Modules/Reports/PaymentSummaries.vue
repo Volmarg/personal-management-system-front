@@ -60,7 +60,7 @@ export default {
           }
 
           sumPerMonthAndYear[monthData.label] += monthData.value;
-          sumPerMonthAndYear[monthData.label] = NumberTypeProcessor.toFixed(sumPerMonthAndYear[monthData.label], 2);
+          sumPerMonthAndYear[monthData.label] = NumberTypeProcessor.toFixed(monthData.value, 2);
         }
       }
 
