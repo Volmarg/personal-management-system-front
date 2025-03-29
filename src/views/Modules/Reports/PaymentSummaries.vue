@@ -13,6 +13,7 @@ import SimpleTable from "@/components/Ui/Table/SimpleTable.vue";
 import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
 import SymfonyReportsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyReportsRoutes";
 import ArrayTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
+import NumberTypeProcessor  from "@/scripts/Core/Services/TypesProcessors/NumberTypeProcessor";
 
 export default {
   data(): ComponentData {
@@ -58,7 +59,8 @@ export default {
             sumPerMonthAndYear[monthData.label] = 0
           }
 
-          sumPerMonthAndYear[monthData.label] += monthData.value
+          sumPerMonthAndYear[monthData.label] += monthData.value;
+          sumPerMonthAndYear[monthData.label] = NumberTypeProcessor.toFixed(sumPerMonthAndYear[monthData.label], 2);
         }
       }
 
