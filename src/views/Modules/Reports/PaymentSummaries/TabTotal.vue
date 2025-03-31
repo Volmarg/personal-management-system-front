@@ -21,6 +21,8 @@
   </div>
 
   <div class="chart-wrapper lg:p-10 xl:p-20 flex justify-end flex-col">
+    <Actions :chart-instance="chartInstance" />
+
     <canvas
         ref="chartWrapper"
         height="100%"
@@ -31,6 +33,7 @@
 
 <script lang="ts">
 import YearSelect from "@/components/Form/YearSelect.vue";
+import Actions    from "@/components/Libs/ChartJs/Actions.vue";
 
 import ChartJsMixin from "@/mixins/Libs/ChartJsMixin.vue";
 
@@ -53,6 +56,7 @@ export default {
     ChartJsMixin
   ],
   components: {
+    Actions,
     YearSelect,
   },
   computed: {

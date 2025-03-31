@@ -27,6 +27,8 @@
     </div>
 
     <div class="chart-wrapper lg:p-10 xl:p-20 flex justify-end flex-col">
+      <Actions :chart-instance="chartInstance" />
+
       <canvas
           ref="chartWrapper"
           height="100%"
@@ -42,6 +44,7 @@
 <script lang="ts">
 import Base       from "@/views/Modules/Base.vue";
 import YearSelect from "@/components/Form/YearSelect.vue";
+import Actions    from "@/components/Libs/ChartJs/Actions.vue";
 
 import ChartJsMixin from "@/mixins/Libs/ChartJsMixin.vue";
 
@@ -64,6 +67,7 @@ export default {
   ],
   components: {
     YearSelect,
+    Actions,
     Base,
   },
   computed: {

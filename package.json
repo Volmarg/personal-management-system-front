@@ -34,6 +34,7 @@
     "chartjs-plugin-autocolors": "^0.2.2",
     "chartjs-plugin-crosshair": "^2.0.0",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "chartjs-plugin-zoom": "^2.2.0",
     "cookieconsent": "^3.1.1",
     "countries-list": "^2.6.1",
     "crypto": "^1.0.0",

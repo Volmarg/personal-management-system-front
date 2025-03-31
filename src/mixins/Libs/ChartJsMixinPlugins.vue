@@ -16,6 +16,9 @@ import crosshairPlugin from 'chartjs-plugin-crosshair';
 /** @link https://github.com/kurkle/chartjs-plugin-autocolors?tab=readme-ov-file */
 import autoColorPlugin from 'chartjs-plugin-autocolors';
 
+/** @link https://www.chartjs.org/chartjs-plugin-zoom/latest/ */
+import zoomPlugin from 'chartjs-plugin-zoom';
+
 import Chart from "chart.js/auto";
 
 /**
@@ -57,6 +60,7 @@ export default {
     registerPlugins(): void {
       Chart.register(dataLabelsPlugin);
       Chart.register(autoColorPlugin);
+      Chart.register(zoomPlugin);
       this.fixAndRegisterCrosshair()
     },
   },

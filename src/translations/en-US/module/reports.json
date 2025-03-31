@@ -1,5 +1,12 @@
 {
     "reports": {
+        "common": {
+            "zoom": {
+                "increase": "Zoom +{percent}%",
+                "decrease": "Zoom -{percent}%",
+                "reset": "Reset zoom"
+            }
+        },
         "historical": {
             "paymentsSummaries": {
                 "description": "This report contains summary of payments from \"<b>Monthly Payments</b>\" and \"<b>Bills</b>\" for each month.",
