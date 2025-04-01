@@ -27,6 +27,8 @@ import Image       from "@/components/Ui/Image.vue";
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import {TypeStore} from "@/scripts/Vue/Store/Module/Contacts/TypeStore";
 
+import PublicFolderService from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
+
 export default {
   data(): ComponentData {
     return {
@@ -56,7 +58,7 @@ export default {
           value: type.id,
           component: Image,
           props: {
-            path: type.imagePath,
+            path: PublicFolderService.buildUrl(type.imagePath),
             width: '35px'
           }
         })

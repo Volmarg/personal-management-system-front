@@ -15,6 +15,7 @@ import {StoreDefinition} from "pinia";
 import {TypeStore}       from "@/scripts/Vue/Store/Module/Contacts/TypeStore";
 
 import SymfonyContactsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyContactsRoutes";
+import PublicFolderService   from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
 
 import AddEditForm  from "@/views/Modules/Contacts/Components/Settings/Type/AddEditForm.vue";
 import SimpleTable  from "@/components/Ui/Table/SimpleTable.vue";
@@ -99,12 +100,12 @@ export default {
               value: Image,
               isComponent: true,
               componentProps : {
-                path: type.imagePath,
+                path: PublicFolderService.buildUrl(type.imagePath),
                 width: '50px'
               }
             },
             imagePath: {
-              value: type.imagePath,
+              value: PublicFolderService.buildUrl(type.imagePath),
               isComponent: false,
             },
             actions: {

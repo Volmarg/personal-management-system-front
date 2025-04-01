@@ -42,7 +42,7 @@
                    v-for="contactType in contactData.types"
                    :key="JSON.stringify(contactType.uuid)"
               >
-                <div class="img-wrapper"><img :src="contactType.icon_path" /></div>
+                <div class="img-wrapper"><img :src="getFilePublicPath(contactType.icon_path)" /></div>
                 <div class="contact-details">
                   <p>{{contactType.name}}</p>
                   <p>{{contactType.details}}</p>
@@ -79,6 +79,8 @@
 <script lang="ts">
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
+import PublicFolderAwareMixin from "@/mixins/Awarness/PublicFolderAwareMixin.vue";
+
 export default {
   props: {
     contactData: {
@@ -91,6 +93,9 @@ export default {
       default: 'rgb(59, 130, 246)' // text-blue-500
     }
   },
+  mixins: [
+    PublicFolderAwareMixin
+  ],
   components: {
     MediumButtonWithIcon
   },
