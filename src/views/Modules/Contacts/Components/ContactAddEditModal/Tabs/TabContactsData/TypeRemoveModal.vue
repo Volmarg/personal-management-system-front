@@ -15,11 +15,13 @@
 </template>
 
 <script lang="ts">
-import WarningModal                 from "@/components/Modal/WarningModal.vue";
+import WarningModal from "@/components/Modal/WarningModal.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import SymfonyContactsRoutes from "@/router/SymfonyRoutes/Modules/SymfonyContactsRoutes";
+
+import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
 export default {
   emits: [
