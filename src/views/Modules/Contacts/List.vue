@@ -164,6 +164,20 @@ export default {
   },
   methods: {
     /**
+     * @description provides some fixes for legacy PMS 1.0
+     */
+    contactLegacyFixes(): void {
+      this.contacts.forEach((singleContact) => {
+        /**
+         * @description if contact image was not provided then placeholder was used, this can be easily fixed with
+         *              migration, but the goal for 2.0.x is to NOT use any migrations at all (if possible).
+         */
+        if (singleContact.imagePath.includes("avatar_placeholder")) {
+          singleContact.imagePath = "image/system/dummy-avatar.png";
+        }
+      });
+    },
+    /**
      * @description case no more entries are present in given group - reset the variable in order to show all entries
      */
     resetSelectedGroup(): void {
@@ -184,12 +198,14 @@ export default {
     this.store = ContactsStore()
     await this.store.getAll();
     this.contacts = this.store.allEntries;
+    this.contactLegacyFixes();
   },
   watch: {
     'store.allEntries': {
       deep: true,
       handler: function() {
         this.contacts = this.store.allEntries;
+        this.contactLegacyFixes();
         this.resetSelectedGroup();
         if (!this.handledContact || !this.handledContact.id) {
           return;
