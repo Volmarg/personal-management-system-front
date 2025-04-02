@@ -27,6 +27,15 @@
                     },
                     "description": "Do You really want to remove selected files?"
                 },
+                "removeFolderModal": {
+                    "header": {
+                        "label": "Remove folder"
+                    },
+                    "description": {
+                        "line1": "Do You really want to remove currently open folder?",
+                        "line2": "All its files, and subdirectories will be <b>permanently</b> removed as well!"
+                    }
+                },
                 "newFolderModal": {
                     "header": {
                         "label": "Add folder"
@@ -120,6 +129,9 @@
             "button": {
                 "addFolder": {
                     "label": "Add folder"
+                },
+                "removeFolder": {
+                    "label": "Remove folder"
                 },
                 "uploadFile": {
                     "label": "Upload file"

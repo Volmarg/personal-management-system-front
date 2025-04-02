@@ -9,6 +9,13 @@
         :is-close-full-width="true"
         @modal-closed="$emit('modalClosed')"
     >
+      <template #aboveTitle>
+        <div class="mb-2">
+          <fa :icon="['fa', 'exclamation-triangle']"
+              class="text-orange-700 text-5xl"
+          />
+        </div>
+      </template>
 
       <template #content>
         <slot name="content"></slot>

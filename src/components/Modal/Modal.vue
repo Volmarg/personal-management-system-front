@@ -40,6 +40,7 @@
                  }"
             >
               <div class="flex flex-col w-full">
+                <slot name="aboveTitle"></slot>
                 <div class="text-lg mb-2 font-bold modal-header-label text-center"
                      :class="{
                         'mt-2': !hasBodyPadding
