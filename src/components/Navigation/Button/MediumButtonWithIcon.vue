@@ -116,7 +116,17 @@ export default {
     /**
      * @description check if given element is the button itself
      */
-    isButtonItself(domElement: HTMLElement): boolean {
+    isButtonItself(domElement: HTMLElement | null): boolean {
+      /**
+       * @description this weird thing was added due to contacts page select throwing error "cannot access classList" on null,
+       *              guessing that this can happen when dom element is for some reason gone from tree. Already tried
+       *              catching the null check in the {@see onMenuAwayClick}, but there the node is present while in current
+       *              scope it's already null.
+       */
+      if (null === domElement) {
+        return false;
+      }
+
       return domElement.classList.contains('medium-button-with-icon');
     },
     /**
@@ -124,7 +134,7 @@ export default {
      *              hiding when user clicks on any element that is a part of the button
      */
     onMenuAwayClick(event: PointerEvent): void {
-      let domElement = event.target as HTMLElement;
+      let domElement = event.target as HTMLElement | null;
 
       if (this.isButtonItself(domElement)) {
         return
