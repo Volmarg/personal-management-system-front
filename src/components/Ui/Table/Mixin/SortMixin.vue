@@ -1,6 +1,9 @@
 <script lang="ts">
-import moment      from "moment/moment";
-import TypeChecker from "@/scripts/Core/Services/Types/TypeChecker";
+import moment from "moment/moment";
+
+import TypeChecker         from "@/scripts/Core/Services/Types/TypeChecker";
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -32,18 +35,18 @@ export default {
 
       this.activeSortColumn = header.label;
       if (this.activeSortDirection === "desc") {
-        if (!isSorted && TypeChecker.isNumber(this.rowsData[0][index].value)){
+        if (this.shouldSortNumber(isSorted, index)){
           this.rowsData.sort((prev, next) => next[index].value - prev[index].value);
           isSorted = true;
         }
 
-        if (!isSorted && this.rowsData[0][index].value.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/) && moment(this.rowsData[0][index].value).isValid()) {
+        if (this.shouldSortDate(isSorted, index)) {
           this.rowsData.sort((prev, next) => moment(next[index].value).valueOf() - moment(prev[index].value).valueOf());
           isSorted = true;
         }
 
-        if (!isSorted && TypeChecker.isString(this.rowsData[0][index].value)) {
-          this.rowsData.sort((prev, next) => next[index].value.localeCompare(prev[index].value));
+        if (this.shouldSortString(isSorted, index)) {
+          this.rowsData.sort((prev, next) => (next[index].value ?? "").localeCompare(prev[index].value ?? ""));
         }
 
         this.activeSortDirection = "asc";
@@ -51,22 +54,44 @@ export default {
         return;
       }
 
-      if (!isSorted && TypeChecker.isNumber(this.rowsData[0][index].value)){
+      if (this.shouldSortNumber(isSorted, index)){
         this.rowsData.sort((prev, next) => prev[index].value - next[index].value);
         isSorted = true;
       }
 
-      if (!isSorted && this.rowsData[0][index].value.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/) && moment(this.rowsData[0][index].value).isValid()) {
+      if (this.shouldSortDate(isSorted, index)) {
         this.rowsData.sort((prev, next) => moment(prev[index].value).valueOf() - moment(next[index].value).valueOf());
         isSorted = true;
       }
 
-      if (!isSorted && TypeChecker.isString(this.rowsData[0][index].value)) {
-        this.rowsData.sort((prev, next) => prev[index].value.localeCompare(next[index].value));
+      if (this.shouldSortString(isSorted, index)) {
+        this.rowsData.sort((prev, next) => (prev[index].value ?? "").localeCompare(next[index].value ?? ""));
       }
 
       this.activeSortDirection = "desc";
       this.refresh(this.currentPage);
+    },
+    /**
+     * @description decide is string based sort should be handled
+     */
+    shouldSortString(isSorted: boolean, index: number): boolean {
+      return !isSorted && (
+             TypeChecker.isString(this.rowsData[0][index].value)
+          || StringTypeProcessor.isEmptyString(this.rowsData[0][index].value, true, true)
+      );
+    },
+    /**
+     * @description decide if date sorting should be handled
+     */
+    shouldSortDate(isSorted: boolean, index: number): boolean {
+      return !isSorted
+          && (this.rowsData[0][index].value ?? "").match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/) && moment(this.rowsData[0][index].value).isValid();
+    },
+    /**
+     * @description decide if number sorting should be handled
+     */
+    shouldSortNumber(isSorted: boolean, index: number): boolean {
+      return !isSorted && TypeChecker.isNumber(this.rowsData[0][index].value);
     }
   }
 }
