@@ -37,9 +37,7 @@ export default class VueRouter
     static readonly ROUTE_NAME_USER_SETTINGS        = "UserSettings";
     static readonly ROUTE_NAME_SYSTEM_SETTINGS      = "SystemSettings";
     static readonly ROUTE_NAME_REGISTER             = "Register";
-    static readonly ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION = "UserProfilePasswordResetConfirmation";
     static readonly ROUTE_NAME_DEVELOPMENT_PLAYGROUND = "DevelopmentPlayground";
-    static readonly ROUTE_NAME_USER_NOT_ACTIVATED = "UserNotActivated"
 
     /**
      * @description definitions of routes paths
@@ -52,7 +50,6 @@ export default class VueRouter
     static readonly ROUTE_PATH_MAINTENANCE  = "/maintenance";
     static readonly ROUTE_PATH_USER_SETTINGS                            = "/panel/user/settings";
     static readonly ROUTE_PATH_SYSTEM_SETTINGS                          = "/panel/system/settings";
-    static readonly ROUTE_PATH_USER_PROFILE_PASSWORD_RESET_CONFIRMATION = "/user/profile-password-reset-confirmation/:token"
     static readonly ROUTE_PATH_DEVELOPMENT_PLAYGROUND                   = "/panel/development/playground"
 
     /**
@@ -79,11 +76,6 @@ export default class VueRouter
             path: VueRouter.ROUTE_PATH_REGISTER,
             name: VueRouter.ROUTE_NAME_REGISTER,
             component: (): Promise<Component> => import("@/views/Security/Register.vue"),
-        },
-        {
-            path: VueRouter.ROUTE_PATH_USER_PROFILE_PASSWORD_RESET_CONFIRMATION,
-            name: VueRouter.ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION,
-            component: (): Promise<Component> => import("@/views/User/PasswordResetConfirmation.vue")
         },
         /**
          * @description Logged in user routes

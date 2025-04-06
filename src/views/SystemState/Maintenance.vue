@@ -3,9 +3,6 @@
     <img src="/public/image/error-pages/maintenance/Maintenance.svg">
     <h2 class="headline">{{ headline }}</h2>
     <p class="text">{{ text }}</p>
-    <a href="#"
-       class="bottom-button"
-    >Home</a>
   </section>
 </template>
 
