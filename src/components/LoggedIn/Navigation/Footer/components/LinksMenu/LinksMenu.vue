@@ -5,30 +5,10 @@
       <li class="menu__item">
         <a
             class="menu__link"
-            @click.prevent="goInfoPageAndSection($event)"
-            data-target-selector="#home-section"
-        >
-          {{ $t('infoPage.menu.home.label') }}
-        </a>
-      </li>
-
-      <li class="menu__item">
-        <a
-            class="menu__link"
-            @click.prevent="goInfoPageAndSection($event)"
-            data-target-selector="#about-us-section"
-        >
-          {{ $t('infoPage.menu.about.label') }}
-        </a>
-      </li>
-
-      <li class="menu__item">
-        <a
-            class="menu__link"
-            @click.prevent="goInfoPageAndSection($event)"
+            href="#todo"
             data-target-selector="#faq"
         >
-          {{ $t('infoPage.menu.faq.label') }}
+          {{ $t('navbar.footer.documentation.label') }}
         </a>
       </li>
 
@@ -39,7 +19,6 @@
 
 <script lang="ts">
 import DomService     from "@/scripts/Core/Services/DomService";
-import VueRouter      from "@/router/VueRouter";
 import PromiseService from "@/scripts/Core/Services/Promise/PromiseService";
 
 export default {
@@ -59,13 +38,6 @@ export default {
       })
 
       DomService.goToSection(clickedElement, -150)
-    },
-    /**
-     * @description goes to info page and then scrolls in view to the clicked section
-     */
-    async goInfoPageAndSection(event: PointerEvent): Promise<void> {
-      await this.$router.push(VueRouter.ROUTE_PATH_INFO);
-      this.goToSection(event);
     }
   }
 }

@@ -51,9 +51,6 @@
             "loginHeader": "Login",
             "welcomeTo": "Welcome to",
             "links": {
-                "homePage": {
-                    "label": "Home page:"
-                },
                 "register": {
                     "label": "New user:",
                     "linkText": "register here"

@@ -1,5 +1,10 @@
 {
     "navbar": {
+        "footer": {
+            "documentation": {
+                "label": "Documentation"
+            }
+        },
         "topBar": {
             "userMenu": {
                 "profile": {
@@ -24,10 +29,6 @@
                 "logout": {
                     "description": "Bye Bye!",
                     "label": "Logout"
-                },
-                "about": {
-                    "description": "You will be moved to the external page with guide related to this project.",
-                    "label": "About"
                 }
             },
             "notification": {
@@ -35,7 +36,7 @@
             },
             "timer": {
                 "timeLeft": {
-                    "message": "Time left untill logged out"
+                    "message": "Time left until logged out"
                 }
             }
         },

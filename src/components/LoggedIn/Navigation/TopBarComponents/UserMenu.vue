@@ -102,20 +102,6 @@
                   </template>
               </single-menu-element>
 
-              <!-- About -->
-              <single-menu-element :label="$t(`navbar.topBar.userMenu.about.label`)"
-                                   :is-link-based="false"
-                                   @click="goToDocs"
-                                   v-tippy="$t('navbar.topBar.userMenu.about.description')"
-              >
-                <template #icon>
-                  <la svg-icon-name="question-circle-solid"
-                      font-size="24"
-                      class="mt-3"
-                  />
-                </template>
-              </single-menu-element>
-
             </ul>
           </div>
         </div>

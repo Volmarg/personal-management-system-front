@@ -1,13 +1,5 @@
 <template>
   <div class="nav-wrapper">
-
-    <router-link :to="{path: route.infoPage}">
-      <ButtonRounded
-          :text="$t('landing-page.common.button.homePage')"
-          button-extra-classes="nav-button"
-      />
-    </router-link>
-
     <router-link :to="{path: route.loginPage}">
       <ButtonRounded
           :text="$t('landing-page.common.button.loginPage')"
@@ -30,7 +22,6 @@ export default {
   data(): ComponentData {
     return {
       route: {
-        infoPage: VueRouter.ROUTE_PATH_INFO,
         loginPage: VueRouter.ROUTE_PATH_LOGIN,
       }
     }

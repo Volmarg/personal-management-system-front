@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isBarVisible">
+  <div>
     <div v-if="systemDisabledStore.isDisabled && !systemDisabledStore.isSoonDisabled">
       <Alert :is-shown="true"
              :text="systemDisabledStore.message"
@@ -35,14 +35,6 @@ export default {
     Alert,
   },
   computed: {
-    /**
-     * @description decide if the bar is visible at all
-     */
-    isBarVisible(): boolean {
-      return(
-          this.$route.name !== VueRouter.ROUTE_NAME_INFO
-      )
-    },
     /**
      * @description will return type of the message bar {@see AlertTypesEnums} for state: system soon getting disabled
      */

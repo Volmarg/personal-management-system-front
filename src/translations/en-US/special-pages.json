@@ -1,6 +1,6 @@
 {
     "404":{
         "message": "Page not found",
-        "button": "Go to home page"
+        "button": "Go back"
     }
 }

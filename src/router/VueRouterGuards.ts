@@ -7,7 +7,6 @@ import VueRouter                     from "@/router/VueRouter";
 import JwtTokenHandler               from "@/scripts/Core/Security/JwtTokenHandler";
 import TypeChecker                   from "@/scripts/Core/Services/Types/TypeChecker";
 import Nprogress                     from "@/scripts/Libs/Nprogress";
-import WindowService                 from "@/scripts/Core/Services/WindowService";
 import SymfonySecurityRoutes         from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 import AppAxios                      from "@/scripts/Core/Services/Request/AppAxios";
 import EventDispatcherService        from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
@@ -31,7 +30,6 @@ export default class VueRouterGuards
             VueRouter.ROUTE_NAME_REGISTER,
             VueRouter.ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION,
             VueRouter.ROUTE_NAME_USER_NOT_ACTIVATED,
-            VueRouter.ROUTE_NAME_INFO,
         ];
     }
 
@@ -57,7 +55,6 @@ export default class VueRouterGuards
         router = this.denyAccessingLoginPageIfAlreadyLoggedIn(router);
         router = this.checkIfRequiredRouteRoleGranted(router);
         router = this.redirectPanelStartPage(router);
-        router = this.scrollUpOnPageVisit(router);
         router = this.denyRegister(router);
 
         return router;
@@ -179,7 +176,6 @@ export default class VueRouterGuards
 
             if(
                     to.name != VueRouter.ROUTE_NAME_MAINTENANCE
-                &&  to.name != VueRouter.ROUTE_NAME_INFO
                 &&  EnvReader.isMaintenance()
             ){
                 router.push(VueRouter.ROUTE_PATH_MAINTENANCE)
@@ -277,23 +273,6 @@ export default class VueRouterGuards
                 &&  undefined === to.name
             ) {
                 router.push(VueRouter.ROUTE_PATH_HOME);
-            }
-            next();
-        });
-
-        return router;
-    }
-
-    /**
-     * @description there is something messed up on certain cases like:
-     *              - being on register page, scrolling down and left-clicking "go to home page",
-     *                user then lands on home page but the page is not scrolling back up (while it normally does)
-     */
-    private scrollUpOnPageVisit(router: Router): Router
-    {
-        router.beforeEach( (to, from, next) => {
-            if (from.name === VueRouter.ROUTE_NAME_REGISTER && to.name == VueRouter.ROUTE_NAME_INFO) {
-                WindowService.scrollToTop();
             }
             next();
         });

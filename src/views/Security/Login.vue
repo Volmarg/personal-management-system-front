@@ -5,7 +5,7 @@
       <div class="w-full flex lg:flex-row lg:h-screen overflow-hidden flex-col-reverse">
         <div class="lg:flex lg:flex-col w-full lg:w-1/2  text-white p-8 items-start justify-between relative background">
           <div class="uppercase font-bold text-base tracking-wider flex flex-row items-center lg:justify-start w-full whitespace-nowrap text-white justify-center mb-8 lg:mb-0">
-            <a class="flex flex-row items-center justify-start space-x-2 logo-link" href="/">
+            <a class="flex flex-row items-center justify-start space-x-2 logo-link cursor-default" @click.prevent>
               <img src="/public/logo-white.svg" />
             </a>
           </div>
@@ -73,12 +73,6 @@
 
             </form>
 
-          </div>
-
-          <div>
-            <span class="text-secondary mr-1">{{ $t('security.login.links.homePage.label') }}
-              <a href="/" class="link">{{$t('generic.clickHere')}}</a>
-            </span>
           </div>
 
           <!-- Register -->

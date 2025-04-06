@@ -30,7 +30,6 @@ export default class VueRouter
     /**
      * @description definitions of routes names
      */
-    static readonly ROUTE_NAME_INFO = "Info";
     static readonly ROUTE_NAME_HOME  = "Home";
     static readonly ROUTE_NAME_LOGIN = "Login";
     static readonly ROUTE_NAME_404   = "404";
@@ -45,7 +44,6 @@ export default class VueRouter
     /**
      * @description definitions of routes paths
      */
-    static readonly ROUTE_PATH_INFO= "/";
     static readonly ROUTE_PATH_NONE     = "#"; // special path, which will cause user to stay on current page
     static readonly ROUTE_PATH_LOGIN    = "/login";
     static readonly ROUTE_PATH_LOGOUT   = "/logout";
@@ -86,11 +84,6 @@ export default class VueRouter
             path: VueRouter.ROUTE_PATH_USER_PROFILE_PASSWORD_RESET_CONFIRMATION,
             name: VueRouter.ROUTE_NAME_USER_PROFILE_PASSWORD_RESET_CONFIRMATION,
             component: (): Promise<Component> => import("@/views/User/PasswordResetConfirmation.vue")
-        },
-        {
-            path: VueRouter.ROUTE_PATH_INFO,
-            name: VueRouter.ROUTE_NAME_INFO,
-            component: (): Promise<Component> => import("@/views/InfoLandingPage/Page.vue")
         },
         /**
          * @description Logged in user routes

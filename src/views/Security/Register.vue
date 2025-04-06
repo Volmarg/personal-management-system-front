@@ -126,7 +126,6 @@ export default {
       lockPasswordConfirmed: "",
       routePaths: {
         login: VueRouter.ROUTE_PATH_LOGIN,
-        info: VueRouter.ROUTE_PATH_INFO,
       },
       violations: {
         email             : [],
