@@ -118,10 +118,6 @@ export default {
     this.showModal = this.isModalVisible;
     this.tags = this.fileData.tags;
     this.name = this.fileData.name;
-
-    if (this.fileData.ext) {
-      this.name += `.${this.fileData.ext}`;
-    }
   }
 }
 </script>
