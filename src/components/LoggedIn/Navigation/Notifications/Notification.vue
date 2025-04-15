@@ -12,11 +12,11 @@
     </div>
 
     <!-- menu -->
-    <div class="dropdown shadow-xl absolute top-0 right-0 mt-16 transition transition-all duration-300 ease-in-out open scale notification-menu"
+    <div class="shadow-xl absolute top-0 right-0 mt-16 transition transition-all duration-300 ease-in-out open scale notification-menu"
          v-click-away="hideMenu"
          :class="{
-              'opacity-100' : isMenuVisible,
-              'opacity-0'   : !isMenuVisible,
+              'opacity-100 dropdown' : isMenuVisible,
+              'opacity-0' : !isMenuVisible,
            }"
     >
       <div class="dropdown-content bottom-end">
