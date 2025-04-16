@@ -14,7 +14,7 @@ services:
       context: .
       dockerfile: ./dockerfile
     ports:
-      - "4001:80"
+      - "4001:80" # If You change this then, You need to update the hmr port of vite.config.js
     networks:
       pms-front-prod:
         ipv4_address: 21.11.0.6
