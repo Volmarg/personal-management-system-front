@@ -8,7 +8,10 @@
     "build-dev": "./build-assets.sh development",
     "serve": "vite preview --port=80 --host",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "analyze-bundles": "npx vite-bundle-visualizer"
+    "analyze-bundles": "npx vite-bundle-visualizer",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -51,7 +54,7 @@
     "moment": "^2.29.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.6",
-    "postcss": "^7",
+    "postcss": "^8.5.3",
     "readable-stream": "npm:vite-compatible-readable-stream@^3.6.1",
     "remove": "^0.1.5",
     "split-camelcase-to-words": "^1.0.1",
@@ -105,6 +108,8 @@
     "vite-bundle-visualizer": "^0.7.0",
     "vite-plugin-static-copy": "^0.16.0",
     "vite-plugin-time-reporter": "^2.1.0",
+    "vitepress": "^1.6.3",
+    "vitepress-plugin-tabs": "^0.7.0",
     "vue-cli-plugin-tailwind": "~2.0.6"
   }
 }
