@@ -109,6 +109,10 @@ export default {
      * @description check if the given element is the view change button
      */
     isViewSwitchButton(domElement): boolean {
+      if (!domElement) {
+        return false;
+      }
+
       return domElement.classList.contains('calendar-view');
     },
     /**
