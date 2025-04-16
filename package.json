@@ -108,8 +108,8 @@
     "vite-bundle-visualizer": "^0.7.0",
     "vite-plugin-static-copy": "^0.16.0",
     "vite-plugin-time-reporter": "^2.1.0",
-    "vitepress": "^1.6.3",
-    "vitepress-plugin-tabs": "^0.7.0",
+    "vitepress": "^1.5.0",
+    "vitepress-plugin-tabs": "^0.6.0",
     "vue-cli-plugin-tailwind": "~2.0.6"
   }
 }

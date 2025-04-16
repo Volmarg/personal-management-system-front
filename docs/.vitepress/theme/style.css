@@ -147,15 +147,16 @@
 }
 
 /* Home page header hero::name */
-h1.heading > span.name {
+h1.name > span.clip {
   max-width: 790px;
+  font-size: 55px;
 }
 
-h1.heading > .text {
+h1.name + .text {
   font-size: 27px;
 }
 
-.main > h1.heading + .tagline {
+.main > h1.name ~ .tagline {
   font-size: 16px;
   width: 100%;
   max-width: 100%;
