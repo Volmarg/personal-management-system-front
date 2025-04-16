@@ -23,7 +23,8 @@
         </div>
         <div class="w-full lg:w-1/2 bg-white p-8 lg:p-24 flex flex-col items-center justify-center lg:items-start mb-8 sm:mb-20">
           <p class="text-2xl font-bold text-blue-500 mb-4">{{ $t('security.login.loginHeader') }}</p>
-          <p v-if="isDev"><small>[Dev-System] Prefilled credentials</small></p>
+          <p v-if="isDev && !isDemo"><small>[Dev-System] Prefilled credentials</small></p>
+          <p v-if="isDemo && !isDev"><small>[Demo-System] Prefilled credentials</small></p>
 
           <div class="flex flex-col">
             <form class="form flex flex-wrap w-full">
@@ -112,6 +113,7 @@ import UserController        from "@/scripts/Core/Controller/UserController";
 import {systemDisabledStore} from "@/scripts/Vue/Store/SystemDisabledState";
 
 import PublicFolderAccessTokenMixin from "@/mixins/System/PublicFolderAccessTokenMixin.vue";
+import DemoAwareMixin               from "@/mixins/Awarness/DemoAwareMixin.vue";
 
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import VueInput             from "@/components/Form/Input.vue";
@@ -162,6 +164,7 @@ export default {
   ],
   mixins: [
     PublicFolderAccessTokenMixin,
+    DemoAwareMixin,
     VuelidateHandler,
   ],
   components: {

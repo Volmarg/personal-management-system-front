@@ -22,6 +22,7 @@
              v-if="isSystemLocked"
         >
           <div class="mt-6 w-full flex flex-col">
+            <p v-if="isDemo && !isDev"><small>[Demo-System] Prefilled credentials</small></p>
             <FormInput type="password"
                        :label="$t('other.lockModal.form.lock.label')"
                        v-model="password"
@@ -39,9 +40,13 @@ import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWit
 import FormInput            from "@/components/Form/Input.vue";
 import Modal                from "@/components/Modal/Modal.vue";
 
-import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
+import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
+import DemoAwareMixin           from "@/mixins/Awarness/DemoAwareMixin.vue";
 
 import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
+
+import ConfigLoader from "@/scripts/Core/Services/ConfigLoader/ConfigLoader";
+import EnvReader    from "@/scripts/Core/System/EnvReader";
 
 import {ComponentData}  from "@/scripts/Vue/Types/Components/types";
 import {ToastTypeEnum}  from "@/scripts/Libs/ToastNotification";
@@ -50,6 +55,7 @@ import {userStateStore} from "@/scripts/Vue/Store/UserState";
 export default {
   data(): ComponentData {
     return {
+      isDev: EnvReader.isDev(),
       isSystemLocked: userStateStore().user?.isSystemLocked ?? true,
       password: null,
       showModal: false,
@@ -69,6 +75,7 @@ export default {
   },
   mixins: [
     ResponsiveModalSizeMixin,
+    DemoAwareMixin,
   ],
   emits: [
     "modalClosed",
@@ -107,6 +114,11 @@ export default {
           }, 1500) // let the user read response message
         }
       })
+    }
+  },
+  created(): void {
+    if (this.isDemo) {
+      this.password = ConfigLoader.general.demo.user.password;
     }
   },
   updated(): void{
