@@ -4,16 +4,19 @@
       <h2 class="text-lg mb-2">{{ header }}</h2>
       <FormInput type="date"
                  v-model="form.date"
+                 :is-required="true"
                  :label="$t('job.afterhours.new.form.date.label')"
       />
 
       <FormInput type="text"
                  v-model="form.description"
+                 :is-required="true"
                  :label="$t('job.afterhours.new.form.description.label')"
       />
 
       <FormInput type="number"
                  v-model="form.minutes"
+                 :is-required="true"
                  :label="$t('job.afterhours.new.form.minutes.label')"
       />
 

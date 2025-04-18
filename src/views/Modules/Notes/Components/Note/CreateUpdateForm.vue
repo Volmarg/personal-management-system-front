@@ -7,6 +7,7 @@
 
       <FormInput type="text"
                  v-model="form.title"
+                 :is-required="true"
                  :label="$t('notes.new.form.title.label')"
       />
 
@@ -17,6 +18,7 @@
       <CategorySelect :label="$t('notes.new.form.category.label')"
                       v-model="form.category"
                       :selected="initialCategory"
+                      :required="true"
       />
 
       <MediumButtonWithIcon :text="$t('notes.new.form.submit.label')"

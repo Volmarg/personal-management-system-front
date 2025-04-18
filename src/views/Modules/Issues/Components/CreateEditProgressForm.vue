@@ -9,6 +9,7 @@
 
       <FormInput type="datetime-local"
                  v-model="form.date"
+                 :is-required="true"
                  :label="$t('issues.pending.modal.viewEdit.tabs.progress.form.date.label')"
       />
 

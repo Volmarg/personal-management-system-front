@@ -5,16 +5,19 @@
         <h2 class="text-lg">{{ $t('payments.monthly.newForm.header') }}</h2>
         <FormInput type="date"
                    v-model="form.date"
+                   :is-required="true"
                    :label="$t('payments.monthly.newForm.date.label')"
         />
 
         <FormInput type="number"
                    v-model="form.money"
+                   :is-required="true"
                    :label="$t('payments.monthly.newForm.money.label')"
         />
 
         <FormInput type="text"
                    v-model="form.description"
+                   :is-required="true"
                    :label="$t('payments.monthly.newForm.description.label')"
         />
 

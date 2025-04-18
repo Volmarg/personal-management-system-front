@@ -5,6 +5,7 @@
 
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('payments.settings.tab.paymentTypes.table.newForm.typeName.label')"
       />
 

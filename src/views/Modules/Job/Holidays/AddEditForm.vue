@@ -10,11 +10,13 @@
 
       <FormInput type="text"
                  v-model="form.information"
+                 :is-required="true"
                  :label="$t('job.holidays.shared.form.information.label')"
       />
 
       <FormInput type="number"
                  v-model="form.daysSpent"
+                 :is-required="true"
                  :label="$t('job.holidays.shared.form.daysSpent.label')"
       />
 

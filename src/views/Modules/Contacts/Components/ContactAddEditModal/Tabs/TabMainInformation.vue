@@ -5,6 +5,7 @@
 
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('contacts.list.modal.addEdit.contactForm.name.label')"
       />
 
@@ -20,6 +21,7 @@
 
       <GroupSelect v-model="form.groupId"
                    :groups-data="groupsData"
+                   :is-required="true"
                    class="mb-6"
       />
 

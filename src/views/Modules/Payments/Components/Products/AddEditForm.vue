@@ -5,11 +5,13 @@
 
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('payments.productPrices.newForm.name.label')"
       />
 
       <FormInput type="number"
                  v-model="form.price"
+                 :is-required="true"
                  :label="$t('payments.productPrices.newForm.price.label')"
       />
 
@@ -25,6 +27,7 @@
 
       <FormInput type="text"
                  v-model="form.information"
+                 :is-required="true"
                  :label="$t('payments.productPrices.newForm.information.label')"
       />
 

@@ -4,11 +4,13 @@
       <h2 class="text-lg">{{ header }}</h2>
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('shopping.plans.form.name.label')"
       />
 
       <FormInput type="text"
                  v-model="form.information"
+                 :is-required="true"
                  :label="$t('shopping.plans.form.information.label')"
       />
 

@@ -4,11 +4,13 @@
       <h2 class="text-lg">{{ header }}</h2>
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('contacts.settings.tabs.contactType.form.name.label')"
       />
 
       <FormInput type="text"
                  v-model="form.imagePath"
+                 :is-required="true"
                  :label="$t('contacts.settings.tabs.contactType.form.imagePath.label')"
       />
 

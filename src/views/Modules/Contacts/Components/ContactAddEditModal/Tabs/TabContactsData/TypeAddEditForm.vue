@@ -4,6 +4,7 @@
       <h2 class="text-lg">{{ header }}</h2>
       <FormInput type="text"
                  v-model="form.value"
+                 :is-required="true"
                  :label="$t('contacts.list.modal.addEdit.typeForm.value.label')"
       />
 

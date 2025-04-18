@@ -10,6 +10,7 @@
           <div class="w-full flex flex-col">
 
             <FormInput type="text"
+                       :is-required="true"
                        :label="$t('storage.page.module.newFolderModal.form.name.label')"
                        v-model="name"
             />

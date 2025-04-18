@@ -5,6 +5,7 @@
 
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('achievements.list.form.name.label')"
       />
 
@@ -26,6 +27,7 @@
           :allow-show-options-list="true"
           :allow-create-options="false"
           :can-clear="true"
+          :required:="true"
           ref="multiselect"
       />
 

@@ -5,16 +5,19 @@
 
       <FormInput type="number"
                  v-model="form.year"
+                 :is-required="true"
                  :label="$t('job.settings.tabs.managePool.form.year.label')"
       />
 
-      <FormInput type="text"
+      <FormInput type="number"
                  v-model="form.days"
+                 :is-required="true"
                  :label="$t('job.settings.tabs.managePool.form.daysInPool.label')"
       />
 
       <FormInput type="text"
                  v-model="form.companyName"
+                 :is-required="true"
                  :label="$t('job.settings.tabs.managePool.form.companyName.label')"
       />
 

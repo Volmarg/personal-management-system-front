@@ -13,7 +13,7 @@
       :allow-show-options-list="true"
       :allow-create-options="false"
       :can-clear="false"
-      :required="true"
+      :required="required"
       v-if="areOptionsReady"
   />
 </template>
@@ -37,6 +37,11 @@ export default {
     }
   },
   props: {
+    required: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     selected: {
       type: Number,
       required: false,

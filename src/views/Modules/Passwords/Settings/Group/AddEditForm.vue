@@ -5,6 +5,7 @@
 
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('passwords.settings.groups.form.new.name.label')"
       />
 

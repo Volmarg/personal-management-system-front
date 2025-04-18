@@ -11,6 +11,7 @@
 
       <FormInput type="text"
                  v-model="form.newFolderName"
+                 :is-required="true"
                  :label="$t('storage.page.manage.tab.renameFolder.form.name.label')"
       />
 

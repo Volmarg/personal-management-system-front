@@ -5,26 +5,31 @@
 
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('payments.bills.management.newForm.name.label')"
       />
 
       <FormInput type="text"
                  v-model="form.information"
+                 :is-required="true"
                  :label="$t('payments.bills.management.newForm.information.label')"
       />
 
       <FormInput type="number"
                  v-model="form.plannedAmount"
+                 :is-required="true"
                  :label="$t('payments.bills.management.newForm.plannedAmount.label')"
       />
 
       <FormInput type="date"
                  v-model="form.startDate"
+                 :is-required="true"
                  :label="$t('payments.bills.management.newForm.startDate.label')"
       />
 
       <FormInput type="date"
                  v-model="form.endDate"
+                 :is-required="true"
                  :label="$t('payments.bills.management.newForm.endDate.label')"
       />
 

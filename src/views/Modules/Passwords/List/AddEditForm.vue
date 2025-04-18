@@ -4,6 +4,7 @@
       <h2 class="text-lg">{{ header }}</h2>
       <FormInput type="text"
                  v-model="form.login"
+                 :is-required="true"
                  :label="$t('passwords.list.form.new.login.label')"
       />
 
@@ -14,6 +15,7 @@
 
       <FormInput type="text"
                  v-model="form.description"
+                 :is-required="true"
                  :label="$t('passwords.list.form.new.description.label')"
       />
 

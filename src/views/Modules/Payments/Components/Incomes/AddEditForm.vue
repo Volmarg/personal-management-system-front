@@ -6,16 +6,19 @@
 
         <FormInput type="date"
                    v-model="form.date"
+                   :is-required="true"
                    :label="$t('payments.incomes.newForm.date.label')"
         />
 
         <FormInput type="number"
                    v-model="form.amount"
+                   :is-required="true"
                    :label="$t('payments.incomes.newForm.amount.label')"
         />
 
         <FormInput type="text"
                    v-model="form.information"
+                   :is-required="true"
                    :label="$t('payments.incomes.newForm.information.label')"
         />
 

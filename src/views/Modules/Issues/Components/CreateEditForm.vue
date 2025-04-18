@@ -4,11 +4,13 @@
       <h2 class="text-lg mb-2">{{ header }}</h2>
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('issues.pending.common.createEditForm.name.label')"
       />
 
       <FormInput type="text"
                  v-model="form.description"
+                 :is-required="true"
                  :label="$t('issues.pending.common.createEditForm.description.label')"
       />
 

@@ -6,6 +6,7 @@
 
         <FormInput type="text"
                    v-model="form.name"
+                   :is-required="true"
                    :label="$t('todo.common.form.createEditTodoElement.name.label')"
         />
 

@@ -4,21 +4,25 @@
       <h2 class="text-lg">{{ header }}</h2>
       <FormInput type="text"
                  v-model="form.target"
+                 :is-required="true"
                  :label="$t('payments.moneyOwed.newForm.target.label')"
       />
 
       <FormInput type="text"
                  v-model="form.information"
+                 :is-required="true"
                  :label="$t('payments.moneyOwed.newForm.information.label')"
       />
 
       <FormInput type="date"
                  v-model="form.date"
+                 :is-required="true"
                  :label="$t('payments.moneyOwed.newForm.date.label')"
       />
 
       <FormInput type="number"
                  v-model="form.amount"
+                 :is-required="true"
                  :label="$t('payments.moneyOwed.newForm.amount.label')"
       />
 

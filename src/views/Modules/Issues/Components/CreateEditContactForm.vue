@@ -4,11 +4,13 @@
       <h2 class="text-lg mb-2">{{ header }}</h2>
       <FormInput type="text"
                  v-model="form.information"
+                 :is-required="true"
                  :label="$t('issues.pending.modal.viewEdit.tabs.contacts.form.information.label')"
       />
 
       <FormInput type="datetime-local"
                  v-model="form.date"
+                 :is-required="true"
                  :label="$t('issues.pending.modal.viewEdit.tabs.contacts.form.date.label')"
       />
 

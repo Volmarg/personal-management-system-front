@@ -12,7 +12,7 @@
       :allow-show-options-list="true"
       :allow-create-options="false"
       :can-clear="true"
-      :required="true"
+      :required="isRequired"
   />
 </template>
 
@@ -33,6 +33,11 @@ export default {
       type: Array,
       required: true,
     },
+    isRequired: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   components: {
     MultiSelect

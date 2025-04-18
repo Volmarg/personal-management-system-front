@@ -5,6 +5,7 @@
 
       <FormInput type="text"
                  v-model="form.currencyMultiplier"
+                 :is-required="true"
                  :label="$t('payments.settings.tab.other.currencyMultiplier.form.currencyMultiplier.label')"
       />
 

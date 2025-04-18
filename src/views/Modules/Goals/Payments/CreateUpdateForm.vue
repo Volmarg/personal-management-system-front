@@ -4,26 +4,31 @@
       <h2 class="text-lg mb-2">{{ $t('goals.payments.form.header') }}</h2>
       <FormInput type="text"
                  v-model="form.name"
+                 :is-required="true"
                  :label="$t('goals.payments.form.name.label')"
       />
 
       <FormInput type="date"
                  v-model="form.start"
+                 :is-required="true"
                  :label="$t('goals.payments.form.start.label')"
       />
 
       <FormInput type="date"
                  v-model="form.end"
+                 :is-required="true"
                  :label="$t('goals.payments.form.end.label')"
       />
 
       <FormInput type="number"
                  v-model="form.goal"
+                 :is-required="true"
                  :label="$t('goals.payments.form.goal.label')"
       />
 
       <FormInput type="number"
                  v-model="form.collected"
+                 :is-required="true"
                  :label="$t('goals.payments.form.collected.label')"
       />
 

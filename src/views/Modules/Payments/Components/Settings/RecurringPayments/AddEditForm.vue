@@ -3,18 +3,21 @@
     <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
       <h2 class="text-lg">{{ header }}</h2>
 
-      <FormInput type="text"
+      <FormInput type="number"
                  v-model="form.dayOfMonth"
+                 :is-required="true"
                  :label="$t('payments.settings.tab.recurringPayments.table.newForm.dayOfMonth.label')"
       />
 
       <FormInput type="number"
                  v-model="form.amount"
+                 :is-required="true"
                  :label="$t('payments.settings.tab.recurringPayments.table.newForm.money.label')"
       />
 
       <FormInput type="text"
                  v-model="form.description"
+                 :is-required="true"
                  :label="$t('payments.settings.tab.recurringPayments.table.newForm.description.label')"
       />
 

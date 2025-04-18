@@ -3,16 +3,19 @@
     <div class="mt-6 md:w-1/2 lg:w-1/3 w-full flex flex-col">
       <FormInput type="text"
                  v-model="formData.location"
+                 :is-required="true"
                  :label="$t('travels.ideas.form.location.label')"
       />
 
       <FormInput type="text"
                  v-model="formData.country"
+                 :is-required="true"
                  :label="$t('travels.ideas.form.country.label')"
       />
 
       <FormInput type="text"
                  v-model="formData.imageUrl"
+                 :is-required="true"
                  :label="$t('travels.ideas.form.image.label')"
       />
 
