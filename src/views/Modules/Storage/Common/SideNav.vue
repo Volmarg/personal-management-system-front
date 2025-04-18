@@ -48,7 +48,7 @@
 
   <UploadDialog :is-visible="isUploadModalVisible"
                 :configuration-id="uploadConfigId"
-                :extra-data="uploadExtraData"
+                :refresh-storage-state="true"
                 @modal-closed="isUploadModalVisible=false"
   />
 </template>

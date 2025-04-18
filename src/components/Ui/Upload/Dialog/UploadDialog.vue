@@ -51,6 +51,11 @@ export default {
       default: function() {
         return {};
       },
+    },
+    refreshStorageState: {
+      type: Boolean,
+      default: false,
+      required: false,
     }
   },
   emits: [
@@ -70,7 +75,9 @@ export default {
      *              it might turn out that some files upload will fail and user should be able to see which one.
      */
     onUploadFinish(): void {
-      StorageState().getAll();
+      if (this.refreshStorageState) {
+        StorageState().getAll();
+      }
     }
   }
 }
