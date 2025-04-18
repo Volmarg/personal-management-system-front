@@ -3,11 +3,11 @@
         "action": {
             "text": {
                 "recordUpdated": "Record has been updated",
-                "recordCouldNotBeUpdated": "Could not update the record",
+                "recordCouldNotBeUpdated": "Could not update the record (make sure that all necessary fields are filled up)",
                 "recordHasBeenRemoved": "Record has been removed",
                 "recordCouldNotBeRemoved": "Could not remove the record",
                 "recordCreated": "Record have been created",
-                "couldNotCreateRecord": "Could not create new record"
+                "couldNotCreateRecord": "Could not create new record (make sure that all necessary fields are filled up)"
             }
         }
     }

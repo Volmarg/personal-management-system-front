@@ -187,15 +187,16 @@ export class BackendModuleCaller {
 
         let type: string;
         let msg: string;
-        let usingTransStr = false;
+        let usingTransStr = true;
         if (!response.success) {
             type = ToastNotification.getTypeFromCode(response.code)
             msg = failTransString;
             if (response.message) {
                 msg = response.message
-                usingTransStr = true;
+                usingTransStr = false;
             }
         } else {
+            usingTransStr = false;
             type = ToastTypeEnum.success;
             msg = (successTransString ? successTransString : response.message);
             msg = response.message;
