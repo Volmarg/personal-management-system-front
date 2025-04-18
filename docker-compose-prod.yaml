@@ -4,7 +4,7 @@ services:
     container_name: pms-front-prod
     hostname: pms-front-prod
 
-    entrypoint: sh -c "npm i vite@3.0.0 -g && http-server ./dist --port=80"
+    entrypoint: sh -c "npm i vite@2.9.8 -g && http-server ./dist --port=80"
     restart: always
     working_dir: /var/www/html
     extra_hosts:
