@@ -9,9 +9,9 @@
     "serve": "vite preview --port=80 --host",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "analyze-bundles": "npx vite-bundle-visualizer",
-    "docs:dev": "npx vitepress dev docs",
-    "docs:build": "npx vitepress build docs",
-    "docs:preview": "npx vitepress preview docs"
+    "docs:dev": "cd docs && npx vitepress dev ./",
+    "docs:build": "cd docs && npx vitepress build ./",
+    "docs:preview": "cd docs && npx vitepress preview ./"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
