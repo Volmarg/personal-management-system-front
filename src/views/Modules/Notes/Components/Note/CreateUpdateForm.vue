@@ -13,6 +13,8 @@
 
       <Wyswig v-model="form.body"
               :initial-value="initialBody"
+              :required="true"
+              :label="$t('notes.common.createUpdateForm.body.label')"
       />
 
       <CategorySelect :label="$t('notes.new.form.category.label')"

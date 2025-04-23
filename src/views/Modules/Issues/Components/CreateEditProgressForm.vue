@@ -5,6 +5,8 @@
 
       <Wyswig v-model="form.information"
               :initial-value="initialInformation"
+              :required="true"
+              :label="$t('issues.pending.modal.viewEdit.tabs.progress.form.information.label')"
       />
 
       <FormInput type="datetime-local"

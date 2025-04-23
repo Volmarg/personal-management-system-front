@@ -3,7 +3,14 @@
     <p v-if="label"
        class="font-bold text-black text-left mb-1"
     >
-      {{ label }}
+      <div class="flex justify-start">
+        <span>
+          {{ label }}
+        </span>
+        <AsteriskRequired v-if="required"
+                          class="ml-1"
+        />
+      </div>
     </p>
     <div class="tinmce-wrapper">
       <Editor :init="wyswigConfig"
@@ -45,6 +52,8 @@ import 'tinymce/skins/ui/oxide/content.js';
 /* The default content CSS can be changed or replaced with appropriate CSS for the editor content. */
 import 'tinymce/skins/content/default/content.js';
 
+import AsteriskRequired from "@/components/Form/AsteriskRequired.vue";
+
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {
@@ -73,10 +82,15 @@ export default {
       type: String,
       required: false,
       default: '',
+    },
+    required: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   components: {
-    // AsteriskRequired
+    AsteriskRequired,
     Editor
   },
   created(): void {
