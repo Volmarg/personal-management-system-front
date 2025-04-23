@@ -7,18 +7,21 @@
                  v-model="form.name"
                  :label="$t('systemSettings.tab.finances.currencies.form.name.label')"
                  :question-mark-text="$t('systemSettings.tab.finances.currencies.form.name.about')"
+                 :is-required="true"
       />
 
       <FormInput type="text"
                  v-model="form.symbol"
                  :label="$t('systemSettings.tab.finances.currencies.form.symbol.label')"
                  :question-mark-text="$t('systemSettings.tab.finances.currencies.form.symbol.about')"
+                 :is-required="true"
       />
 
       <FormInput type="number"
                  v-model="form.multiplier"
                  :label="$t('systemSettings.tab.finances.currencies.form.multiplier.label')"
                  :question-mark-text="$t('systemSettings.tab.finances.currencies.form.multiplier.about')"
+                 :is-required="true"
       />
 
       <div class="ml-6 flex flex-row hover:opacity-70 cursor-pointer">
