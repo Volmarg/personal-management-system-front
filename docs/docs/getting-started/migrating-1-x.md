@@ -55,3 +55,15 @@ PUBLIC_ROOT_DIR=
 - move backed-up storage files,
 - revert any necessary `.env` configuration,
 - revert Your encryption key in `config/packages/config/encryption.yaml`
+
+### Issues
+
+It's impossible to automatically update all the files path used around modules, so You need to correct these manually.
+
+**What does that mean?**
+
+- let's say that You've uploaded image via Storage,
+- then You created note with url (or direct path) to that image,
+- in such cases images/links will no longer work,
+
+That being said You need to update every single place where You've inserted such links.
