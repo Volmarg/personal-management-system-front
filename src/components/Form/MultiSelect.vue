@@ -50,7 +50,7 @@
             <div class="flex flex-row justify-center">
               <img class="character-option-icon"
                    :src="option.image"
-                   v-if="areImagesProvided"
+                   v-if="option.image"
               />
 
               <component :is="option.component"
