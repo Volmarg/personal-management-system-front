@@ -1,5 +1,10 @@
 {
     "components": {
+        "multiselect": {
+            "text": {
+                "addOrSelect": "select, or write + press enter"
+            }
+        },
         "yearSelect": {
             "label": "Year",
             "option": {

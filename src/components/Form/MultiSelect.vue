@@ -75,6 +75,9 @@
                :class="labelClasses"
         >
           {{ label }}
+          <span v-if="allowCreateOptions">
+            ({{ $t('components.multiselect.text.addOrSelect') }})
+          </span>
 
           <span v-if="showCountInLabel && isAnyOptionSelected">
             ({{countSelectedOptions}})
@@ -387,23 +390,6 @@ export default {
      */
     isModeSingle(): boolean {
       return (this.mode === this.modes.single);
-    },
-    /**
-     * @description will check if image is provided for ALL options
-     */
-    areImagesProvided(): boolean {
-      for (let option of this.usedOptions) {
-        if ("object" === typeof option) {
-
-          let checkedOption: Record<string, string> = option;
-          if (StringTypeProcessor.isEmptyString(checkedOption.image)) {
-            return false;
-          }
-
-        }
-      }
-
-      return true;
     },
     /**
      * @description will check if description is provided for ALL options

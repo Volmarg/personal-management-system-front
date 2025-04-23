@@ -124,7 +124,7 @@
                         "label": "Minutes"
                     },
                     "goal": {
-                        "label": "Goal - select or create new"
+                        "label": "Goal"
                     },
                     "type": {
                         "label": "Type"
