@@ -105,8 +105,15 @@ export default {
      */
     allYears(): Array {
       let allYears = [];
+      if (0 === this.data.length) {
+        return;
+      }
+
       for (let rowData of this.data) {
-        allYears.push(rowData.values.year.value.match(/[0-9]{4}/)[0]);
+        let match = rowData.values.year.value.match(/[0-9]*/);
+        if (match) {
+          allYears.push(match[0]);
+        }
       }
 
       return allYears = [...new Set(allYears)];

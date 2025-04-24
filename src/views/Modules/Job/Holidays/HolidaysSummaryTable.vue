@@ -99,8 +99,15 @@ export default {
      * @description build array of available years
      */
     buildYears(): void {
+      if (0 === this.data.length) {
+        return;
+      }
+
       for (let rowData of this.data) {
-        this.allYears.push(rowData.values.year.value.match(/[0-9]{4}/)[0]);
+        let match = rowData.values.year.value.match(/[0-9]*/);
+        if (match) {
+          this.allYears.push(match[0]);
+        }
       }
 
       this.allYears = [...new Set(this.allYears)];
