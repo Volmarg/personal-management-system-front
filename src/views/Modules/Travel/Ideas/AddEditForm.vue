@@ -73,9 +73,14 @@ export default {
      * @description handle submitting form data - send data to backend
      */
     async onSubmit(): void {
+      let category = null;
+      if (this.formData.category) {
+        category = this.formData.category[0];
+      }
+
       let data = {
         ...this.formData,
-        "category": this.formData.category[0] ?? null,
+        "category": category,
       }
 
       let config = new BackendModuleCallConfig(SymfonyTravelsRoutes.IDEAS_BASE_URL, data.id ?? null, BaseApiResponse, data);
