@@ -47,6 +47,7 @@ import BaseApiResponse from "@/scripts/Response/BaseApiResponse";
 
 import SymfonyIssuesRoutes     from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
 import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
+import WindowService           from "@/scripts/Core/Services/WindowService";
 
 export default {
   data(): ComponentData {
@@ -104,6 +105,8 @@ export default {
       };
 
       let config = new BackendModuleCallConfig(SymfonyIssuesRoutes.ISSUE_BASE_URL, this.id, BaseApiResponse, dataBag);
+      config.reload = false;
+
       let response: BaseApiResponse;
       if (this.id) {
         response = await this.$moduleCall.update(config);
@@ -112,7 +115,7 @@ export default {
       }
 
       if (response.success) {
-        this.$emit('submit');
+        WindowService.reloadHistory();
       }
     }
   },

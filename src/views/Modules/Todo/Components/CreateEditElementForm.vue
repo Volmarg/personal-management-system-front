@@ -81,13 +81,16 @@
        config.parentId = this.todoData.id;
        config.reload = false;
 
+       let response: BaseApiResponse;
        if (this.id) {
-         await this.$moduleCall.update(config);
+         response = await this.$moduleCall.update(config);
        } else {
-         await this.$moduleCall.new(config);
+         response = await this.$moduleCall.new(config);
        }
 
-       this.$emit('submit');
+       if (response.success) {
+         this.$emit('submit');
+       }
      },
    },
    beforeMount() {

@@ -98,10 +98,11 @@ export default {
       let config = new BackendModuleCallConfig(SymfonyContactsRoutes.CONTACTS_BASE_URL, usedId, BaseApiResponse, this.form);
       config.reload = false;
 
+      let response: BaseApiResponse;
       if (usedId) {
-        await this.$moduleCall.update(config);
+        response = await this.$moduleCall.update(config);
       } else {
-        await this.$moduleCall.new(config);
+        response = await this.$moduleCall.new(config);
       }
 
       this.contactsStore.getAll();
@@ -116,7 +117,7 @@ export default {
        *              - getting latest fetched contact, and the turning the "new modal" into "edit modal", but
        *                didn't wanted to mess with this for now
        */
-      if (!usedId) {
+      if (!usedId && response.success) {
         this.$emit('closeModal')
       }
     },

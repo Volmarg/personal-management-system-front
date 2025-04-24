@@ -35,6 +35,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import SymfonyIssuesRoutes     from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRoutes";
 import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
 import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
+import WindowService           from "@/scripts/Core/Services/WindowService";
 
 export default {
   data(): ComponentData {
@@ -86,6 +87,7 @@ export default {
       let response: BaseApiResponse;
       let config = new BackendModuleCallConfig(SymfonyIssuesRoutes.ISSUE_CONTACT_BASE_URL, this.id, BaseApiResponse, this.form);
       config.parentId = this.issueId;
+      config.reload = false;
 
       if (this.id) {
         response = await this.$moduleCall.update(config);
@@ -94,7 +96,7 @@ export default {
       }
 
       if (response.success) {
-        this.$emit('submit');
+        WindowService.reloadHistory();
       }
     }
   },

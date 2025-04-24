@@ -38,6 +38,7 @@ import SymfonyIssuesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRou
 import BaseApiResponse     from "@/scripts/Response/BaseApiResponse";
 
 import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
+import WindowService           from "@/scripts/Core/Services/WindowService";
 
 export default {
   data(): ComponentData {
@@ -89,6 +90,7 @@ export default {
     async onSubmit(): void {
       let config = new BackendModuleCallConfig(SymfonyIssuesRoutes.ISSUE_PROGRESS_BASE_URL, this.id, BaseApiResponse, this.form);
       config.parentId = this.issueId;
+      config.reload = false;
 
       let response: BaseApiResponse;
       if (this.id) {
@@ -98,7 +100,7 @@ export default {
       }
 
       if (response.success) {
-        this.$emit('submit');
+        WindowService.reloadHistory();
       }
     }
   },
