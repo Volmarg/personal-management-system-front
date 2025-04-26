@@ -1,6 +1,8 @@
 #!/bin/bash
-DEV_CONTAINER_NAME='pms-front-dev';
 PROD_CONTAINER_NAME='pms-front-prod';
+DEV_CONTAINER_NAME='pms-front-dev';
+
+echo -e "Preparing project dist \n";
 
    docker container stop "$DEV_CONTAINER_NAME" \
 && docker container start "$PROD_CONTAINER_NAME" \
@@ -8,3 +10,9 @@ PROD_CONTAINER_NAME='pms-front-prod';
 && docker exec "$PROD_CONTAINER_NAME" ./prepare-prod.sh \
 && docker container stop "$PROD_CONTAINER_NAME" \
 && docker container start "$DEV_CONTAINER_NAME";
+
+echo -e "Preparing docs dist \n"
+
+npm docs:build;
+
+echo -e "Finished preparing dist data \n"
