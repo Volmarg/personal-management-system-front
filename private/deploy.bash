@@ -24,6 +24,7 @@ rsync -h -v -r -P -t \
 --exclude node_modules \
 --exclude .git \
 --exclude .idea \
+--exclude docs \
 --stats \
 --delete \
 ./ "$USED_HOST:$DIR"
