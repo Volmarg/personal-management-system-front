@@ -13,6 +13,6 @@ echo -e "Preparing project dist \n";
 
 echo -e "Preparing docs dist \n"
 
-npm docs:build;
+npm run docs:build;
 
 echo -e "Finished preparing dist data \n"
