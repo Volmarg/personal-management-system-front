@@ -23,12 +23,14 @@
       >
         <div class="bg-white text-gray-900 border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none">
           <span
-              class="mt-2 mr-2 font-bold flex justify-end hover:opacity-50 cursor-pointer opacity-70 self-end fixed z-9 text-2xl"
+              class="mt-2 mr-2 font-bold flex flex-col justify-end hover:opacity-50 cursor-pointer opacity-70 self-end fixed z-9"
               @click="$emit('modalClosed')"
               v-if="isCloseVisible"
           >
-            ✖
+            <span class="text-2xl">✖</span>
+            <small class="-mt-3 -ml-1">(Esc)</small>
           </span>
+
           <div class="relative flex-auto mt-4"
                :class="{
                   'p-4': hasBodyPadding,
