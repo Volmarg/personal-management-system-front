@@ -10,7 +10,7 @@
            @modal-closed="onModalClosed"
     >
       <template #content>
-        <div class="body"
+        <div class="note-body-preview"
              v-html="note.body"
              v-if="!isEdit"
         />
@@ -116,3 +116,23 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.note-body-preview {
+  ul {
+    li {
+      @apply list-disc
+    }
+  }
+
+  ul, ol {
+    @apply ml-6
+  }
+
+  ol {
+    li {
+      @apply list-decimal
+    }
+  }
+}
+</style>
