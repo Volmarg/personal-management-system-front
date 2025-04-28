@@ -23,6 +23,7 @@ import BootLoader                 from "@/scripts/BootLoader";
 import BaseError                  from "@/scripts/Core/Error/BaseError";
 import SessionStorageService      from "@/scripts/Core/Services/Storage/SessionStorageService";
 import BuildService               from "@/scripts/Core/BuildService";
+import StringTypeProcessor        from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 import EnvReader                 from "@/scripts/Core/System/EnvReader";
 import Logger                    from "@/scripts/Core/Logger";
@@ -95,9 +96,9 @@ async function startApplication(): Promise<void> {
         .component('About', QuestionMarkAbout)
         .component('transitioned-component', TransitionedComponent);
 
-        if (!EnvReader.isDev()) {
+        if (!EnvReader.isDev() && !StringTypeProcessor.isEmptyString(EnvReader.getGoogleTagId())) {
             vueApp.use(VueGtag, {
-                config: {id: "tag-value-here"}
+                config: {id: EnvReader.getGoogleTagId()}
             })
         }
 

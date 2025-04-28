@@ -12,6 +12,7 @@ export default class EnvReader {
     static readonly SYSTEM_MODE_SHORT_DEVELOPMENT = "dev";
 
     static readonly ENV_KEY_VUE_APP_BACKEND_BASE_URL           = "VITE_BACKEND_BASE_URL";
+    static readonly ENV_KEY_VUE_APP_VITE_GOOGLE_TAG_ID         = "VITE_GOOGLE_TAG_ID";
     static readonly ENV_KEY_VUE_APP_DEFAULT_LANGUAGE           = "VITE_DEFAULT_LANGUAGE";
     static readonly ENV_KEY_VUE_APP_IS_MAINTENANCE             = "VITE_IS_MAINTENANCE";
     static readonly ENV_KEY_VITE_MAINTENANCE_MESSAGE_HEADLINE  = "VITE_MAINTENANCE_MESSAGE_HEADLINE";
@@ -168,6 +169,13 @@ export default class EnvReader {
     public static getPrefilledLoginPassword(): string {
         EnvReader.validateEnvVariableExistence(EnvReader.VITE_PREFILLED_LOGIN_CREDENTIALS_PASSWORD);
         return import.meta.env[EnvReader.VITE_PREFILLED_LOGIN_CREDENTIALS_PASSWORD] ?? "" as string;
+    }
+
+    /**
+     * @description returns the Google tag id - can be used for example by Google Analytics
+     */
+    public static getGoogleTagId(): string {
+        return import.meta.env[EnvReader.ENV_KEY_VUE_APP_VITE_GOOGLE_TAG_ID] ?? "" as string;
     }
 
     /**
