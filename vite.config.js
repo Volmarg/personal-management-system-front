@@ -47,6 +47,11 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
              * @link https://github.com/terser/terser#minify-options
              */
             isProduction && terser({
+               // uncomment this block in order to keep console logs / debugger on prod assets
+               // compress: {
+               //     drop_console: false,
+               //     drop_debugger: false,
+               // },
                 format: {
                     comments: false,
                 },
