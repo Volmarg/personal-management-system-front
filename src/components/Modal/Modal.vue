@@ -111,6 +111,7 @@ export default {
   ],
   data(): ComponentData {
     return {
+      modalOpenClass: "modal-open",
       config: shallowRef({
         modalFadeAwayTimeInMilliseconds: 300,
       }),
@@ -294,11 +295,32 @@ export default {
         let lastInput = allInputs[allInputs.length - 1];
         lastInput.focus();
       }, timeout);
+    },
+    /**
+     * @description upon closing modal:
+     *              - update the data prop that tracks modal visibility,
+     *              - unlock the earlier blocked body scrolling,
+     *              - set focus on any remaining top modal that is still open,
+     */
+    handleModalClose(): void {
+      setTimeout( () => {
+        this.isModalVisible = false;
+        this.handleUnlockBodyScroll(this.modalOpenClass);
+        this.focusTopModal(0);
+      }, this.config.modalFadeAwayTimeInMilliseconds)
     }
   },
   created(): void {
     this.isModalVisible = this.isVisible;
     this.isFadeAway     = !this.isVisible;
+  },
+  unmounted(): void {
+    /**
+     * @description this call must be here, earlier it was in watcher but sometimes the body-scroll-lock was not
+     *              getting unlocked, the guessing here was that probably the code was sometimes not executed properly because
+     *              unmount came in, and watcher was getting interrupted since component was already destroyed,
+     */
+    this.handleModalClose();
   },
   watch: {
     isModalVisible(): void {
@@ -318,17 +340,12 @@ export default {
      *              - prevents body from being scrolled if the modal is opened
      */
     isVisible(newValue: boolean): void {
-      let className = "modal-open";
       if(!newValue){
 
         this.isFadeAway = true;
-        setTimeout( () => {
-          this.isModalVisible = false;
-          this.handleUnlockBodyScroll(className);
-          this.focusTopModal(0);
-        }, this.config.modalFadeAwayTimeInMilliseconds)
+        this.handleModalClose();
       }else{
-        document.body.classList.add(className);
+        document.body.classList.add(this.modalOpenClass);
 
         this.isFadeAway     = false;
         this.isModalVisible = this.isVisible;
