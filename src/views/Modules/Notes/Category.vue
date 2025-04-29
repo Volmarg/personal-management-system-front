@@ -1,7 +1,7 @@
 <template>
   <div class="notes-wrapper">
     <SingleNote v-for="note in notes"
-                :key="JSON.stringify(note)"
+                :key="note.id"
                 :note="note"
                 class="single-note"
                 @update-submit="refreshPage"

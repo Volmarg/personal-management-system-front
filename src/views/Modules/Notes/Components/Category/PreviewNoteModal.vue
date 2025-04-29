@@ -19,6 +19,7 @@
                           :initial-category="note.categoryId"
                           :initial-title="note.title"
                           :id="note.id"
+                          :is-edit="true"
                           @submit="$emit('updateSubmit')"
         />
 

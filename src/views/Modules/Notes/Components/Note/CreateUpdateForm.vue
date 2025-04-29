@@ -83,6 +83,11 @@ export default {
       required: false,
       default: null,
     },
+    isEdit: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   components: {
     CategorySelect,
@@ -115,7 +120,10 @@ export default {
 
       if (response.success) {
         this.$emit('submit');
-        this.clearFormData();
+
+        if (!this.isEdit) {
+          this.clearFormData();
+        }
       }
     }
   },
