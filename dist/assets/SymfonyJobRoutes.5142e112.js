@@ -1,1 +1,0 @@
-import{S as o}from"./index.7d9fe974.js";class s extends o{}s.SETTINGS_HOLIDAYS_POOL_BASE_URL="/module/job/settings/holidays/pool",s.HOLIDAYS_SPENT_BASE_URL="/module/job/holidays/days-spent",s.AFTERHOURS_BASE_URL="/module/job/afterhours";export{s as S};
