@@ -77,10 +77,11 @@ export default {
     this.store = TravelIdeasStore();
     await this.store.getAll();
     this.ideas = this.store.allEntries;
+    this.selectedValue = [this.modelValue];
   },
   watch: {
     modelValue(): void {
-      this.selectedValue = this.modelValue;
+      this.selectedValue = [this.modelValue];
     }
   }
 }
