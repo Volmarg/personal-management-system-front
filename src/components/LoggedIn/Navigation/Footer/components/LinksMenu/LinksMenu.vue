@@ -5,7 +5,7 @@
       <li class="menu__item">
         <a
             class="menu__link"
-            href="#todo"
+            href="https://volmarg.github.io/"
             data-target-selector="#faq"
         >
           {{ $t('navbar.footer.documentation.label') }}
