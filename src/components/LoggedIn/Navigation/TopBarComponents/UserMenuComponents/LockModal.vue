@@ -116,9 +116,10 @@ export default {
       })
     }
   },
-  created(): void {
+  beforeMount(): void {
     if (this.isDemo) {
-      this.password = ConfigLoader.general.demo.user.password;
+      this.password = 'admin'; // info: temporary hack, no clue why it's not returning password for now
+      //this.password = ConfigLoader.general.demo.user.password;
     }
   },
   updated(): void{
