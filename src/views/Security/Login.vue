@@ -71,8 +71,33 @@
                   </template>
                 </MediumButtonWithIcon>
               </div>
-
             </form>
+
+            <div class="flex-row text-md"
+                 v-if="isDemo"
+            >
+              <div>
+                <a href="https://github.com/Volmarg"
+                   target="_blank"
+                >
+                  <fa :icon="['fab', 'github']"
+                      class="social-icon"
+                  />
+                  <span>{{ $t('security.login.links.repository.label') }}</span>
+                </a>
+              </div>
+
+              <div>
+                <a href="https://volmarg.github.io/"
+                   target="_blank"
+                >
+                  <fa icon="bookmark"
+                      class="social-icon"
+                  />
+                  <span>{{ $t('security.login.links.documentation.label') }}</span>
+                </a>
+              </div>
+            </div>
 
           </div>
 

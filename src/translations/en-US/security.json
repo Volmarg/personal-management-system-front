@@ -58,6 +58,12 @@
                 "forgotPassword": {
                     "label": "Forgot password?",
                     "linkText": "reset password"
+                },
+                "repository": {
+                    "label": "Repository"
+                },
+                "documentation": {
+                    "label": "Documentation"
                 }
             },
             "loginForm": {
