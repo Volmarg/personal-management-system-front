@@ -1,8 +1,12 @@
 import { defineConfig } from 'vitepress'
 import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
+import * as fs from 'fs-extra';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  async buildEnd() {
+    fs.copy("assets", ".vitepress/dist/assets");
+  },
   title: "Personal Management System",
   description: "Description todo",
   head: [
