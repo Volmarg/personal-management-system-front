@@ -28,3 +28,10 @@ rsync -h -v -r -P -t \
 --stats \
 --delete \
 ./ "$USED_HOST:$DIR"
+
+# on demo, need to update some files content, it's basically prod dist but with extra changes to it
+## don't really want different process for demo, with a chance that prod dists will be messed up or will need to build twice
+if [ "$1" == "demo" ]; then
+  # set demo ON
+  ssh "$USED_HOST" "find $DIR -type f -name "*.js" -print0 | xargs -0 sed -i 's/VITE_IS_DEMO:\"false\"/VITE_IS_DEMO:\"true\"/g'"
+fi;
