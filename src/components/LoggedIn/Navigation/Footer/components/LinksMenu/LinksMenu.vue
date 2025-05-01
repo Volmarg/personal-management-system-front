@@ -6,6 +6,7 @@
         <a
             class="menu__link"
             href="https://volmarg.github.io/"
+            target="_blank"
             data-target-selector="#faq"
         >
           {{ $t('navbar.footer.documentation.label') }}
