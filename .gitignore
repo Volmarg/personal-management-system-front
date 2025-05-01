@@ -1,6 +1,5 @@
 .DS_Store
 node_modules
-/dist
 /todo
 
 
@@ -25,4 +24,3 @@ pnpm-debug.log*
 
 # Other
 docs/.vitepress/cache
-docs/.vitepress/dist
