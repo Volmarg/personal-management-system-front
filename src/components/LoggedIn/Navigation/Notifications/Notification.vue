@@ -12,11 +12,12 @@
     </div>
 
     <!-- menu -->
-    <div class="shadow-xl absolute top-0 right-0 mt-16 transition transition-all duration-300 ease-in-out open scale notification-menu"
+    <div class="shadow-xl absolute top-0 right-0 mt-16 transition duration-300 ease-in-out open scale notification-menu"
          v-click-away="hideMenu"
          :class="{
               'opacity-100 dropdown' : isMenuVisible,
               'opacity-0' : !isMenuVisible,
+              'hidden' : applyHiddenClass,
            }"
     >
       <div class="dropdown-content bottom-end">
@@ -51,6 +52,7 @@ export default {
        */
       isAllowedToHideMenu : false,
       isMenuVisible: false,
+      applyHiddenClass: true,
       notifications: [],
     }
   },
@@ -87,6 +89,7 @@ export default {
         return;
       }
       this.isMenuVisible = true;
+      this.applyHiddenClass = false;
     },
     /**
      * @description will hide menu
@@ -96,6 +99,7 @@ export default {
 
         if (this.isAllowedToHideMenu) {
           this.isMenuVisible = false;
+          this.setHiddenWithDelay();
           this.isAllowedToHideMenu = false; // reset
           return;
         }
@@ -103,6 +107,16 @@ export default {
         this.isAllowedToHideMenu = true;
       }
     },
+    /**
+     * @description the opacity on menu is needed to make the animation look pretty but with opacity-0, the DOM elements
+     *              overlap other elements, and as such some buttons are not clickable etc. Using display:none solves it
+     *              but then the animation is gone, thus setting the timeout to wait for opacity animation to be done.
+     */
+    setHiddenWithDelay(): void {
+      setTimeout(() => {
+        this.applyHiddenClass = true;
+      }, 500);
+    }
   },
   created() {
     this.fetchAll();
