@@ -3,11 +3,7 @@
 ## Get the projects
 
 ::: warning
-Always use latest released versions on both sides, only then it can be guaranteed that everything works fine.
-
-**Example to avoid**:
-- backend running `5 months old` version,
-- frontend running on `latest` version,
+Always use latest versions (release / tag) on both sides, only then it can be guaranteed that everything works fine.
 :::
 
 **Clone backend project**
