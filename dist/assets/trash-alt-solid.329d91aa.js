@@ -1,1 +1,1 @@
-var s="/assets/trash-alt-solid.11c8f785.svg";export{s as default};
+var a="/assets/trash-alt.11c8f785.svg";export{a as default};

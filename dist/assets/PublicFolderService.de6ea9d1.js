@@ -1,1 +1,0 @@
-import{S as t}from"./SymfonyFileRoutes.ddf8b393.js";class r{static buildUrl(r){return r.startsWith("/")&&(r=r.replace("/","")),r.startsWith("\\")&&(r=r.replace("\\","")),t.buildUrl(t.GET_FILE,{[t.GET_FILE_PARAM_PATH]:r})}}export{r as P};

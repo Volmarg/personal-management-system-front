@@ -1,1 +1,0 @@
-import{O as e,P as s}from"./index.31c62b28.js";const o={methods:{handleResponse(o,t){let a=e.getTypeFromCode(o.code),c=o.message;return o.success||(c=o.message?o.message:s.FALLBACK_SAFETY_MESSAGE),c&&e.showAlert(a,c),o.success}}};export{o as _};

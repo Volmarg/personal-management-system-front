@@ -1,1 +1,1 @@
-var s="/assets/building-solid.ff812a5e.svg";export{s as default};
+var a="/assets/building.ff812a5e.svg";export{a as default};

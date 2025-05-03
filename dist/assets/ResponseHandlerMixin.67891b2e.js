@@ -1,0 +1,1 @@
+import{O as e,P as s}from"./index.db8bde11.js";const o={methods:{handleResponse(o,t){let a=e.getTypeFromCode(o.code),d=o.message;return o.success||(d=o.message?o.message:s.FALLBACK_SAFETY_MESSAGE),d&&e.showAlert(a,d),o.success}}};export{o as _};

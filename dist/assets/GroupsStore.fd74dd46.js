@@ -1,1 +1,0 @@
-import{S as s,aE as a,aF as S}from"./index.93e753e6.js";class e extends s{}e.PASSWORDS_BASE_URL="/module/passwords",e.PASSWORDS_GROUPS_BASE_URL="/module/passwords/settings/group";const t=a("passwordsGroupsStore",{state:()=>({allEntries:[]}),actions:{async getAll(){this.allEntries=await(new S).getAll(e.PASSWORDS_GROUPS_BASE_URL)}}});export{t as G,e as S};

@@ -49,6 +49,7 @@
   <UploadDialog :is-visible="isUploadModalVisible"
                 :configuration-id="uploadConfigId"
                 :refresh-storage-state="true"
+                :extra-data="{uploadDir: $route.query.dir}"
                 @modal-closed="isUploadModalVisible=false"
   />
 </template>

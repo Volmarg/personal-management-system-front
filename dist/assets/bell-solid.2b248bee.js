@@ -1,1 +1,1 @@
-var a="/assets/bell-solid.c7308aaf.svg";export{a as default};
+var a="/assets/bell.c7308aaf.svg";export{a as default};
