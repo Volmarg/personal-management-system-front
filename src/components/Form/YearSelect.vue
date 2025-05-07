@@ -49,6 +49,9 @@ export default {
         })
       }
 
+      // sort years descending
+      options.sort((prev: Record, next: Record) => next.value - prev.value);
+
       return options;
     }
   },
