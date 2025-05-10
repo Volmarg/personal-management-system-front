@@ -10,7 +10,7 @@
         @modal-closed="$emit('modalClosed')"
     >
       <template #aboveTitle>
-        <div class="mb-2">
+        <div class="mb-2 text-center">
           <fa :icon="['fa', 'exclamation-triangle']"
               class="text-orange-700 text-5xl"
           />
