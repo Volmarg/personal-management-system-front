@@ -106,9 +106,6 @@ export default {
 
 <style lang="scss">
 .tinmce-wrapper {
-  /* The height is VERY important, if it's set incorrect, the form elements near TinyMce get weirdly resized */
-  height: 400px !important;
-
   .tox-tinymce {
     border-width: 1px;
     @apply border-gray-600
