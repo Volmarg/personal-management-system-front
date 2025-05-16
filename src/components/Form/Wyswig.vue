@@ -67,7 +67,7 @@ export default {
         skin_url: 'default',
         plugins: 'lists link image table code lists',
         /** @link https://www.tiny.cloud/docs/tinymce/latest/available-toolbar-buttons/ */
-        toolbar1: "undo redo | blocks fontfamily fontsize | bold italic strikethrough underline",
+        toolbar1: "undo redo | blocks fontfamily fontsize | bold italic strikethrough underline | forecolor backcolor",
         toolbar2: "alignleft aligncenter alignright alignjustify  | outdent indent | numlist bullist | image link | code",
       }
     }
