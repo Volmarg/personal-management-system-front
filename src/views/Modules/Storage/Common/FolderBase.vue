@@ -173,13 +173,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .folder-container {
   min-height: 300px;
   @apply p-0 pr-4
 }
 
 .dir-description {
+  @import 'src/assets/scss/libs/tinymce/content-outside-editor';
   min-height: 20px;
   @apply mb-2 mt-4 mx-6
 }

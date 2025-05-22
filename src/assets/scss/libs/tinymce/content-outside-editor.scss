@@ -1,0 +1,19 @@
+ul {
+    li {
+        @apply list-disc
+    }
+}
+
+ul, ol {
+    @apply ml-6
+}
+
+ol {
+    li {
+        @apply list-decimal
+    }
+}
+
+p {
+    @apply mt-2
+}

@@ -120,20 +120,6 @@ export default {
 
 <style lang="scss">
 .note-body-preview {
-  ul {
-    li {
-      @apply list-disc
-    }
-  }
-
-  ul, ol {
-    @apply ml-6
-  }
-
-  ol {
-    li {
-      @apply list-decimal
-    }
-  }
+  @import 'src/assets/scss/libs/tinymce/content-outside-editor';
 }
 </style>

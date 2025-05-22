@@ -11,10 +11,10 @@
                  :label="$t('notes.new.form.title.label')"
       />
 
-      <Wyswig v-model="form.body"
-              :initial-value="initialBody"
+      <Wyswig :initial-value="initialBody"
               :required="true"
               :label="$t('notes.common.createUpdateForm.body.label')"
+              ref="wyswig"
       />
 
       <CategorySelect :label="$t('notes.new.form.category.label')"
@@ -108,6 +108,8 @@ export default {
      * @description handle submitting form data - send data to backend
      */
     async onSubmit(): void {
+      this.form.body = this.$refs.wyswig.getContent();
+
       let config = new BackendModuleCallConfig(SymfonyNotesRoutes.NOTES_BASE_URL, this.id, BaseApiResponse, this.form);
       config.reload = false;
 

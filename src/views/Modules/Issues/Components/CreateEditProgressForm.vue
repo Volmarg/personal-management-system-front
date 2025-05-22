@@ -3,10 +3,10 @@
     <div class="mt-6 w-full flex flex-col lg:w-2/3">
       <h2 class="text-lg mb-2">{{ header }}</h2>
 
-      <Wyswig v-model="form.information"
-              :initial-value="initialInformation"
+      <Wyswig :initial-value="initialInformation"
               :required="true"
               :label="$t('issues.pending.modal.viewEdit.tabs.progress.form.information.label')"
+              ref="wyswig"
       />
 
       <FormInput type="datetime-local"
@@ -88,6 +88,8 @@ export default {
      * @description handle submitting form data - send data to backend
      */
     async onSubmit(): void {
+      this.form.information = this.$refs.wyswig.getContent();
+
       let config = new BackendModuleCallConfig(SymfonyIssuesRoutes.ISSUE_PROGRESS_BASE_URL, this.id, BaseApiResponse, this.form);
       config.parentId = this.issueId;
       config.reload = false;

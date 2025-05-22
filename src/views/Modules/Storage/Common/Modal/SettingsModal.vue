@@ -8,7 +8,7 @@
       <template #content>
         <Wyswig :initial-value="description"
                 :label="$t('storage.page.module.settingsModal.form.description.label')"
-                v-model="description"
+                ref="wyswig"
         />
 
         <MediumButtonWithIcon :text="$t('storage.page.module.settingsModal.form.submit.label')"
@@ -77,6 +77,7 @@ export default {
      * @description update folder meta-data
      */
     onSubmit(): void {
+      this.description = this.$refs.wyswig.getContent();
       let data = {
         moduleName: StorageState().moduleName,
         description: this.description,

@@ -15,6 +15,7 @@
     <div class="tinmce-wrapper">
       <Editor :init="wyswigConfig"
               v-model="value"
+              ref="editor"
       />
     </div>
   </div>
@@ -95,6 +96,14 @@ export default {
   },
   created(): void {
     this.value = this.initialValue;
+  },
+  methods: {
+    /**
+     * @description this works better than using v-model, because for some reason tinymce strips some tags randomly
+     */
+    getContent(): string {
+      return this.$refs.editor.getEditor().getContent();
+    }
   },
   watch: {
     value(): void {
