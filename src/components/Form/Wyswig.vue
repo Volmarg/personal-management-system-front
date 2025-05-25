@@ -46,6 +46,7 @@ import 'tinymce/plugins/link';
 import 'tinymce/plugins/lists';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/image';
+import 'tinymce/plugins/fullscreen';
 
 /* content UI CSS is required */
 import 'tinymce/skins/ui/oxide/content.js';
@@ -62,14 +63,16 @@ export default {
     return {
       value: '',
       wyswigConfig: {
+        height: 600,
         promotion: false,
         branding: false,
+        fullscreen_native: true,
         skin: 'oxide',
         skin_url: 'default',
-        plugins: 'lists link image table code lists',
+        plugins: 'lists link image table code lists fullscreen',
         /** @link https://www.tiny.cloud/docs/tinymce/latest/available-toolbar-buttons/ */
         toolbar1: "undo redo | blocks fontfamily fontsize | bold italic strikethrough underline | forecolor backcolor",
-        toolbar2: "alignleft aligncenter alignright alignjustify  | outdent indent | numlist bullist | image link | code",
+        toolbar2: "alignleft aligncenter alignright alignjustify  | outdent indent | numlist bullist | image link | code fullscreen",
       }
     }
   },

@@ -26,7 +26,7 @@ export default {
         return "medium";
       }
 
-      return this.initialSmallSizeModal;
+      return this.dynamicModalSize || this.initialSmallSizeModal;
     },
   }
 }

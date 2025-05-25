@@ -8,6 +8,18 @@
       <template #content>
         <CreateUpdateForm :initial-category="$route.params.id"
                           @submit="$emit('modalClosed')"
+                          ref="form"
+        />
+      </template>
+
+      <template #footerLeftSection>
+        <MediumButtonWithIcon :text="$t('notes.new.form.submit.label')"
+                              :margin-right-class-number="0"
+                              @button-click="$refs.form.submit(); $emit('modalClosed')"
+                              button-extra-classes="pt-3 pb-3 md:pt-1 md:pb-1"
+                              class="w-full md:w-auto"
+                              button-classes="w-full md:w-auto mr-1"
+                              text-classes="text-center w-full"
         />
       </template>
     </Modal>
@@ -15,8 +27,9 @@
 </template>
 
 <script lang="ts">
-import Modal            from "@/components/Modal/Modal.vue";
-import CreateUpdateForm from "@/views/Modules/Notes/Components/Note/CreateUpdateForm.vue";
+import Modal                from "@/components/Modal/Modal.vue";
+import CreateUpdateForm     from "@/views/Modules/Notes/Components/Note/CreateUpdateForm.vue";
+import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
 import ResponsiveModalSizeMixin     from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 
@@ -25,7 +38,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 export default {
   data(): ComponentData {
     return {
-      initialSmallSizeModal: "medium",
+      initialSmallSizeModal: "full",
       showModal: false,
     }
   },
@@ -37,6 +50,7 @@ export default {
     }
   },
   components: {
+    MediumButtonWithIcon,
     CreateUpdateForm,
     Modal,
   },

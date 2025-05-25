@@ -20,12 +20,23 @@
                           :initial-title="note.title"
                           :id="note.id"
                           :is-edit="true"
-                          @submit="$emit('updateSubmit')"
+                          :show-submit="false"
+                          ref="form"
         />
 
       </template>
 
       <template #footerLeftSection>
+        <MediumButtonWithIcon :text="$t('notes.new.form.submit.label')"
+                              :margin-right-class-number="0"
+                              @button-click="$refs.form.submit(); $emit('updateSubmit')"
+                              button-extra-classes="pt-3 pb-3 md:pt-1 md:pb-1"
+                              class="w-full md:w-auto"
+                              button-classes="w-full md:w-auto mr-1"
+                              text-classes="text-center w-full"
+                              v-if="isEdit"
+        />
+
         <MediumButtonWithIcon :text="$t('notes.category.previewModal.button.edit.label')"
                               :margin-right-class-number="1"
                               v-if="!isEdit"
@@ -73,7 +84,6 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 export default {
   data(): ComponentData {
     return {
-      initialSmallSizeModal: 'medium',
       showModal: false,
       isEdit: false,
     }
@@ -104,6 +114,14 @@ export default {
     "deleteClick",
     "updateSubmit",
   ],
+  computed: {
+    /**
+     * @description decide modal size depending if edit is on
+     */
+    dynamicModalSize(): string {
+      return this.isEdit ? 'full' : 'medium';
+    },
+  },
   methods: {
     /**
      * @description handles the situation when modal get closed. Will pass the event further
@@ -121,5 +139,7 @@ export default {
 <style lang="scss">
 .note-body-preview {
   @import 'src/assets/scss/libs/tinymce/content-outside-editor';
+
+  @apply max-h-96 overflow-y-scroll
 }
 </style>

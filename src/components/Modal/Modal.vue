@@ -13,7 +13,7 @@
          :class="getModalMainWrapperClasses"
          data-background="light"
     >
-      <div class="relative w-auto lg:my-4 mx-auto overflow-y-scroll max-h-80-p"
+      <div class="relative w-auto lg:my-4 mx-auto overflow-y-scroll max-h-size"
            :class="{
               'w-full lg:max-w-full sm:ml-10 sm:mr-10 ml-3 mr-3'              : isFullSize,
               'sm:w-10/12 lg:w-7/12 sm:max-w-full lg:max-w-full ml-10 mr-10'  : isMediumSize,
@@ -363,8 +363,8 @@ export default {
   transition: opacity ease-out 400ms;
 }
 
-.max-h-80-p {
-  max-height: 80%;
+.max-h-size {
+  max-height: 90%;
 }
 
 .modal-backdrop {

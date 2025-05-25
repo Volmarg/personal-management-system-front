@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="mt-6 md:w-1/2 lg:w-5/6 w-full flex flex-col">
+    <div class="mt-6 lg:w-1/2 lg:w-5/6 w-full flex flex-col">
       <h2 class="text-lg mb-10"
           v-if="header"
       >{{ header }}</h2>
@@ -23,14 +23,6 @@
                       :required="true"
       />
 
-      <MediumButtonWithIcon :text="$t('notes.new.form.submit.label')"
-                            button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
-                            class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
-                            button-classes="w-full md:w-auto m-0-force"
-                            text-classes="text-center w-full"
-                            @button-click="onSubmit"
-      />
-
     </div>
   </div>
 </template>
@@ -38,7 +30,6 @@
 <script lang="ts">
 import Wyswig               from "@/components/Form/Wyswig.vue";
 import FormInput            from "@/components/Form/Input.vue";
-import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import CategorySelect       from "@/views/Modules/Notes/Components/CategorySelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
@@ -87,11 +78,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
   },
   components: {
     CategorySelect,
-    MediumButtonWithIcon,
     FormInput,
     Wyswig
   },
@@ -107,7 +97,7 @@ export default {
     /**
      * @description handle submitting form data - send data to backend
      */
-    async onSubmit(): void {
+    async submit(): void {
       this.form.body = this.$refs.wyswig.getContent();
 
       let config = new BackendModuleCallConfig(SymfonyNotesRoutes.NOTES_BASE_URL, this.id, BaseApiResponse, this.form);
