@@ -69,10 +69,10 @@ export default {
         fullscreen_native: true,
         skin: 'oxide',
         skin_url: 'default',
-        plugins: 'lists link image table code lists fullscreen',
+        plugins: 'lists link image table code lists fullscreen hr',
         /** @link https://www.tiny.cloud/docs/tinymce/latest/available-toolbar-buttons/ */
         toolbar1: "undo redo | blocks fontfamily fontsize | bold italic strikethrough underline | forecolor backcolor",
-        toolbar2: "alignleft aligncenter alignright alignjustify  | outdent indent | numlist bullist | image link | code fullscreen",
+        toolbar2: "alignleft aligncenter alignright alignjustify  | outdent indent | numlist bullist | image link | code fullscreen | hr",
       }
     }
   },
