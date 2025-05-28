@@ -28,8 +28,8 @@ export default class UserActivityListener implements ListenerInterface
      */
     private bindListener(): void
     {
-        let activityCallback = () => {
-            this.storeUserActivityTimestamp();
+        let activityCallback = (event: UIEvent) => {
+            this.storeUserActivityTimestamp(event);
         };
 
         window.removeEventListener('click', activityCallback);
@@ -46,8 +46,12 @@ export default class UserActivityListener implements ListenerInterface
     /**
      * @description handles saving user's last activity timestamp in {@see LocalStorageService}
      */
-    public storeUserActivityTimestamp(): void
+    public storeUserActivityTimestamp(event: UIEvent): void
     {
+        if (event.target && event.target.closest('.logout')) {
+            return;
+        }
+
         let jwtToken                = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
         let currentTimestamp        = new Date().getTime();
         let lastActivityTimestamp   = parseInt(LocalStorageService.get(LocalStorageService.LAST_ACTIVITY_TIMESTAMP));
