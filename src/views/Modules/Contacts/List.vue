@@ -83,6 +83,8 @@ import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
 import {StoreDefinition} from "pinia";
 import {ContactsStore}   from "@/scripts/Vue/Store/Module/Contacts/ContactsStore";
 
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+
 export default {
   data(): ComponentData {
     return {
@@ -172,7 +174,7 @@ export default {
          * @description if contact image was not provided then placeholder was used, this can be easily fixed with
          *              migration, but the goal for 2.0.x is to NOT use any migrations at all (if possible).
          */
-        if (singleContact.imagePath.includes("avatar_placeholder")) {
+        if (StringTypeProcessor.isEmptyString(singleContact.imagePath) || singleContact.imagePath.includes("avatar_placeholder")) {
           singleContact.imagePath = "image/system/dummy-avatar.png";
         }
       });
