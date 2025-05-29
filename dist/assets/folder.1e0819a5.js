@@ -1,1 +1,1 @@
-var s="/assets/folder-solid.c25fef42.svg";export{s as default};
+var e="/assets/folder.c25fef42.svg";export{e as default};

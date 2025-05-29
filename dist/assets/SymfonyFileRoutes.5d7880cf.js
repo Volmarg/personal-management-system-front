@@ -1,1 +1,0 @@
-import{S as _}from"./index.db8bde11.js";class A extends _{}A.UPLOAD_FILES="/upload/send/",A.GET_FILE="/public/get-file/:path",A.GET_FILE_PARAM_PATH="path",A.GET_UPLOAD_CONFIGURATION="/upload/get-configuration/:id",A.GET_UPLOAD_CONFIGURATION_PARAM_ID="id";export{A as S};

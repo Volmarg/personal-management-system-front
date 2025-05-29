@@ -1,1 +1,1 @@
-var e="/assets/file-archive.f788efdf.svg";export{e as default};
+var e="/assets/file-archive-solid.f788efdf.svg";export{e as default};
