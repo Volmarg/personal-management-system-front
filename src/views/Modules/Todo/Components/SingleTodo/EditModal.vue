@@ -1,6 +1,7 @@
 <template>
   <div v-if="todoData">
     <Modal :is-visible="showModal"
+           id="todo-edit"
            :title="todoData.name"
            @modal-closed="onModalClosed"
            :size="modalSize"

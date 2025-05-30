@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="todo-create"
            :title="$t('issues.pending.modal.addNewTodo.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"

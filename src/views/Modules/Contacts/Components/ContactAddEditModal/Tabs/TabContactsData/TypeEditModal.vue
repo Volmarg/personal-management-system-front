@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="contact-type-edit"
            :title="$t('contacts.list.modal.typeEdit.header')"
            :cancel-text="$t('contacts.list.modal.addEdit.button.close.label')"
            :size="modalSize"

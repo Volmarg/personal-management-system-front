@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="note-create"
            :title="$t('notes.common.createUpdateForm.header.create')"
            @modal-closed="onModalClosed"
            :size="modalSize"

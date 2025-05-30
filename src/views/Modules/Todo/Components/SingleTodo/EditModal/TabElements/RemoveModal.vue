@@ -2,6 +2,7 @@
   <div>
 
     <WarningModal :is-visible="showModal"
+                  id="todo-element-remove"
                   :title="$t('todo.common.removeElementModal.header')"
                   @modal-closed="onModalClosed"
                   @confirm="onDelete"

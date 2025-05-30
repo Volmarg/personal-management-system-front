@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           :id="id"
            :title="$t('generic.action.edit.dialog.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"
@@ -27,6 +28,11 @@ export default {
     }
   },
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
     isModalVisible: {
       type     : Boolean,
       required : true,

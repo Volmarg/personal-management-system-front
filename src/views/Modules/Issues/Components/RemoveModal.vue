@@ -2,6 +2,7 @@
   <div>
 
     <WarningModal :is-visible="showModal"
+           id="issue-remove"
            :title="$t('issues.pending.modal.remove.header')"
            @modal-closed="onModalClosed"
            @confirm="$emit('removeConfirmClick')"

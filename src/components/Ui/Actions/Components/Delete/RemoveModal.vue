@@ -2,6 +2,7 @@
   <div>
 
     <WarningModal :is-visible="showModal"
+                  :id="id"
                   :title="$t('generic.action.remove.dialog.header')"
                   @modal-closed="onModalClosed"
                   @confirm="$emit('removeConfirmClick')"
@@ -35,6 +36,11 @@ export default {
     }
   },
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
     isModalVisible: {
       type     : Boolean,
       required : true,

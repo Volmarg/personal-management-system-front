@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="issue-create"
            :title="$t('issues.pending.modal.addNew.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"

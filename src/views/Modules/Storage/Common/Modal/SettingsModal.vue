@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="storage-settings"
            :title="$t('storage.page.module.settingsModal.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"

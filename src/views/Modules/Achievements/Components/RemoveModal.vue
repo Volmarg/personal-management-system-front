@@ -2,6 +2,7 @@
   <div>
 
     <WarningModal :is-visible="showModal"
+                  id="achievement-remove"
                   :size="modalSize"
                   :title="$t('achievements.list.modal.remove.header')"
                   @modal-closed="onModalClosed"

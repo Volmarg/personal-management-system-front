@@ -1,5 +1,6 @@
 <template>
   <UploadDialog :is-visible="isVisible"
+                id="profile-image"
                 :configuration-id="configurationId"
                 @upload-finished="onUploadFinished"
   />

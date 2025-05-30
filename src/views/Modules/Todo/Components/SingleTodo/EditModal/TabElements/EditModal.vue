@@ -1,5 +1,6 @@
 <template>
   <Modal :is-visible="showModal"
+         id="todo-element-edit"
          :title="$t('todo.common.editElementModal.header') + ': ' + element.name"
          @modal-closed="onModalClosed"
          :size="modalSize"

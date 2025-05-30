@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="storage-file-edit"
            :title="$t('storage.page.module.updateModal.header.label')"
            @modal-closed="onModalClosed"
            :size="modalSize"

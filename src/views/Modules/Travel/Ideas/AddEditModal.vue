@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="idea-edit"
            :title="header"
            @modal-closed="onModalClosed"
            :size="modalSize"

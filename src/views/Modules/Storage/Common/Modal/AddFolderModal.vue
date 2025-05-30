@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="add-folder"
            :title="$t('storage.page.module.newFolderModal.header.label')"
            @modal-closed="onModalClosed"
            :size="modalSize"

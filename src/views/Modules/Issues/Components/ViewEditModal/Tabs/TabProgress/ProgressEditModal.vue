@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="progress-edit"
            :title="$t('issues.pending.modal.viewEdit.tabs.progress.editModal.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"

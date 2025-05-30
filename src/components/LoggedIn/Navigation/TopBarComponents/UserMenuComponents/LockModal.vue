@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="system-lock"
            :title="isSystemLocked ? $t('other.lockModal.header') : $t('other.lockModal.headerLockBack')"
            @modal-closed="onModalClosed"
            :size="modalSize"

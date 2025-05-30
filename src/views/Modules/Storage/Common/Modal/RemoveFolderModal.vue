@@ -2,6 +2,7 @@
   <div>
 
     <WarningModal :is-visible="showModal"
+                  id="storage-folder-remove"
                   :title="$t('storage.page.module.removeFolderModal.header.label')"
                   @modal-closed="onModalClosed"
                   @confirm="onSubmit"

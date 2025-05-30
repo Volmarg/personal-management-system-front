@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="note-preview"
            :title="(isEdit ? $t('notes.category.previewModal.header.editing.label') : '') + note.title"
            :size="modalSize"
            :is-close-full-width="true"

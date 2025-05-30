@@ -1,5 +1,6 @@
 <template>
   <Modal :title="$t('userSettings.tab.baseData.children.emailAddress.dialog.header')"
+         id="profile-base-data-email-address"
          :is-visible="isVisible"
          :size="dialogSize"
   >

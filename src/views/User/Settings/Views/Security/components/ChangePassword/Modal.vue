@@ -59,6 +59,11 @@ export default {
     }
   },
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
     isVisible: {
       type     : Boolean,
       required : true,

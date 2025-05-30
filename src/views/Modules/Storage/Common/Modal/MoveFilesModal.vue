@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="storage-file-move"
            :title="$t('storage.page.module.moveModal.header')"
            @modal-closed="onModalClosed"
            @confirm="onSubmit"

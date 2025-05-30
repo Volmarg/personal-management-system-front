@@ -2,6 +2,7 @@
   <div>
 
     <WarningModal :is-visible="showModal"
+                  id="contact-remove"
                   :title="$t('generic.action.remove.dialog.header')"
                   @modal-closed="onModalClosed"
                   @confirm="onConfirm"

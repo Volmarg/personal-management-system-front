@@ -1,5 +1,6 @@
 <template>
   <Modal :title="$t('userSettings.tab.baseData.children.personalData.modal.header')"
+         id="profile-base-data"
          :is-visible="isVisible"
          :is-vshow-visibility="true"
          :size="isPhoneBreakingPoint ? 'full' : 'medium'"

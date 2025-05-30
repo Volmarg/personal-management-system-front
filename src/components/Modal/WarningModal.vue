@@ -2,6 +2,7 @@
   <div>
 
     <Modal
+        :id="id"
         :is-visible="isVisible"
         :size="size"
         :title="title"
@@ -45,6 +46,11 @@ import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWit
 
 export default {
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
     /**
      * @description modal size
      */

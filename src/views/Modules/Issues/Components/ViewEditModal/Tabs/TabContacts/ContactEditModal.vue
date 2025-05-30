@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="contact-edit"
            :title="$t('issues.pending.modal.viewEdit.tabs.contacts.editModal.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"

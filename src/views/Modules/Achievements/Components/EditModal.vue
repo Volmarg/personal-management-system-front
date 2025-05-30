@@ -1,6 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
+           id="achievement-edit"
            :title="$t('achievements.list.modal.edit.header')"
            @modal-closed="onModalClosed"
            :size="modalSize"

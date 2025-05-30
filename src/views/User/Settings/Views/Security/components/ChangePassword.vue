@@ -13,6 +13,7 @@
     </MediumButtonWithIcon>
 
     <ChangePasswordModal :is-visible="isModalVisible"
+                         id="password"
                          @modal-closed="onModalClosed"
     />
 

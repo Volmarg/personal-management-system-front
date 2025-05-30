@@ -10,6 +10,7 @@
     ></div>
 
     <div class="modal show "
+         :id="id"
          :class="getModalMainWrapperClasses"
          data-background="light"
     >
@@ -120,6 +121,11 @@ export default {
     }
   },
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
     cancelButtonMarginRightClassNumber: {
       type     : Number,
       required : false,

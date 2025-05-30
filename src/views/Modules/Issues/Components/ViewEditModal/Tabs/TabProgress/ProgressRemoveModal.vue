@@ -1,6 +1,7 @@
 <template>
   <div>
     <WarningModal :is-visible="showModal"
+           id="progress-remove"
            :title="$t('issues.pending.modal.viewEdit.tabs.progress.removeModal.header')"
            @modal-closed="onModalClosed"
            @confirm="onConfirm"

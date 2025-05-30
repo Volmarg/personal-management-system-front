@@ -1,6 +1,7 @@
 <template>
   <div>
     <WarningModal :is-visible="showModal"
+           id="contact-remove"
            :title="$t('issues.pending.modal.viewEdit.tabs.contacts.removeModal.header')"
            @modal-closed="onModalClosed"
            @confirm="onConfirm"

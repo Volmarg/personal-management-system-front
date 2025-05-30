@@ -1,6 +1,7 @@
 <template>
   <Modal :title="$t('system.timer.warningModal.header')"
          :is-visible="isVisible"
+         id="session-timeout"
          size="small"
   >
     <template #cancelButton>

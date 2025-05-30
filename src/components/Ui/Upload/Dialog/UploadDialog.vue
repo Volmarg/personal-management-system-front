@@ -1,6 +1,7 @@
 <template>
   <div class="modal-wrapper">
     <Modal :title="$t('generic.dialog.uploadDialog.header')"
+           :id="id"
            :is-visible="isVisible"
            @modal-closed="$emit('modalClosed')"
            :size="modalSize"
@@ -36,6 +37,11 @@ export default {
     }
   },
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
     configurationId: {
       type     : String,
       required : true,
