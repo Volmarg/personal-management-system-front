@@ -73,6 +73,7 @@ import {
     faEye,
     faCalendarAlt,
     faBell,
+    faWindowMaximize
 } from '@fortawesome/free-regular-svg-icons';
 
 import {
@@ -166,6 +167,7 @@ export default class Fontawesome
         library.add(faLinkedin);
         library.add(faXing);
         library.add(faExclamationTriangle);
+        library.add(faWindowMaximize);
 
         return FontAwesomeIcon;
     }

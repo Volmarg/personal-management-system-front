@@ -14,15 +14,26 @@
          :class="getModalMainWrapperClasses"
          data-background="light"
     >
-      <div class="relative w-auto lg:my-4 mx-auto overflow-y-scroll max-h-size"
+      <div class="relative w-auto lg:my-4 mx-auto max-h-size"
            :class="{
-              'w-full lg:max-w-full sm:ml-10 sm:mr-10 ml-3 mr-3'              : isFullSize,
-              'sm:w-10/12 lg:w-7/12 sm:max-w-full lg:max-w-full ml-10 mr-10'  : isMediumSize,
-              'w-full md:w-6/12 lg:max-w-1/4 ml-10 mr-10'                     : isSmallSize,
-              'lg:max-w-lg max-w-sm'                                          : !isFullSize
+              [modalSizeClasses]: true
            }"
       >
-        <div class="bg-white text-gray-900 border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none">
+        <div class="h-full bg-white text-gray-900 border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none">
+          <span
+              class="mt-2 mr-10 font-bold flex flex-col justify-end hover:opacity-50 cursor-pointer opacity-70 self-end fixed z-9"
+              @click="toggleMaximise"
+              v-if="id"
+          >
+            <span class="text-2xl">
+              <fa :icon="['far', 'window-maximize']"
+                  :class="{
+                    'text-blue-500': maximise
+                  }"
+              />
+            </span>
+          </span>
+
           <span
               class="mt-2 mr-2 font-bold flex flex-col justify-end hover:opacity-50 cursor-pointer opacity-70 self-end fixed z-9"
               @click="$emit('modalClosed')"
@@ -32,12 +43,12 @@
             <small class="-mt-3 -ml-1">(Esc)</small>
           </span>
 
-          <div class="relative flex-auto mt-4"
+          <div class="relative flex-auto mt-4 overflow-y-scroll"
                :class="{
                   'p-4': hasBodyPadding,
                }"
           >
-            <div class="flex items-start justify-start space-x-4"
+            <div class="flex items-start justify-start space-x-4 content-inner-wrapper"
                  :class="{
                     'p-2': hasBodyPadding,
                  }"
@@ -101,6 +112,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import {shallowRef}        from "vue";
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import LocalStorageService from "@/scripts/Core/Services/Storage/LocalStorageService";
 
 import CssClassNormalizerMixin from "@/mixins/Attribute/CssClassNormalizerMixin.vue";
 
@@ -112,6 +124,7 @@ export default {
   ],
   data(): ComponentData {
     return {
+      isMaximised: false,
       modalOpenClass: "modal-open",
       config: shallowRef({
         modalFadeAwayTimeInMilliseconds: 300,
@@ -212,6 +225,31 @@ export default {
   },
   computed: {
     /**
+     * @description return modal size based classes
+     */
+    modalSizeClasses(): string {
+      let commonBig = ' h-full max-h-full';
+
+      if (this.isFullSize && !this.maximise) {
+        return 'w-full lg:max-w-full sm:ml-10 sm:mr-10 ml-3 mr-3' + commonBig;
+      }
+
+      if (this.isMediumSize && !this.maximise) {
+        return 'sm:w-10/12 lg:w-7/12 sm:max-w-full lg:max-w-full ml-10 mr-10';
+      }
+
+      if (this.isSmallSize && !this.maximise) {
+        return 'w-full md:w-6/12 lg:max-w-1/4 ml-10 mr-10';
+      }
+
+      if (!this.isFullSize && !this.maximise) {
+        return 'lg:max-w-lg max-w-sm' + commonBig;
+      }
+
+      // maximise
+      return 'w-full lg:max-w-full sm:ml-10 sm:mr-10 ml-3 mr-3' + commonBig;
+    },
+    /**
      * @description returns text to be used on the modal cancel action
      */
     getCancelButtonText(): string {
@@ -262,9 +300,30 @@ export default {
      */
     isFullSize(): boolean {
       return (this.size === "full");
+    },
+    /**
+     * @description checks if modal should be maximised
+     */
+    maximise(): boolean {
+      if (!this.id) {
+        return false;
+      }
+
+      return this.isMaximised;
     }
   },
   methods: {
+    /**
+     * @description toggle maximise state
+     */
+    toggleMaximise(): void {
+      if (!this.id) {
+        return;
+      }
+
+      this.isMaximised = !this.isMaximised;
+      LocalStorageService.setModalMaximised(this.id, this.isMaximised);
+    },
     /**
      * @description modals can be opened on top of another, so this function checks if there are any modals opened
      *              meaning that it's not a check for just current modal instance but rather for all of them
@@ -319,6 +378,10 @@ export default {
   created(): void {
     this.isModalVisible = this.isVisible;
     this.isFadeAway     = !this.isVisible;
+
+    if (this.id) {
+      this.isMaximised = LocalStorageService.isModalMaximised(this.id)
+    }
   },
   unmounted(): void {
     /**
@@ -332,6 +395,10 @@ export default {
     isModalVisible(): void {
       if (this.isModalVisible) {
         this.focusTopModal();
+      }
+
+      if (this.id) {
+        this.isMaximised = LocalStorageService.isModalMaximised(this.id)
       }
     },
     /**
@@ -381,5 +448,9 @@ export default {
 .modal-focuser {
   height: 0 !important;
   @apply m-0 p-0 w-0 opacity-0 absolute pointer-events-none
+}
+
+.content-inner-wrapper {
+  max-height: 75vh;
 }
 </style>

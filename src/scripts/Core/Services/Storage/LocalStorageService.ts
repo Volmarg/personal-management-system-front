@@ -36,6 +36,11 @@ export default class LocalStorageService {
      */
     static readonly LAST_ACTIVITY_TIMESTAMP = "lat";
 
+    /**
+     * @description defines if given modal is maximised or not
+     */
+    private static readonly MODAL_MAXIMISED_PREFIX = "modalMaximised_";
+
 
     /**
      * @description marks given tour as done
@@ -61,6 +66,25 @@ export default class LocalStorageService {
 
         let key = tourName + userController.getLoggedInUserData().userId;
         return LocalStorageService.isSet(key);
+    }
+
+    /**
+     * @description check if modal is maximised
+     */
+    public static isModalMaximised(modalId: string): boolean {
+        let value = LocalStorageService.get(`${LocalStorageService.MODAL_MAXIMISED_PREFIX}_${modalId}`, true);
+        if (StringTypeProcessor.isEmptyString(value, false, false)) {
+            return false;
+        }
+
+        return Boolean(Number(value));
+    }
+
+    /**
+     * @description set the modal maximise state
+     */
+    public static setModalMaximised(modalId: string, isMaximised: boolean): void {
+        LocalStorageService.set(`${LocalStorageService.MODAL_MAXIMISED_PREFIX}_${modalId}`, String(Number(isMaximised)));
     }
 
     /**

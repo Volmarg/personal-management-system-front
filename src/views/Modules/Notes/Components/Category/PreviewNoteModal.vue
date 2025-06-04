@@ -140,7 +140,5 @@ export default {
 <style lang="scss">
 .note-body-preview {
   @import 'src/assets/scss/libs/tinymce/content-outside-editor';
-
-  @apply max-h-96 overflow-y-scroll
 }
 </style>
