@@ -85,6 +85,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 export default {
   data(): ComponentData {
     return {
+      initialSmallSizeModal: "medium",
       showModal: false,
       isEdit: false,
     }
@@ -115,14 +116,6 @@ export default {
     "deleteClick",
     "updateSubmit",
   ],
-  computed: {
-    /**
-     * @description decide modal size depending if edit is on
-     */
-    dynamicModalSize(): string {
-      return this.isEdit ? 'full' : 'medium';
-    },
-  },
   methods: {
     /**
      * @description handles the situation when modal get closed. Will pass the event further
