@@ -80,7 +80,13 @@ export default {
      *              this was added due to menu being a bit of glitch-y on mobile (hamburger is not reachable)
      */
     hideSidebar(): void {
-      if (window.innerWidth >= this.tabletBreakingPointPx) {
+
+      /**
+       * @description on some pages tables etc. are breaking the layout a bit, and if in such case innerWidth is used
+       *              then it returns the "broken layout size" which is bigger than real window size, turns out
+       *              that outerWidth always return the proper value.
+       */
+      if (window.outerWidth >= this.tabletBreakingPointPx) {
         return;
       }
 
