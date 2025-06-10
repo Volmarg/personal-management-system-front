@@ -1,11 +1,12 @@
 <template>
-  <div v-if="isModalVisible || isVshowVisibility"
+  <div v-if="isModalVisible"
        v-show="isModalVisible"
        @keydown.esc="$emit('modalClosed')"
        tabindex="0"
   >
     <div class="modal-backdrop"
          :class="getBackdropClasses"
+         ref="backdrop"
          @click="$emit('modalClosed')"
     ></div>
 
@@ -18,6 +19,7 @@
            :class="{
               [modalSizeClasses]: true
            }"
+           v-click-away="clickAway"
       >
         <div class="h-full bg-white text-gray-900 border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none">
           <span
@@ -184,19 +186,6 @@ export default {
       required : false,
       default  : false,
     },
-    /**
-     * @description decides if visibility is controlled via v-show or via v-if:
-     *              - true = v-show
-     *              - false = v-if
-     *
-     *              This is sometimes needed, as in some cases it prevents modals from lagging as the data will be always there,
-     *              this was added due to issues on mobile, where some dialogs took to long to load,
-     */
-    isVshowVisibility: {
-      type     : Boolean,
-      required : false,
-      default  : false,
-    },
     title: {
       type: String,
       required: true,
@@ -313,6 +302,43 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description attempts to find z-index number based on provided backdrop element
+     */
+    findZindex(backdrop: HTMLElement): number {
+      let zIndexRegex = /z-([0-9]+)/;
+      let classes = backdrop.parentElement.getAttribute('class') ?? '';
+      if (!classes.includes('z-')) {
+        classes = backdrop.parentElement.parentElement.getAttribute('class') ?? '';
+      }
+
+      let matches = classes?.match(zIndexRegex);
+      if (!classes || !matches || !matches[1]) {
+        return 0
+      }
+
+      return Number(matches[1]);
+    },
+    /**
+     * @description will close currently open modal upon clicking-away from it. The issue is that there can be multiple
+     *              modals open "one on top of another", so we need to calculate the highest z-index, and make sure that
+     *              we are always closing right modal(s).
+     */
+    clickAway(): void {
+      let currZIndexNum = this.findZindex(this.$refs.backdrop);
+      let indexes = [...document.querySelectorAll('.modal-backdrop')].map((backdrop: HTMLElement) => this.findZindex(backdrop));
+
+      /**
+       * @description this will work only if modals in DOM are placed in order which corresponds their z-index
+       *              using sort should be avoided here. Additionally, this check ensures that we only ever close the
+       *              "currently open" modal
+       */
+      if (indexes[indexes.length - 1] != currZIndexNum) { // not using .pop() since it messes up debugging
+        return;
+      }
+
+      this.$emit('modalClosed')
+    },
     /**
      * @description toggle maximise state
      */
