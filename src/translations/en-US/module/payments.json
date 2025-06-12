@@ -344,6 +344,11 @@
             }
         },
         "monthly": {
+            "tabs": {
+                "overview": {
+                    "label": "Overview"
+                }
+            },
             "newForm": {
                 "header": "Add new entry",
                 "date": {

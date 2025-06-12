@@ -1,5 +1,11 @@
 <template>
-  <div class="tabs p-2 mt-4 sm:mt-0 sm:p-12">
+  <div class="tabs p-2 mt-4 sm:mt-0"
+       :class="{
+          'tabs-no-bg': noBackground,
+          'sm:p-12': !noBackground,
+          'sm:p-4': noBackground,
+       }"
+  >
 
     <!-- Some inputs to control the tab selection most likely -->
     <input  v-for="(tabWithContent, index) of tabsWithContent"
@@ -61,6 +67,11 @@ import BaseError from "@/scripts/Core/Error/BaseError";
 export default {
   name: "Tabs",
   props: {
+    noBackground: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     /**
      * @description this has to be set in case when there are multiple tab panels on same page
      */
@@ -376,5 +387,11 @@ $content-selector: "~ .content > section";
     width: auto;
   }
 
+}
+</style>
+
+<style lang="scss">
+.tabs-no-bg {
+  background: none !important;
 }
 </style>
