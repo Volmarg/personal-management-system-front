@@ -1,84 +1,86 @@
 <template>
-  <div>
-    <div class="flex justify-end">
-      <SearchInput v-if="canSearch"
-                   v-model.trim="searchValue"
-      />
+  <div class="simple-table">
+    <div class="overflow-x-auto overflow-hidden">
+      <div class="flex justify-end">
+        <SearchInput v-if="canSearch"
+                     v-model.trim="searchValue"
+        />
+      </div>
+      <table class="table mt-2">
+        <thead>
+          <tr>
+            <th v-for="(header, index) in headers"
+                :key="index"
+                class="font-bold uppercase cursor-pointer hover:opacity-80"
+                :class="{
+                  'hidden': header.isVisible === false
+                }"
+                @click="handleSort(header, index)"
+                :ref="`header${index}`"
+            >
+              {{ header.label }}
+              <span v-if="header.label === activeSortColumn">
+                <span class="sort-arrow"
+                      v-if="activeSortDirection === 'desc'"
+                >
+                  <fa icon="sort-up" />
+                </span>
+                <span class="sort-arrow"
+                      v-if="activeSortDirection === 'asc'"
+                >
+                  <fa icon="sort-down" />
+                </span>
+              </span>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(rowData, rowIndex) in visibleResults"
+              :key="rowIndex"
+          >
+            <!-- if header is hidden the hiding the column too -->
+            <td v-for="(cellData, cellIndex) in rowData"
+                :key="cellIndex"
+                :class="{
+                  'hidden': isColumnVisible(cellIndex),
+                }"
+            >
+              <!-- Normally this would break the components behaviour, but am setting model value only once when component is loaded, might turn out to be buggy -->
+              {{setComponentModelValue(cellData)}}
+
+              <!-- emitting event seems not to be working here -->
+              <component v-if="cellData.isComponent"
+                         :is="cellData.value"
+                         v-bind.prop="{
+                           ...cellData.componentProps,
+                           rowData: rowData
+                         }"
+                         v-model="componentValues[`${cellData.uniqId}`]"
+                         :ref="`component${cellData.uniqId}`"
+                         @change="$emit('componentValueChange', {
+                           value: componentValues[`${cellData.uniqId}`],
+                           component: $refs[`component${cellData.uniqId}`] ?? null,
+                           header: $refs[`header${cellIndex}`] ?? null,
+                           cellData: cellData,
+                           rowData: rowData,
+                           cellNumber: cellIndex,
+                           rowNumber: rowData.realRowId,
+                           tableId: id,
+                         })"
+              />
+              <span v-else>
+                <!-- this is VERY important, especially for passwords module, where the passwords should not be present in DOM! -->
+                <span v-if="!isColumnVisible(cellIndex)" class="break-all">
+                  {{ cellData.value }}
+                </span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
-    <table class="table mt-2">
-      <thead>
-        <tr>
-          <th v-for="(header, index) in headers"
-              :key="index"
-              class="font-bold uppercase cursor-pointer hover:opacity-80"
-              :class="{
-                'hidden': header.isVisible === false
-              }"
-              @click="handleSort(header, index)"
-              :ref="`header${index}`"
-          >
-            {{ header.label }}
-            <span v-if="header.label === activeSortColumn">
-              <span class="sort-arrow"
-                    v-if="activeSortDirection === 'desc'"
-              >
-                <fa icon="sort-up" />
-              </span>
-              <span class="sort-arrow"
-                    v-if="activeSortDirection === 'asc'"
-              >
-                <fa icon="sort-down" />
-              </span>
-            </span>
-
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(rowData, rowIndex) in visibleResults"
-            :key="rowIndex"
-        >
-          <!-- if header is hidden the hiding the column too -->
-          <td v-for="(cellData, cellIndex) in rowData"
-              :key="cellIndex"
-              :class="{
-                'hidden': isColumnVisible(cellIndex),
-              }"
-          >
-            <!-- Normally this would break the components behaviour, but am setting model value only once when component is loaded, might turn out to be buggy -->
-            {{setComponentModelValue(cellData)}}
-
-            <!-- emitting event seems not to be working here -->
-            <component v-if="cellData.isComponent"
-                       :is="cellData.value"
-                       v-bind.prop="{
-                         ...cellData.componentProps,
-                         rowData: rowData
-                       }"
-                       v-model="componentValues[`${cellData.uniqId}`]"
-                       :ref="`component${cellData.uniqId}`"
-                       @change="$emit('componentValueChange', {
-                         value: componentValues[`${cellData.uniqId}`],
-                         component: $refs[`component${cellData.uniqId}`] ?? null,
-                         header: $refs[`header${cellIndex}`] ?? null,
-                         cellData: cellData,
-                         rowData: rowData,
-                         cellNumber: cellIndex,
-                         rowNumber: rowData.realRowId,
-                         tableId: id,
-                       })"
-            />
-            <span v-else>
-              <!-- this is VERY important, especially for passwords module, where the passwords should not be present in DOM! -->
-              <span v-if="!isColumnVisible(cellIndex)">
-                {{ cellData.value }}
-              </span>
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
     <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
                 :initial-current-page="currentPage"
                 :initial-count-of-result-per-page="resultsPerPage"
@@ -450,3 +452,23 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.simple-table {
+  ::-webkit-scrollbar:horizontal {
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:horizontal {
+    @apply bg-gray-300;
+  }
+
+  table {
+    td {
+      min-width: 200px;
+      white-space: unset !important;
+      word-break: break-all !important;
+    }
+  }
+}
+</style>
