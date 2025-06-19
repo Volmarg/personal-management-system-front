@@ -5,6 +5,8 @@
           :pages="getCountOfPages"
           :range-size="1"
           :active-color="color.blue"
+          :hide-first-button="isPhoneBreakingPoint"
+          :hide-last-button="isPhoneBreakingPoint"
           @update:modelValue="$emit('pageNumberChanges', currentPage, countOfResultsPerPage)"
       />
   </div>
@@ -14,7 +16,9 @@
 import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 
-import Colors          from "@/scripts/Vue/Mixins/Colors.vue";
+import Colors              from "@/scripts/Vue/Mixins/Colors.vue";
+import ResponsiveVarsMixin from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
+
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 /**
@@ -54,7 +58,8 @@ export default {
     }
   },
   mixins: [
-    Colors
+    Colors,
+    ResponsiveVarsMixin,
   ],
   emits: [
     "pageNumberChanges"
@@ -92,7 +97,7 @@ export default {
 
   .Pagination {
     li {
-      $liMargin: 5px;
+      $liMargin: 3px;
       margin-left: $liMargin;
       margin-right: $liMargin;
     }
