@@ -1,11 +1,12 @@
 <template>
   <div class="simple-table">
+    <div class="flex justify-end">
+      <SearchInput v-if="canSearch"
+                   v-model.trim="searchValue"
+      />
+    </div>
+
     <div class="overflow-x-auto overflow-hidden">
-      <div class="flex justify-end">
-        <SearchInput v-if="canSearch"
-                     v-model.trim="searchValue"
-        />
-      </div>
       <table class="table mt-2">
         <thead>
           <tr>
