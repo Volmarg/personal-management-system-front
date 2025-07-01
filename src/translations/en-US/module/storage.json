@@ -5,6 +5,12 @@
                 "header": "Upload files directly into storage module folder"
             },
             "module": {
+                "dirTree": {
+                    "toggleOpenClose": {
+                        "open": "Open all",
+                        "close": "Close all"
+                    }
+                },
                 "updateModal": {
                     "header": {
                         "label": "Update file"
