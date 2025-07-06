@@ -10,8 +10,8 @@
     <TreeNode :nodes="dirsStructure"
               :storage-route-name="routeName"
               :is-root-node="true"
-              @node-collapse="trans.toggleAll.currentState = trans.toggleAll.open"
-              @node-open="trans.toggleAll.currentState = trans.toggleAll.close"
+              @node-collapse="onNodeToggle"
+              @node-open="onNodeToggle"
               ref="treeNode"
     />
   </div>
@@ -47,6 +47,13 @@ export default {
     TreeNode
   },
   methods: {
+    /**
+     * @description handles node toggle - decides the toggle-all text
+     */
+    onNodeToggle(): void {
+      let isAnyNodeCollapsed = !!document.querySelector('.node-collapsed');
+      this.trans.toggleAll.currentState = isAnyNodeCollapsed ? this.trans.toggleAll.open : this.trans.toggleAll.close;
+    },
     /**
      * @description handle clicking on toggle-all (close / open all nodes)
      */
