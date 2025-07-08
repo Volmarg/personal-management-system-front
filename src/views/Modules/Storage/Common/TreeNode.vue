@@ -14,11 +14,12 @@
       {{setActiveNodeData(node)}}
       <span class="open-close-toggle"
             :class="{
-              'node-open': isRootNode,
-              'node-collapsed': !isRootNode,
+              'node-open': isRootNode || storage?.isTreeNodeOpen(node.path),
+              'node-collapsed': !isRootNode && !storage?.isTreeNodeOpen(node.path),
             }"
             @click="toggleNode($event.target)"
             ref="openCloseToggle"
+            :data-node-path="node.path"
             v-if="node.children.length !== 0 && !isRootNode"
       />
 
@@ -51,7 +52,7 @@
       <TreeNode v-if="node.children.length > 0"
                 :nodes="node.children"
                 :storage-route-name="storageRouteName"
-                :is-open="isRootNode"
+                :is-open="isRootNode || storage?.isTreeNodeOpen(node.path)"
                 ref="treeNode"
                 @node-collapse="$emit('nodeCollapse')"
                 @node-open="$emit('nodeOpen')"
@@ -63,8 +64,14 @@
 <script lang="ts">
 
 import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 export default {
+  data(): ComponentData {
+    return {
+      storage: null as StorageState,
+    }
+  },
   props: {
     storageRouteName: {
       type: String,
@@ -119,10 +126,13 @@ export default {
       toggler.classList.toggle('node-open');
       toggler.classList.toggle('node-collapsed');
 
+      let nodePath = toggler?.getAttribute('data-node-path');
       if (elementUl.classList.contains("h-0-force")) {
         this.$emit('nodeCollapse');
+        this.storage.removeOpenTreeNode(nodePath);
       } else {
         this.$emit('nodeOpen');
+        this.storage.addOpenTreeNode(nodePath);
       }
     },
     /**
@@ -138,6 +148,9 @@ export default {
       elementUl.classList.add("overflow-hidden");
       toggler.classList.add('node-collapsed');
       toggler.classList.remove('node-open');
+
+      let nodePath = toggler?.getAttribute('data-node-path');
+      this.storage.removeOpenTreeNode(nodePath);
     },
     /**
      * @description open current node
@@ -152,6 +165,9 @@ export default {
       elementUl.classList.remove("overflow-hidden");
       toggler.classList.remove('node-collapsed');
       toggler.classList.add('node-open');
+
+      let nodePath = toggler?.getAttribute('data-node-path');
+      this.storage.addOpenTreeNode(nodePath);
     },
     /**
      * @description takes the toggler element, and looks for the closes UL parent
@@ -179,8 +195,11 @@ export default {
         return;
       }
 
-      StorageState().activeNodeData = node;
+      this.storage.activeNodeData = node;
     }
+  },
+  beforeMount(): void {
+    this.storage = StorageState();
   },
 }
 </script>

@@ -6,6 +6,7 @@ import SymfonyStorageRoutes  from "@/router/SymfonyRoutes/Modules/SymfonyStorage
 import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
 
 import BaseError from "@/scripts/Core/Error/BaseError";
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 enum StorageTypeEnum {
     "files",
@@ -15,6 +16,7 @@ enum StorageTypeEnum {
 
 const StorageState = defineStore('storageModuleState', {
     state: () => ({
+        openTreeNodes: [],
         activeNodeData: {},
         selectedFilesData: [],
         allEntries: [],
@@ -22,6 +24,44 @@ const StorageState = defineStore('storageModuleState', {
         uploadConfigId: null,
     }),
     actions: {
+        /**
+         * @description will check if given tree node is open
+         */
+        isTreeNodeOpen(dirPath: string | undefined | null): boolean {
+            if (StringTypeProcessor.isEmptyString(dirPath)) {
+                throw new BaseError("Provided string is empty!")
+            }
+
+            return this.openTreeNodes.includes(dirPath);
+        },
+        /**
+         * @description add given path to the list of open tree nodes
+         */
+        addOpenTreeNode(dirPath: string | undefined | null): void {
+            if (StringTypeProcessor.isEmptyString(dirPath)) {
+                throw new BaseError("Provided string is empty!")
+            }
+
+            if (!this.openTreeNodes.includes(dirPath)) {
+                this.openTreeNodes.push(dirPath);
+            }
+        },
+        /**
+         * @description remove given path from list of open tree nodes
+         */
+        removeOpenTreeNode(dirPath: string | undefined | null): void {
+            if (StringTypeProcessor.isEmptyString(dirPath)) {
+                throw new BaseError("Provided string is empty!")
+            }
+
+            if (!this.openTreeNodes.includes(dirPath)) {
+                return;
+            }
+
+            let index = this.openTreeNodes.findIndex((element) => element === dirPath);
+            delete this.openTreeNodes[index];
+            this.openTreeNodes = this.openTreeNodes.filter(Boolean);
+        },
         /**
          * @description returns the given storage folder structure
          */
