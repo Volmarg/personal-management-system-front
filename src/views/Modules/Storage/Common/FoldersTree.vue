@@ -19,7 +19,11 @@
 
 <script lang="ts">
 import TreeNode from "@/views/Modules/Storage/Common/TreeNode.vue";
+
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 export default {
   data(): ComponentData {
@@ -89,7 +93,33 @@ export default {
         treeNodeRef.toggleAll(open);
       }
     },
+    /**
+     * @description checks the currently open dir (query param), then breaks the path into pieces and puts each sub-path
+     *              into open tree nodes in storage. This way each existing folder/tree will be now toggled open.
+     */
+    openVisitedFolderNodes(): void {
+      if (StringTypeProcessor.isEmptyString(this.$route.query.dir) || this.$route.query.dir === "/") {
+        return;
+      }
+
+      let parts = this.$route.query.dir.split('/');
+      if (parts.length === 0) {
+        return;
+      }
+
+      let path  = "";
+      for (let part of parts) {
+        path += StringTypeProcessor.isEmptyString(path) ? part : `/${part}`;
+        StorageState().addOpenTreeNode(path)
+      }
+    }    
   },
+  beforeMount(): void {
+    this.openVisitedFolderNodes();
+  },
+  beforeUnmount(): void {
+    StorageState().clearOpenTreeNodes();
+  }
 }
 </script>
 

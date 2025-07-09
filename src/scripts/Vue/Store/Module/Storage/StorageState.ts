@@ -25,6 +25,12 @@ const StorageState = defineStore('storageModuleState', {
     }),
     actions: {
         /**
+         * @description clears the open tree nodes array
+         */
+        clearOpenTreeNodes(): void {
+          this.openTreeNodes = [];
+        },
+        /**
          * @description will check if given tree node is open
          */
         isTreeNodeOpen(dirPath: string | undefined | null): boolean {
