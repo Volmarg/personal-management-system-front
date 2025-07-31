@@ -1,6 +1,9 @@
 <template>
   <Base :info-block-description="$t('notes.new.description')">
-    <CreateUpdateForm :header="$t('notes.common.createUpdateForm.header.create')"/>
+    <CreateUpdateForm
+        :header="$t('notes.common.createUpdateForm.header.create')"
+        :is-submit-visible="true"
+    />
   </Base>
 </template>
 

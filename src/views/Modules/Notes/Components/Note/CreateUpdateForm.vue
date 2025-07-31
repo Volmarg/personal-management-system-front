@@ -23,6 +23,14 @@
                       :required="true"
       />
 
+      <MediumButtonWithIcon :text="$t('notes.new.form.submit.label')"
+                            button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
+                            class="w-full mb-1 md:col-start-1 md:col-end-2 mt-6"
+                            button-classes="w-full md:w-auto m-0-force"
+                            text-classes="text-center w-full"
+                            @button-click="submit"
+                            v-if="isSubmitVisible"
+      />
     </div>
   </div>
 </template>
@@ -31,6 +39,7 @@
 import Wyswig               from "@/components/Form/Wyswig.vue";
 import FormInput            from "@/components/Form/Input.vue";
 import CategorySelect       from "@/views/Modules/Notes/Components/CategorySelect.vue";
+import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -79,8 +88,14 @@ export default {
       required: false,
       default: false,
     },
+    isSubmitVisible: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   components: {
+    MediumButtonWithIcon,
     CategorySelect,
     FormInput,
     Wyswig
