@@ -324,7 +324,17 @@ export default {
      *              modals open "one on top of another", so we need to calculate the highest z-index, and make sure that
      *              we are always closing right modal(s).
      */
-    clickAway(): void {
+    clickAway(event: PointerEvent): void {
+
+      /**
+       * @description this is a special handling, for cases such as "PreviewNoteModal" which switches to another modal when
+       *              "Edit" / "Stop editing" is pressed. The problem in that clickAway is triggered AFTER the old modal is gone.
+       *              If that's the case, then the `event.target` is gone from DOM and has no BODY parent.
+       */
+      if (!event.target.closest('body') && event.target.tagName !== "BODY") {
+        return;
+      }
+
       let currZIndexNum = this.findZindex(this.$refs.backdrop);
       let indexes = [...document.querySelectorAll('.modal-backdrop')].map((backdrop: HTMLElement) => this.findZindex(backdrop));
 
