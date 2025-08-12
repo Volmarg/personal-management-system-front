@@ -335,6 +335,14 @@ export default {
         return;
       }
 
+      /**
+       * @description another special handling:
+       *              - `.tox-tinymce-aux`: tinymce built-in modals, so clicking on them closes the original modal,
+       */
+      if (event.target.closest('.tox-tinymce-aux')) {
+        return;
+      }
+
       let currZIndexNum = this.findZindex(this.$refs.backdrop);
       let indexes = [...document.querySelectorAll('.modal-backdrop')].map((backdrop: HTMLElement) => this.findZindex(backdrop));
 
