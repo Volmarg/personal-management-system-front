@@ -1,1 +1,1 @@
-var a="/assets/comment-alt.02648bb0.svg";export{a as default};
+var s="/assets/comment-alt-solid.02648bb0.svg";export{s as default};

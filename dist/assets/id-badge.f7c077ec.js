@@ -1,1 +1,1 @@
-var a="/assets/id-badge-solid.bda82830.svg";export{a as default};
+var a="/assets/id-badge.bda82830.svg";export{a as default};
