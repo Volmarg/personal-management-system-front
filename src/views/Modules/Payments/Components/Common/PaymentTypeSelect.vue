@@ -35,6 +35,12 @@ export default {
       selected: null,
     }
   },
+  props: {
+    modelValue: {
+      required: false,
+      default: null,
+    }
+  },
   components: {
     MultiSelect
   },
@@ -78,6 +84,7 @@ export default {
     this.store = PaymentTypesState();
     await this.store.getAll();
     this.allTypes = this.store.allEntries;
+    this.selected = this.modelValue;
   },
   watch: {
     'store.allEntries': {
@@ -85,6 +92,13 @@ export default {
       handler: async function() {
         this.allTypes = this.store.allEntries;
       }
+    },
+    selected(): void {
+      this.$emit("update:modelValue", this.selected);
+      this.$emit('change', this.selected);
+    },
+    modelValue(): void {
+      this.selected = this.modelValue;
     }
   }
 }

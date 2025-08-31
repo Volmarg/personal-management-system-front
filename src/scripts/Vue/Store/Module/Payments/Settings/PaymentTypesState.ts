@@ -18,6 +18,9 @@ const PaymentTypesState = defineStore('paymentsSettingsTypeState', {
         async getAll(): Promise<void> {
             this.allEntries = await new BackendModuleCaller().getAll(SymfonyPaymentsRoutes.SETTINGS_PAYMENT_TYPE_BASE_URL);
         },
+        getForId(id: number): Record<string, string | number> {
+            return this.allEntries.find(typeData => typeData.id === id);
+        }
     }
 });
 

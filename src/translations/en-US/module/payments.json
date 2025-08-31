@@ -347,6 +347,86 @@
             "tabs": {
                 "overview": {
                     "label": "Overview"
+                },
+                "import": {
+                    "label": "Import",
+                    "step": {
+                        "upload": {
+                            "label": "Upload",
+                            "text": {
+                                "noFileUploaded": "No file has been uploaded!",
+                                "fileUploaded": "File has been uploaded",
+                                "moreThanOneWorksheet": "More than one worksheet has been found. Using the first one."
+                            }
+                        },
+                        "map": {
+                            "label": "Mapping",
+                            "form": {
+                                "column": {
+                                    "label": "Column"
+                                }
+                            }
+                        },
+                        "processData": {
+                            "label": "Overview",
+                            "button": {
+                                "removeIncomes": {
+                                    "label": "Remove incomes"
+                                },
+                                "delete": {
+                                    "popupMessage": "Delete"
+                                },
+                                "view": {
+                                    "popupMessage": "View original data"
+                                },
+                                "multiply": {
+                                    "label": "Multiply"
+                                },
+                                "reset": {
+                                    "label": "Reset"
+                                }
+                            },
+                            "originalDataModal": {
+                                "header": "Original import data"
+                            },
+                            "table": {
+                                "input": {
+                                    "date": {
+                                        "label": "Date"
+                                    },
+                                    "money": {
+                                        "label": "Payment"
+                                    },
+                                    "description": {
+                                        "label": "Description"
+                                    }
+                                },
+                                "header": {
+                                    "date": {
+                                        "label": "Date"
+                                    },
+                                    "money": {
+                                        "label": "Payment"
+                                    },
+                                    "description": {
+                                        "label": "Description"
+                                    },
+                                    "type": {
+                                        "label": "Type"
+                                    },
+                                    "actions": {
+                                        "label": "Actions"
+                                    },
+                                    "currency": {
+                                        "label": "Currency"
+                                    }
+                                }
+                            }
+                        },
+                        "summary": {
+                            "label": "Summary"
+                        }
+                    }
                 }
             },
             "newForm": {

@@ -1,23 +1,38 @@
 <template>
   <div class="simple-table">
     <div class="flex justify-end">
+      <slot name="toltipStart"></slot>
       <SearchInput v-if="canSearch"
                    v-model.trim="searchValue"
       />
+      <slot name="toltipEnd"></slot>
     </div>
 
-    <div class="overflow-x-auto overflow-hidden">
+    <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
+                :initial-current-page="currentPage"
+                :initial-count-of-result-per-page="resultsPerPage"
+                @page-number-changes="onPaginationPageNumberChange"
+                class="mt-2"
+                v-if="navigationOnTop"
+    />
+
+    <div class="overflow-x-auto overflow-hidden"
+         :class="{
+            [tableDirectWrapperClasses]: true
+         }"
+    >
       <table class="table mt-2">
         <thead>
           <tr>
             <th v-for="(header, index) in headers"
                 :key="index"
                 class="font-bold uppercase cursor-pointer hover:opacity-80"
+                :style="header.columnStyles"
                 :class="{
                   'hidden': header.isVisible === false
                 }"
                 @click="handleSort(header, index)"
-                :ref="`header${index}`"
+                :ref="buildHeaderRefName(index)"
             >
               {{ header.label }}
               <span v-if="header.label === activeSortColumn">
@@ -47,35 +62,33 @@
                   'hidden': isColumnVisible(cellIndex),
                 }"
             >
-              <!-- Normally this would break the components behaviour, but am setting model value only once when component is loaded, might turn out to be buggy -->
-              {{setComponentModelValue(cellData)}}
 
-              <!-- emitting event seems not to be working here -->
               <component v-if="cellData.isComponent"
                          :is="cellData.value"
                          v-bind.prop="{
                            ...cellData.componentProps,
                            rowData: rowData
                          }"
-                         v-model="componentValues[`${cellData.uniqId}`]"
-                         :ref="`component${cellData.uniqId}`"
-                         @change="$emit('componentValueChange', {
-                           value: componentValues[`${cellData.uniqId}`],
-                           component: $refs[`component${cellData.uniqId}`] ?? null,
-                           header: $refs[`header${cellIndex}`] ?? null,
-                           cellData: cellData,
-                           rowData: rowData,
-                           cellNumber: cellIndex,
-                           rowNumber: rowData.realRowId,
-                           tableId: id,
+                         v-model="componentValues[cellData.uniqId]"
+                         :ref="buildComponentRefName(cellData.uniqId)"
+                         @update:model-value="$emit('update:componentModelValue', getComponentUpdateEventArgs(cellData, rowData, cellIndex, rowIndex))"
+                         @change="$emit('componentValueChange', getComponentUpdateEventArgs(cellData, rowData, cellIndex, rowIndex))"
+                         @action="$emit('action', {
+                           originalEvent: $event,
+                           rowNumber: rowIndex + (currentPage > 1 ? ((currentPage - 1) * resultsPerPage) : 0),
                          })"
               />
               <span v-else>
                 <!-- this is VERY important, especially for passwords module, where the passwords should not be present in DOM! -->
-                <span v-if="!isColumnVisible(cellIndex)" class="break-all">
-                  {{ cellData.value }}
-                </span>
+                <span v-if="!isColumnVisible(cellIndex)"
+                      class="break-all"
+                      v-html="cellData.value"
+                />
               </span>
+
+              <p class="text-red-500">
+                {{validationErrors[cellData.uniqId]}}
+              </p>
             </td>
           </tr>
         </tbody>
@@ -87,6 +100,7 @@
                 :initial-count-of-result-per-page="resultsPerPage"
                 @page-number-changes="onPaginationPageNumberChange"
                 class="mt-2"
+                v-if="!navigationOnTop"
     />
   </div>
 </template>
@@ -96,12 +110,15 @@ import TypeChecker          from "@/scripts/Core/Services/Types/TypeChecker";
 import Logger               from "@/scripts/Core/Logger";
 import ObjectValuesResolver from "@/scripts/Core/Services/Resolver/ObjectValuesResolver";
 import BoolTypeProcessor    from "@/scripts/Core/Services/TypesProcessors/BoolTypeProcessor";
-import {ComponentData}      from "@/scripts/Vue/Types/Components/types";
+
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import SearchInput from "@/components/Navigation/SearchInput.vue";
 import Pagination  from "@/components/Ui/Pagination.vue";
 
-import SortMixin from "@/components/Ui/Table/Mixin/SortMixin.vue";
+import SortMixin           from "@/components/Ui/Table/Mixin/SortMixin.vue";
+import VuelidateHandler    from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
+import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 
 /**
  * @description provides simple table
@@ -118,15 +135,31 @@ export default {
       /**
        * @description currently using it only for passing modelValue, it's needed because otherwise all values are valid v-model values
        */
-      blockerString: "not-set",
+      blockerValue: undefined,
       componentValues: {},
       searchValue: null,
       currentPage: 1,
       visibleResults: [],
       searchMatchingResults: [],
+      validationErrors: {},
     }
   },
   props: {
+    navigationOnTop: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    tableDirectWrapperClasses: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    overflowXAuto: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     id: {
       type: String,
       required: false,
@@ -151,13 +184,15 @@ export default {
      *      dataValuePath       : "title.value",       > required
      *      dataRawValuePath    : "title.rawValue",    > optional (becomes dataValuePath if not provided)
      *      dataIsComponentPath : "title.isComponent", > required
+     *      dataValidations     : "title.validations", > optional
      *    },
      *    {
      *      label               : "Status",           > required
      *      isVisible           : true,               > optional
      *      dataValuePath       : "icon.value",       > required
-     *      dataRawValuePath    : "title.rawValue",   > optional (becomes dataValuePath if not provided)
+     *      dataRawValuePath    : "icon.rawValue",    > optional (becomes dataValuePath if not provided)
      *      dataIsComponentPath : "icon.isComponent", > required
+     *      dataValidations     : "icon.validations", > optional
      * ]
      */
     headers: {
@@ -216,9 +251,10 @@ export default {
      *        isVisible   : false                             > optional
      *       },
      *      icon  : {
-     *        value          : "Checkmark",                   > required
-     *        isComponent    : true,                          > required
-     *        componentProps : {}                             > optional
+     *        value            : "Checkmark",                   > required
+     *        isComponent      : true,                          > required
+     *        componentProps   : {}                             > optional,
+     *        validations      : [required]                     > optional (vuelidate validation rules),
      *      },
      *     },
      *}]
@@ -292,9 +328,19 @@ export default {
   },
   mixins: [
     SortMixin,
+    VuelidateHandler,
+    RowAndCellDataMixin,
   ],
   emits: [
-    'componentValueChange'
+    /**
+     * @description this is usable only if target component supports @change event
+     */
+    'componentValueChange',
+    /**
+     * @description this can be used if a target component does not support @change event, will listen to v-model update
+     */
+    'update:componentModelValue',
+    'action'
   ],
   computed: {
     /**
@@ -303,35 +349,40 @@ export default {
      */
     rowsData(): Array<Array<Record<string, unknown>>> {
       let rowsData = [] as Array<Array<Record<string, unknown>>>;
-      for (let rowId in this.data) {
-        let element = this.data[rowId];
+      for (let rowIndex in this.data) {
+        let element = this.data[rowIndex];
 
         let rowData = [] as Array<Record<string, unknown>>;
-        for (let colId in this.headers) {
-          let header = this.headers[colId];
+        for (let columnIndex in this.headers) {
+          let header = this.headers[columnIndex];
           let keys = [
               header.dataValuePath,
               header.dataComponentModelValuePath,
               header.dataRawValuePath,
               header.dataIsComponentPath,
               header.dataComponentPropertiesPath,
+              header.dataValidations,
           ];
           let resolvedValues      = ObjectValuesResolver.resolveKeysToValues(element.values, keys);
           let value               = resolvedValues[header.dataValuePath];
           let rawValue            = resolvedValues[header.dataRawValuePath] ?? value;
           let isComponent         = resolvedValues[header.dataIsComponentPath];
           let componentProps      = resolvedValues[header.dataComponentPropertiesPath] ?? null;
-          let componentModelValue = resolvedValues[header.dataComponentModelValuePath] ?? this.blockerString;
+          let validations         = resolvedValues[header.dataValidations] ?? [];
+          let componentModelValue = resolvedValues[header.dataComponentModelValuePath] ?? this.blockerValue;
 
           rowData.push({
-            uniqId         : `idx${rowId}${colId}`,
+            uniqId         : this.buildCellUniqueId(rowIndex, columnIndex),
             modelValue     : componentModelValue,
             fieldName      : header.label,
             fieldId        : header.dataValuePath?.split(".")[0] ?? null,
             value          : value,
             rawValue       : rawValue,
             isComponent    : isComponent,
-            componentProps : componentProps
+            columnStyles   : String(header.columnStyles),
+            componentProps : componentProps,
+            validations    : validations,
+            rowIndex       : rowIndex,
           })
         }
 
@@ -339,22 +390,79 @@ export default {
       }
 
       return rowsData;
+    },
+    /**
+     * @description check if components validated values are valid
+     */
+    areComponentsValuesValid(): boolean {
+      return Object.keys(this.validationErrors).length === 0;
     }
   },
   methods: {
     /**
+     * @description triggers cells validations on the component values
+     */
+    validateComponentsValues(): void {
+      this.validationErrors = {};
+      for (let cellsData of this.rowsData) {
+        for (let cellData of cellsData) {
+          let errors = this.validateValue(this.componentValues[cellData.uniqId], cellData.validations);
+
+          if (errors.length > 0) {
+            this.validationErrors[cellData.uniqId] = errors[0];
+          }
+        }
+      }
+    },
+    /**
+     * @description build and object for component update event, this data is propagated with event
+     */
+    getComponentUpdateEventArgs(cellData: Record<string, unknown>, rowData: Record<string, unknown>, cellIndex: string, rowIndex: number): Record<string, unknown> {
+      let componentRefName = this.buildComponentRefName(cellData.uniqId);
+      let headerRefName = this.buildHeaderRefName(cellIndex);
+
+      return {
+        value: this.componentValues[cellData.uniqId as string],
+        component: this.$refs[componentRefName] ?? null,
+        header: this.$refs[headerRefName] ?? null,
+        cellData: cellData,
+        rowData: rowData,
+        cellNumber: cellIndex,
+        rowNumber: this.getRowNumber(rowIndex),
+        page: this.currentPage,
+        resultsPerPage: this.resultsPerPage,
+        tableId: this.id,
+      };
+    },
+    /**
+     * @description returns the row number based on provided data. Either returning the provided rowIndex or calculating
+     *              the REAL row number based on the pagination. This is especially needed for the paginated results,
+     *              where the row number is always between min-resultsPerPage on each page.
+     */
+    getRowNumber(rowIndex: number): number {
+      if (rowIndex > this.resultsPerPage) {
+        return rowIndex;
+      }
+
+      return rowIndex + (this.currentPage > 1 ? ((this.currentPage - 1) * this.resultsPerPage) : 0);
+    },
+    /**
      * @description will set the delivered model value to the component
      */
-    setComponentModelValue(cellData: Record): void {
-      if (this.componentValues[cellData.uniqId] === undefined && cellData.isComponent && cellData.modelValue !== this.blockerString) {
+    setComponentModelValue(cellData: Record<string, unknown>): void {
+      if (cellData.isComponent && cellData.modelValue !== this.blockerValue) {
         this.componentValues[cellData.uniqId] = cellData.modelValue;
+        return;
       }
+
+      this.componentValues[cellData.uniqId] = cellData.modelValue;
     },
     /**
      * @description checks if the column should be shown, by checking if the header related to given cellIndex is visible.
      */
     isColumnVisible(cellIndex: string): boolean {
-      return this.$refs[`header${cellIndex}`][0].classList.contains('hidden');
+      let headerRefName = this.buildHeaderRefName(cellIndex);
+      return this.$refs[headerRefName][0].classList.contains('hidden');
     },
     /**
      * @description will handle the event when page number changes on pagination
@@ -437,10 +545,21 @@ export default {
      */
     refresh(pageNum: number): void {
       this.filterShownResults(pageNum, this.resultsPerPage);
+    },
+    /**
+     * @description all values must be set initially else validation marks non-visible results as failed
+     */
+    initComponentValues(): void {
+      for (let rowData of this.rowsData) {
+        for (let cellData of rowData) {
+          this.setComponentModelValue(cellData);
+        }
+      }
     }
   },
   created(): void {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
+    this.initComponentValues();
   },
   watch: {
     searchValue(): void {
@@ -449,6 +568,13 @@ export default {
     },
     data(): void {
       this.refresh(this.currentPage);
+    },
+    visibleResults(): void {
+      for (let rowData of this.visibleResults) {
+        for (let cellData of rowData) {
+          this.setComponentModelValue(cellData);
+        }
+      }
     }
   }
 }

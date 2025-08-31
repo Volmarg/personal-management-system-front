@@ -24,13 +24,13 @@
                  :step="step"
                  :min="min"
                  :placeholder="(isPlaceholderSet ? placeholder : label)"
-                 :value="modelValue"
-                 @input="$emit('update:modelValue', $event.target.value)"
+                 :value="value"
+                 @input="onInput($event)"
                  @keydown="onKeyDown($event)"
                  @paste="onPaste($event)"
                  @keypress.enter="$emit('press-enter')"
                  :readonly="isDisabled"
-                 autocomplete="new-street-address"
+                 ref="input"
           />
           <label class="absolute top-0 left-0 px-3 py-2 h-full pointer-events-none touch-action-none transform origin-left transition-all duration-100 ease-in-out text-gray-500"
                  :class="
@@ -70,14 +70,14 @@
           :step="step"
           :min="min"
           :placeholder="placeholder"
-          :value="modelValue"
+          :value="value"
           @input="$emit('update:modelValue', $event.target.value)"
           @keydown="onKeyDown($event)"
           @paste="onPaste($event)"
           @keypress.enter="$emit('press-enter')"
           :readonly="isDisabled"
           novalidate="novalidate"
-          autocomplete="new-street-address"
+          ref="input"
       >
 
     </div>
@@ -95,12 +95,32 @@ import InputViolations   from "@/components/Form/InputViolations.vue";
 
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
 export default {
   name: "VueInput",
+  data(): ComponentData {
+    return {
+      value: null,
+      caretPosition: 0,
+    }
+  },
   emit: [
     "pressEnter",
   ],
   props: {
+    /**
+     * @description in some cases (example: when input is used in the SimpleTable), the caret goes on the end
+     *              when someone types in the input - no clue why this happens, ppl explain that it's kinda expected,
+     *              but fun thing is that it works fine when not used in table.
+     *
+     *              If this prop is set true then, caret position will get saved before input and then will be restored when value gets updated.
+     */
+    restoreCaretPosition: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     min: {
       type: [Number, null],
       default: null,
@@ -211,6 +231,19 @@ export default {
   },
   methods: {
     /**
+     * @description emits modelValue event, and saves caret current position
+     */
+    onInput(event: InputEvent): void {
+      this.caretPosition = this.$refs.input.selectionStart;
+      this.$emit('update:modelValue', event.target.value)
+    },
+    /**
+     * @description this is used in StepHandleData.vue
+     */
+    setValue(value: unknown): void {
+      this.value = value;
+    },
+    /**
      * @description There is some annoying thing with `input type number`: it's by default allowed to input "++"
      *              "9-8+3", "e+-9", etc. and that's considered valid.
      *
@@ -247,6 +280,25 @@ export default {
       ) {
         event.preventDefault()
       }
+    }
+  },
+  beforeMount(): void {
+    this.value = this.modelValue;
+  },
+  watch: {
+    /**
+     * @description watch the modelValue change and:
+     *              - update value,
+     *              - update caret position if needed,
+     */
+    modelValue(): void {
+      this.value = this.modelValue;
+
+      this.$nextTick(() => {
+        if (this.restoreCaretPosition) {
+          this.$refs.input.selectionEnd = this.caretPosition
+        }
+      })
     }
   }
 }

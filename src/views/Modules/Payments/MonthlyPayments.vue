@@ -13,6 +13,7 @@ import Base from "@/views/Modules/Base.vue";
 import Tabs from "@/components/Navigation/Tabs/Tabs.vue";
 
 import TabOverview from "@/views/Modules/Payments/MonthlyPayments/TabOverview.vue";
+import TabImport from "@/views/Modules/Payments/MonthlyPayments/TabImport.vue";
 
 export default {
   components: {
@@ -28,6 +29,10 @@ export default {
         {
           tabName: this.$t('payments.monthly.tabs.overview.label'),
           tabComponent: TabOverview,
+        },
+        {
+          tabName: this.$t('payments.monthly.tabs.import.label'),
+          tabComponent: TabImport,
         }
       ];
     }
