@@ -448,7 +448,7 @@ export default {
         }
 
         if(undefined === checkedOption.label || null === checkedOption.label){
-          throw new BaseError("Provided MultiSelect option, has no property named `value`: " + JSON.stringify(option));
+          throw new BaseError("Provided MultiSelect option, has no property named `label`: " + JSON.stringify(option));
         }
 
       }
