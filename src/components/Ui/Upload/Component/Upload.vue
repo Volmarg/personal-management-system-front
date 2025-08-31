@@ -102,7 +102,7 @@
     <!-- uploader instance, triggered via action button, -->
     <VueUploadComponent
         class="upload-component"
-        :custom-action="handleUpload"
+        :custom-action="customAction"
         :extensions="configuration.allowedExtensions"
         :accept="configuredMimeTypesString"
         :multiple="configuration.isMultiUpload"
@@ -167,7 +167,16 @@ export default {
       default: function() {
         return {};
       },
-    }
+    },
+    /**
+     * @description by default on-submit the file gets uploaded to backend.
+     *              If this flag is set to true, file will instead be emitted via event.
+     */
+    returnFileOnUpload: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   emits: [
     'uploadFinished'
@@ -397,6 +406,18 @@ export default {
       let base64FileContent = await promise as string;
 
       return base64FileContent;
+    },
+    /**
+     * @description will either upload file on backend, or will take the file and emit an event with it (without backend handling)
+     */
+    async customAction(file: VueUploadItem): Promise<VueUploadItem> {
+      if (!this.returnFileOnUpload) {
+        return this.handleUpload(file);
+      }
+
+      this.$emit("uploadFinished", {
+        file: file,
+      });
     },
     /**
      * @description handles uploading the file to backend
