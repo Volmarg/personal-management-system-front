@@ -1,6 +1,6 @@
 #!/bin/bash
 HOST_PI="192.168.0.38";
-HOST_DEMO='private-host';
+HOST_DEMO='private-host-hetzner';
 
 USED_HOST='';
 DIR='';
