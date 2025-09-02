@@ -7,12 +7,15 @@
       />
 
       <div class="mt-4">
-        <!-- todo: make the warn better? -->
-        <p v-if="!isUploaded">
+        <p v-if="!isUploaded"
+           class="text-red-500"
+        >
           {{ $t('payments.monthly.tabs.import.step.upload.text.noFileUploaded') }}
         </p>
 
-        <p v-else-if="isUploaded">
+        <p v-else-if="isUploaded"
+           class="text-green-500"
+        >
           {{ $t('payments.monthly.tabs.import.step.upload.text.fileUploaded') }}
         </p>
       </div>
