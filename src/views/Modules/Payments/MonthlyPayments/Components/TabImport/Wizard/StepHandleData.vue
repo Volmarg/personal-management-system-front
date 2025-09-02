@@ -37,7 +37,7 @@ import SimpleTable          from "@/components/Ui/Table/SimpleTable.vue";
 import PaymentTypeSelect    from "@/views/Modules/Payments/Components/Common/PaymentTypeSelect.vue";
 import Actions              from "@/views/Modules/Payments/MonthlyPayments/Components/TabImport/Actions.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import BaseStep             from "@/components/Ui/Wizard/mixin/BaseStep.vue";
+import BaseStep             from "@/components/Ui/Wizard/BaseStep.vue";
 
 import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 

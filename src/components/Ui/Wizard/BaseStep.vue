@@ -8,19 +8,19 @@
          }"
     >
 
-      <MediumButtonWithIcon text="Go back"
+      <MediumButtonWithIcon :text="$t('generic.wizard.step.previous.label')"
                             @button-click="$emit('previous')"
                             background-color-class="bg-blue-500"
                             v-if="!store.isFirstStep"
       />
 
-      <MediumButtonWithIcon text="Continue"
+      <MediumButtonWithIcon :text="$t('generic.wizard.step.next.label')"
                             @button-click="$emit('next')"
                             background-color-class="bg-blue-500"
                             v-if="!store.isLastStep"
       />
 
-      <MediumButtonWithIcon text="Finish"
+      <MediumButtonWithIcon :text="$t('generic.wizard.step.finish.label')"
                             @button-click="$emit('finish')"
                             background-color-class="bg-blue-500"
                             v-if="store.isLastStep"

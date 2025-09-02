@@ -26,7 +26,7 @@ import ExcelJS    from "exceljs";
 import {Workbook} from "exceljs/index";
 
 import Upload   from "@/components/Ui/Upload/Component/Upload.vue";
-import BaseStep from "@/components/Ui/Wizard/mixin/BaseStep.vue";
+import BaseStep from "@/components/Ui/Wizard/BaseStep.vue";
 
 import StepInterfaceMixin from "@/components/Ui/Wizard/mixin/StepInterfaceMixin.vue";
 

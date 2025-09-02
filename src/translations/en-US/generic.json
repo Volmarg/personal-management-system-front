@@ -118,6 +118,19 @@
         },
         "text": {
             "copiedToClipboard": "Copied to clipboard (You can paste it with CTRL+V)."
+        },
+        "wizard": {
+            "step": {
+                "previous": {
+                    "label": "Go back"
+                },
+                "next": {
+                    "label": "Continue"
+                },
+                "finish": {
+                    "label": "Finish"
+                }
+            }
         }
     }
 }

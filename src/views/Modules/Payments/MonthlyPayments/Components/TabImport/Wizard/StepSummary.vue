@@ -17,7 +17,7 @@ import {UploadWizardStore, UploadWizardStoreType} from "@/scripts/Vue/Store/Modu
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import {PaymentTypesState} from "@/scripts/Vue/Store/Module/Payments/Settings/PaymentTypesState";
 
-import BaseStep from "@/components/Ui/Wizard/mixin/BaseStep.vue";
+import BaseStep from "@/components/Ui/Wizard/BaseStep.vue";
 
 export default {
   data(): ComponentData {

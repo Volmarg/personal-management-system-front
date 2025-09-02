@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import MultiSelect from "@/components/Form/MultiSelect.vue";
-import BaseStep    from "@/components/Ui/Wizard/mixin/BaseStep.vue";
+import BaseStep    from "@/components/Ui/Wizard/BaseStep.vue";
 
 import VuelidateHandler from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
 
