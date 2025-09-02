@@ -3,7 +3,7 @@
     <div>
       <div v-for="fieldName in Object.keys(wizardStore.fieldToColumnMapping)"
            :key="fieldName"
-           class="grid grid-cols-4 mt-4"
+           class="grid grid-cols-4 mt-6"
       >
         <div class="col-start-1 col-end-2 flex text-center w-full flex-row">
           <div class="w-full align-self-center">
@@ -28,7 +28,7 @@
               :required="Object.keys(wizardStore.mappingFieldsValidations).includes(fieldName)"
           />
 
-          <p class="text-red-500">
+          <p class="text-red-500 mt-1">
             {{ validationErrors[fieldName] }}
           </p>
         </div>
