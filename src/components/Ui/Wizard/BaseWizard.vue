@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-white">
 
     <div class="wizard-body">
       <slot name="steps"></slot>
@@ -7,8 +7,7 @@
 
     <!-- these are the lined steps with names -->
     <div>
-      <hr class="mt-4" />
-      <NavSteps class="mt-4">
+      <NavSteps class="p-2">
         <NavStep
             v-for="(stepName, index) in stepsOrder"
             :key="index"

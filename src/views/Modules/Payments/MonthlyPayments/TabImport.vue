@@ -26,6 +26,7 @@
       />
 
       <StepHandleData :ref="wizardConfig.steps.handleData"
+                      class="p-2"
                       :class="{
                         'hidden': store.currentStep !== wizardConfig.steps.handleData
                       }"
