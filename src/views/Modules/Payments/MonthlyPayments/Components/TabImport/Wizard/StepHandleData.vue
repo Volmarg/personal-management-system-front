@@ -1,6 +1,6 @@
 <template>
   <BaseStep>
-    <div>
+    <div class="monthly-import-step-handle-data">
       <div class="handle-data-tooltip">
         <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeIncomes.label')"
                               @button-click="removeIncomes"
@@ -161,7 +161,8 @@ export default {
               componentProps: {
                 restoreCaretPosition: true,
                 isRequired: true,
-                label: this.$t('payments.monthly.tabs.import.step.processData.table.input.date.label')
+                label: this.$t('payments.monthly.tabs.import.step.processData.table.input.date.label'),
+                topWrapperClasses: ''
               }
             },
             [ImportMappedFieldEnum.money]: {
@@ -174,7 +175,8 @@ export default {
               componentProps: {
                 restoreCaretPosition: true,
                 isRequired: true,
-                label: this.$t('payments.monthly.tabs.import.step.processData.table.input.money.label')
+                label: this.$t('payments.monthly.tabs.import.step.processData.table.input.money.label'),
+                topWrapperClasses: ''
               }
             },
             direction: {
@@ -191,7 +193,8 @@ export default {
               componentProps: {
                 restoreCaretPosition: true,
                 isRequired: true,
-                label: this.$t('payments.monthly.tabs.import.step.processData.table.input.description.label')
+                label: this.$t('payments.monthly.tabs.import.step.processData.table.input.description.label'),
+                topWrapperClasses: ''
               }
             },
             [ImportMappedFieldEnum.type]: {
@@ -201,7 +204,9 @@ export default {
               validations: [
                 required
               ],
-              componentProps: {}
+              componentProps: {
+                class: 'type-select'
+              }
             },
             [ImportMappedFieldEnum.currency]: {
               value: row.currency,
@@ -431,11 +436,17 @@ export default {
 </script>
 
 <style lang="scss">
-.import-data-table {
-  @apply mt-4
-}
+.monthly-import-step-handle-data {
+  .import-data-table {
+    @apply mt-4
+  }
 
-.handle-data-tooltip {
-  @apply flex mt-4
+  .handle-data-tooltip {
+    @apply flex mt-4
+  }
+
+  .type-select {
+    height: 50px;
+  }
 }
 </style>
