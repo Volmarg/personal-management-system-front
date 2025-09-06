@@ -108,6 +108,7 @@ export default {
         },
         {
           label: this.$t('payments.monthly.tabs.import.step.processData.table.header.description.label'),
+          columnStyles: 'width: 300px;',
           dataValuePath : `${ImportMappedFieldEnum.description}.value`,
           dataValidations: `${ImportMappedFieldEnum.description}.validations`,
           dataIsComponentPath : `${ImportMappedFieldEnum.description}.isComponent`,
@@ -116,7 +117,7 @@ export default {
         },
         {
           label: this.$t('payments.monthly.tabs.import.step.processData.table.header.type.label'),
-          columnStyles: 'width: 300px;',
+          columnStyles: 'width: 270px;',
           dataValuePath : `${ImportMappedFieldEnum.type}.value`,
           dataValidations: `${ImportMappedFieldEnum.type}.validations`,
           dataIsComponentPath : `${ImportMappedFieldEnum.type}.isComponent`,
@@ -126,6 +127,7 @@ export default {
         {
           label: this.$t('payments.monthly.tabs.import.step.processData.table.header.actions.label'),
           dataValuePath : 'actions.value',
+          columnStyles: 'width: 330px;',
           dataIsComponentPath : 'actions.isComponent',
           dataComponentModelValuePath: 'actions.modelValue',
           dataComponentPropertiesPath: 'actions.componentProps',
@@ -438,6 +440,9 @@ export default {
 <style lang="scss">
 .monthly-import-step-handle-data {
   .import-data-table {
+    table {
+      table-layout: fixed !important;
+    }
     @apply mt-4
   }
 
