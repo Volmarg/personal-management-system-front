@@ -86,7 +86,7 @@
                 />
               </span>
 
-              <p class="text-red-500">
+              <p class="text-red-500 text-center mt-1">
                 {{validationErrors[cellData.uniqId]}}
               </p>
             </td>
