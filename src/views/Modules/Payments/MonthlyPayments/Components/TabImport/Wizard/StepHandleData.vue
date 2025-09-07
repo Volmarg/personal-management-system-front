@@ -161,7 +161,7 @@ export default {
                 required
               ],
               componentProps: {
-                restoreCaretPosition: true,
+                type: 'date',
                 isRequired: true,
                 label: this.$t('payments.monthly.tabs.import.step.processData.table.input.date.label'),
                 topWrapperClasses: ''
@@ -175,7 +175,7 @@ export default {
                   required
               ],
               componentProps: {
-                restoreCaretPosition: true,
+                type: 'number',
                 isRequired: true,
                 label: this.$t('payments.monthly.tabs.import.step.processData.table.input.money.label'),
                 topWrapperClasses: ''
@@ -193,7 +193,7 @@ export default {
                 required
               ],
               componentProps: {
-                restoreCaretPosition: true,
+                type: "text",
                 isRequired: true,
                 label: this.$t('payments.monthly.tabs.import.step.processData.table.input.description.label'),
                 topWrapperClasses: ''
