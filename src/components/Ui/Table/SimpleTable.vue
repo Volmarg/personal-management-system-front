@@ -559,7 +559,6 @@ export default {
   },
   created(): void {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
-    this.initComponentValues();
   },
   watch: {
     searchValue(): void {
@@ -568,6 +567,7 @@ export default {
     },
     data(): void {
       this.refresh(this.currentPage);
+      this.initComponentValues();
     },
     visibleResults(): void {
       for (let rowData of this.visibleResults) {
