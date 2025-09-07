@@ -102,25 +102,12 @@ export default {
   data(): ComponentData {
     return {
       value: null,
-      caretPosition: 0,
     }
   },
   emit: [
     "pressEnter",
   ],
   props: {
-    /**
-     * @description in some cases (example: when input is used in the SimpleTable), the caret goes on the end
-     *              when someone types in the input - no clue why this happens, ppl explain that it's kinda expected,
-     *              but fun thing is that it works fine when not used in table.
-     *
-     *              If this prop is set true then, caret position will get saved before input and then will be restored when value gets updated.
-     */
-    restoreCaretPosition: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
     min: {
       type: [Number, null],
       default: null,
@@ -231,10 +218,9 @@ export default {
   },
   methods: {
     /**
-     * @description emits modelValue event, and saves caret current position
+     * @description emits modelValue event
      */
     onInput(event: InputEvent): void {
-      this.caretPosition = this.$refs.input.selectionStart;
       this.$emit('update:modelValue', event.target.value)
     },
     /**
@@ -289,16 +275,9 @@ export default {
     /**
      * @description watch the modelValue change and:
      *              - update value,
-     *              - update caret position if needed,
      */
     modelValue(): void {
       this.value = this.modelValue;
-
-      this.$nextTick(() => {
-        if (this.restoreCaretPosition) {
-          this.$refs.input.selectionEnd = this.caretPosition
-        }
-      })
     }
   }
 }
