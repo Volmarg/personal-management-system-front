@@ -373,6 +373,9 @@
                                 "removeIncomes": {
                                     "label": "Remove incomes"
                                 },
+                                "reloadData": {
+                                    "label": "Reload data"
+                                },
                                 "delete": {
                                     "popupMessage": "Delete"
                                 },
@@ -388,6 +391,10 @@
                             },
                             "originalDataModal": {
                                 "header": "Original import data"
+                            },
+                            "reloadDataModal": {
+                                "header": "Reload imported data",
+                                "body": "Do you really want to reload the imported data? All the values in the table will be removed!"
                             },
                             "table": {
                                 "input": {

@@ -2,6 +2,11 @@
   <BaseStep>
     <div class="monthly-import-step-handle-data">
       <div class="handle-data-tooltip">
+        <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.reloadData.label')"
+                              @button-click="isDataReloadWarningModalVisible = true"
+                              background-color-class="bg-blue-500"
+        />
+
         <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeIncomes.label')"
                               @button-click="removeIncomes"
                               background-color-class="bg-blue-500"
@@ -28,6 +33,19 @@
       />
 
     </div>
+
+    <teleport to="body">
+      <WarningModal :is-visible="isDataReloadWarningModalVisible"
+                    id="data-reload-warning-modal"
+                    :title="$t('payments.monthly.tabs.import.step.processData.reloadDataModal.header')"
+                    @modal-closed="isDataReloadWarningModalVisible = false"
+                    @confirm="reloadData(); isDataReloadWarningModalVisible = false"
+      >
+        <template #content>
+          <p class="data-holder text-2md">{{ $t('payments.monthly.tabs.import.step.processData.reloadDataModal.body') }}</p>
+        </template>
+      </WarningModal>
+    </teleport>
   </BaseStep>
 </template>
 
@@ -38,6 +56,7 @@ import PaymentTypeSelect    from "@/views/Modules/Payments/Components/Common/Pay
 import Actions              from "@/views/Modules/Payments/MonthlyPayments/Components/TabImport/Actions.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import BaseStep             from "@/components/Ui/Wizard/BaseStep.vue";
+import WarningModal         from "@/components/Modal/WarningModal.vue";
 
 import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 
@@ -58,9 +77,11 @@ export default {
       resultsPerPage: 4,
       multiplierValue: 1,
       wizardStore: null as null | UploadWizardStoreType,
+      isDataReloadWarningModalVisible: false,
     }
   },
   components: {
+    WarningModal,
     BaseStep,
     MediumButtonWithIcon,
     SimpleTable,
@@ -229,6 +250,12 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description reloads imported file data into the table - overrides all the values
+     */
+    reloadData(): void {
+      this.buildRowMappings();
+    },
     /**
      * @description removes all the incomes (received money)
      */
@@ -447,7 +474,7 @@ export default {
   }
 
   .handle-data-tooltip {
-    @apply flex mt-4
+    @apply flex mt-4 ml-2
   }
 
   .type-select {
