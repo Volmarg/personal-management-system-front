@@ -365,6 +365,9 @@
                                 "column": {
                                     "label": "Column"
                                 }
+                            },
+                            "text": {
+                                "columnValuesInvalid": "Some values in this column are invalid. Example:"
                             }
                         },
                         "processData": {

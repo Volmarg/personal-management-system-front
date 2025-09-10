@@ -45,10 +45,17 @@ import VuelidateHandler from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
 
 import {ComponentData}                            from "@/scripts/Vue/Types/Components/types";
 import {UploadWizardStore, UploadWizardStoreType} from "@/scripts/Vue/Store/Module/Payments/Monthly/UploadWizardStore";
+import {ImportMappedFieldEnum}                    from "@/scripts/Core/Enum/PaymentMonthly";
 
+import moment from "moment";
+
+/**
+ * Using: {@see https://github.com/exceljs/exceljs}
+ */
 export default {
   data(): ComponentData {
     return {
+      headersRowNum: 1,
       wizardStore: null as null | UploadWizardStoreType,
       validationErrors: {},
     }
@@ -85,6 +92,32 @@ export default {
       this.wizardStore.fieldToColumnMapping[fieldName] = value;
     },
     /**
+     * @description goes over the picked column values, and checks if all of them are passing field validation,
+     *              returns array of invalid values.
+     */
+    validateMappedFieldValues(fieldName: string, columnValues: Array<unknown>): Array<unknown> {
+      let invalidValues = [];
+      for (let value of columnValues) {
+        let pushedValue = undefined === value ? '' : value;
+
+        switch (fieldName) {
+          case ImportMappedFieldEnum.money:
+            if (isNaN(value)) {
+              invalidValues.push(pushedValue);
+            }
+            break;
+          case ImportMappedFieldEnum.date:
+            if (!moment(value).isValid()) {
+              invalidValues.push(pushedValue);
+            }
+            break;
+        }
+
+      }
+
+      return invalidValues;
+    },
+    /**
      * @description validate this step: make sure that all the field validations are passing
      */
     isValid(): boolean {
@@ -92,6 +125,19 @@ export default {
 
       for (let fieldName of Object.keys(this.wizardStore.fieldToColumnMapping)) {
         let mappingValue = this.wizardStore.fieldToColumnMapping[fieldName];
+
+        if (this.wizardStore.worksheet && mappingValue) {
+          let columnValues = Object.values(this.wizardStore.worksheet.getColumn(parseInt(mappingValue)).values);
+          delete columnValues[this.headersRowNum -1]; // rows are 1 indexed, the array is 0 indexed
+          columnValues = columnValues.filter(Boolean);
+
+          let invalidValues = this.validateMappedFieldValues(fieldName, columnValues);
+          if (invalidValues.length > 0) {
+            let msg = `${this.$t('payments.monthly.tabs.import.step.map.text.columnValuesInvalid') } '${invalidValues.pop()}'`;
+            this.validationErrors[fieldName] = msg;
+          }
+        }
+
         let validations = this.wizardStore.mappingFieldsValidations[fieldName] ?? [];
 
         let errors = this.validateValue(mappingValue, validations);

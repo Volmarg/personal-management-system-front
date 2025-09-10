@@ -71,6 +71,9 @@ import moment from "moment/moment";
 
 import {required} from "@vuelidate/validators";
 
+/**
+ * Using: {@see https://github.com/exceljs/exceljs}
+ */
 export default {
   data(): ComponentData {
     return {
@@ -356,19 +359,18 @@ export default {
     },
     /**
      * @description prepares the import-data for display/further processing
-     * todo: provided mapping data might be invalid, like for example string could be mapped as money so abs would fail, need to deal with that
      */
     fieldDataModifiers(fieldName: string, value: unknown): string | number | null | undefined {
       let mods = {
-        date: () => moment(value).format("YYYY-MM-DD"),
-        money: () => Math.abs(value),
+        [ImportMappedFieldEnum.date]: () => moment(value).format("YYYY-MM-DD"),
+        [ImportMappedFieldEnum.money]: () => Math.abs(value),
         direction: () => {
           let type = value > 0 ? "⬆" : "⬇︎";
           let typeClass = (value > 0 ? "text-green-500" : "text-red-500") + ' text-2xl align-self-center';
 
           return `<span class="flex flex-col justify-center"><span class="${typeClass}">${type}</span></span>`
         },
-        description: () => value.trim(),
+        [ImportMappedFieldEnum.description]: () => String(value).trim(),
       }
 
       return mods[fieldName] ? mods[fieldName]() : value;
