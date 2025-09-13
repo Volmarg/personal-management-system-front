@@ -596,6 +596,14 @@ export default {
       white-space: unset !important;
       word-break: break-all !important;
     }
+
+    tbody {
+      tr {
+        &:hover {
+          @apply bg-gray-50
+        }
+      }
+    }
   }
 }
 </style>
