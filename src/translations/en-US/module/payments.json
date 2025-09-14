@@ -379,6 +379,9 @@
                                 "reloadData": {
                                     "label": "Reload data"
                                 },
+                                "revertData": {
+                                    "label": "Revert data"
+                                },
                                 "delete": {
                                     "popupMessage": "Delete"
                                 },
@@ -398,6 +401,18 @@
                             "reloadDataModal": {
                                 "header": "Reload imported data",
                                 "body": "Do you really want to reload the imported data? All the values in the table will be removed!"
+                            },
+                            "revertDataModal": {
+                                "header": "Revert removed data",
+                                "body": "Clicking on the deleted row will revert it into the table.",
+                                "button": {
+                                    "close": {
+                                        "label": "Close"
+                                    }
+                                },
+                                "text": {
+                                    "reverted": "Entry has been reverted"
+                                }
                             },
                             "table": {
                                 "input": {

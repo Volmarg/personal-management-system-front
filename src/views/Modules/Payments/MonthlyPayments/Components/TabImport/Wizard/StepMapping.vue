@@ -88,7 +88,6 @@ export default {
      * @description handle multiselect event
      */
     onMultiselectEvent(value: unknown, fieldName: string): void {
-      console.log('onMultiselectEvent');
       this.wizardStore.fieldToColumnMapping[fieldName] = value;
     },
     /**

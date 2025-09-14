@@ -7,6 +7,11 @@
                               background-color-class="bg-blue-500"
         />
 
+        <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.revertData.label')"
+                              @button-click="isRevertRowsModalVisible = true"
+                              background-color-class="bg-blue-500"
+        />
+
         <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeIncomes.label')"
                               @button-click="removeIncomes"
                               background-color-class="bg-blue-500"
@@ -34,6 +39,7 @@
 
     </div>
 
+    <!-- modal: data reload -->
     <teleport to="body">
       <WarningModal :is-visible="isDataReloadWarningModalVisible"
                     id="data-reload-warning-modal"
@@ -46,6 +52,13 @@
         </template>
       </WarningModal>
     </teleport>
+
+    <!-- modal: row revert -->
+    <RowRevertModal @confirm="isRevertRowsModalVisible = false"
+                    @close="isRevertRowsModalVisible = false"
+                    :is-visible="isRevertRowsModalVisible"
+    />
+
   </BaseStep>
 </template>
 
@@ -57,6 +70,7 @@ import Actions              from "@/views/Modules/Payments/MonthlyPayments/Compo
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import BaseStep             from "@/components/Ui/Wizard/BaseStep.vue";
 import WarningModal         from "@/components/Modal/WarningModal.vue";
+import RowRevertModal       from "@/views/Modules/Payments/MonthlyPayments/Components/TabImport/Wizard/StepHandleData/RowRevertModal.vue";
 
 import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 
@@ -81,6 +95,7 @@ export default {
       multiplierValue: 1,
       wizardStore: null as null | UploadWizardStoreType,
       isDataReloadWarningModalVisible: false,
+      isRevertRowsModalVisible: false,
     }
   },
   components: {
@@ -88,7 +103,8 @@ export default {
     BaseStep,
     MediumButtonWithIcon,
     SimpleTable,
-    VueInput
+    VueInput,
+    RowRevertModal
   },
   mixins: [
     RowAndCellDataMixin,
@@ -276,9 +292,15 @@ export default {
      * @description deletes row of given index, from all the used / tracked rows states
      */
     deleteRowIndex(index: number): void {
+      let mappedValue = {...this.wizardStore.rowsCurrentValues[index]};
+      let spreadsheetValue = {...this.wizardStore.spreadsheetRowsOriginalData[index]};
+
       delete this.wizardStore.spreadsheetRowsOriginalData[index]; // these are sheet values, not even mapped to the columns (raw state)
       delete this.wizardStore.rowsCurrentValues[index];           // these are currently used / tracked values
       delete this.wizardStore.rowsMappedValues[index];            // these are the original values from the file
+
+      this.wizardStore.deletedMappedValues.push(mappedValue);
+      this.wizardStore.deletedSpreadsheetRowsOriginalData.push(spreadsheetValue);
     },
     /**
      * @description this is to be used with {@see deleteRowIndex} since JS leaves blank entry on delete call

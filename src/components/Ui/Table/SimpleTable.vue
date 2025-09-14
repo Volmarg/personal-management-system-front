@@ -118,6 +118,7 @@ import Pagination  from "@/components/Ui/Pagination.vue";
 
 import SortMixin           from "@/components/Ui/Table/Mixin/SortMixin.vue";
 import VuelidateHandler    from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
+import PaginationMixin     from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
 import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 
 /**
@@ -328,6 +329,7 @@ export default {
   },
   mixins: [
     SortMixin,
+    PaginationMixin,
     VuelidateHandler,
     RowAndCellDataMixin,
   ],
@@ -440,11 +442,7 @@ export default {
      *              where the row number is always between min-resultsPerPage on each page.
      */
     getRowNumber(rowIndex: number): number {
-      if (rowIndex > this.resultsPerPage) {
-        return rowIndex;
-      }
-
-      return rowIndex + (this.currentPage > 1 ? ((this.currentPage - 1) * this.resultsPerPage) : 0);
+      return this.getPaginatedIndex(rowIndex, this.currentPage, this.resultsPerPage);
     },
     /**
      * @description will set the delivered model value to the component

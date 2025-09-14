@@ -31,6 +31,18 @@ export default {
 
       return visibleResults as T;
     },
+    /**
+     * @description returns the index number based on provided data. Either returning the provided index or calculating
+     *              the REAL index based on the pagination. This is especially needed for the paginated results,
+     *              where the index is always between min-resultsPerPage on each page.
+     */
+    getPaginatedIndex(index: number, currentPage: number, resultsPerPage: number): number {
+      if (index > resultsPerPage) {
+        return index;
+      }
+
+      return index + (currentPage > 1 ? ((currentPage - 1) * resultsPerPage) : 0);
+    }
   }
 }
 </script>

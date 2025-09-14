@@ -61,6 +61,14 @@ const UploadWizardStore = defineStore('paymentMonthlyUploadWizardStore', {
             ImportMappedFieldEnum.description,
         ],
         /**
+         * @description removed mapped values - this can be used to restore them
+         */
+        deletedMappedValues: [],
+        /**
+         * @description removed the spreadsheet original rows values - this can be used to restore them
+         */
+        deletedSpreadsheetRowsOriginalData: [],
+        /**
          * @description the original - never to be changed values, mapped from import file
          */
         rowsMappedValues: [],
@@ -103,6 +111,8 @@ type UploadWizardStoreType = {
     requiredMappingFields: Array<string>,
     mappingFieldsValidations: Array<ValidationRule>,
     rowsMappedValues: Array<RowValue>,
+    deletedMappedValues: Array<RowValue>,
+    deletedSpreadsheetRowsOriginalData: Array<RowValue>,
     rowsCurrentValues: Array<RowValue>,
     spreadsheetRowsOriginalData: Array<RowValue>,
 }
