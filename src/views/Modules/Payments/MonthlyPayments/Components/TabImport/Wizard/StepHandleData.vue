@@ -481,7 +481,13 @@ export default {
           return;
         }
 
-        this.$parent.updateStepValidity(this.isValid());
+        /**
+         * @description the nextTick wrapper is needed, because the step validity is based on the table content, so
+         *              table must be updated first.
+         */
+        this.$nextTick(() => {
+          this.$parent.updateStepValidity(this.isValid());
+        })
       }
     }
   }
