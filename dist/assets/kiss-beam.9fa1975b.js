@@ -1,1 +1,1 @@
-var s="/assets/kiss-beam-solid.a28edc89.svg";export{s as default};
+var s="/assets/kiss-beam.a28edc89.svg";export{s as default};

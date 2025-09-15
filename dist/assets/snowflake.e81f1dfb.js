@@ -1,1 +1,1 @@
-var s="/assets/snowflake.66ffd366.svg";export{s as default};
+var s="/assets/snowflake-solid.66ffd366.svg";export{s as default};

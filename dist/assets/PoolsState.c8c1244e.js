@@ -1,1 +1,0 @@
-import{aE as a,aF as s}from"./index.96856189.js";import{S as t}from"./SymfonyJobRoutes.6abc686e.js";const o=a("jobHolidaysPoolsState",{state:()=>({allEntries:[]}),actions:{async getAll(){this.allEntries=await(new s).getAll(t.SETTINGS_HOLIDAYS_POOL_BASE_URL)}}});export{o as P};
