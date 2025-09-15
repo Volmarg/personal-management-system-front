@@ -68,9 +68,6 @@ import {ImportStepNameEnum}                             from "@/scripts/Core/Enu
 import SymfonyPaymentsRoutes                      from "@/router/SymfonyRoutes/Modules/SymfonyPaymentsRoutes";
 import BaseApiResponse                            from "@/scripts/Response/BaseApiResponse";
 
-/**
- * Todo: how about some way to reset upload / or reset all table data if wiped etc?
- */
 export default {
   data(): ComponentData {
     return {

@@ -26,7 +26,7 @@ export default {
   data(): ComponentData {
     return {
       wizardStore: null as null | UploadWizardStoreType,
-      paymentTypeStore: null, // todo: add type
+      paymentTypeStore: null,
     }
   },
   components: {
