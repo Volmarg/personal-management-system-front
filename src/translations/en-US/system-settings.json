@@ -21,6 +21,18 @@
                     "issues": "Pending issues"
                 }
             },
+            "notifications": {
+                "label": "Notifications",
+                "configHeader": "Configuration",
+                "config": {
+                    "webhook": "Webhook"
+                },
+                "button": {
+                    "submit": {
+                        "label": "Submit"
+                    }
+                }
+            },
             "finances": {
                 "label": "Finances",
                 "currencies": {

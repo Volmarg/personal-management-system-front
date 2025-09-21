@@ -21,6 +21,15 @@
           </template>
         </SettingsNavElement>
 
+        <!-- Notifications -->
+        <SettingsNavElement :route-name="route.names.notifications"
+                          :label="$t('systemSettings.tab.notifications.label')"
+        >
+          <template #icon>
+            <la svg-icon-name="envelope-open-text-solid" />
+          </template>
+        </SettingsNavElement>
+
       </ul>
 
     </div>
@@ -39,6 +48,7 @@ export default {
         names: {
           dashboard : VueRouterSystem.ROUTE_NAME_SYSTEM_DASHBOARD,
           finances : VueRouterSystem.ROUTE_NAME_SYSTEM_FINANCES,
+          notifications : VueRouterSystem.ROUTE_NAME_SYSTEM_NOTIFICATIONS,
         }
       }
     }

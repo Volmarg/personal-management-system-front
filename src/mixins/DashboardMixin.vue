@@ -9,6 +9,10 @@ export default {
         goalsProgress: "goalsProgress",
         goalsPayments: "goalsPayments",
         pendingIssues: "pendingIssues"
+      },
+      notification: {
+        webhook: "webhook",
+        email: "email"
       }
     }
   }
