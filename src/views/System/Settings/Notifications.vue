@@ -5,11 +5,20 @@
     <div class="flex justify-center mt-10">
       <div class="md:w-1/2 lg:w-1/3 w-full flex flex-col">
         <VueInput type="text"
-                  :label="$t('systemSettings.tab.notifications.config.webhook')"
+                  :label="$t('systemSettings.tab.notifications.config.webhook.input.label')"
                   :data-type="notification.webhook"
                   :ref="`${inputPrefix}_${notification.webhook}`"
                   v-model="inputValues[notification.webhook]"
         />
+
+        <!-- Add multiselect in case when there will be multiple usages for this -->
+        <div class="mb-2 flex flex-row hover:opacity-70 cursor-pointer">
+          <Checkbox class="transform scale-75"
+                    v-model="usages[notification.webhook][useCase.reminder]"
+          />
+          <label class="checkbox checkbox-all align-self-center ml-1 cursor-pointer"
+          >{{ $t('systemSettings.tab.notifications.config.webhook.checkbox.label') }}</label>
+        </div>
 
         <MediumButtonWithIcon :text="$t('systemSettings.tab.notifications.button.submit.label')"
                               button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
@@ -26,6 +35,7 @@
 
 <script lang="ts">
 import VueInput             from "@/components/Form/Input.vue";
+import Checkbox             from "@/components/Form/Checkbox.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
 import DashboardMixin from "@/mixins/DashboardMixin.vue";
@@ -39,11 +49,14 @@ import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
 export default {
   data(): ComponentData {
     return {
+      loadedConfigs: [],
       inputPrefix: 'configInput',
-      inputValues: [],
+      inputValues: {},
+      usages: {},
     }
   },
   components: {
+    Checkbox,
     MediumButtonWithIcon,
     VueInput
   },
@@ -80,7 +93,7 @@ export default {
         configs.push({
           name: type,
           value: this.inputValues[type],
-          activeForReminder: true,
+          activeForReminder: this.usages[type][this.useCase.reminder],
         });
       }
 
@@ -100,11 +113,18 @@ export default {
       this.loadedConfigs = await this.$moduleCall.getAll(SymfonySystemRoutes.SETTINGS_NOTIFICATIONS_CONFIG_BASE);
       for (let idx of Object.keys(this.notification)) {
         let type = this.notification[idx];
-        this.inputValues[type] = this.getConfigData(type)?.value ?? '';
+        let configData = this.getConfigData(type);
+
+        this.inputValues[type] = configData?.value ?? '';
+        this.usages[type][this.useCase.reminder] = configData?.activeForReminder ?? false;
       }
     }
   },
   beforeMount(): void {
+    this.usages[this.notification.webhook] = {
+      [this.useCase.reminder]: false
+    };
+
     this.fetchConfigs();
   }
 }

@@ -12,8 +12,10 @@ export default {
       },
       notification: {
         webhook: "webhook",
-        email: "email"
-      }
+      },
+      useCase: {
+        reminder: "reminder",
+      },
     }
   }
 }

@@ -25,7 +25,14 @@
                 "label": "Notifications",
                 "configHeader": "Configuration",
                 "config": {
-                    "webhook": "Webhook"
+                    "webhook": {
+                        "input": {
+                            "label": "Webhook"
+                        },
+                        "checkbox": {
+                            "label": "Use webhook for reminders"
+                        }
+                    }
                 },
                 "button": {
                     "submit": {
