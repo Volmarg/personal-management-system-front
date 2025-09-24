@@ -9,13 +9,7 @@ export default {
         goalsProgress: "goalsProgress",
         goalsPayments: "goalsPayments",
         pendingIssues: "pendingIssues"
-      },
-      notification: {
-        webhook: "webhook",
-      },
-      useCase: {
-        reminder: "reminder",
-      },
+      }
     }
   }
 }
