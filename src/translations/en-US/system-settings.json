@@ -25,12 +25,15 @@
                 "label": "Notifications",
                 "configHeader": "Configuration",
                 "config": {
-                    "webhook": {
+                    "discordWebhook": {
                         "input": {
-                            "label": "Webhook"
+                            "label": "Discord webhook",
+                            "validation": {
+                                "notValidUrl": "Invalid Discord url webhook"
+                            }
                         },
                         "checkbox": {
-                            "label": "Use webhook for reminders"
+                            "label": "Use Discord webhook for reminders"
                         }
                     }
                 },
