@@ -69,13 +69,9 @@ const StorageState = defineStore('storageModuleState', {
             this.openTreeNodes = this.openTreeNodes.filter(Boolean);
         },
         /**
-         * @description returns the given storage folder structure
+         * @description if module name is set: returns the given storage folder structure, otherwise: returns all modules dirs structures
          */
         async getAll(): Promise<void> {
-            if (!this.moduleName) {
-                throw new BaseError("moduleName is not set!")
-            }
-
             this.allEntries = await new BackendModuleCaller().getAll(SymfonyStorageRoutes.FOLDER_BASE_URL, this.moduleName);
         },
         /**

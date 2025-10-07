@@ -49,20 +49,17 @@ import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import {StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
-
-import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
-import SymfonyStorageRoutes from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
+import {StorageTypeEnum, StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
   data(): ComponentData {
     return {
-      modulesStructure: {},
       folderPathOptions: [],
       categories: [],
       selectedModule: null,
       selectedFolderPath: null,
       isVisible: true,
+      storage: null,
     }
   },
   emits: [
@@ -155,7 +152,7 @@ export default {
         return;
       }
 
-      let dirsStructure = this.modulesStructure[this.selectedModule];
+      let dirsStructure = this.storage.allEntries[this.selectedModule];
 
       for (let mainNode of dirsStructure) {
         this.addOption(mainNode, 0)
@@ -174,7 +171,7 @@ export default {
       for (let child of node.children) {
         // prevent dupes - something wrong with recursion, but whatever, this removes dupes
         if (!this.folderPathOptions.find(option => option.value == child.path)) {
-          let rootLevelNode = this.modulesStructure[this.selectedModule][0];
+          let rootLevelNode = this.storage.allEntries[this.selectedModule][0];
           let level = this.getFolderLevel(child.path, rootLevelNode);
           this.addOption(child, level)
         }
@@ -218,7 +215,7 @@ export default {
       this.selectedModule = null;
       this.selectedFolderPath = null;
       this.$nextTick(async () => {
-        this.modulesStructure = await new BackendModuleCaller().getAll(SymfonyStorageRoutes.FOLDER_BASE_URL);
+        await this.storage.getAll();
         this.traverseTree();
         this.isVisible = true;
       })
@@ -228,10 +225,25 @@ export default {
     this.value = this.selected;
   },
   async created(): Promise<void> {
-    this.modulesStructure = await new BackendModuleCaller().getAll(SymfonyStorageRoutes.FOLDER_BASE_URL);
+    this.storage = StorageState();
+    this.storage.moduleName = null;
+    await this.storage.getAll();
     this.traverseTree();
   },
   watch: {
+    /**
+     * @description this is needed else component gets glitchy if there are multiple instances of it - only one of them would be updated.
+     */
+    'storage.allEntries': {
+      deep: true,
+      handler: function (): void {
+        this.selectedModule = null;
+        this.selectedFolderPath = null;
+        this.$nextTick(async () => {
+          this.traverseTree();
+        })
+      }
+    },
     selectedModule(): void {
       this.$refs.folderSelect.clear();
       this.$nextTick(() => {

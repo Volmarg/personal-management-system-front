@@ -20,7 +20,7 @@
             @click="toggleNode($event.target)"
             ref="openCloseToggle"
             :data-node-path="node.path"
-            v-if="node.children.length !== 0 && !isRootNode"
+            v-if="node.children?.length !== 0 && !isRootNode"
       />
 
       <span class="empty-toggle-node"
@@ -49,7 +49,7 @@
         </span>
       </router-link>
 
-      <TreeNode v-if="node.children.length > 0"
+      <TreeNode v-if="node.children?.length > 0"
                 :nodes="node.children"
                 :storage-route-name="storageRouteName"
                 :is-open="isRootNode || storage?.isTreeNodeOpen(node.path)"
