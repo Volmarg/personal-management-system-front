@@ -392,7 +392,7 @@ export default {
 
           return `<span class="flex flex-col justify-center"><span class="${typeClass}">${type}</span></span>`
         },
-        [ImportMappedFieldEnum.description]: () => String(value).trim(),
+        [ImportMappedFieldEnum.description]: () => String(value),
       }
 
       return mods[fieldName] ? mods[fieldName]() : value;
