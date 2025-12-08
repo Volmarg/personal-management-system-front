@@ -72,12 +72,12 @@ export default {
             name : {
               value       : this.$t('systemSettings.tab.dashboard.widgetToName.' + widgetData.name),
               isComponent : false,
-              componentProps: {}
             },
             displayWidget : {
               value          : ColoredSwitch,
               isComponent    : true,
               componentModelValue : widgetData.enabled,
+              componentProps: {},
             },
           }
         })
@@ -99,7 +99,7 @@ export default {
      * @description handles dashboard widget visibility change, updates the visibility state
      *              Sending all widgets at once, because this is how the legacy code on backend works like
      */
-    onWidgetVisibilityChange(): void {
+    async onWidgetVisibilityChange(): Promise<void> {
       let widgets = [];
       for (let idx in this.$refs.table.data) {
         widgets.push({
@@ -115,7 +115,8 @@ export default {
       let config = new BackendModuleCallConfig(SymfonySystemRoutes.SETTINGS_DASHBOARD_WIDGET_VISIBILITY_BASE, null, BaseApiResponse, dataBag);
       config.reload = false;
 
-      this.$moduleCall.update(config);
+      await this.$moduleCall.update(config);
+      this.fetchWidgets();
     },
     /**
      * @description fetches all the widgets data
