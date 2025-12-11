@@ -1,5 +1,25 @@
 {
     "other": {
+        "moduleName": {
+            "backendToFrontendMapping": {
+                "Achievements": "Achievements",
+                "My Issues":  "Issues",
+                "My Schedules":  "Calendar",
+                "My Contacts": "Contacts",
+                "My Files":  "Files",
+                "My Images": "Images",
+                "My Video":  "Videos",
+                "My Goals": "Goals",
+                "My Todo":  "Todo",
+                "My Job": "Job",
+                "My Notes":  "Notes",
+                "My Passwords": "Passwords",
+                "My Payments": "Payments",
+                "My Shopping": "Shopping",
+                "My Travels":  "Travels",
+                "My Reports":  "Reports"
+            }
+        },
         "lockModal": {
             "header": "Unlock system",
             "headerLockBack": "Lock system",

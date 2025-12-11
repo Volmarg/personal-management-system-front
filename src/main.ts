@@ -13,6 +13,8 @@ import { createApp }   from 'vue'
 import App             from './App.vue'
 import { createPinia } from 'pinia'
 
+import {lastLoopElement} from "@/scripts/Vue/Directive/LastLoopElement";
+
 import VueClickAway from "vue3-click-away";
 
 import VueRouter                  from "@/router/VueRouter";
@@ -90,6 +92,7 @@ async function startApplication(): Promise<void> {
         .use(Vue3Tour)
         .use(pinia)
         .use(Tippy.getTippyPlugin(), Tippy.getTippyVueConfiguration())
+        .directive('last-loop-element', lastLoopElement)
         .component('fa', FontawesomeComponent)
         .component('la', LineAwesomeComponent)
         .component('ua', UnicodeArrow)

@@ -21,6 +21,22 @@
                     "issues": "Pending issues"
                 }
             },
+            "modules": {
+                "label": "Modules",
+                "lock": {
+                    "header": "Lock",
+                    "table": {
+                        "headers": {
+                            "name": {
+                                "label": "Name"
+                            },
+                            "isLocked": {
+                                "label": "Is locked"
+                            }
+                        }
+                    }
+                }
+            },
             "notifications": {
                 "label": "Notifications",
                 "configHeader": "Configuration",

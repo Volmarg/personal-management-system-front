@@ -30,6 +30,15 @@
           </template>
         </SettingsNavElement>
 
+        <!-- Modules -->
+        <SettingsNavElement :route-name="route.names.modules"
+                          :label="$t('systemSettings.tab.modules.label')"
+        >
+          <template #icon>
+            <la svg-icon-name="project-diagram-solid" />
+          </template>
+        </SettingsNavElement>
+
       </ul>
 
     </div>
@@ -49,6 +58,7 @@ export default {
           dashboard : VueRouterSystem.ROUTE_NAME_SYSTEM_DASHBOARD,
           finances : VueRouterSystem.ROUTE_NAME_SYSTEM_FINANCES,
           notifications : VueRouterSystem.ROUTE_NAME_SYSTEM_NOTIFICATIONS,
+          modules : VueRouterSystem.ROUTE_NAME_SYSTEM_SETTINGS_MODULES,
         }
       }
     }

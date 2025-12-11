@@ -9,6 +9,7 @@ export default class VueRouterSystem {
     static readonly ROUTE_NAME_SYSTEM_DASHBOARD = "SystemSettingsDashboard";
     static readonly ROUTE_NAME_SYSTEM_FINANCES = "SystemSettingsFinances";
     static readonly ROUTE_NAME_SYSTEM_NOTIFICATIONS = "SystemSettingsNotifications";
+    static readonly ROUTE_NAME_SYSTEM_SETTINGS_MODULES = "SystemSettingsModules";
 
     public static readonly systemRoutesConfiguration: Array<RouteRecordRaw> = [
         {
@@ -25,6 +26,11 @@ export default class VueRouterSystem {
             path: "",
             name: VueRouterSystem.ROUTE_NAME_SYSTEM_NOTIFICATIONS,
             component: (): Promise<Component> => import("@/views/System/Settings/Notifications.vue"),
+        },
+        {
+            path: "",
+            name: VueRouterSystem.ROUTE_NAME_SYSTEM_SETTINGS_MODULES,
+            component: (): Promise<Component> => import("@/views/System/Settings/Modules.vue"),
         },
     ]
 

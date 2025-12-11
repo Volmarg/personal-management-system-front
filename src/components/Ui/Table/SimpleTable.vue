@@ -53,7 +53,11 @@
         </thead>
         <tbody>
           <tr v-for="(rowData, rowIndex) in visibleResults"
-              :key="rowIndex"
+              :key="JSON.stringify(rowData)"
+              v-last-loop-element="{
+                index: rowIndex,
+                callback: () => $emit('afterTableRowsHandled'),
+              }"
           >
             <!-- if header is hidden the hiding the column too -->
             <td v-for="(cellData, cellIndex) in rowData"
@@ -335,6 +339,14 @@ export default {
   ],
   emits: [
     /**
+     * @description emitted when page change starts
+     */
+    'beforePageChange',
+    /**
+     * @description emitted when table data rows handling (presumably also rendering) is done
+     */
+    'afterTableRowsHandled',
+    /**
      * @description this is usable only if target component supports @change event
      */
     'componentValueChange',
@@ -467,6 +479,7 @@ export default {
      */
     onPaginationPageNumberChange(currentPage: number, countOfResultsPerPage: number): void {
       this.currentPage = currentPage;
+      this.$emit('beforePageChange');
       this.filterShownResults(currentPage, countOfResultsPerPage);
     },
     /**
@@ -557,6 +570,7 @@ export default {
   },
   created(): void {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
+    this.initComponentValues();
   },
   watch: {
     searchValue(): void {
