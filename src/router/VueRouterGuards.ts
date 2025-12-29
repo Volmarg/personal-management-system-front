@@ -10,6 +10,7 @@ import Nprogress                     from "@/scripts/Libs/Nprogress";
 import SymfonySecurityRoutes         from "@/router/SymfonyRoutes/SymfonySecurityRoutes";
 import AppAxios                      from "@/scripts/Core/Services/Request/AppAxios";
 import EventDispatcherService        from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
+import ArrayTypeProcessor            from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
 
 import ToastNotification, {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
 
@@ -52,6 +53,7 @@ export default class VueRouterGuards
         router = this.enforceUserToLoginPageGuard(router);
         router = this.denyAccessingLoginPageIfAlreadyLoggedIn(router);
         router = this.checkIfRequiredRouteRoleGranted(router);
+        router = this.checkRouteRightGranted(router);
         router = this.redirectPanelStartPage(router);
         router = this.denyRegister(router);
 
@@ -206,6 +208,33 @@ export default class VueRouterGuards
                     next(false);
                 }
             }else{
+                next();
+            }
+
+        })
+
+        return router;
+    }
+
+    /**
+     * @description check if user has required right to enter this route
+     */
+    private checkRouteRightGranted(router: Router): Router
+    {
+        router.beforeEach( (to, from, next) => {
+            if (!TypeChecker.isUndefined(to.meta.requiredRight)) {
+                if (this.userController.isRightGranted(to.meta.requiredRight as string)) {
+                    next();
+                } else {
+                    EventDispatcherService.emitShowNotification(ToastTypeEnum.warning, null, 'generic.text.accessDenied');
+                    next(false);
+
+                    // directly visited the link, new tab, etc.
+                    if (ArrayTypeProcessor.isEmpty(from.matched)) {
+                        router.push(VueRouter.ROUTE_PATH_HOME);
+                    }
+                }
+            } else {
                 next();
             }
 

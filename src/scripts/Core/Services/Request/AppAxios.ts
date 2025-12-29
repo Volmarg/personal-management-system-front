@@ -8,6 +8,7 @@ import StringTypeProcessor      from "@/scripts/Core/Services/TypesProcessors/St
 import {AppAxiosInterface}      from "@/scripts/Core/Interfaces/AppAxiosInterface";
 import JwtTokenHandler          from "@/scripts/Core/Security/JwtTokenHandler";
 import {AxiosPostDataBag}       from "@/scripts/Core/Types/Request/AxiosTypes";
+import {userStateStore}         from "@/scripts/Vue/Store/UserState";
 
 import VueRouterGuards               from "@/router/VueRouterGuards";
 import VueRouter                     from "@/router/VueRouter";
@@ -101,7 +102,8 @@ export default class AppAxios implements AppAxiosInterface
             responseDto     = AppAxios.handleSystemDisabledState(responseDto, response);
 
             if( !StringTypeProcessor.isEmptyString(responseDto.token) ){
-                LocalStorageService.set(LocalStorageService.AUTHENTICATION_TOKEN, responseDto.token);
+                LocalStorageService.setAuthToken(responseDto.token);
+                userStateStore().loadUserData(responseDto.token);
             }
 
             AppAxios.handleAccessDenied(responseDto);
@@ -136,7 +138,7 @@ export default class AppAxios implements AppAxiosInterface
             responseDto     = AppAxios.handleSystemDisabledState(responseDto, response);
 
             if( !StringTypeProcessor.isEmptyString(responseDto.token) ){
-                LocalStorageService.set(LocalStorageService.AUTHENTICATION_TOKEN, responseDto.token);
+                LocalStorageService.setAuthToken(responseDto.token);
             }
 
             AppAxios.handleAccessDenied(responseDto);

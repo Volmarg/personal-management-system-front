@@ -5,6 +5,7 @@ import 'vue-router';
  */
 declare module "vue-router" {
     interface RouteMeta {
-        requiredRole: string | undefined
+        requiredRole?: string | undefined,
+        requiredRight?: string | undefined,
     }
 }

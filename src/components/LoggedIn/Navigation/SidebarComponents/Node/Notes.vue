@@ -1,37 +1,42 @@
 <template>
-  <SingleDropdownMenuElement :label="moduleTranslation.notes">
-    <template #icon>
-      <fa :icon="moduleIcon.notes"/>
-    </template>
+  <NodeBase :required-right="nodeRight">
+    <SingleDropdownMenuElement :label="moduleTranslation.notes">
+      <template #icon>
+        <fa :icon="moduleIcon.notes"/>
+      </template>
 
-    <template #children>
-      <CategoriesLevel :categories="nestedCategories"/>
+      <template #children>
+        <CategoriesLevel :categories="nestedCategories"/>
 
-      <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_NEW"
-                         :label="$t('navbar.rightSidebar.menu.notes.children.create.label')"
-                          @click="onMenuElementClick"
-      />
-      <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_SETTINGS"
-                         :label="$t('navbar.rightSidebar.menu.notes.children.settings.label')"
-                          @click="onMenuElementClick"
-      />
-    </template>
-  </SingleDropdownMenuElement>
+        <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_NEW"
+                           :label="$t('navbar.rightSidebar.menu.notes.children.create.label')"
+                            @click="onMenuElementClick"
+        />
+        <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_SETTINGS"
+                           :label="$t('navbar.rightSidebar.menu.notes.children.settings.label')"
+                            @click="onMenuElementClick"
+        />
+      </template>
+    </SingleDropdownMenuElement>
+  </NodeBase>
 </template>
 
 <script lang="ts">
 import SingleDropdownMenuElement from "@/components/LoggedIn/Navigation/SidebarComponents/SingleDropdownMenuElement.vue";
 import SingleMenuElement         from "@/components/LoggedIn/Navigation/SidebarComponents/SingleMenuElement.vue";
+import NodeBase                  from "@/components/LoggedIn/Navigation/SidebarComponents/Node/NodeBase.vue";
+import CategoriesLevel           from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Notes/CategoriesLevel.vue";
 
 import ModuleBaseDataMixin from "@/mixins/Modules/ModuleBaseDataMixin.vue";
 import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
+
+import UserRights from "@/scripts/Core/Security/UserRights";
 
 import VueRouterNotes from "@/router/Modules/VueRouterNotes";
 
 import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
 import {CategoriesState} from "@/scripts/Vue/Store/Module/Notes/CategoriesState";
 
-import CategoriesLevel from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Notes/CategoriesLevel.vue";
 
 export default {
   data(): ComponentData {
@@ -42,11 +47,15 @@ export default {
     }
   },
   components: {
+    NodeBase,
     SingleDropdownMenuElement,
     SingleMenuElement,
     CategoriesLevel,
   },
   computed: {
+    nodeRight(): string {
+      return UserRights.CAN_ACCESS_NOTES_MODULE;
+    },
     router(): VueRouterNotes {
       return VueRouterNotes;
     },

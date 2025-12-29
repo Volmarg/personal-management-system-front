@@ -1,6 +1,8 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
+import UserRights from "@/scripts/Core/Security/UserRights";
+
 export default class VueRouterTodo {
 
     static readonly ROUTE_PREFIX = "/todo"
@@ -14,6 +16,9 @@ export default class VueRouterTodo {
             path: VueRouterTodo.ROUTE_PATH_TODO_LIST,
             name: VueRouterTodo.ROUTE_NAME_TODO_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Todo/List.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_TODO_MODULE
+            }
         },
     ]
 

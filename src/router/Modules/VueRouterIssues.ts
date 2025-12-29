@@ -1,6 +1,8 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
+import UserRights from "@/scripts/Core/Security/UserRights";
+
 export default class VueRouterIssues {
 
     static readonly ROUTE_PREFIX = "/issues"
@@ -14,6 +16,9 @@ export default class VueRouterIssues {
             path: VueRouterIssues.ROUTE_PATH_ISSUES_PENDING_LIST,
             name: VueRouterIssues.ROUTE_NAME_ISSUES_PENDING_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Issues/Pending.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_ISSUES_MODULE
+            }
         },
     ]
 

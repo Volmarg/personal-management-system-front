@@ -1,6 +1,8 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
+import UserRights from "@/scripts/Core/Security/UserRights";
+
 export default class VueRouterAchievements {
 
     static readonly ROUTE_PREFIX = "/achievements"
@@ -14,6 +16,9 @@ export default class VueRouterAchievements {
             path: VueRouterAchievements.ROUTE_PATH_ACHIEVEMENTS_LIST,
             name: VueRouterAchievements.ROUTE_NAME_ACHIEVEMENTS_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Achievements/List.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_ACHIEVEMENTS_MODULE
+            }
         },
     ]
 

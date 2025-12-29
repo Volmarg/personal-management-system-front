@@ -1,5 +1,6 @@
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 import UserController      from "@/scripts/Core/Controller/UserController";
+import {userStateStore}    from "@/scripts/Vue/Store/UserState";
 
 /**
  * @description handles the logic of local storage
@@ -92,6 +93,21 @@ export default class LocalStorageService {
      */
     public static getTimeRefreshStorageKey(): string {
         return `tl-${LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN)}`;
+    }
+
+    /**
+     * @description returns authentication token
+     */
+    public static getAuthToken(): string {
+        return LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+    }
+
+    /**
+     * @description sets the authentication token
+     */
+    public static setAuthToken(token: string): void {
+        LocalStorageService.set(LocalStorageService.AUTHENTICATION_TOKEN, token);
+        userStateStore().token = token;
     }
 
     /**

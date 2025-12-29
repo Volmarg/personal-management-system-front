@@ -275,7 +275,7 @@ export default {
         }
 
         this.$rootEvent.hideFullPageLoader();
-        LocalStorageService.set(LocalStorageService.AUTHENTICATION_TOKEN, baseApiResponse.token);
+        LocalStorageService.setAuthToken(baseApiResponse.token);
 
         /**
          * @description this must be set to slash as in case of login it's not working properly with {@see VueRouter.ROUTE_PATH_HOME}

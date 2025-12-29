@@ -4,7 +4,7 @@ import JwtService          from "@/scripts/Core/Services/Security/JwtService";
 import {UserData}   from "@/scripts/Core/Types/UserData";
 import BaseError    from "@/scripts/Core/Error/BaseError";
 import Logger       from "@/scripts/Core/Logger";
-import SymfonyRolesAndRights from "@/scripts/Core/Security/SymfonyRolesAndRights";
+import UserRoles    from "@/scripts/Core/Security/UserRoles";
 
 import DevelopmentLocalStorageService from "@/scripts/Core/Services/Storage/DevelopmentLocalStorageService";
 
@@ -92,6 +92,21 @@ export default class UserController
     }
 
     /**
+     * @description check if user right is granted
+     */
+    public isRightGranted(rightName: string): boolean {
+        if (!LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN)) {
+            return false;
+        }
+
+        let jwtService = new JwtService();
+        let jwt        = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let payload    = jwtService.decodeUsingSignature(jwt);
+
+        return (null !== payload && payload.userRights.includes(rightName));
+    }
+
+    /**
      * @description will check if user is marked as active
      */
     public isUserActive(): boolean
@@ -118,7 +133,7 @@ export default class UserController
      * @description will check if user is developer
      */
     public isDeveloper(): boolean {
-        return this.isRoleGranted(SymfonyRolesAndRights.ROLE_DEVELOPER);
+        return this.isRoleGranted(UserRoles.ROLE_DEVELOPER);
     }
 
     /**

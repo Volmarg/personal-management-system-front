@@ -1,6 +1,8 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
+import UserRights from "@/scripts/Core/Security/UserRights";
+
 export default class VueRouterReports {
 
     static readonly ROUTE_PREFIX = "/reports"
@@ -23,21 +25,33 @@ export default class VueRouterReports {
             path: VueRouterReports.ROUTE_PATH_REPORT_PAYMENT_SUMMARIES,
             name: VueRouterReports.ROUTE_NAME_REPORT_PAYMENT_SUMMARIES,
             component: (): Promise<Component> => import("@/views/Modules/Reports/PaymentSummaries.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_REPORTS_MODULE
+            }
         },
         {
             path: VueRouterReports.ROUTE_PATH_REPORT_HISTORICALLY_MONEY_OWED,
             name: VueRouterReports.ROUTE_NAME_REPORT_HISTORICALLY_MONEY_OWED,
             component: (): Promise<Component> => import("@/views/Modules/Reports/Historical/MoneyOwed.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_REPORTS_MODULE
+            }
         },
         {
             path: VueRouterReports.ROUTE_PATH_REPORT_PAYMENT_CHARTS,
             name: VueRouterReports.ROUTE_NAME_REPORT_PAYMENT_CHARTS,
             component: (): Promise<Component> => import("@/views/Modules/Reports/PaymentCharts.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_REPORTS_MODULE
+            }
         },
         {
             path: VueRouterReports.ROUTE_PATH_REPORT_SAVING_CHARTS,
             name: VueRouterReports.ROUTE_NAME_REPORT_SAVING_CHARTS,
             component: (): Promise<Component> => import("@/views/Modules/Reports/SavingCharts.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_REPORTS_MODULE
+            }
         },
     ]
 

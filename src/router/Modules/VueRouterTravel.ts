@@ -1,6 +1,8 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
+import UserRights from "@/scripts/Core/Security/UserRights";
+
 export default class VueRouterTravel {
 
     static readonly ROUTE_PREFIX = "/travel"
@@ -14,6 +16,9 @@ export default class VueRouterTravel {
             path: VueRouterTravel.ROUTE_PATH_TRAVEL_IDEAS_LIST,
             name: VueRouterTravel.ROUTE_NAME_TRAVEL_IDEAS_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Travel/Ideas.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_TRAVELS_MODULE
+            }
         },
     ]
 

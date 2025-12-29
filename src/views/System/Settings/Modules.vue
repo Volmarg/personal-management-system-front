@@ -17,13 +17,18 @@
 import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
 import ColoredSwitch from "@/components/Ui/ColoredSwitch.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {BackendModuleNameEnum} from "@/scripts/Core/Enum/Modules";
+import {ComponentData}         from "@/scripts/Vue/Types/Components/types";
+
+import {CategoriesState} from "@/scripts/Vue/Store/Module/Notes/CategoriesState";
 
 import SymfonySystemRoutes     from "@/router/SymfonyRoutes/Modules/SymfonySystemRoutes";
 import BaseApiResponse         from "@/scripts/Response/BaseApiResponse";
 import BackendModuleCallConfig from "@/scripts/Dto/BackendModuleCallConfig";
 import BaseError               from "@/scripts/Core/Error/BaseError";
 import TypeChecker             from "@/scripts/Core/Services/Types/TypeChecker";
+import PromiseService          from "@/scripts/Core/Services/Promise/PromiseService";
+import LocalStorageService     from "@/scripts/Core/Services/Storage/LocalStorageService";
 
 export default {
   data(): ComponentData {
@@ -31,6 +36,18 @@ export default {
       moduleLocksTableId: 'moduleLocks',
       moduleLocks: [],
       isPageDataChanging: false,
+      lockStateChangeHooks: {
+        /**
+         * @description it's known that notes categories fetch gets executed twice - that's because Notes menu node
+         *              has watcher on all categories. It stays like this, not really a harmfull behaviour, and solving this out
+         *              might take too much time, it's just not worth the deal atm.
+         */
+        [BackendModuleNameEnum.notes]: (isCurrentlyLocked: boolean, willBeLocked: boolean) => {
+          if (isCurrentlyLocked && !willBeLocked) {
+            CategoriesState().getAll();
+          }
+        }
+      },
       headers: [
         {
           label: 'id',
@@ -88,6 +105,17 @@ export default {
   },
   methods: {
     /**
+     * @description return module current lock state
+     */
+    isLocked(moduleName: string): boolean {
+      let lockData = this.moduleLocks.find((lockData: Record<string, string | boolean>) => lockData.name === moduleName);
+      if (!lockData) {
+        throw new BaseError(`No lock data found for module named ${moduleName}`);
+      }
+
+      return lockData.isLocked;
+    },
+    /**
      * @description reacts on table component value change, dispatches the handling further
      */
     onComponentValueChange(data: Record) {
@@ -138,8 +166,24 @@ export default {
       let config = new BackendModuleCallConfig(SymfonySystemRoutes.SETTINGS_MODULES_LOCK_BASE, null, BaseApiResponse, dataBag);
       config.reload = false;
 
+      this.executeLockChangeHooks(moduleLocks);
       await this.$moduleCall.update(config);
-      this.fetchModuleLocksData();
+      await this.fetchModuleLocksData();
+    },
+    /**
+     * @description executes the hooks for each module lock state change (if such is defined for given module at all).
+     */
+    executeLockChangeHooks(moduleLocks: Array<Record<string, string | boolean>>) {
+      let oldAuthToken = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+      for (let moduleLock of moduleLocks) {
+        let hook = this.lockStateChangeHooks[moduleLock.name as string];
+        if (hook instanceof Function) {
+          let isCurrentlyLocked = this.isLocked(moduleLock.name);
+          PromiseService.authTokenUpdatePromise(oldAuthToken).then(() => {
+            hook(isCurrentlyLocked, moduleLock.isLocked);
+          });
+        }
+      }
     },
     /**
      * @description fetches all the module locks data

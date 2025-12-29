@@ -12,6 +12,7 @@ import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes"
 const userStateStore = defineStore('userState', {
     state: () => ({
         user: null as null | UserData,
+        token: null as null | string,
     }),
     actions: {
         /**
@@ -38,6 +39,7 @@ const userStateStore = defineStore('userState', {
 
 type UserStateStore = {
     user: UserData,
+    token: null | string,
     refreshUserData: () => void,
     loadUserData: () => void,
     isLoggedIn: () => boolean,

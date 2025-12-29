@@ -1,3 +1,5 @@
+import LocalStorageService from "@/scripts/Core/Services/Storage/LocalStorageService";
+
 /**
  * @description service for handling some special cases of promises
  */
@@ -18,6 +20,15 @@ export default class PromiseService {
                     clearInterval(interval);
                 }
             }, 100)
+        })
+    }
+
+    /**
+     * @description returns token update promise, can be `then-ned` to do something explicitly when new token is set
+     */
+    public static authTokenUpdatePromise(oldAuthToken: string): Promise<unknown> {
+        return PromiseService.buildPeriodicallyCheckedPromise(() => {
+            return (oldAuthToken !== LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN));
         })
     }
 }

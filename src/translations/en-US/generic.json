@@ -117,7 +117,8 @@
             }
         },
         "text": {
-            "copiedToClipboard": "Copied to clipboard (You can paste it with CTRL+V)."
+            "copiedToClipboard": "Copied to clipboard (You can paste it with CTRL+V).",
+            "accessDenied": "Access denied. You are not allowed to see this resource."
         },
         "wizard": {
             "step": {

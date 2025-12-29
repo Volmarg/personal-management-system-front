@@ -1,7 +1,7 @@
 import {createRouter, createWebHashHistory, Router, RouteRecordRaw} from 'vue-router'
 import Dashboard                                                    from '@/views/Dashboard/Dashboard.vue';
 import VueRouterGuards                                              from "@/router/VueRouterGuards";
-import SymfonyRolesAndRights                                        from "@/scripts/Core/Security/SymfonyRolesAndRights";
+import UserRoles                                        from "@/scripts/Core/Security/UserRoles";
 import VueRouterUser                                                from "@/router/VueRouterUser";
 import {Component}                                                  from "vue";
 import VueRouterGoals                                               from "@/router/Modules/VueRouterGoals";
@@ -91,7 +91,7 @@ export default class VueRouter
                     component: (): Promise<Component> => import("@/views/User/Settings/Settings.vue"),
                     children: VueRouterUser.userRoutesConfiguration,
                     meta: {
-                        requiredRole: SymfonyRolesAndRights.ROLE_USER,
+                        requiredRole: UserRoles.ROLE_USER,
                     }
                 },
                 {
@@ -100,7 +100,7 @@ export default class VueRouter
                     component: (): Promise<Component> => import("@/views/System/Settings.vue"),
                     children: VueRouterSystem.systemRoutesConfiguration,
                     meta: {
-                        requiredRole: SymfonyRolesAndRights.ROLE_USER,
+                        requiredRole: UserRoles.ROLE_USER,
                     }
                 },
                 {
@@ -108,7 +108,7 @@ export default class VueRouter
                   name: VueRouter.ROUTE_NAME_DEVELOPMENT_PLAYGROUND,
                   component: (): Promise<Component> => import("@/views/Development/Playground.vue"),
                   meta: {
-                      requiredRole: SymfonyRolesAndRights.ROLE_DEVELOPER,
+                      requiredRole: UserRoles.ROLE_DEVELOPER,
                   }
                 },
                 {

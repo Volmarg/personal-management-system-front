@@ -5,5 +5,6 @@ export type UserData = {
     isSystemLocked     : boolean,
     userId             : string,
     profilePicturePath : string | null
-    roles              : Array<string>
+    roles              : Array<string>,
+    rights             : Array<string>,
 }

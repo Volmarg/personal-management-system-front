@@ -1,6 +1,8 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
+import UserRights from "@/scripts/Core/Security/UserRights";
+
 export default class VueRouterStorage {
 
     static readonly ROUTE_PREFIX = "/storage"
@@ -23,21 +25,33 @@ export default class VueRouterStorage {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER,
             name: VueRouterStorage.ROUTE_NAME_STORAGE_IMAGES_FOLDER,
             component: (): Promise<Component> => import("@/views/Modules/Storage/Images/Folder.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_IMAGES_MODULE
+            }
         },
         {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_VIDEO_FOLDER,
             name: VueRouterStorage.ROUTE_NAME_STORAGE_VIDEO_FOLDER,
             component: (): Promise<Component> => import("@/views/Modules/Storage/Video/Folder.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_VIDEOS_MODULE
+            }
         },
         {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER,
             name: VueRouterStorage.ROUTE_NAME_STORAGE_FILES_FOLDER,
             component: (): Promise<Component> => import("@/views/Modules/Storage/Files/Folder.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_FILES_MODULE
+            }
         },
         {
             path: VueRouterStorage.ROUTE_PATH_STORAGE_UPLOAD_MANAGE,
             name: VueRouterStorage.ROUTE_NAME_STORAGE_UPLOAD_MANAGE,
             component: (): Promise<Component> => import("@/views/Modules/Storage/Upload/Manage.vue"),
+            meta: {
+                requiredRight: UserRights.CAN_ACCESS_STORAGE_MODULE
+            }
         },
     ]
 

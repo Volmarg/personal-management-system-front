@@ -40,7 +40,7 @@ import {ComponentData}           from "@/scripts/Vue/Types/Components/types";
 
 import LocalStorageService       from "@/scripts/Core/Services/Storage/LocalStorageService";
 import UserController            from "@/scripts/Core/Controller/UserController";
-import SymfonyRolesAndRights              from "@/scripts/Core/Security/SymfonyRolesAndRights";
+import UserRoles              from "@/scripts/Core/Security/UserRoles";
 import BaseError                 from "@/scripts/Core/Error/BaseError";
 
 import SymfonyProfilerAwareMixin from "@/mixins/Awarness/SymfonyProfilerAwareMixin.vue";
@@ -78,7 +78,7 @@ export default {
   },
   beforeCreate() {
     let userController = new UserController();
-    if (!userController.isRoleGranted(SymfonyRolesAndRights.ROLE_DEVELOPER)) {
+    if (!userController.isRoleGranted(UserRoles.ROLE_DEVELOPER)) {
       throw new BaseError("User is not a developer, the developer sidebar should not be created!", {
         "user": userController.getLoggedInUserData(),
       })
