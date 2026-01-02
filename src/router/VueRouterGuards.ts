@@ -223,7 +223,7 @@ export default class VueRouterGuards
     {
         router.beforeEach( (to, from, next) => {
             if (!TypeChecker.isUndefined(to.meta.requiredRight)) {
-                if (this.userController.isRightGranted(to.meta.requiredRight as string)) {
+                if (this.userController.isModuleAccessGranted(to.meta.requiredRight as string)) {
                     next();
                 } else {
                     EventDispatcherService.emitShowNotification(ToastTypeEnum.warning, null, 'generic.text.accessDenied');

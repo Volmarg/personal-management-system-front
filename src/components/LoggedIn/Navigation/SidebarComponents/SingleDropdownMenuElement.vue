@@ -19,6 +19,7 @@
     >
       <template #icon>
         <slot name="icon"></slot>
+        <MenuElementLockState :is-locked="isLocked"/>
       </template>
     </NavButton>
 
@@ -34,7 +35,8 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import BaseError       from "@/scripts/Core/Error/BaseError";
 import RouteMixin      from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/RouteMixin.vue";
 
-import NavButton from "@/components/LoggedIn/Navigation/SidebarComponents/DropdownMenu/Button.vue";
+import MenuElementLockState from "@/components/LoggedIn/Navigation/SidebarComponents/MenuElementLockState.vue";
+import NavButton            from "@/components/LoggedIn/Navigation/SidebarComponents/DropdownMenu/Button.vue";
 
 export default {
   name: "SidebarSingleDropdownMenuElement",
@@ -44,6 +46,11 @@ export default {
     }
   },
   props: {
+    isLocked: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     linkPath: {
       type: [String, null],
       required: false,
@@ -78,7 +85,8 @@ export default {
     RouteMixin
   ],
   components: {
-    NavButton
+    NavButton,
+    MenuElementLockState
   },
   methods: {
     /**

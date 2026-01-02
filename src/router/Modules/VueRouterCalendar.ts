@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterCalendar {
 
@@ -17,7 +17,7 @@ export default class VueRouterCalendar {
             name: VueRouterCalendar.ROUTE_NAME_CALENDAR_VIEW,
             component: (): Promise<Component> => import("@/views/Modules/Calendar/View.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_CALENDAR_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_CALENDAR_MODULE
             }
         },
     ]

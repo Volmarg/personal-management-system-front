@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterGoals {
 
@@ -20,7 +20,7 @@ export default class VueRouterGoals {
             name: VueRouterGoals.ROUTE_NAME_GOALS_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Goals/List.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_GOALS_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_GOALS_MODULE
             }
         },
         {
@@ -28,7 +28,7 @@ export default class VueRouterGoals {
             name: VueRouterGoals.ROUTE_NAME_GOALS_PAYMENTS,
             component: (): Promise<Component> => import("@/views/Modules/Goals/Payments.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_GOALS_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_GOALS_MODULE
             }
         },
     ]

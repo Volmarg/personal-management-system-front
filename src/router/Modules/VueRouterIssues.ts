@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterIssues {
 
@@ -17,7 +17,7 @@ export default class VueRouterIssues {
             name: VueRouterIssues.ROUTE_NAME_ISSUES_PENDING_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Issues/Pending.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_ISSUES_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_ISSUES_MODULE
             }
         },
     ]

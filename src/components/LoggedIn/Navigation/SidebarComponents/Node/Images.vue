@@ -1,17 +1,21 @@
 <template>
   <NodeBase :required-right="nodeRight">
-    <SingleDropdownMenuElement :label="moduleTranslation.images">
-      <template #icon>
-        <fa :icon="moduleIcon.images"/>
-      </template>
+    <template #default="props">
+      <SingleDropdownMenuElement :label="moduleTranslation.images"
+                                 :is-locked="!props.isRightGranted"
+      >
+        <template #icon>
+          <fa :icon="moduleIcon.images"/>
+        </template>
 
-      <template #children>
-        <SingleMenuElement :route-path="routePath"
-                           :label="$t('navbar.rightSidebar.menu.images.children.mainFolder.label')"
-                            @click="onMenuElementClick"
-        />
-      </template>
-    </SingleDropdownMenuElement>
+        <template #children>
+          <SingleMenuElement :route-path="routePath"
+                             :label="$t('navbar.rightSidebar.menu.images.children.mainFolder.label')"
+                              @click="onMenuElementClick"
+          />
+        </template>
+      </SingleDropdownMenuElement>
+    </template>
   </NodeBase>
 </template>
 
@@ -23,7 +27,7 @@ import NodeBase                  from "@/components/LoggedIn/Navigation/SidebarC
 import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 import ModuleBaseDataMixin from "@/mixins/Modules/ModuleBaseDataMixin.vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 import VueRouterStorage from "@/router/Modules/VueRouterStorage";
 
@@ -35,7 +39,7 @@ export default {
   },
   computed: {
     nodeRight(): string {
-      return UserRights.CAN_ACCESS_IMAGES_MODULE;
+      return UserModuleRights.CAN_ACCESS_IMAGES_MODULE;
     },
     routePath(): string {
       return this.buildStorageUrl("/", VueRouterStorage.ROUTE_PATH_STORAGE_IMAGES_FOLDER);

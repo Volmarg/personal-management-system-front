@@ -15,6 +15,7 @@ enum BackendModuleNameEnum {
     shopping = "My Shopping",
     travels = "My Travels",
     reports = "My Reports",
+    storage = "Storage",
 }
 
 export {BackendModuleNameEnum}

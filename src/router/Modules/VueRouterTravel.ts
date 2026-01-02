@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterTravel {
 
@@ -17,7 +17,7 @@ export default class VueRouterTravel {
             name: VueRouterTravel.ROUTE_NAME_TRAVEL_IDEAS_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Travel/Ideas.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_TRAVELS_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_TRAVELS_MODULE
             }
         },
     ]

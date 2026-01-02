@@ -1,25 +1,29 @@
 <template>
   <NodeBase :required-right="nodeRight">
-    <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.job.label')">
-      <template #icon>
-        <fa icon="suitcase"/>
-      </template>
+    <template #default="props">
+      <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.job.label')"
+                                 :is-locked="!props.isRightGranted"
+      >
+        <template #icon>
+          <fa icon="suitcase"/>
+        </template>
 
-      <template #children>
-        <SingleMenuElement :route-path="router.ROUTE_PATH_JOB_AFTERHOURS"
-                           :label="$t('navbar.rightSidebar.menu.job.children.afterhours.label')"
-                            @click="onMenuElementClick"
-        />
-        <SingleMenuElement :route-path="router.ROUTE_PATH_JOB_HOLIDAYS"
-                           :label="$t('navbar.rightSidebar.menu.job.children.holidays.label')"
-                            @click="onMenuElementClick"
-        />
-        <SingleMenuElement :route-path="router.ROUTE_PATH_JOB_SETTINGS"
-                           :label="$t('navbar.rightSidebar.menu.job.children.settings.label')"
-                            @click="onMenuElementClick"
-        />
-      </template>
-    </SingleDropdownMenuElement>
+        <template #children>
+          <SingleMenuElement :route-path="router.ROUTE_PATH_JOB_AFTERHOURS"
+                             :label="$t('navbar.rightSidebar.menu.job.children.afterhours.label')"
+                              @click="onMenuElementClick"
+          />
+          <SingleMenuElement :route-path="router.ROUTE_PATH_JOB_HOLIDAYS"
+                             :label="$t('navbar.rightSidebar.menu.job.children.holidays.label')"
+                              @click="onMenuElementClick"
+          />
+          <SingleMenuElement :route-path="router.ROUTE_PATH_JOB_SETTINGS"
+                             :label="$t('navbar.rightSidebar.menu.job.children.settings.label')"
+                              @click="onMenuElementClick"
+          />
+        </template>
+      </SingleDropdownMenuElement>
+    </template>
   </NodeBase>
 </template>
 
@@ -30,7 +34,7 @@ import NodeBase                  from "@/components/LoggedIn/Navigation/SidebarC
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 import VueRouterJob from "@/router/Modules/VueRouterJob";
 
@@ -42,7 +46,7 @@ export default {
   },
   computed: {
     nodeRight(): string {
-      return UserRights.CAN_ACCESS_JOB_MODULE;
+      return UserModuleRights.CAN_ACCESS_JOB_MODULE;
     },
     router(): VueRouterJob {
       return VueRouterJob;

@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterJob {
 
@@ -23,7 +23,7 @@ export default class VueRouterJob {
             name: VueRouterJob.ROUTE_NAME_JOB_AFTERHOURS,
             component: (): Promise<Component> => import("@/views/Modules/Job/Afterhours.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_JOB_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_JOB_MODULE
             }
         },
         {
@@ -31,7 +31,7 @@ export default class VueRouterJob {
             name: VueRouterJob.ROUTE_NAME_JOB_HOLIDAYS,
             component: (): Promise<Component> => import("@/views/Modules/Job/Holidays.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_JOB_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_JOB_MODULE
             }
         },
         {
@@ -39,7 +39,7 @@ export default class VueRouterJob {
             name: VueRouterJob.ROUTE_NAME_JOB_SETTINGS,
             component: (): Promise<Component> => import("@/views/Modules/Job/Settings.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_JOB_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_JOB_MODULE
             }
         },
     ]

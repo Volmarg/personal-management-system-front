@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterContacts {
 
@@ -20,7 +20,7 @@ export default class VueRouterContacts {
             name: VueRouterContacts.ROUTE_NAME_CONTACTS_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Contacts/List.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_CONTACTS_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_CONTACTS_MODULE
             }
         },
         {
@@ -28,7 +28,7 @@ export default class VueRouterContacts {
             name: VueRouterContacts.ROUTE_NAME_CONTACTS_SETTINGS,
             component: (): Promise<Component> => import("@/views/Modules/Contacts/Settings.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_CONTACTS_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_CONTACTS_MODULE
             }
         },
     ]

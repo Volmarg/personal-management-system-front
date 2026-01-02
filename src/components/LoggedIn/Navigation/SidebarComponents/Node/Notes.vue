@@ -1,23 +1,27 @@
 <template>
   <NodeBase :required-right="nodeRight">
-    <SingleDropdownMenuElement :label="moduleTranslation.notes">
-      <template #icon>
-        <fa :icon="moduleIcon.notes"/>
-      </template>
+    <template #default="props">
+      <SingleDropdownMenuElement :label="moduleTranslation.notes"
+                                 :is-locked="!props.isRightGranted"
+      >
+        <template #icon>
+          <fa :icon="moduleIcon.notes"/>
+        </template>
 
-      <template #children>
-        <CategoriesLevel :categories="nestedCategories"/>
+        <template #children>
+          <CategoriesLevel :categories="nestedCategories"/>
 
-        <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_NEW"
-                           :label="$t('navbar.rightSidebar.menu.notes.children.create.label')"
-                            @click="onMenuElementClick"
-        />
-        <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_SETTINGS"
-                           :label="$t('navbar.rightSidebar.menu.notes.children.settings.label')"
-                            @click="onMenuElementClick"
-        />
-      </template>
-    </SingleDropdownMenuElement>
+          <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_NEW"
+                             :label="$t('navbar.rightSidebar.menu.notes.children.create.label')"
+                              @click="onMenuElementClick"
+          />
+          <SingleMenuElement :route-path="router.ROUTE_PATH_NOTES_SETTINGS"
+                             :label="$t('navbar.rightSidebar.menu.notes.children.settings.label')"
+                              @click="onMenuElementClick"
+          />
+        </template>
+      </SingleDropdownMenuElement>
+    </template>
   </NodeBase>
 </template>
 
@@ -30,7 +34,7 @@ import CategoriesLevel           from "@/components/LoggedIn/Navigation/SidebarC
 import ModuleBaseDataMixin from "@/mixins/Modules/ModuleBaseDataMixin.vue";
 import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 import VueRouterNotes from "@/router/Modules/VueRouterNotes";
 
@@ -54,7 +58,7 @@ export default {
   },
   computed: {
     nodeRight(): string {
-      return UserRights.CAN_ACCESS_NOTES_MODULE;
+      return UserModuleRights.CAN_ACCESS_NOTES_MODULE;
     },
     router(): VueRouterNotes {
       return VueRouterNotes;

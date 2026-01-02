@@ -9,7 +9,7 @@ import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModule
 
 import SymfonyNotesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyNotesRoutes";
 import UserController     from "@/scripts/Core/Controller/UserController";
-import UserRights         from "@/scripts/Core/Security/UserRights";
+import UserModuleRights   from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 const CategoriesState = defineStore('NotesCategoriesModuleStateStore', {
     state: () => ({
@@ -23,7 +23,7 @@ const CategoriesState = defineStore('NotesCategoriesModuleStateStore', {
             /**
              * @description not necessarily pretty, but the categories are fetched for menu building, so the whole GUI crashes otherwise
              */
-            if (!(new UserController()).isRightGranted(UserRights.CAN_ACCESS_NOTES_MODULE)) {
+            if (!(new UserController()).isModuleAccessGranted(UserModuleRights.CAN_ACCESS_NOTES_MODULE)) {
                 this.allEntries = [];
                 return;
             }

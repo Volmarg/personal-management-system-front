@@ -7,6 +7,7 @@ import Logger       from "@/scripts/Core/Logger";
 import UserRoles    from "@/scripts/Core/Security/UserRoles";
 
 import DevelopmentLocalStorageService from "@/scripts/Core/Services/Storage/DevelopmentLocalStorageService";
+import UserModuleRights               from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 /**
  * @description this class contains logic related to controlling user page access
@@ -77,9 +78,8 @@ export default class UserController
             return false;
         }
 
-        let jwtService = new JwtService();
-        let jwt        = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
-        let payload    = jwtService.decodeUsingSignature(jwt);
+        let jwt     = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let payload = this.jwtService.decodeUsingSignature(jwt);
 
         if(
                 null !== payload
@@ -99,11 +99,26 @@ export default class UserController
             return false;
         }
 
-        let jwtService = new JwtService();
-        let jwt        = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
-        let payload    = jwtService.decodeUsingSignature(jwt);
+        let jwt     = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let payload = this.jwtService.decodeUsingSignature(jwt);
 
         return (null !== payload && payload.userRights.includes(rightName));
+    }
+
+    /**
+     * @description this is NOT the same as {@see self::isRightGranted}. In here we check if a user can access the module
+     *              which does NOT mean that he has the necessary right! Module can also be accessed when for example
+     *              system is unlocked.
+     */
+    public isModuleAccessGranted(rightName: string): boolean {
+        let jwt     = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let payload = this.jwtService.decodeUsingSignature(jwt);
+
+        if (UserModuleRights.MODULE_ACCESS_RIGHTS.includes(rightName) && !payload?.isSystemLocked) {
+            return true;
+        }
+
+        return this.isRightGranted(rightName);
     }
 
     /**

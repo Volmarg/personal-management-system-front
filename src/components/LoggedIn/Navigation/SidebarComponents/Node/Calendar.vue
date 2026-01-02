@@ -1,17 +1,21 @@
 <template>
   <NodeBase :required-right="nodeRight">
-    <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.calendar.label')">
-      <template #icon>
-        <fa icon="calendar"/>
-      </template>
+    <template #default="props">
+      <SingleDropdownMenuElement :label="$t('navbar.rightSidebar.menu.calendar.label')"
+                                 :is-locked="!props.isRightGranted"
+      >
+        <template #icon>
+          <fa icon="calendar"/>
+        </template>
 
-      <template #children>
-        <SingleMenuElement :route-path="router.ROUTE_PATH_CALENDAR_VIEW"
-                           :label="$t('navbar.rightSidebar.menu.calendar.children.view.label')"
-                            @click="onMenuElementClick"
-        />
-      </template>
-    </SingleDropdownMenuElement>
+        <template #children>
+          <SingleMenuElement :route-path="router.ROUTE_PATH_CALENDAR_VIEW"
+                             :label="$t('navbar.rightSidebar.menu.calendar.children.view.label')"
+                              @click="onMenuElementClick"
+          />
+        </template>
+      </SingleDropdownMenuElement>
+    </template>
   </NodeBase>
 </template>
 
@@ -22,7 +26,7 @@ import NodeBase                  from "@/components/LoggedIn/Navigation/SidebarC
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 import VueRouterCalendar from "@/router/Modules/VueRouterCalendar";
 
@@ -34,7 +38,7 @@ export default {
   },
   computed: {
     nodeRight(): string {
-      return UserRights.CAN_ACCESS_CALENDAR_MODULE;
+      return UserModuleRights.CAN_ACCESS_CALENDAR_MODULE;
     },
     router(): VueRouterCalendar {
       return VueRouterCalendar;

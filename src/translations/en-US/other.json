@@ -17,7 +17,8 @@
                 "My Payments": "Payments",
                 "My Shopping": "Shopping",
                 "My Travels":  "Travels",
-                "My Reports":  "Reports"
+                "My Reports":  "Reports",
+                "Storage":  "Storage"
             }
         },
         "lockModal": {

@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterPasswords {
 
@@ -20,7 +20,7 @@ export default class VueRouterPasswords {
             name: VueRouterPasswords.ROUTE_NAME_PASSWORDS_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Passwords/List.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_PASSWORDS_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_PASSWORDS_MODULE
             }
         },
         {
@@ -28,7 +28,7 @@ export default class VueRouterPasswords {
             name: VueRouterPasswords.ROUTE_NAME_PASSWORDS_SETTINGS,
             component: (): Promise<Component> => import("@/views/Modules/Passwords/Settings.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_PASSWORDS_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_PASSWORDS_MODULE
             }
         },
     ]

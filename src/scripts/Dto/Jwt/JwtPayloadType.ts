@@ -11,6 +11,7 @@ type BackendJwtTokenPayload = {
     username     : string,
     email        : string,
     isUserActive : boolean,
+    isSystemLocked : boolean,
     userId       : string,
 }
 

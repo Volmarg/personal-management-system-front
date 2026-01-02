@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterNotes {
 
@@ -23,7 +23,7 @@ export default class VueRouterNotes {
             name: VueRouterNotes.ROUTE_NAME_NOTES_NEW,
             component: (): Promise<Component> => import("@/views/Modules/Notes/New.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_NOTES_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_NOTES_MODULE
             }
         },
         {
@@ -31,7 +31,7 @@ export default class VueRouterNotes {
             name: VueRouterNotes.ROUTE_NAME_NOTES_SETTINGS,
             component: (): Promise<Component> => import("@/views/Modules/Notes/Settings.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_NOTES_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_NOTES_MODULE
             }
         },
         {
@@ -39,7 +39,7 @@ export default class VueRouterNotes {
             name: VueRouterNotes.ROUTE_NAME_NOTES_CATEGORY,
             component: (): Promise<Component> => import("@/views/Modules/Notes/Category.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_NOTES_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_NOTES_MODULE
             }
         },
     ]

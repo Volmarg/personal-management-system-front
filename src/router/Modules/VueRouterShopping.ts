@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 import {Component}      from "vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 export default class VueRouterShopping {
 
@@ -17,7 +17,7 @@ export default class VueRouterShopping {
             name: VueRouterShopping.ROUTE_NAME_SHOPPING_LIST,
             component: (): Promise<Component> => import("@/views/Modules/Shopping/PlansList.vue"),
             meta: {
-                requiredRight: UserRights.CAN_ACCESS_SHOPPING_MODULE
+                requiredRight: UserModuleRights.CAN_ACCESS_SHOPPING_MODULE
             }
         },
     ]

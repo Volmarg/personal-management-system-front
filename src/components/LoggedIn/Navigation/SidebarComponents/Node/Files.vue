@@ -1,17 +1,21 @@
 <template>
   <NodeBase :required-right="nodeRight">
-    <SingleDropdownMenuElement :label="moduleTranslation.files">
-      <template #icon>
-        <fa :icon="moduleIcon.files"/>
-      </template>
+    <template #default="props">
+      <SingleDropdownMenuElement :label="moduleTranslation.files"
+                                 :is-locked="!props.isRightGranted"
+      >
+        <template #icon>
+          <fa :icon="moduleIcon.files"/>
+        </template>
 
-      <template #children>
-        <SingleMenuElement :route-path="routePath"
-                           :label="$t('navbar.rightSidebar.menu.files.children.mainFolder.label')"
-                            @click="onMenuElementClick"
-        />
-      </template>
-    </SingleDropdownMenuElement>
+        <template #children>
+          <SingleMenuElement :route-path="routePath"
+                             :label="$t('navbar.rightSidebar.menu.files.children.mainFolder.label')"
+                              @click="onMenuElementClick"
+          />
+        </template>
+      </SingleDropdownMenuElement>
+    </template>
   </NodeBase>
 </template>
 
@@ -22,8 +26,9 @@ import NodeBase                  from "@/components/LoggedIn/Navigation/SidebarC
 
 import ModuleBaseDataMixin from "@/mixins/Modules/ModuleBaseDataMixin.vue";
 import SidebarMixin        from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
+import Colors              from "@/scripts/Vue/Mixins/Colors.vue";
 
-import UserRights from "@/scripts/Core/Security/UserRights";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
 
 import VueRouterStorage from "@/router/Modules/VueRouterStorage";
 
@@ -35,13 +40,14 @@ export default {
   },
   computed: {
     nodeRight(): string {
-      return UserRights.CAN_ACCESS_FILES_MODULE;
+      return UserModuleRights.CAN_ACCESS_FILES_MODULE;
     },
     routePath(): string {
       return this.buildStorageUrl("/", VueRouterStorage.ROUTE_PATH_STORAGE_FILES_FOLDER);
     },
   },
   mixins: [
+    Colors,
     SidebarMixin,
     ModuleBaseDataMixin
   ]

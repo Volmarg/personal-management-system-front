@@ -1,6 +1,6 @@
 <template>
   <div v-if="canSee">
-    <slot></slot>
+    <slot :isRightGranted="isRightGranted"></slot>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
     return {
       canSee: true,
       userStore: null as null | UserStateStore,
+      isRightGranted: true,
     }
   },
   props: {
@@ -37,11 +38,12 @@ export default {
         return;
       }
 
-      this.canSee = new UserController().isRightGranted(this.requiredRight);
+      this.canSee = this.isRightGranted || (!this.isRightGranted && !this.userStore.user.isSystemLocked);
     },
   },
   mounted(): void {
     this.userStore = userStateStore();
+    this.isRightGranted = new UserController().isRightGranted(this.requiredRight);
     this.checkCanSee();
   },
   watch: {
@@ -49,6 +51,7 @@ export default {
      * @description checking if user can see the node - this must happen only AFTER new token is set in storage.
      */
     'userStore.token'(): void {
+      this.isRightGranted = new UserController().isRightGranted(this.requiredRight);
       this.checkCanSee();
     }
   }
