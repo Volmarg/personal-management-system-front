@@ -32,7 +32,8 @@
 
         <!-- Modules -->
         <SettingsNavElement :route-name="route.names.modules"
-                          :label="$t('systemSettings.tab.modules.label')"
+                            :label="$t('systemSettings.tab.modules.label')"
+                            v-if="!isSystemLocked"
         >
           <template #icon>
             <la svg-icon-name="project-diagram-solid" />
@@ -50,6 +51,8 @@ import SettingsNavElement from "@/components/Ui/Settings/SettingsNavElement.vue"
 
 import VueRouterSystem from "@/router/VueRouterSystem";
 
+import {userStateStore} from "@/scripts/Vue/Store/UserState";
+
 export default {
   data() {
     return {
@@ -61,6 +64,11 @@ export default {
           modules : VueRouterSystem.ROUTE_NAME_SYSTEM_SETTINGS_MODULES,
         }
       }
+    }
+  },
+  computed: {
+    isSystemLocked(): boolean {
+      return userStateStore().user?.isSystemLocked ?? true;
     }
   },
   components: {
