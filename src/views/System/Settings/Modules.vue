@@ -29,6 +29,7 @@ import BaseError               from "@/scripts/Core/Error/BaseError";
 import TypeChecker             from "@/scripts/Core/Services/Types/TypeChecker";
 import PromiseService          from "@/scripts/Core/Services/Promise/PromiseService";
 import LocalStorageService     from "@/scripts/Core/Services/Storage/LocalStorageService";
+import EnvReader               from "@/scripts/Core/System/EnvReader";
 
 export default {
   data(): ComponentData {
@@ -94,7 +95,9 @@ export default {
               value: ColoredSwitch,
               isComponent: true,
               componentModelValue: moduleLockData.isLocked,
-              componentProps: {},
+              componentProps: {
+                disabled: EnvReader.isDemo()
+              },
             },
           }
         })

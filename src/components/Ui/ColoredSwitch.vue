@@ -1,5 +1,9 @@
 <template>
-  <div @click="toggleState()">
+  <div @click="toggleState()"
+       :class="{
+          'switch-disabled': disabled
+       }"
+  >
     <div class="grid grid-rows-2 grid-cols-1 main-grid"
          v-if="label"
     >
@@ -52,6 +56,11 @@ export default {
     "update:modelValue",
   ],
   props: {
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     modelValue: {
       default  : false,
     },
@@ -96,6 +105,10 @@ export default {
      * @description will toggle the switch state
      */
     toggleState(): void {
+      if (this.disabled) {
+        return;
+      }
+
       this.isActive = !this.isActive;
       this.$emit("update:modelValue", this.isActive);
     },
@@ -151,6 +164,10 @@ export default {
 .react-switch-bg-inactive {
   @extend .react-switch-handle;
   transform: translateX(0px) !important;
+}
+
+.switch-disabled {
+  filter: grayscale(1) !important;
 }
 
 .react-switch-handle {
