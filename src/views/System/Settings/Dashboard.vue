@@ -14,6 +14,7 @@
 <script lang="ts">
 import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
 import ColoredSwitch from "@/components/Ui/ColoredSwitch.vue";
+import WidgetName    from "@/views/System/Settings/Dashboard/Component/WidgetName.vue";
 
 import DashboardMixin from "@/mixins/DashboardMixin.vue";
 
@@ -40,7 +41,8 @@ export default {
           label: this.$t('systemSettings.tab.dashboard.table.headers.name.label'),
           dataValuePath : 'name.value',
           dataIsComponentPath : 'name.isComponent',
-          dataComponentPropertiesPath: null
+          dataComponentPropertiesPath: 'name.componentProps',
+          dataComponentModelValuePath: 'name.componentModelValue'
         },
         {
           label: this.$t('systemSettings.tab.dashboard.table.headers.displayWidget.label'),
@@ -70,8 +72,12 @@ export default {
               isVisible: false,
             },
             name : {
-              value       : this.$t('systemSettings.tab.dashboard.widgetToName.' + widgetData.name),
-              isComponent : false,
+              value: WidgetName,
+              isComponent: true,
+              componentProps: {
+                name: this.$t('systemSettings.tab.dashboard.widgetToName.' + widgetData.name),
+                isLocked: widgetData.isModuleLocked,
+              },
             },
             displayWidget : {
               value          : ColoredSwitch,
