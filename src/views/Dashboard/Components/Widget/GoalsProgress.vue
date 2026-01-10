@@ -1,5 +1,7 @@
 <template>
-  <BigDataDisplayBlock :header="$t('dashboard.widget.goalProgress.header')">
+  <BigDataDisplayBlock :header="$t('dashboard.widget.goalProgress.header')"
+                       :is-locked="isLocked"
+  >
     <div class="flex flex-wrap flex-row justify-between">
       <SingleTodo v-for="singleTodo in data"
                   :name="singleTodo.name"
@@ -27,6 +29,11 @@ export default {
     data: {
       type: Array,
       required: true,
+    },
+    isLocked: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   components: {

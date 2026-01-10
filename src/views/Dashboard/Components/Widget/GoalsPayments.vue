@@ -1,5 +1,7 @@
 <template>
-  <BigDataDisplayBlock :header="$t('dashboard.widget.goalPayments.header')">
+  <BigDataDisplayBlock :header="$t('dashboard.widget.goalPayments.header')"
+                       :is-locked="isLocked"
+  >
     <div class="flex flex-wrap flex-row justify-between">
       <SinglePaymentBlock v-for="payment in data"
                           :key="JSON.stringify(payment)"
@@ -22,6 +24,11 @@ export default {
     data: {
       type: Array,
       required: true,
+    },
+    isLocked: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   components: {

@@ -1,5 +1,7 @@
 <template>
-  <BigDataDisplayBlock :header="$t('dashboard.widget.schedules.header')">
+  <BigDataDisplayBlock :header="$t('dashboard.widget.schedules.header')"
+                       :is-locked="isLocked"
+  >
     <div class="flex flex-wrap flex-row justify-between">
 
       <div v-for="schedule in visibleSchedules"
@@ -54,6 +56,11 @@ export default {
     data: {
       type: Array,
       required: true,
+    },
+    isLocked: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   components: {

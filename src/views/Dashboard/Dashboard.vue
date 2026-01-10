@@ -5,30 +5,38 @@
   <div class="flex flex-row flex-wrap">
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
-         v-if="isWidgetVisible('goalPayments')"
+         v-if="isWidgetVisible(dashboardWidgetEnum.goalPayments)"
     >
-      <GoalsPayments :data="goalPaymentsData"/>
+      <GoalsPayments :data="getWidgetData(dashboardWidgetEnum.goalPayments)"
+                     :is-locked="isWidgetLocked(dashboardWidgetEnum.goalPayments)"
+      />
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
-         v-if="isWidgetVisible('goalProgress')"
+         v-if="isWidgetVisible(dashboardWidgetEnum.goalProgress)"
     >
-      <GoalsProgress :data="goalProgressData" />
+      <GoalsProgress :data="getWidgetData(dashboardWidgetEnum.goalProgress)"
+                     :is-locked="isWidgetLocked(dashboardWidgetEnum.goalProgress)"
+      />
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
-         v-if="isWidgetVisible('issues')"
+         v-if="isWidgetVisible(dashboardWidgetEnum.issues)"
     >
-      <PendingIssues :data="issues" />
+      <PendingIssues :data="getWidgetData(dashboardWidgetEnum.issues)"
+                     :is-locked="isWidgetLocked(dashboardWidgetEnum.issues)"
+      />
     </div>
 
     <div class="dashboard-big-block"
          :class="{[`w-full md:w-1/${conf.widgetSize}`]: true}"
-         v-if="isWidgetVisible('schedules')"
+         v-if="isWidgetVisible(dashboardWidgetEnum.schedules)"
     >
-      <Schedules :data="schedules"/>
+      <Schedules :data="getWidgetData(dashboardWidgetEnum.schedules)"
+                 :is-locked="isWidgetLocked(dashboardWidgetEnum.schedules)"
+      />
     </div>
   </div>
 </template>
@@ -41,11 +49,13 @@ import Schedules     from "@/views/Dashboard/Components/Widget/Schedules.vue";
 
 import TopBar from "@/views/Dashboard/Components/TopBar.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {ComponentData}       from "@/scripts/Vue/Types/Components/types";
+import {DashboardWidgetEnum} from "@/scripts/Core/Enum/DashboardWidget";
 
 import LocalStorageService    from "@/scripts/Core/Services/Storage/LocalStorageService";
 import SymfonyDashboardRoutes from "@/router/SymfonyRoutes/Modules/SymfonyDashboardRoutes";
 import SymfonySystemRoutes    from "@/router/SymfonyRoutes/Modules/SymfonySystemRoutes";
+
 export default {
   data(): ComponentData {
     return {
@@ -64,32 +74,24 @@ export default {
     TopBar
   },
   computed: {
-    /**
-     * @description provides "goal payments" widget data
-     */
-    goalPaymentsData(): Array {
-      return this.widgetsData['goalPayments'] ?? [];
-    },
-    /**
-     * @description provides "goal progress" widget data
-     */
-    goalProgressData(): Array {
-      return this.widgetsData['goalProgress'] ?? [];
-    },
-    /**
-     * @description provides "issues" widget data
-     */
-    issues(): Array {
-      return this.widgetsData['issues'] ?? [];
-    },
-    /**
-     * @description provides "schedules" widget data
-     */
-    schedules(): Array {
-      return this.widgetsData['schedules'] ?? [];
+    dashboardWidgetEnum(): typeof DashboardWidgetEnum {
+      return DashboardWidgetEnum;
     },
   },
   methods: {
+    /**
+     * @description returns lock state of given widget, or false if no state was defined
+     */
+    isWidgetLocked(widgetName: string): boolean {
+      let lockState = this.widgetsData['lockState'] ?? {};
+      return lockState[widgetName] ?? false;
+    },
+    /**
+     * @description returns the widget data for given widget name
+     */
+    getWidgetData(widgetName: string): Array<Array<unknown>> {
+      return this.widgetsData[widgetName] ?? [];
+    },
     /**
      * @description check if widget is visible or not
      */

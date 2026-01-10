@@ -1,7 +1,13 @@
 <template>
   <div>
     <Container>
-      <h2 class="text-xl mb-5 font-bold">{{ header }}</h2>
+      <h2 class="text-xl mb-5 font-bold">
+        {{ header }}
+        <fa icon="lock"
+            class="text-red-500 text-tiny"
+            v-if="isLocked"
+        />
+      </h2>
       <slot></slot>
     </Container>
   </div>
@@ -17,6 +23,11 @@ export default {
     header: {
       type: String,
       required: true,
+    },
+    isLocked: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   }
 }

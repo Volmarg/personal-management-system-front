@@ -1,5 +1,7 @@
 <template>
-  <BigDataDisplayBlock :header="$t('dashboard.widget.pendingIssues.header')">
+  <BigDataDisplayBlock :header="$t('dashboard.widget.pendingIssues.header')"
+                       :is-locked="isLocked"
+  >
     <div class="flex flex-wrap flex-row justify-between">
       <IssueBlock v-for="issue in data"
                   :key="JSON.stringify(issue)"
@@ -30,6 +32,11 @@ export default {
     data: {
       type: Array,
       required: true,
+    },
+    isLocked: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   components: {
