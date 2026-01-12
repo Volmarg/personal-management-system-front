@@ -64,6 +64,7 @@
     "striptags": "^3.2.0",
     "tailwind-toast": "^1.0.9",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
+    "tinymce": "^7.3.0",
     "toastr2": "^3.0.0-alpha.18",
     "ts-md5": "^1.2.11",
     "tui-calendar": "^1.15.3",
