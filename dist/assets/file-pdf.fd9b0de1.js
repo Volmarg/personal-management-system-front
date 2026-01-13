@@ -1,1 +1,1 @@
-var s="/assets/file-pdf-solid.a4bfd65d.svg";export{s as default};
+var a="/assets/file-pdf.a4bfd65d.svg";export{a as default};

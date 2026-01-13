@@ -1,1 +1,1 @@
-var s="/assets/closed-captioning-solid.e5e88b18.svg";export{s as default};
+var e="/assets/closed-captioning.e5e88b18.svg";export{e as default};

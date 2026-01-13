@@ -1,1 +1,1 @@
-var a="/assets/hand-rock.57812f14.svg";export{a as default};
+var s="/assets/hand-rock-solid.57812f14.svg";export{s as default};

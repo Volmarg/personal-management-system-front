@@ -1,1 +1,1 @@
-var a="/assets/copy.ba208fc7.svg";export{a as default};
+var s="/assets/copy-solid.ba208fc7.svg";export{s as default};
