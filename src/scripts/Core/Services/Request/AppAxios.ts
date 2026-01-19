@@ -9,6 +9,7 @@ import {AppAxiosInterface}      from "@/scripts/Core/Interfaces/AppAxiosInterfac
 import JwtTokenHandler          from "@/scripts/Core/Security/JwtTokenHandler";
 import {AxiosPostDataBag}       from "@/scripts/Core/Types/Request/AxiosTypes";
 import {userStateStore}         from "@/scripts/Vue/Store/UserState";
+import {ToastTypeEnum}          from "@/scripts/Libs/ToastNotification";
 
 import VueRouterGuards               from "@/router/VueRouterGuards";
 import VueRouter                     from "@/router/VueRouter";
@@ -101,7 +102,7 @@ export default class AppAxios implements AppAxiosInterface
             let responseDto = castedDto.fromAxiosResponse(response);
             responseDto     = AppAxios.handleSystemDisabledState(responseDto, response);
 
-            if( !StringTypeProcessor.isEmptyString(responseDto.token) ){
+            if (!StringTypeProcessor.isEmptyString(responseDto.token) && !responseDto.isAccessDeniedCode()) {
                 LocalStorageService.setAuthToken(responseDto.token);
                 userStateStore().loadUserData(responseDto.token);
             }
@@ -181,6 +182,7 @@ export default class AppAxios implements AppAxiosInterface
                     window[VueRouterGuards.KEY_VUE_ROUTER_TO_PATH] !== VueRouter.ROUTE_PATH_LOGIN
                 &&  userController.isUserLoggedIn()
             ){
+                EventDispatcherService.emitShowNotification(ToastTypeEnum.warning, null, 'generic.text.accessDenied');
                 jwtTokenHandler.invalidateTokenAndRedirectUser();
             }
         }
