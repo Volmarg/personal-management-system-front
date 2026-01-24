@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts">
-import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
-import ColoredSwitch from "@/components/Ui/ColoredSwitch.vue";
+import SimpleTable       from "@/components/Ui/Table/SimpleTable.vue";
+import ColoredSwitch     from "@/components/Ui/ColoredSwitch.vue";
+import QuestionMarkAbout from "@/components/Ui/QuestionMarkAbout.vue";
 
 import {BackendModuleNameEnum} from "@/scripts/Core/Enum/Modules";
 import {ComponentData}         from "@/scripts/Vue/Types/Components/types";
@@ -70,6 +71,13 @@ export default {
           dataComponentPropertiesPath: `isLocked.componentProps`,
           dataComponentModelValuePath: `isLocked.componentModelValue`
         },
+        {
+          label: this.$t(`systemSettings.tab.modules.lock.table.headers.info.label`),
+          dataValuePath : `info.value`,
+          dataIsComponentPath : `info.isComponent`,
+          dataComponentPropertiesPath: `info.componentProps`,
+          dataComponentModelValuePath: `info.componentModelValue`
+        },
       ],
     }
   },
@@ -80,7 +88,7 @@ export default {
     data(): Array<Record<string, unknown>> {
       let rows = [] as Array<Record<string, unknown>>;
       for (let moduleLockData of this.moduleLocks) {
-        rows.push({
+        let data = {
           values : {
             id: {
               value: moduleLockData.name,
@@ -100,7 +108,20 @@ export default {
               },
             },
           }
-        })
+        }
+
+        if (moduleLockData.name === BackendModuleNameEnum.storage) {
+          data.values.info = {
+            value: QuestionMarkAbout,
+            isComponent: true,
+            componentModelValue: null,
+            componentProps: {
+              text: this.$t('systemSettings.tab.modules.lock.table.info.storage'),
+            },
+          };
+        }
+
+        rows.push(data);
       }
 
       return rows;

@@ -26,12 +26,18 @@
                 "lock": {
                     "header": "Lock",
                     "table": {
+                        "info": {
+                            "storage": "This is a <b>self-locking</b> module. At least one of the given modules must be unlocked: <b>Video</b>, <b>Files</b>, <b>Images</b>."
+                        },
                         "headers": {
                             "name": {
                                 "label": "Name"
                             },
                             "isLocked": {
                                 "label": "Is locked"
+                            },
+                            "info": {
+                                "label": "Info"
                             }
                         }
                     }
