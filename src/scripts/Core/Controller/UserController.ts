@@ -114,7 +114,7 @@ export default class UserController
         let jwt     = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
         let payload = this.jwtService.decodeUsingSignature(jwt);
 
-        if (UserModuleRights.MODULE_ACCESS_RIGHTS.includes(rightName) && !payload?.isSystemLocked) {
+        if (Object.values(UserModuleRights.MODULE_ACCESS_RIGHTS).includes(rightName) && !payload?.isSystemLocked) {
             return true;
         }
 

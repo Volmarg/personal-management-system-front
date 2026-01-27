@@ -1,9 +1,10 @@
 /**
  * @description defines the store for storage module
  */
-import {defineStore}         from 'pinia'
-import SymfonyStorageRoutes  from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
-import {BackendModuleCaller} from "@/scripts/Core/Services/Request/BackendModuleCaller";
+import {defineStore}           from 'pinia'
+import SymfonyStorageRoutes    from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
+import {BackendModuleCaller}   from "@/scripts/Core/Services/Request/BackendModuleCaller";
+import {BackendModuleNameEnum} from "@/scripts/Core/Enum/Modules";
 
 import BaseError from "@/scripts/Core/Error/BaseError";
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
@@ -104,4 +105,20 @@ const StorageState = defineStore('storageModuleState', {
     }
 });
 
-export {StorageState, StorageTypeEnum};
+/**
+ * @description gets the module name for a storage type
+ */
+let storageTypeToModuleName = (storageType: string): BackendModuleNameEnum => {
+    switch (storageType) {
+        case StorageTypeEnum[StorageTypeEnum.files]:
+            return BackendModuleNameEnum.files;
+        case StorageTypeEnum[StorageTypeEnum.videos]:
+            return BackendModuleNameEnum.videos;
+        case StorageTypeEnum[StorageTypeEnum.images]:
+            return BackendModuleNameEnum.images;
+        default:
+            throw new BaseError(`Unsupported storage type: ${storageType}`);
+    }
+}
+
+export {StorageState, StorageTypeEnum, storageTypeToModuleName};

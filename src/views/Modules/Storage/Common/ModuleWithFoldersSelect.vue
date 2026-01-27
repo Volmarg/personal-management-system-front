@@ -49,7 +49,15 @@ import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import {StorageTypeEnum, StorageState} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+import {
+  StorageTypeEnum,
+  StorageState,
+  storageTypeToModuleName
+} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+
+import UserController   from "@/scripts/Core/Controller/UserController";
+import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
+import BaseError        from "@/scripts/Core/Error/BaseError";
 
 export default {
   data(): ComponentData {
@@ -72,11 +80,21 @@ export default {
   computed: {
     moduleOptions(): Array<Record> {
       let options = [];
-      for (let module of Object.keys(StorageTypeEnum).filter((val) => isNaN(val))) {
+      for (let storageType of Object.keys(StorageTypeEnum).filter((val) => isNaN(val))) {
+        let moduleName = storageTypeToModuleName(storageType);
+        let requiredRight = UserModuleRights.MODULE_ACCESS_RIGHTS[moduleName] ?? null;
+        if (!requiredRight) {
+          throw new BaseError(`No right was defined for module ${moduleName}`);
+        }
+
+        if (!(new UserController()).isModuleAccessGranted(requiredRight)) {
+          continue;
+        }
+
         options.push({
-          label: this.$t(`navbar.rightSidebar.menu.${module}.label`),
-          selectedLabel: this.$t(`navbar.rightSidebar.menu.${module}.label`),
-          value: module,
+          label: this.$t(`navbar.rightSidebar.menu.${storageType}.label`),
+          selectedLabel: this.$t(`navbar.rightSidebar.menu.${storageType}.label`),
+          value: storageType,
         });
       }
 
