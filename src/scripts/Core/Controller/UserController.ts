@@ -29,13 +29,13 @@ export default class UserController
      */
     public getLoggedInUserData(): UserData
     {
-        if( !LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN) ){
+        if( !LocalStorageService.isAuthTokenSet() ){
             let message = "Could not obtain logged in user data";
             Logger.error(message);
             throw new BaseError(message);
         }
 
-        let payload        = this.jwtService.decodeUsingSignature(LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN));
+        let payload        = this.jwtService.decodeUsingSignature(LocalStorageService.getAuthToken());
         let username       = payload?.username;
         let email          = payload?.email;
         let userId         = payload?.userId;
@@ -74,11 +74,11 @@ export default class UserController
      */
     public isRoleGranted(requiredRoleName:string): boolean
     {
-        if( !LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN) ){
+        if( !LocalStorageService.isAuthTokenSet() ){
             return false;
         }
 
-        let jwt     = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let jwt     = LocalStorageService.getAuthToken();
         let payload = this.jwtService.decodeUsingSignature(jwt);
 
         if(
@@ -95,11 +95,11 @@ export default class UserController
      * @description check if user right is granted
      */
     public isRightGranted(rightName: string): boolean {
-        if (!LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN)) {
+        if (!LocalStorageService.isAuthTokenSet()) {
             return false;
         }
 
-        let jwt     = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let jwt     = LocalStorageService.getAuthToken();
         let payload = this.jwtService.decodeUsingSignature(jwt);
 
         return (null !== payload && payload.userRights.includes(rightName));
@@ -111,7 +111,7 @@ export default class UserController
      *              system is unlocked.
      */
     public isModuleAccessGranted(rightName: string): boolean {
-        let jwt     = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let jwt     = LocalStorageService.getAuthToken();
         let payload = this.jwtService.decodeUsingSignature(jwt);
 
         if (Object.values(UserModuleRights.MODULE_ACCESS_RIGHTS).includes(rightName) && !payload?.isSystemLocked) {
@@ -126,12 +126,12 @@ export default class UserController
      */
     public isUserActive(): boolean
     {
-        if( !LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN) ){
+        if( !LocalStorageService.isAuthTokenSet() ){
             return false;
         }
 
         let jwtService = new JwtService();
-        let jwt        = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let jwt        = LocalStorageService.getAuthToken();
         let payload    = jwtService.decodeUsingSignature(jwt);
 
         if(

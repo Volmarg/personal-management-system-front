@@ -198,7 +198,7 @@ export default {
      * @description executes the hooks for each module lock state change (if such is defined for given module at all).
      */
     executeLockChangeHooks(moduleLocks: Array<Record<string, string | boolean>>) {
-      let oldAuthToken = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+      let oldAuthToken = LocalStorageService.getAuthToken();
       for (let moduleLock of moduleLocks) {
         let hook = this.lockStateChangeHooks[moduleLock.name as string];
         if (hook instanceof Function) {

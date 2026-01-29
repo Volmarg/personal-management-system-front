@@ -28,7 +28,7 @@ export default class PromiseService {
      */
     public static authTokenUpdatePromise(oldAuthToken: string): Promise<unknown> {
         return PromiseService.buildPeriodicallyCheckedPromise(() => {
-            return (oldAuthToken !== LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN));
+            return (oldAuthToken !== LocalStorageService.getAuthToken());
         })
     }
 }

@@ -43,7 +43,7 @@ export default class AppAxios implements AppAxiosInterface
     static readonly CALLER_FRONT = "Front";
 
     constructor() {
-        let authenticationToken = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let authenticationToken = LocalStorageService.getAuthToken();
 
         axios.defaults.headers.common[AppAxios.KEY_CALLER] = AppAxios.CALLER_FRONT;
         axios.defaults.headers.common[AppAxios.KEY_AUTHORIZATION] = `Bearer ${authenticationToken}`;
@@ -111,7 +111,7 @@ export default class AppAxios implements AppAxiosInterface
             return responseDto;
         } ).catch( (error) => {
             // this is required, because if user is banned then it might lead to unwanted exceptions on front
-            if (!LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN)) {
+            if (!LocalStorageService.isAuthTokenSet()) {
                 return new Promise(() => {
                     EventDispatcherService.emitHideFullPageLoader();
                 });
@@ -147,7 +147,7 @@ export default class AppAxios implements AppAxiosInterface
         } ).catch( (error) => {
 
             // this is required, because if user is banned then it might lead to unwanted exceptions on front
-            if (!LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN)) {
+            if (!LocalStorageService.isAuthTokenSet()) {
                 return new Promise(() => {
                     EventDispatcherService.emitHideFullPageLoader();
                 });

@@ -230,7 +230,7 @@ export default {
   mounted(): void {
     this.userStateStore = userStateStore();
     if (this.userStateStore.isLoggedIn()) {
-      if ((new JwtService()).isTokenExpired(LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN))) {
+      if ((new JwtService()).isTokenExpired(LocalStorageService.getAuthToken())) {
         jwtTokenHandler.invalidateTokenAndRedirectUser();
         return;
       }

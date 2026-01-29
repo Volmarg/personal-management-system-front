@@ -65,7 +65,7 @@ export default {
      */
     getTimeLeftStamp(): number {
       let jwtService = new JwtService();
-      let jwtString  = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+      let jwtString  = LocalStorageService.getAuthToken();
 
       // 99% chance that user is now logged out
       if (StringTypeProcessor.isEmptyString(jwtString)) {

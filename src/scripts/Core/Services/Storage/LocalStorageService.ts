@@ -92,7 +92,7 @@ export default class LocalStorageService {
      * @description refreshing time left is handled for every jwt token only once so the storage key has to be dynamic
      */
     public static getTimeRefreshStorageKey(): string {
-        return `tl-${LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN)}`;
+        return `tl-${LocalStorageService.getAuthToken()}`;
     }
 
     /**
@@ -108,6 +108,13 @@ export default class LocalStorageService {
     public static setAuthToken(token: string): void {
         LocalStorageService.set(LocalStorageService.AUTHENTICATION_TOKEN, token);
         userStateStore().token = token;
+    }
+
+    /**
+     * @description check if auth token is set
+     */
+    public static isAuthTokenSet(): boolean {
+        return LocalStorageService.isSet(LocalStorageService.AUTHENTICATION_TOKEN)
     }
 
     /**

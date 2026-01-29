@@ -49,12 +49,12 @@ export default class JwtTokenHandler
          */
         let maxWaitTmeMs = 2000;
 
-        let oldToken = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+        let oldToken = LocalStorageService.getAuthToken();
 
         EventDispatcherService.emitShowFullPageLoader();
         let startTime = Date.now();
         return PromiseService.buildPeriodicallyCheckedPromise(() => {
-            let currentToken = LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN);
+            let currentToken = LocalStorageService.getAuthToken();
             if (oldToken !== currentToken) {
                 EventDispatcherService.emitHideFullPageLoader();
                 return true;

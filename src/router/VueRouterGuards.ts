@@ -81,7 +81,7 @@ export default class VueRouterGuards
         router.beforeEach( (to, from, next) => {
             if(
                     this.userController.isUserLoggedIn()
-                &&  this.jwtService.isTokenExpired(LocalStorageService.get(LocalStorageService.AUTHENTICATION_TOKEN))
+                &&  this.jwtService.isTokenExpired(LocalStorageService.getAuthToken())
                 &&  !EnvReader.isMaintenance()
             ){
                 ToastNotification.showAlert("info", "Session expired");
