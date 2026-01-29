@@ -12,6 +12,11 @@ import SymfonySecurityRoutes from "@/router/SymfonyRoutes/SymfonySecurityRoutes"
 const userStateStore = defineStore('userState', {
     state: () => ({
         user: null as null | UserData,
+        /**
+         * @description avoid using the token from here at all cost! It was added in here only for special uses cases
+         *              when token change must be observed. Other than that, using it can break the app! There was already
+         *              an attempt of replacing the LocalStorage based token, and app just started crashing all over the place.
+         */
         token: null as null | string,
     }),
     actions: {
@@ -39,6 +44,11 @@ const userStateStore = defineStore('userState', {
 
 type UserStateStore = {
     user: UserData,
+    /**
+     * @description avoid using the token from here at all cost! It was added in here only for special uses cases
+     *              when token change must be observed. Other than that, using it can break the app! There was already
+     *              an attempt of replacing the LocalStorage based token, and app just started crashing all over the place.
+     */
     token: null | string,
     refreshUserData: () => void,
     loadUserData: () => void,
