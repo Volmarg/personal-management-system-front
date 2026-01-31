@@ -49,11 +49,8 @@ import MultiSelect from "@/components/Form/MultiSelect.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
-import {
-  StorageTypeEnum,
-  StorageState,
-  storageTypeToModuleName
-} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+import {StorageTypeEnum, storageTypeToModuleName} from "@/scripts/Vue/Store/Module/Storage/StorageState";
+import {StorageModulesStates}                     from "@/scripts/Vue/Store/Module/Storage/StorageModulesStates";
 
 import UserController   from "@/scripts/Core/Controller/UserController";
 import UserModuleRights from "@/scripts/Core/Security/Rights/UserModuleRights";
@@ -243,8 +240,7 @@ export default {
     this.value = this.selected;
   },
   async created(): Promise<void> {
-    this.storage = StorageState();
-    this.storage.moduleName = null;
+    this.storage = StorageModulesStates();
     await this.storage.getAll();
     this.traverseTree();
   },
