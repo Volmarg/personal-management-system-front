@@ -1,0 +1,1 @@
+import{S as _}from"./index.daf34ba3.js";class a extends _{}a.UPLOAD_FILES="/upload/send/",a.GET_FILE="/public/get-file/:path",a.GET_FILE_PARAM_PATH="path",a.GET_UPLOAD_CONFIGURATION="/upload/get-configuration/:id",a.GET_UPLOAD_CONFIGURATION_PARAM_ID="id";export{a as S};

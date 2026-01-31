@@ -1,1 +1,1 @@
-var s="/assets/address-card-solid.a828dd33.svg";export{s as default};
+var a="/assets/address-card.a828dd33.svg";export{a as default};
