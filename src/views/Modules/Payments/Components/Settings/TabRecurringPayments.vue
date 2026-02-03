@@ -4,7 +4,7 @@
                  :data="usedTableData"
                  ref="table"
                  class="mt-4"
-                 v-if="data.length > 0"
+                 v-if="usedTableData.length > 0"
     />
     <NoResultsText v-else />
   </div>
@@ -81,16 +81,6 @@ export default {
           dataComponentPropertiesPath: 'actions.componentProps'
         }
       ]
-    }
-  },
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    },
-    paymentTypesData: {
-      type: Array,
-      required: true,
     }
   },
   components: {
