@@ -376,6 +376,9 @@
                                 "removeIncomes": {
                                     "label": "Remove incomes"
                                 },
+                                "removeByDates": {
+                                    "label": "Remove by dates"
+                                },
                                 "reloadData": {
                                     "label": "Reload data"
                                 },
@@ -412,6 +415,26 @@
                                 },
                                 "text": {
                                     "reverted": "Entry has been reverted"
+                                }
+                            },
+                            "filterByDatesModal": {
+                                "header": "Remove by dates",
+                                "form": {
+                                    "startDate": {
+                                        "label": "Start date"
+                                    },
+                                    "endDate": {
+                                        "label": "End date"
+                                    }
+                                },
+                                "button": {
+                                    "close": {
+                                        "label": "Close"
+                                    }
+                                },
+                                "text": {
+                                    "info": "Removes entries <b>between</b> given dates. At least one date must be set.",
+                                    "validation": "At least one date must be set!"
                                 }
                             },
                             "table": {

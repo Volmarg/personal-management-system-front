@@ -17,6 +17,11 @@
                               background-color-class="bg-blue-500"
         />
 
+        <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeByDates.label')"
+                              @button-click="isRemoveByDateModalVisible = true"
+                              background-color-class="bg-blue-500"
+        />
+
         <VueInput type="number"
                   v-model="multiplierValue"
                   label="Multiplier"
@@ -59,6 +64,12 @@
                     :is-visible="isRevertRowsModalVisible"
     />
 
+    <!-- modal: remove by dates -->
+    <RemoveByDateModal @confirm="removeByDates"
+                       @close="isRemoveByDateModalVisible = false"
+                       :is-visible="isRemoveByDateModalVisible"
+    />
+
   </BaseStep>
 </template>
 
@@ -71,6 +82,7 @@ import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWit
 import BaseStep             from "@/components/Ui/Wizard/BaseStep.vue";
 import WarningModal         from "@/components/Modal/WarningModal.vue";
 import RowRevertModal       from "@/views/Modules/Payments/MonthlyPayments/Components/TabImport/Wizard/StepHandleData/RowRevertModal.vue";
+import RemoveByDateModal    from "@/views/Modules/Payments/MonthlyPayments/Components/TabImport/Wizard/StepHandleData/RemoveByDateModal.vue";
 
 import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 
@@ -96,6 +108,7 @@ export default {
       wizardStore: null as null | UploadWizardStoreType,
       isDataReloadWarningModalVisible: false,
       isRevertRowsModalVisible: false,
+      isRemoveByDateModalVisible: false,
     }
   },
   components: {
@@ -104,7 +117,8 @@ export default {
     MediumButtonWithIcon,
     SimpleTable,
     VueInput,
-    RowRevertModal
+    RowRevertModal,
+    RemoveByDateModal,
   },
   mixins: [
     RowAndCellDataMixin,
@@ -274,6 +288,29 @@ export default {
      */
     reloadData(): void {
       this.buildRowMappings();
+    },
+    /**
+     * @description removes entries by dates filters
+     */
+    removeByDates(data: Record<string, string|null>): void {
+      let startDate = data.startDate;
+      let endDate = data.endDate;
+
+      this.isRemoveByDateModalVisible = false
+
+      for (let index in this.wizardStore.rowsMappedValues) {
+        let rowData = this.wizardStore.rowsMappedValues[index];
+
+        if (
+                (startDate && endDate && moment(rowData.date).isAfter(startDate, 'day') && moment(rowData.date).isBefore(endDate, 'day')) // between
+            ||  (startDate && !endDate && moment(rowData.date).isAfter(startDate, 'day'))                                                 // newer than
+            ||  (!startDate && endDate && moment(rowData.date).isBefore(endDate))                                                         // older than
+        ) {
+          this.deleteRowIndex(index)
+        }
+      }
+
+      this.filterEmptyRows();
     },
     /**
      * @description removes all the incomes (received money)
