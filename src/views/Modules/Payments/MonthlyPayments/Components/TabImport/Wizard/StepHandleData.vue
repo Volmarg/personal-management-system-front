@@ -1,31 +1,47 @@
 <template>
   <BaseStep>
     <div class="monthly-import-step-handle-data">
-      <div class="handle-data-tooltip">
-        <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.reloadData.label')"
-                              @button-click="isDataReloadWarningModalVisible = true"
-                              background-color-class="bg-blue-500"
-        />
+      <div class="flex flex-wrap">
+        <div class="flex flex-wrap gap-y-2 mb-2">
+          <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.reloadData.label')"
+                                @button-click="isDataReloadWarningModalVisible = true"
+                                background-color-class="bg-blue-500"
+                                button-classes="w-full md:w-auto flex justify-center md:block"
+                                text-classes="text-center"
+                                class="w-full md:w-auto"
+          />
 
-        <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.revertData.label')"
-                              @button-click="isRevertRowsModalVisible = true"
-                              background-color-class="bg-blue-500"
-        />
+          <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.revertData.label')"
+                                @button-click="isRevertRowsModalVisible = true"
+                                background-color-class="bg-blue-500"
+                                button-classes="w-full md:w-auto flex justify-center md:block"
+                                text-classes="text-center"
+                                class="w-full md:w-auto"
 
-        <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeIncomes.label')"
-                              @button-click="removeIncomes"
-                              background-color-class="bg-blue-500"
-        />
+          />
 
-        <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeByDates.label')"
-                              @button-click="isRemoveByDateModalVisible = true"
-                              background-color-class="bg-blue-500"
-        />
+          <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeIncomes.label')"
+                                @button-click="removeIncomes"
+                                background-color-class="bg-blue-500"
+                                button-classes="w-full md:w-auto flex justify-center md:block"
+                                text-classes="text-center"
+                                class="w-full md:w-auto"
+          />
+
+          <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.removeByDates.label')"
+                                @button-click="isRemoveByDateModalVisible = true"
+                                background-color-class="bg-blue-500"
+                                button-classes="w-full md:w-auto flex justify-center md:block"
+                                text-classes="text-center"
+                                class="w-full md:w-auto"
+          />
+
+        </div>
 
         <VueInput type="number"
                   v-model="multiplierValue"
                   label="Multiplier"
-                  class="mx-2 w-48"
+                  class="mx-2 w-full md:w-48"
         />
       </div>
 
@@ -538,10 +554,6 @@ export default {
       table-layout: fixed !important;
     }
     @apply mt-4
-  }
-
-  .handle-data-tooltip {
-    @apply flex mt-4 ml-2
   }
 
   .type-select {
