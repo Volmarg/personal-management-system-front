@@ -80,11 +80,10 @@
             <slot name="cancelButton">
               <MediumButtonWithIcon
                   :text="getCancelButtonText"
-                  :is-mobile-full-width="true"
                   :margin-right-class-number="cancelButtonMarginRightClassNumber"
                   @click="$emit('modalClosed')"
                   :class="isCloseFullWidth ? 'w-full md:w-auto' : ''"
-                  :button-classes="isCloseFullWidth ? 'w-full md:w-auto' : ''"
+                  :button-classes="isCloseFullWidth ? 'w-full md:w-auto flex justify-center md:block' : ''"
                   :text-classes="isCloseFullWidth ? 'text-center w-full' : ''"
                   v-if="isCloseVisible"
               />

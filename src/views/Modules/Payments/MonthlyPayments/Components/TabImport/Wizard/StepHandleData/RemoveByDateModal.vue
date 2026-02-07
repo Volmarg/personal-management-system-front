@@ -4,6 +4,7 @@
            id="monthly-payments-import-remove-by-dates-modal"
            :title="$t('payments.monthly.tabs.import.step.processData.filterByDatesModal.header')"
            :is-confirm-visible="false"
+           :is-close-full-width="true"
            :cancel-text="$t('payments.monthly.tabs.import.step.processData.filterByDatesModal.button.close.label')"
            @modal-closed="$emit('close')"
     >
