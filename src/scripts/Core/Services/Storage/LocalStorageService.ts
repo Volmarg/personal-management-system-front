@@ -1,6 +1,6 @@
-import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
-import UserController      from "@/scripts/Core/Controller/UserController";
-import {userStateStore}    from "@/scripts/Vue/Store/UserState";
+import StringTypeProcessor    from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import UserController         from "@/scripts/Core/Controller/UserController";
+import EventDispatcherService from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
 
 /**
  * @description handles the logic of local storage
@@ -104,10 +104,15 @@ export default class LocalStorageService {
 
     /**
      * @description sets the authentication token
+     * > WARNING < using {@see EventDispatcherService} on purpose. Earlier there was user state call here directly
+     *             but it caused hot-reload to crash for modals, and as result page had to be reloaded manual for
+     *             things to work back. It's not really known why did it really happened, it worked fine for non-modal
+     *             components. Only guessing that some weird circular dependency might have been created explicitly for
+     *             modals when things got reloaded.
      */
     public static setAuthToken(token: string): void {
         LocalStorageService.set(LocalStorageService.AUTHENTICATION_TOKEN, token);
-        userStateStore().token = token;
+        EventDispatcherService.setUserStorageAuthToken(token)
     }
 
     /**

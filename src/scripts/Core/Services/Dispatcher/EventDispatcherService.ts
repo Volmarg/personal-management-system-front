@@ -20,6 +20,7 @@ export default class EventDispatcherService extends EventEmitterService
     static readonly EVENT_NAME_SHOW_NOTIFICATION              = "show-notification"
     static readonly EVENT_NAME_REFRESH_USER_STORE             = "refresh-user-store"
     static readonly EVENT_NAME_SYSTEM_IS_DISABLED             = "system-is-disabled"
+    static readonly EVENT_NAME_SET_USER_STORAGE_AUTH_TOKEN    = "set-user-storage-auth-token"
     static readonly TYPESCRIPT_APP_DISPATCHER_LISTENER_DOM_ID = "dispatcherListener"
 
     static readonly ALL_SUPPORTED_EVENTS_APP_DISPATCHER = [
@@ -30,6 +31,7 @@ export default class EventDispatcherService extends EventEmitterService
         EventDispatcherService.EVENT_NAME_HIDE_BAR_LOADER,
         EventDispatcherService.EVENT_NAME_SHOW_NOTIFICATION,
         EventDispatcherService.EVENT_NAME_SYSTEM_IS_DISABLED,
+        EventDispatcherService.EVENT_NAME_SET_USER_STORAGE_AUTH_TOKEN,
     ]
 
     static readonly ALL_EVENTS = [
@@ -137,6 +139,20 @@ export default class EventDispatcherService extends EventEmitterService
             EventDispatcherService.TYPESCRIPT_APP_DISPATCHER_LISTENER_DOM_ID,
             {
                 message: message
+            }
+        );
+    }
+
+    /**
+     * @description will emit an event which in return sets auth token on user storage (pinia store)
+     */
+    public static setUserStorageAuthToken(token: string): void
+    {
+        EventDispatcherService.emitEventOnElementWithId(
+            EventDispatcherService.EVENT_NAME_SET_USER_STORAGE_AUTH_TOKEN,
+            EventDispatcherService.TYPESCRIPT_APP_DISPATCHER_LISTENER_DOM_ID,
+            {
+                token: token
             }
         );
     }

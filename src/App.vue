@@ -40,6 +40,7 @@
         @hide-bar-loader="hideBarLoader()"
         @show-notification="handleShowingAlert"
         @system-is-disabled="handleSystemIsDisabled"
+        @set-user-storage-auth-token="setUserStorageAuthToken"
         :id="dispatcherId"
         :supported-events="supportedEvents"
     />
@@ -222,6 +223,12 @@ export default {
       this.systemDisabledState.isDisabled = true;
       this.systemDisabledState.isSoonDisabled = false;
       this.systemDisabledState.message = message;
+    },
+    /**
+     * @description sets auth token on user storage
+     */
+    setUserStorageAuthToken(token): void {
+      this.userStateStore.token = token;
     },
     /**
      * @description handles uploading files on behalf of EasyEmail
