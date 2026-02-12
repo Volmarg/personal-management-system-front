@@ -14,6 +14,7 @@
             :id="getNameForTab(tabWithContent)"
             type="radio"
             :name="`tab-control${id}`"
+            @click="$emit('tabNameClick', getNameForTab(tabWithContent))"
     >
 
     <!-- Tabs themself -->
@@ -147,7 +148,8 @@ export default {
     'confirmClick',
     'progressEditClick',
     'updateConfirmClick',
-    'todoUpdateConfirmClick'
+    'todoUpdateConfirmClick',
+    'tabNameClick'
   ],
   methods: {
     /**
