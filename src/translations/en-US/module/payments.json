@@ -498,7 +498,10 @@
             "filter": {
                 "label": "Filter by year"
             },
-            "description": "Lists of the money spent in each month with separate summary per month and per payment type.",
+            "description": {
+                "monthly": "Lists of the money spent in each month with separate summary per month and per payment type.",
+                "import": "Import the payment data from a file. <b>Keep in mind</b>: data-filters operate on from-file provided data, not on in-input data."
+            },
             "text": {
                 "summary": "Summary"
             },
