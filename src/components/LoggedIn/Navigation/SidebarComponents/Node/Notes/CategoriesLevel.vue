@@ -13,6 +13,7 @@
                          :label="category.name"
                          visited-link-classes="relative category-active"
                          :key="JSON.stringify(category)"
+                         :show-full-long-name="true"
       />
 
       <!-- there are children, so adding dropdown -->

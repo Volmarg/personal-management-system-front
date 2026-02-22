@@ -62,7 +62,8 @@ import VueRouter                 from "@/router/VueRouter";
 import BaseError                 from "@/scripts/Core/Error/BaseError";
 import {ComponentData}           from "@/scripts/Vue/Types/Components/types";
 
-import BrowserDetection from "@/scripts/Core/Services/View/BrowserDetection";
+import BrowserDetection  from "@/scripts/Core/Services/View/BrowserDetection";
+import {navigationStore} from "@/scripts/Vue/Store/NavigationStore";
 
 export default {
   name: "InNavigationSidebar",
@@ -105,14 +106,11 @@ export default {
 
 
       let navbarHamburger = document.querySelector('.navbar-hamburger');
-      let domElement      = document.querySelector('[data-collapsed]') as Element;
-      let isDataCollapsed = (domElement.getAttribute('data-collapsed') === "true");
-
       if (null === navbarHamburger) {
         throw new BaseError("Hamburger nav element was not found. Searched for class: `.navbar-hamburger`");
       }
 
-      if (!isDataCollapsed) {
+      if (!navigationStore().isSidebarCollapsed) {
         navbarHamburger.dispatchEvent((new Event("click")));
       }
     }
