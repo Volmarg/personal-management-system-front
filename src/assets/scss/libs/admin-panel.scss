@@ -6901,10 +6901,18 @@ td.rdtYear {
     z-index: 10;
     left: 100%
   }
-  [data-collapsed=true] .left-sidebar-1 ul>li:hover ul {
+  // first node (the main menu)
+  [data-collapsed=true] .left-sidebar-1 ul>li:hover > div > div > ul {
     cursor: auto;
     opacity: 1;
-    visibility: visible
+    visibility: visible;
+
+    // any level subnodes
+    li:hover > ul {
+      cursor: auto;
+      opacity: 1;
+      visibility: visible
+    }
   }
 }
 
