@@ -49,3 +49,20 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+button {
+  min-height: 2rem;
+  height: auto !important;
+  text-align: left;
+  @apply mt-1
+}
+.title {
+  width: 100% !important;
+  @apply whitespace-normal
+}
+
+.arrow {
+  min-width: 30px;
+}
+</style>

@@ -23,6 +23,7 @@
                  :type="type"
                  :step="step"
                  :min="min"
+                 :maxlength="maxChars"
                  :placeholder="(isPlaceholderSet ? placeholder : label)"
                  :value="value"
                  @input="onInput($event)"
@@ -69,6 +70,7 @@
           :type="type"
           :step="step"
           :min="min"
+          :maxlength="maxChars"
           :placeholder="placeholder"
           :value="value"
           @input="$emit('update:modelValue', $event.target.value)"
@@ -109,6 +111,11 @@ export default {
   ],
   props: {
     min: {
+      type: [Number, null],
+      default: null,
+      required: false,
+    },
+    maxChars: {
       type: [Number, null],
       default: null,
       required: false,

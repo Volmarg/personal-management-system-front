@@ -9,6 +9,7 @@
 
       <FormInput type="text"
                  v-model="form.name"
+                 max-chars="40"
                  :is-required="true"
                  :label="$t('notes.settings.form.name.label')"
       />
