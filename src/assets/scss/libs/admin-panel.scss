@@ -6908,12 +6908,19 @@ td.rdtYear {
     visibility: visible;
 
     // any level subnodes
-    li:hover > ul {
-      cursor: auto;
-      opacity: 1;
-      visibility: visible
+    li:hover {
+      > ul {
+        cursor: auto;
+        opacity: 1;
+        visibility: visible
+      }
     }
   }
+}
+
+.left-sidebar-1 ul > li:hover > a,
+.left-sidebar-1 ul > li:hover > button {
+  background-color: rgba(128, 128, 128, 0.075);
 }
 
 @media (max-width:767px) {
