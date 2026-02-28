@@ -1,1 +1,1 @@
-var a="/assets/list-alt.1c0a873b.svg";export{a as default};
+var s="/assets/list-alt-solid.1c0a873b.svg";export{s as default};

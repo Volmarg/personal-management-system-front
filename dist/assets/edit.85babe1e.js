@@ -1,1 +1,1 @@
-var s="/assets/edit.f4d57281.svg";export{s as default};
+var s="/assets/edit-solid.f4d57281.svg";export{s as default};

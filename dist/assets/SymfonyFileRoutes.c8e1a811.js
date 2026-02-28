@@ -1,0 +1,1 @@
+import{S as _}from"./index.fd0df9df.js";class d extends _{}d.UPLOAD_FILES="/upload/send/",d.GET_FILE="/public/get-file/:path",d.GET_FILE_PARAM_PATH="path",d.GET_UPLOAD_CONFIGURATION="/upload/get-configuration/:id",d.GET_UPLOAD_CONFIGURATION_PARAM_ID="id";export{d as S};

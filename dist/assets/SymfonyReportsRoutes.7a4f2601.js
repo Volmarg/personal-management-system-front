@@ -1,0 +1,1 @@
+import{S as e}from"./index.fd0df9df.js";class o extends e{}o.SAVINGS_BASE_URL="/module/reports/savings",o.PAYMENTS_TOTAL_PER_MONTH_BASE_URL="/module/reports/payments/total-per-month",o.PAYMENTS_TOTAL_PER_TYPE_BASE_URL="/module/reports/payments/total-per-type",o.HISTORICALLY_OWED_MONEY_BASE_URL="/module/reports/money-owed/historical";export{o as S};

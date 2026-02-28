@@ -1,1 +1,1 @@
-var a="/assets/play-circle.503b4cc1.svg";export{a as default};
+var s="/assets/play-circle-solid.503b4cc1.svg";export{s as default};

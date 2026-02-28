@@ -1,1 +1,1 @@
-var a="/assets/map-marker-alt-solid.2b46f86c.svg";export{a as default};
+var a="/assets/map-marker-solid.2b46f86c.svg";export{a as default};
