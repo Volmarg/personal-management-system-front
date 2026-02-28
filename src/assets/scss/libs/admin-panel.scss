@@ -6670,13 +6670,19 @@ td.rdtYear {
     transform: rotate(90deg);
     transition: transform .15s ease-in-out
   }
-  [data-collapsed=false] .hidden-sibling+ul,
-  [data-collapsed=true] .arrow {
+  [data-collapsed=false] .hidden-sibling+ul {
     display: none
   }
   [data-collapsed=false] .hidden-sibling.left-sidebar-item .arrow {
     transform: rotate(-90deg)!important
   }
+
+  [data-collapsed=true] .left-sidebar-item .arrow
+  {
+    transform: rotate(0deg)!important;
+    pointer-events: none;
+  }
+
   [data-collapsed=true] .hidden-sibling+ul {
     display: block
   }
