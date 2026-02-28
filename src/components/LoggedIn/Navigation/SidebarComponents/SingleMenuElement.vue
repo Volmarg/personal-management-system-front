@@ -15,7 +15,7 @@
                  ref="routerWrapper"
                  @click="$emit('click')"
     >
-      <p class="overflow-hidden">
+      <p>
         <span class="title"
               ref="title"
               :class="{
