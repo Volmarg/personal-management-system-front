@@ -24,6 +24,7 @@ import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
 import {StoreDefinition} from "pinia";
 
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import ArrayTypeProcessor  from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
 
 import {PaymentTypesState} from "@/scripts/Vue/Store/Module/Payments/Settings/PaymentTypesState";
 
@@ -82,7 +83,9 @@ export default {
   },
   async beforeMount(): Promise<void> {
     this.store = PaymentTypesState();
-    await this.store.getAll();
+    if (ArrayTypeProcessor.isEmpty(this.store.allEntries)) {
+      await this.store.getAll();
+    }
     this.allTypes = this.store.allEntries;
     this.selected = this.modelValue;
   },
