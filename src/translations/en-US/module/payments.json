@@ -3,6 +3,60 @@
         "settings": {
             "description": "Management of payments types visible in the Monthly Payments submodule and the recurring payments which are used by the cron to insert certain payments each month automatically (like for example constant renting fee)",
             "tab": {
+                "monthlyImport": {
+                    "header": "Monthly - import",
+                    "tab": {
+                        "profile": {
+                            "header": "Profiles"
+                        },
+                        "filterRule": {
+                            "header": "Filter rules",
+                            "table": {
+                                "header": {
+                                    "fieldName": {
+                                        "label": "Field name"
+                                    },
+                                    "ruleType": {
+                                        "label": "Type"
+                                    },
+                                    "rule": {
+                                        "label": "Rule"
+                                    },
+                                    "actions": {
+                                        "label": "Actions"
+                                    }
+                                }
+                            },
+                            "form": {
+                                "header": {
+                                    "add": "Add new"
+                                },
+                                "element": {
+                                    "fieldName": {
+                                        "label": "Field name"
+                                    },
+                                    "ruleType": {
+                                        "label": "Type",
+                                        "option": {
+                                            "regex": {
+                                                "label": "Regular expression"
+                                            },
+                                            "exact": {
+                                                "label": "Exact match"
+                                            }
+                                        }
+                                    },
+                                    "rule": {
+                                        "label": "Rule"
+                                    },
+                                    "submit": {
+                                        "label": "Submit"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "recurringPayments": {
                     "header": "Recurring payments",
                     "table": {

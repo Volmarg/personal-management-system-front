@@ -13,6 +13,7 @@ import Tabs from "@/components/Navigation/Tabs/Tabs.vue";
 import TabRecurringPayments from "@/views/Modules/Payments/Components/Settings/TabRecurringPayments.vue";
 import TabPaymentTypes      from "@/views/Modules/Payments/Components/Settings/TabPaymentTypes.vue";
 import TabOther             from "@/views/Modules/Payments/Components/Settings/TabOther.vue";
+import TabImport            from "@/views/Modules/Payments/Components/Settings/TabImport.vue";
 
 export default {
   components: {
@@ -32,6 +33,10 @@ export default {
         {
           tabName: this.$t('payments.settings.tab.paymentTypes.header'),
           tabComponent: TabPaymentTypes,
+        },
+        {
+          tabName: this.$t('payments.settings.tab.monthlyImport.header'),
+          tabComponent: TabImport,
         },
         {
           tabName: this.$t('payments.settings.tab.other.header'),
