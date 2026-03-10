@@ -32,6 +32,10 @@ export default {
           value: "exact"
         },
         {
+          label: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.form.element.ruleType.option.partial.label'),
+          value: "partial"
+        },
+        {
           label: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.form.element.ruleType.option.regex.label'),
           value: "regex"
         },

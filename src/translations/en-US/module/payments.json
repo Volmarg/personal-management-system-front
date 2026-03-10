@@ -43,6 +43,9 @@
                                             },
                                             "exact": {
                                                 "label": "Exact match"
+                                            },
+                                            "partial": {
+                                                "label": "Partial match"
                                             }
                                         }
                                     },
