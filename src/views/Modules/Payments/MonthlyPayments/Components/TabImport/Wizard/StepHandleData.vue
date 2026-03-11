@@ -102,12 +102,17 @@ import RemoveByDateModal    from "@/views/Modules/Payments/MonthlyPayments/Compo
 
 import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 
-import BaseError from "@/scripts/Core/Error/BaseError";
+import BaseError          from "@/scripts/Core/Error/BaseError";
+import TypeChecker        from "@/scripts/Core/Services/Types/TypeChecker";
+import ArrayTypeProcessor from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
 
 import {ComponentData}                            from "@/scripts/Vue/Types/Components/types";
 import {UploadWizardStore, UploadWizardStoreType} from "@/scripts/Vue/Store/Module/Payments/Monthly/UploadWizardStore";
+import {MonthlyImportFilterRulesStore}            from "@/scripts/Vue/Store/Module/Payments/Settings/MonthlyImportFilterRulesStore";
 
 import {ImportActionEnum, ImportMappedFieldEnum, ImportStepNameEnum} from "@/scripts/Core/Enum/PaymentMonthly";
+
+import {MonthlyImportFilterRuleTypeEnum} from "@/scripts/Core/Enum/Modules/Payments/MonthlyImportFilter";
 
 import moment from "moment/moment";
 
@@ -122,6 +127,7 @@ export default {
       resultsPerPage: 4,
       multiplierValue: 1,
       wizardStore: null as null | UploadWizardStoreType,
+      monthlyImportFilterRulesStore: null,
       isDataReloadWarningModalVisible: false,
       isRevertRowsModalVisible: false,
       isRemoveByDateModalVisible: false,
@@ -328,6 +334,44 @@ export default {
 
       this.filterEmptyRows();
     },
+    removeByDefinedFilterRules(): void {
+      let callableMap = {
+        [MonthlyImportFilterRuleTypeEnum.exact]: (fieldValue: string, ruleValue: string | number): boolean => {
+          return fieldValue == ruleValue;
+        },
+        [MonthlyImportFilterRuleTypeEnum.partial]: (fieldValue: string, ruleValue: string | number): boolean => {
+          return fieldValue.toString().toLowerCase().includes(ruleValue.toString().toLowerCase());
+        },
+        [MonthlyImportFilterRuleTypeEnum.regex]: (fieldValue: string, ruleValue: string | number): boolean => {
+          return !TypeChecker.isNull(fieldValue.toString().match(new RegExp(ruleValue, 'gi')));
+        }
+      };
+
+      for (let index in this.wizardStore.rowsMappedValues) {
+        let rowData = this.wizardStore.rowsMappedValues[index];
+
+        for (let ruleData of this.monthlyImportFilterRulesStore.allEntries) {
+          let callable = callableMap[ruleData.type];
+          if (!callable) {
+            throw new BaseError(`Unsupported filter rule type: ${ruleData.type}`)
+          }
+
+          let fieldValue = rowData[ruleData.fieldName];
+          if (TypeChecker.isUndefined(fieldValue)) {
+            throw new BaseError(`Row has no such field: ${ruleData.fieldName}`, {
+              rowData: rowData,
+            });
+          }
+
+          if (callable(fieldValue, ruleData.rule)) {
+            this.deleteRowIndex(index)
+            break;
+          }
+        }
+      }
+
+      this.filterEmptyRows();
+    },
     /**
      * @description removes all the incomes (received money)
      */
@@ -510,17 +554,25 @@ export default {
       return this.$refs.table.areComponentsValuesValid && this.wizardStore.rowsMappedValues.length > 0;
     },
   },
-  beforeMount():void {
+  beforeMount(): void {
     this.wizardStore = UploadWizardStore();
     this.buildRowMappings();
+
+    this.monthlyImportFilterRulesStore = MonthlyImportFilterRulesStore();
+    if (ArrayTypeProcessor.isEmpty(this.monthlyImportFilterRulesStore.allEntries)) {
+      this.monthlyImportFilterRulesStore.getAll();
+    }
   },
   watch: {
     /**
-     * @description build the table data ONLY when THIS step is active (steps relly kinda on v-show)
+     * @description
+     *              - build the table data ONLY when THIS step is active (steps relly kinda on v-show),
+     *              - prefilter entries by defined rules,
      */
     'wizardStore.currentStep'(): void {
       if (this.wizardStore.currentStep === ImportStepNameEnum.handleData && this.wizardStore.rowsMappedValues.length === 0) {
         this.buildRowMappings();
+        this.removeByDefinedFilterRules()
         return;
       }
     },
