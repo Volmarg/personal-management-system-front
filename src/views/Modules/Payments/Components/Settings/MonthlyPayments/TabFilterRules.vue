@@ -20,10 +20,11 @@
 <script lang="ts">
 
 
-import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
-import NoResultsText from "@/components/Page/NoResultsText.vue";
-import TableActions  from "@/components/Ui/Actions/TableActions.vue";
-import AddEditForm   from "@/views/Modules/Payments/Components/Settings/MonthlyPayments/TabFilterRules/AddEditForm.vue";
+import SimpleTable    from "@/components/Ui/Table/SimpleTable.vue";
+import NoResultsText  from "@/components/Page/NoResultsText.vue";
+import TableActions   from "@/components/Ui/Actions/TableActions.vue";
+import AddEditForm    from "@/views/Modules/Payments/Components/Settings/MonthlyPayments/TabFilterRules/AddEditForm.vue";
+import TableTypeLabel from "@/views/Modules/Payments/Components/Settings/MonthlyPayments/TabFilterRules/TableTypeLabel.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -60,7 +61,7 @@ export default {
           label: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.table.header.ruleType.label'),
           dataValuePath : 'typeLabel.value',
           dataIsComponentPath : 'typeLabel.isComponent',
-          dataComponentPropertiesPath: null
+          dataComponentPropertiesPath: 'typeLabel.componentProps'
         },
         {
           label: '',
@@ -105,8 +106,11 @@ export default {
               isComponent: false,
             },
             typeLabel: {
-              value: this.$t(`payments.settings.tab.monthlyImport.tab.filterRule.form.element.ruleType.option.${ruleData.type}.label`),
-              isComponent: false,
+              value: TableTypeLabel,
+              isComponent: true,
+              componentProps : {
+                ruleType: ruleData.type
+              }
             },
             typeValue: {
               value: ruleData.type,

@@ -61,7 +61,7 @@
 
               <span class="align-self-end ml-2">
                 {{ option.label }}
-                <small v-if="areDescriptionsProvided"
+                <small v-if="option.description"
                        class="text-gray-400 italic text-tiny"
                 >
                   - {{ option.description }}
@@ -390,23 +390,6 @@ export default {
      */
     isModeSingle(): boolean {
       return (this.mode === this.modes.single);
-    },
-    /**
-     * @description will check if description is provided for ALL options
-     */
-    areDescriptionsProvided(): boolean {
-      for (let option of this.usedOptions) {
-        if ("object" === typeof option) {
-
-          let checkedOption: Record<string, string> = option;
-          if (StringTypeProcessor.isEmptyString(checkedOption.description)) {
-            return false;
-          }
-
-        }
-      }
-
-      return true;
     },
     /**
      * @description will check if imag is provided for ALL options

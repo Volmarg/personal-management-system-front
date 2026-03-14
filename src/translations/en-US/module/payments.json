@@ -39,7 +39,8 @@
                                         "label": "Type",
                                         "option": {
                                             "regex": {
-                                                "label": "Regular expression"
+                                                "label": "Regular expression",
+                                                "description": "no flags, no delimiters"
                                             },
                                             "exact": {
                                                 "label": "Exact match"
