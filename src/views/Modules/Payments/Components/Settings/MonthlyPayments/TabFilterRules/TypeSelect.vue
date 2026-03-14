@@ -41,11 +41,14 @@ export default {
       for (let index of Object.keys(MonthlyImportFilterRuleTypeEnum)) {
         let value = MonthlyImportFilterRuleTypeEnum[index];
 
-        let description = value === MonthlyImportFilterRuleTypeEnum.regex ? this.$t('payments.settings.tab.monthlyImport.tab.filterRule.form.element.ruleType.option.regex.description') : null;
+        let transString = `payments.settings.tab.monthlyImport.tab.filterRule.form.element.ruleType.option.${value}.description`;
+        let description = this.$t(transString);
+        let usedDescription = description !== transString ? description : '';
+
         options.push({
           label: this.$t(`payments.settings.tab.monthlyImport.tab.filterRule.form.element.ruleType.option.${value}.label`),
           value: value,
-          description: description,
+          description: usedDescription,
         })
       }
 

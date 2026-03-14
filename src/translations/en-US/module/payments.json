@@ -46,7 +46,8 @@
                                                 "label": "Exact match"
                                             },
                                             "partial": {
-                                                "label": "Partial match"
+                                                "label": "Partial match",
+                                                "description": "case-insensitive"
                                             }
                                         }
                                     },
