@@ -7,7 +7,55 @@
                     "header": "Monthly - import",
                     "tab": {
                         "profile": {
-                            "header": "Profiles"
+                            "header": "Profiles",
+                            "table": {
+                                "header": {
+                                    "name": {
+                                        "label": "Profile name"
+                                    },
+                                    "currencyField": {
+                                        "label": "Currency mapping"
+                                    },
+                                    "descriptionField": {
+                                        "label": "Description mapping"
+                                    },
+                                    "moneyField": {
+                                        "label": "Money mapping"
+                                    },
+                                    "dateField": {
+                                        "label": "Date mapping"
+                                    },
+                                    "actions": {
+                                        "label": "Actions"
+                                    }
+                                }
+                            },
+                            "form": {
+                                "header": {
+                                    "add": "Add new"
+                                },
+                                "element": {
+                                    "name": {
+                                        "label": "Profile name"
+                                    },
+                                    "currencyField": {
+                                        "label": "Currency mapping"
+                                    },
+                                    "descriptionField": {
+                                        "label": "Description mapping"
+                                    },
+                                    "moneyField": {
+                                        "label": "Money mapping"
+                                    },
+                                    "dateField": {
+                                        "label": "Date mapping"
+                                    },
+                                    "submit": {
+                                        "label": "Submit"
+                                    }
+                                }
+                            }
+
                         },
                         "filterRule": {
                             "header": "Filter rules",
