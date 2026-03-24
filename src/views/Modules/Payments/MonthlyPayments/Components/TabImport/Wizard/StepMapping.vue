@@ -1,6 +1,13 @@
 <template>
   <BaseStep>
     <div>
+
+      <div class="flex flex-wrap flex-row justify-end mx-4 mt-4 mb-10">
+        <div class="w-full md:w-1/4">
+          <ImportProfileSelect v-model="selectedProfileId"/>
+        </div>
+      </div>
+
       <div v-for="fieldName in Object.keys(wizardStore.fieldToColumnMapping)"
            :key="fieldName"
            class="grid grid-cols-4 mt-6"
@@ -38,16 +45,21 @@
 </template>
 
 <script lang="ts">
-import MultiSelect from "@/components/Form/MultiSelect.vue";
-import BaseStep    from "@/components/Ui/Wizard/BaseStep.vue";
+import ImportProfileSelect from "@/views/Modules/Payments/MonthlyPayments/Components/TabImport/Wizard/StepMapping/ImportProfileSelect.vue";
+import MultiSelect         from "@/components/Form/MultiSelect.vue";
+import BaseStep            from "@/components/Ui/Wizard/BaseStep.vue";
 
 import VuelidateHandler from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
 
 import {ComponentData}                            from "@/scripts/Vue/Types/Components/types";
 import {UploadWizardStore, UploadWizardStoreType} from "@/scripts/Vue/Store/Module/Payments/Monthly/UploadWizardStore";
+import {MonthlyImportProfilesStore}               from "@/scripts/Vue/Store/Module/Payments/Settings/MonthlyImportProfilesStore";
 import {ImportMappedFieldEnum}                    from "@/scripts/Core/Enum/PaymentMonthly";
 
 import moment from "moment";
+
+import ArrayTypeProcessor  from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 /**
  * Using: {@see https://github.com/exceljs/exceljs}
@@ -56,7 +68,9 @@ export default {
   data(): ComponentData {
     return {
       headersRowNum: 1,
+      selectedProfileId: null,
       wizardStore: null as null | UploadWizardStoreType,
+      importProfileStore: null,
       validationErrors: {},
     }
   },
@@ -65,9 +79,20 @@ export default {
   ],
   components: {
     BaseStep,
-    MultiSelect
+    MultiSelect,
+    ImportProfileSelect
   },
   computed: {
+    /**
+     * @description returns the selected profile data or null if nothing was found
+     */
+    selectedProfile(): Record<string, string> | null {
+      if (StringTypeProcessor.isEmptyString(this.selectedProfileId) || ArrayTypeProcessor.isEmpty(this.importProfileStore.allEntries)) {
+        return null;
+      }
+
+      return this.importProfileStore.allEntries.find((profileData: Record<string, string>) => profileData.id === this.selectedProfileId) ?? null;
+    },
     /**
      * @description takes the header columns and creates options for selects
      */
@@ -147,11 +172,49 @@ export default {
 
       return Object.keys(this.validationErrors).length === 0;
     },
+    /**
+     * @description Updates the selected fields mapping based on selected profile
+     */
+    updateFieldsMappingFromProfile(): void {
+      let profileFieldPattern = "Field";
+      if (!this.selectedProfile) {
+        return;
+      }
+
+      for (let key of Object.keys(this.selectedProfile)) {
+        if (!key.toLowerCase().includes(profileFieldPattern.toLowerCase())) {
+          continue;
+        }
+
+        let mappedFieldName = key.replace(profileFieldPattern, "");
+        let mappedFieldValue = this.selectedProfile[key];
+        let matchingHeaderOption = this.mappingOptions.find((mappingOption: Record<string, string>): boolean => {
+          return mappingOption.label === mappedFieldValue;
+        });
+
+        // no such header in uploaded file
+        if (!matchingHeaderOption) {
+          continue;
+        }
+
+        this.wizardStore.fieldToColumnMapping[mappedFieldName] = matchingHeaderOption.value;
+      }
+    }
   },
-  beforeMount(): void {
+  async beforeMount(): Promise<void> {
     this.wizardStore = UploadWizardStore();
+    this.importProfileStore = MonthlyImportProfilesStore();
+    if (ArrayTypeProcessor.isEmpty(this.importProfileStore.allEntries)) {
+      await this.importProfileStore.getAll();
+    }
   },
   watch: {
+    /**
+     * @description reacts to profile selection, updates the selected fields mapping based on selected profile
+     */
+    selectedProfile() {
+      this.updateFieldsMappingFromProfile();
+    },
     /**
      * @description trigger validations whenever select value changes
      */

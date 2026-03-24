@@ -473,6 +473,11 @@
                                     "label": "Column"
                                 }
                             },
+                            "menu": {
+                                "profile": {
+                                    "label": "Profile"
+                                }
+                            },
                             "text": {
                                 "columnValuesInvalid": "Some values in this column are invalid. Example:"
                             }
