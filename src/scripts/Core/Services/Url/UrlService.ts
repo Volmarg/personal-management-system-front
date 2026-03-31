@@ -84,4 +84,11 @@ export default class UrlService
 
         return url + `?${params.toString()}`;
     }
+
+    /**
+     * @description perform some simple check if given path is a valid url
+     */
+    public static isUrl(path: string): boolean {
+        return path.startsWith("http") || path.startsWith("www");
+    }
 }

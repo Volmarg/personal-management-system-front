@@ -83,6 +83,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import {StorageState, StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 import ClipboardService from "@/scripts/Core/Services/ClipboardService";
+import LocalStorageService from "@/scripts/Core/Services/Storage/LocalStorageService";
 
 export default {
   data(): ComponentData {
@@ -186,7 +187,12 @@ export default {
      * @description copies link to clipboard
      */
     copyLink(): void {
-      ClipboardService.copyToClipboard(this.fileUrl);
+      let usedUrl = this.fileUrl;
+      if (this.fileUrl.includes(LocalStorageService.AUTHENTICATION_TOKEN)) {
+        usedUrl = usedUrl.replace(new RegExp(`\\?${LocalStorageService.AUTHENTICATION_TOKEN}.*`, 'g'), '');
+      }
+
+      ClipboardService.copyToClipboard(usedUrl);
     }
   },
   mounted(): void {

@@ -105,7 +105,7 @@ export default {
               }
             },
             imagePath: {
-              value: PublicFolderService.buildUrl(type.imagePath),
+              value: PublicFolderService.buildUrl(type.imagePath, false),
               isComponent: false,
             },
             actions: {
