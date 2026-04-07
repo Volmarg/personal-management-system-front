@@ -39,4 +39,4 @@ if [[ -z "$DOCKER_ARGS" ]]; then
   exit 1;
 fi;
 
-ssh "$HOST" "cd $DIR && docker compose -f docker-compose-prod.yaml"
+ssh "$HOST" "cd $DIR && docker compose -f docker-compose-prod.yaml $DOCKER_ARGS"
