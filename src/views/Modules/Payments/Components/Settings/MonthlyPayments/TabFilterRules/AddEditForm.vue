@@ -6,6 +6,12 @@
       <div class="grid gap-y-6">
         <FieldSelect v-model="form.fieldName" />
 
+        <FormInput type="text"
+                   v-model="form.description"
+                   :label="$t('payments.settings.tab.monthlyImport.tab.filterRule.form.element.description.label')"
+                   class="mb-0-force"
+        />
+
         <TypeSelect v-model="form.type" />
 
         <FormInput type="text"
@@ -42,6 +48,7 @@ export default {
   data(): ComponentData {
     return {
       form: {
+        description: null,
         fieldName: null,
         rule: null,
         type: null,
@@ -56,6 +63,11 @@ export default {
     },
     id: {
       type: [Number, null],
+      required: false,
+      default: null
+    },
+    description: {
+      type: [String, null],
       required: false,
       default: null
     },
@@ -86,6 +98,7 @@ export default {
      * @description resets the form state
      */
     clearForm(): void {
+      this.form.description = '';
       this.form.fieldName = '';
       this.form.rule = '';
       this.form.type = '';
@@ -112,6 +125,7 @@ export default {
   },
   beforeMount(): void {
     this.form.fieldName = this.fieldName;
+    this.form.description = this.description;
     this.form.rule = this.rule;
     this.form.type = this.typeValue;
   }

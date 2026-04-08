@@ -52,6 +52,12 @@ export default {
           dataComponentPropertiesPath: null
         },
         {
+          label: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.table.header.description.label'),
+          dataValuePath : 'description.value',
+          dataIsComponentPath : 'description.isComponent',
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.table.header.rule.label'),
           dataValuePath : 'rule.value',
           dataIsComponentPath : 'rule.isComponent',
@@ -95,6 +101,10 @@ export default {
           values: {
             id: {
               value: ruleData.id,
+              isComponent : false,
+            },
+            description: {
+              value: ruleData.description,
               isComponent : false,
             },
             fieldName: {

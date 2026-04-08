@@ -61,6 +61,9 @@
                             "header": "Filter rules",
                             "table": {
                                 "header": {
+                                    "description": {
+                                        "label": "Description"
+                                    },
                                     "fieldName": {
                                         "label": "Field name"
                                     },
@@ -80,6 +83,9 @@
                                     "add": "Add new"
                                 },
                                 "element": {
+                                    "description": {
+                                        "label": "Description"
+                                    },
                                     "fieldName": {
                                         "label": "Field name"
                                     },
