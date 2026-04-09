@@ -53,7 +53,7 @@
         </thead>
         <tbody>
           <tr v-for="(rowData, rowIndex) in visibleResults"
-              :key="JSON.stringify(rowData)"
+              :key="rowIndex"
               v-last-loop-element="{
                 index: rowIndex,
                 callback: () => $emit('afterTableRowsHandled'),
