@@ -318,6 +318,7 @@ export default {
      */
     reloadData(): void {
       this.buildRowMappings();
+      this.removeByDefinedFilterRules();
     },
     /**
      * @description removes entries by dates filters
