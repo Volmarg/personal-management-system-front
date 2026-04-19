@@ -36,6 +36,14 @@
                                 class="w-full md:w-auto"
           />
 
+          <MediumButtonWithIcon :text="$t('payments.monthly.tabs.import.step.processData.button.multiplyAll.label')"
+                                @button-click="multiplyAll"
+                                background-color-class="bg-blue-500"
+                                button-classes="w-full md:w-auto flex justify-center md:block"
+                                text-classes="text-center"
+                                class="w-full md:w-auto"
+          />
+
         </div>
 
         <VueInput type="number"
@@ -437,20 +445,19 @@ export default {
         throw new BaseError(`Money column number could not be found! Searched for identifier: ${ImportMappedFieldEnum.money}`);
       }
 
-      let cellId = this.buildCellUniqueId(data.rowNumber, columnNumber);
-      let tableComponentRef = this.buildComponentRefName(cellId);
-      if (!this.$refs.table.$refs[tableComponentRef] || !this.$refs.table.$refs[tableComponentRef][0]) {
-        throw new BaseError(`No table component found for ref: ${tableComponentRef}`);
-      }
-
-      let moneyInput = this.$refs.table.$refs[tableComponentRef][0];
-
       let value = this.wizardStore.rowsCurrentValues[data.rowNumber][ImportMappedFieldEnum.money];
       let usedValue = this.fieldDataModifiers(ImportMappedFieldEnum.money, value)
       let multipliedValue = (usedValue * this.multiplierValue).toFixed(2);
 
-      moneyInput.setValue(multipliedValue);
       this.wizardStore.rowsCurrentValues[data.rowNumber][ImportMappedFieldEnum.money] = multipliedValue;
+    },
+    /**
+     * @description multiplies all accessible amounts
+     */
+    multiplyAll(): void {
+      for (let rowIndex in this.$refs.table.data) {
+        this.handleMultiply({rowNumber: rowIndex});
+      }
     },
     /**
      * @description handles the delete-row action

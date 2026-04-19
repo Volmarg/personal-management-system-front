@@ -494,6 +494,9 @@
                                 "removeIncomes": {
                                     "label": "Remove incomes"
                                 },
+                                "multiplyAll": {
+                                    "label": "Multiply all"
+                                },
                                 "removeByDates": {
                                     "label": "Remove by dates"
                                 },
