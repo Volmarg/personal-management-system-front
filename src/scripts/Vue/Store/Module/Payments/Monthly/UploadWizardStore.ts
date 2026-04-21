@@ -96,6 +96,27 @@ const UploadWizardStore = defineStore('paymentMonthlyUploadWizardStore', {
         },
         setFirstStepState(isFirstStep: boolean): void {
             this.isFirstStep = isFirstStep;
+        },
+        addDeletedMappedValue(value: RowValue): void {
+            if (!this.__checkIsPushed(value, this.deletedMappedValues)) {
+                // unpacking because we want an object inside, not a proxy
+                this.deletedMappedValues.push({...value});
+            }
+        },
+        addDeletedSpreadsheetRowOriginalData(value: RowValue): void {
+            if (!this.__checkIsPushed(value, this.deletedSpreadsheetRowsOriginalData)) {
+                // unpacking because we want an object inside, not a proxy
+                this.deletedSpreadsheetRowsOriginalData.push({...value});
+            }
+        },
+        __checkIsPushed(value: RowValue, dst: Array<RowValue>): boolean {
+            for (let chunk of dst) {
+                // unpacking because we want to compare objects not proxy with an object by any chance
+                if (JSON.stringify({...chunk}) === JSON.stringify({...value})) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 });
@@ -115,6 +136,8 @@ type UploadWizardStoreType = {
     deletedSpreadsheetRowsOriginalData: Array<RowValue>,
     rowsCurrentValues: Array<RowValue>,
     spreadsheetRowsOriginalData: Array<RowValue>,
+    addDeletedMappedValue: (value: RowValue) => void,
+    addDeletedSpreadsheetRowOriginalData: (value: RowValue) => void,
 }
 
 export {UploadWizardStore, UploadWizardStoreType};

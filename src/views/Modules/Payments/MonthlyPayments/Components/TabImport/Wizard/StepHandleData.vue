@@ -317,6 +317,9 @@ export default {
      * @description reloads imported file data into the table - overrides all the values
      */
     reloadData(): void {
+      this.wizardStore.deletedMappedValues = [];
+      this.wizardStore.deletedSpreadsheetRowsOriginalData = [];
+
       this.buildRowMappings();
       this.removeByDefinedFilterRules();
     },
@@ -405,8 +408,8 @@ export default {
       delete this.wizardStore.rowsCurrentValues[index];           // these are currently used / tracked values
       delete this.wizardStore.rowsMappedValues[index];            // these are the original values from the file
 
-      this.wizardStore.deletedMappedValues.push(mappedValue);
-      this.wizardStore.deletedSpreadsheetRowsOriginalData.push(spreadsheetValue);
+      this.wizardStore.addDeletedMappedValue(mappedValue);
+      this.wizardStore.addDeletedSpreadsheetRowOriginalData(spreadsheetValue);
     },
     /**
      * @description this is to be used with {@see deleteRowIndex} since JS leaves blank entry on delete call
@@ -516,6 +519,8 @@ export default {
       }
 
       this.wizardStore.rowsMappedValues = [];
+      this.wizardStore.spreadsheetRowsOriginalData = [];
+
       this.wizardStore.worksheet.eachRow((row, index) => {
         let rowData = {};
         let spreadsheetRowData = {};
