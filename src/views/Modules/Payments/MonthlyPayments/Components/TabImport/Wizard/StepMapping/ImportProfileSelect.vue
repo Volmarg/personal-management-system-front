@@ -12,7 +12,6 @@
       :allow-show-options-list="true"
       :allow-create-options="false"
       :can-clear="true"
-      :required="true"
       ref="multiselect"
   />
 </template>

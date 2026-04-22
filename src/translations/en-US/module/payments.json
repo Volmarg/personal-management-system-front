@@ -124,6 +124,7 @@
                             "money": "Money",
                             "description": "Description",
                             "type": "Type",
+                            "profile": "Profile",
                             "actions": "Actions"
                         },
                         "newForm": {

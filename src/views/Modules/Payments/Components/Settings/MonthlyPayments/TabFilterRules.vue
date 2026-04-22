@@ -46,6 +46,13 @@ export default {
           dataComponentPropertiesPath: null
         },
         {
+          label: 'importProfileId',
+          dataValuePath : 'importProfileId.value',
+          isVisible: false,
+          dataIsComponentPath : null,
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.table.header.fieldName.label'),
           dataValuePath : 'fieldName.value',
           dataIsComponentPath : 'fieldName.isComponent',
@@ -77,6 +84,12 @@ export default {
           dataComponentPropertiesPath: null
         },
         {
+          label: this.$t('payments.settings.tab.recurringPayments.table.header.profile'),
+          dataValuePath : 'profile.value',
+          dataIsComponentPath : 'profile.isComponent',
+          dataComponentPropertiesPath: null
+        },
+        {
           label: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.table.header.actions.label'),
           dataValuePath : 'actions.value',
           dataIsComponentPath : 'actions.isComponent',
@@ -103,6 +116,10 @@ export default {
               value: ruleData.id,
               isComponent : false,
             },
+            importProfileId: {
+              value: ruleData.profile.id,
+              isComponent : false,
+            },
             description: {
               value: ruleData.description,
               isComponent : false,
@@ -124,6 +141,10 @@ export default {
             },
             typeValue: {
               value: ruleData.type,
+              isComponent: false,
+            },
+            profile: {
+              value: ruleData.profile.name,
               isComponent: false,
             },
             actions: {

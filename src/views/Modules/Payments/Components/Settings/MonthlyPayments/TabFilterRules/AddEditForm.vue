@@ -18,7 +18,12 @@
                    v-model="form.rule"
                    :is-required="true"
                    :label="$t('payments.settings.tab.monthlyImport.tab.filterRule.form.element.rule.label')"
+                   class="mb-0-force"
         />
+
+        <div class="mb-4">
+          <ImportProfileSelect v-model="form.profileId"/>
+        </div>
       </div>
 
       <MediumButtonWithIcon :text="$t('payments.settings.tab.monthlyImport.tab.filterRule.form.element.submit.label')"
@@ -35,6 +40,7 @@
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import ImportProfileSelect  from "@/views/Modules/Payments/MonthlyPayments/Components/TabImport/Wizard/StepMapping/ImportProfileSelect.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import FormInput            from "@/components/Form/Input.vue";
 import TypeSelect           from "@/views/Modules/Payments/Components/Settings/MonthlyPayments/TabFilterRules/TypeSelect.vue";
@@ -52,6 +58,7 @@ export default {
         fieldName: null,
         rule: null,
         type: null,
+        profileId: null,
       }
     }
   },
@@ -62,6 +69,11 @@ export default {
       default: ''
     },
     id: {
+      type: [Number, null],
+      required: false,
+      default: null
+    },
+    importProfileId: {
       type: [Number, null],
       required: false,
       default: null
@@ -91,6 +103,7 @@ export default {
     FormInput,
     TypeSelect,
     FieldSelect,
+    ImportProfileSelect,
     MediumButtonWithIcon
   },
   methods: {
@@ -128,6 +141,7 @@ export default {
     this.form.description = this.description;
     this.form.rule = this.rule;
     this.form.type = this.typeValue;
+    this.form.profileId = this.importProfileId;
   }
 }
 </script>
