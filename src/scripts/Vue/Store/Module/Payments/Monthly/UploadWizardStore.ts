@@ -17,6 +17,7 @@ const UploadWizardStore = defineStore('paymentMonthlyUploadWizardStore', {
     state: () => ({
         isFirstStep: true,
         isLastStep: false,
+        importProfileId: null,
         /**
          * @description current wizard step name
          */
@@ -126,6 +127,7 @@ type UploadWizardStoreType = {
     isFirstStep: boolean,
     isLastStep: boolean,
     currentStep: null|string,
+    importProfileId: null|number,
     worksheet: null,
     fileHeaders: Array<string>,
     fieldToColumnMapping: Record<string, string | null>,

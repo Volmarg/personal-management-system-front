@@ -363,6 +363,10 @@ export default {
         let rowData = this.wizardStore.rowsMappedValues[index];
 
         for (let ruleData of this.monthlyImportFilterRulesStore.allEntries) {
+          if (null !== ruleData.profile.id && this.wizardStore.importProfileId !== ruleData.profile.id) {
+            continue;
+          }
+
           let callable = callableMap[ruleData.type];
           if (!callable) {
             throw new BaseError(`Unsupported filter rule type: ${ruleData.type}`)

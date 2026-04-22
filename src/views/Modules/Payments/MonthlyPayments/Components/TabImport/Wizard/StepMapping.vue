@@ -203,6 +203,7 @@ export default {
   },
   async beforeMount(): Promise<void> {
     this.wizardStore = UploadWizardStore();
+    this.wizardStore.importProfileId = null;
     this.importProfileStore = MonthlyImportProfilesStore();
     if (ArrayTypeProcessor.isEmpty(this.importProfileStore.allEntries)) {
       await this.importProfileStore.getAll();
@@ -214,6 +215,7 @@ export default {
      */
     selectedProfile() {
       this.updateFieldsMappingFromProfile();
+      this.wizardStore.importProfileId = this.selectedProfileId;
     },
     /**
      * @description trigger validations whenever select value changes
