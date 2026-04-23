@@ -60,6 +60,8 @@ import moment from "moment";
 
 import ArrayTypeProcessor  from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import EventDispatcherService from "@/scripts/Core/Services/Dispatcher/EventDispatcherService";
+import {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
 
 /**
  * Using: {@see https://github.com/exceljs/exceljs}
@@ -181,6 +183,7 @@ export default {
         return;
       }
 
+      let missingHeaders = [];
       for (let key of Object.keys(this.selectedProfile)) {
         if (!key.toLowerCase().includes(profileFieldPattern.toLowerCase())) {
           continue;
@@ -194,10 +197,16 @@ export default {
 
         // no such header in uploaded file
         if (!matchingHeaderOption) {
+          missingHeaders.push(mappedFieldValue)
           continue;
         }
 
         this.wizardStore.fieldToColumnMapping[mappedFieldName] = matchingHeaderOption.value;
+      }
+
+      if (!ArrayTypeProcessor.isEmpty(missingHeaders)) {
+        let msg = this.$t('payments.monthly.tabs.import.step.map.msg.couldNotMapAllFields') + " " + missingHeaders.join(", ");
+        EventDispatcherService.emitShowNotification(ToastTypeEnum.warning, msg)
       }
     }
   },

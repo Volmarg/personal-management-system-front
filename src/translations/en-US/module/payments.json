@@ -487,6 +487,9 @@
                             },
                             "text": {
                                 "columnValuesInvalid": "Some values in this column are invalid. Example:"
+                            },
+                            "msg": {
+                                "couldNotMapAllFields": "Could not map all fields, some headers are missing in the uploaded file: "
                             }
                         },
                         "processData": {
