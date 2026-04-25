@@ -1,1 +1,1 @@
-var s="/assets/grin-stars-solid.95d8081a.svg";export{s as default};
+var s="/assets/grin-stars.95d8081a.svg";export{s as default};

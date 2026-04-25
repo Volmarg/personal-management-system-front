@@ -1,1 +1,0 @@
-import{$ as a,aG as s,af as t}from"./index.fd0df9df.js";const e=a("financesCurrenciesState",{state:()=>({allEntries:[]}),actions:{async getAll(){this.allEntries=await(new s).getAll(t.SETTINGS_FINANCES_BASE_URL)}}});export{e as F};

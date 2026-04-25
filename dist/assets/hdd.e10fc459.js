@@ -1,1 +1,1 @@
-var s="/assets/hdd-solid.fab5c9d4.svg";export{s as default};
+var a="/assets/hdd.fab5c9d4.svg";export{a as default};

@@ -1,1 +1,1 @@
-var s="/assets/grin-tongue-wink-solid.b4855fca.svg";export{s as default};
+var a="/assets/grin-tongue-wink.b4855fca.svg";export{a as default};

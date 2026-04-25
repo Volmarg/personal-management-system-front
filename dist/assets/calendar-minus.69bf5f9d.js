@@ -1,1 +1,1 @@
-var a="/assets/calendar-minus.f7e4730e.svg";export{a as default};
+var s="/assets/calendar-minus-solid.f7e4730e.svg";export{s as default};

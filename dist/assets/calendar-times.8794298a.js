@@ -1,1 +1,1 @@
-var s="/assets/calendar-times-solid.6c4151c0.svg";export{s as default};
+var a="/assets/calendar-times.6c4151c0.svg";export{a as default};
