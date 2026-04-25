@@ -35,6 +35,33 @@
 
     </ul>
 
+    <!-- about tab -->
+
+    <div class="descriptions">
+      <div v-for="(tabWithContent, index) of tabsWithContent"
+           :key="index"
+           class="tab-description"
+      >
+        <div v-if="!!tabWithContent.tabDescription"
+             class="flex-row justify-center flex-wrap mb-10"
+        >
+          <div>
+            <la svg-icon-name="exclamation-circle-solid"
+                color="rgb(59, 130, 246)"
+                font-size="30"
+                class="icon"
+            />
+          </div>
+
+          <div>
+            <span v-html="tabWithContent.tabDescription"
+                  class="text-left text-gray-600"
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Tabs content -->
     <div class="content">
       <section  v-for="(tabWithContent, index) of tabsWithContent"
@@ -226,10 +253,12 @@ $indicator-height: 4px;
 $label-selector: "~ ul > li";
 $slider-selector: "~ .slider";
 $content-selector: "~ .content > section";
+$description-selector: "~ .descriptions > .tab-description";
 
 @mixin tabs(
   $label-selector: $label-selector,
   $slider-selector: $slider-selector,
+  $description-selector: $description-selector,
   $content-selector: $content-selector) {
 
   @for $i from 1 through $tab-count {
@@ -245,6 +274,10 @@ $content-selector: "~ .content > section";
       #{$content-selector}:nth-child(#{$i}) {
         display: block;
       }
+
+      #{$description-selector}:nth-child(#{$i}) {
+        display: block;
+      }
     }
   }
 }
@@ -256,6 +289,10 @@ $content-selector: "~ .content > section";
   padding-bottom: 80px;
   min-width: 200px;
   input[name^="tab-control"] {
+    display: none;
+  }
+
+  .descriptions > .tab-description {
     display: none;
   }
 

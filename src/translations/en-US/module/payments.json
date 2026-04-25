@@ -5,6 +5,7 @@
             "tab": {
                 "monthlyImport": {
                     "header": "Monthly - import",
+                    "description": "Profiles are used for automatically filling up import files headers in the mapping step. </br> Each <b>mapping</b> field must be exactly the same as the import file <b>column header</b> name.",
                     "tab": {
                         "profile": {
                             "header": "Profiles",
@@ -59,6 +60,7 @@
                         },
                         "filterRule": {
                             "header": "Filter rules",
+                            "description": "Rules for auto-filtering unwanted import entries. <b>Rules without a profile are applied to all imports!</b>",
                             "table": {
                                 "header": {
                                     "description": {

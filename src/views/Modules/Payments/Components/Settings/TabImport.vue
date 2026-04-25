@@ -32,10 +32,12 @@ export default {
         {
           tabName: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.header'),
           tabComponent: TabFilterRules,
+          tabDescription: this.$t('payments.settings.tab.monthlyImport.description'),
         },
         {
           tabName: this.$t('payments.settings.tab.monthlyImport.tab.profile.header'),
           tabComponent: TabProfiles,
+          tabDescription: this.$t('payments.settings.tab.monthlyImport.tab.filterRule.description')
         },
       ];
     }
