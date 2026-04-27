@@ -28,7 +28,15 @@
         </a>
       </div>
 
-      <DeveloperPlaygroundButton/>
+      <DeveloperPlaygroundButton :help-text="$t('dev.playground.helpText')"
+                                 :label-text="$t('dev.playground.label')"
+                                 :route="routes.developer.playgroudFrontend"
+      />
+
+      <DeveloperPlaygroundButton :help-text="$t('dev.playgroundBackend.helpText')"
+                                 :label-text="$t('dev.playgroundBackend.label')"
+                                 :url="backendDebugUrl"
+      />
 
     </section>
   </div>
@@ -50,12 +58,19 @@ import DeveloperPlaygroundButton from "@/components/Development/Sidebar/Componen
 import MediumButtonWithIcon      from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import Fontawesome               from "@/components/Libs/Fontawesome.vue";
 import QuestionMarkAbout         from "@/components/Ui/QuestionMarkAbout.vue";
+import VueRouter from "@/router/VueRouter";
+import SymfonyDevRoutes from "@/router/SymfonyRoutes/SymfonyDevRoutes";
 
 export default {
   name: "DeveloperSidebar",
   data: (): ComponentData => {
     return {
       xdebugSessionName: "",
+      routes: {
+        developer: {
+          playgroudFrontend: VueRouter.ROUTE_PATH_DEVELOPMENT_PLAYGROUND
+        }
+      },
     }
   },
   mixins: [
@@ -70,6 +85,11 @@ export default {
   },
   created(): void {
     this.xdebugSessionName = LocalStorageService.get(LocalStorageService.XDEBUG_TOKEN);
+  },
+  computed: {
+    backendDebugUrl(): string {
+      return SymfonyDevRoutes.buildUrl(SymfonyDevRoutes.DEV_DEBUG_ROUTE);
+    }
   },
   watch: {
     xdebugSessionName(newValue: string): void {

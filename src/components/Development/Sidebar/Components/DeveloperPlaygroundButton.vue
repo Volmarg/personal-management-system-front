@@ -2,14 +2,15 @@
   <div>
 
     <div class="flex flex-row justify-end">
-      <QuestionMarkAbout :text="$t('dev.playground.helpText')"
+      <QuestionMarkAbout :text="helpText"
                      class="align-self-center"
       />
 
-      <RouterLink :to="routes.developer.playgroud"
+      <RouterLink :to="route"
                    class="mt-2 block"
+                  v-if="!!route"
       >
-        <MediumButtonWithIcon :text="$t('dev.playground.label')"
+        <MediumButtonWithIcon :text="labelText"
                                  :margin-right-class-number="0"
         >
           <template #icon>
@@ -17,6 +18,20 @@
           </template>
         </MediumButtonWithIcon>
       </RouterLink>
+
+      <a :href="url"
+         v-else
+         target="_blank"
+         class="mt-2"
+       >
+        <MediumButtonWithIcon :text="labelText"
+                              :margin-right-class-number="0"
+        >
+          <template #icon>
+            <fa icon="wrench"/>
+          </template>
+        </MediumButtonWithIcon>
+      </a>
 
     </div>
 
@@ -27,16 +42,25 @@
 import QuestionMarkAbout    from "@/components/Ui/QuestionMarkAbout.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
-import VueRouter from "@/router/VueRouter";
-
 export default {
-  data() {
-    return {
-      routes: {
-        developer: {
-          playgroud: VueRouter.ROUTE_PATH_DEVELOPMENT_PLAYGROUND
-        }
-      },
+  props: {
+    helpText: {
+      type: String,
+      required: true,
+    },
+    labelText: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: false,
+      default: null
+    },
+    route: {
+      type: String,
+      required: false,
+      default: null
     }
   },
   components: {

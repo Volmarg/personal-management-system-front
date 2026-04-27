@@ -8,9 +8,13 @@
             "label": "Symfony Profiler",
             "helpText": "Go to symfony backend profiler"
         },
+        "playgroundBackend": {
+            "label": "Playground - backend",
+            "helpText": "Open the backend playground view where code can be tested. <b>DO NOT</b> push that code to repo"
+        },
         "playground": {
-            "label": "Playground",
-            "helpText": "Open the playground view whee code can be tested. <b>DO NOT</b> push that code to repo"
+            "label": "Playground - frontend",
+            "helpText": "Open the frontend playground view where code can be tested. <b>DO NOT</b> push that code to repo"
         }
     }
 }
