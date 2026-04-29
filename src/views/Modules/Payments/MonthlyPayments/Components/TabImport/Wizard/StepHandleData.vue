@@ -110,9 +110,10 @@ import RemoveByDateModal    from "@/views/Modules/Payments/MonthlyPayments/Compo
 
 import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 
-import BaseError          from "@/scripts/Core/Error/BaseError";
-import TypeChecker        from "@/scripts/Core/Services/Types/TypeChecker";
-import ArrayTypeProcessor from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
+import BaseError           from "@/scripts/Core/Error/BaseError";
+import TypeChecker         from "@/scripts/Core/Services/Types/TypeChecker";
+import ArrayTypeProcessor  from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 import {ComponentData}                            from "@/scripts/Vue/Types/Components/types";
 import {UploadWizardStore, UploadWizardStoreType} from "@/scripts/Vue/Store/Module/Payments/Monthly/UploadWizardStore";
@@ -295,7 +296,7 @@ export default {
               }
             },
             [ImportMappedFieldEnum.currency]: {
-              value: row.currency,
+              value: StringTypeProcessor.isEmptyString(row.currency) ? null : row.currency,
               isComponent: false,
             },
             actions: {
