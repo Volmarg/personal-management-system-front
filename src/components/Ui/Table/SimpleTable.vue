@@ -8,13 +8,25 @@
       <slot name="toltipEnd"></slot>
     </div>
 
-    <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
-                :initial-current-page="currentPage"
-                :initial-count-of-result-per-page="resultsPerPage"
-                @page-number-changes="onPaginationPageNumberChange"
-                class="mt-2"
-                v-if="navigationOnTop"
-    />
+    <div v-if="isBackendPagination">
+      <Pagination :number-of-results="backendMaxResults"
+                  :initial-current-page="currentPage"
+                  :initial-count-of-result-per-page="resultsPerPage"
+                  @page-number-changes="onBackendPaginationPageNumberChange"
+                  class="mt-2"
+                  v-if="navigationOnTop"
+      />
+    </div>
+
+    <div v-else>
+      <Pagination :number-of-results="backendMaxResults"
+                  :initial-current-page="currentPage"
+                  :initial-count-of-result-per-page="resultsPerPage"
+                  @page-number-changes="onPaginationPageNumberChange"
+                  class="mt-2"
+                  v-if="navigationOnTop"
+      />
+    </div>
 
     <div class="overflow-x-auto overflow-hidden"
          :class="{
@@ -99,13 +111,26 @@
       </table>
 
     </div>
-    <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
-                :initial-current-page="currentPage"
-                :initial-count-of-result-per-page="resultsPerPage"
-                @page-number-changes="onPaginationPageNumberChange"
-                class="mt-2"
-                v-if="!navigationOnTop"
-    />
+
+    <div v-if="isBackendPagination">
+      <Pagination :number-of-results="backendMaxResults"
+                  :initial-current-page="currentPage"
+                  :initial-count-of-result-per-page="resultsPerPage"
+                  @page-number-changes="onBackendPaginationPageNumberChange"
+                  class="mt-2"
+                  v-if="!navigationOnTop"
+      />
+    </div>
+    <div v-else>
+      <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
+                  :initial-current-page="currentPage"
+                  :initial-count-of-result-per-page="resultsPerPage"
+                  @page-number-changes="onPaginationPageNumberChange"
+                  class="mt-2"
+                  v-if="!navigationOnTop"
+      />
+    </div>
+
   </div>
 </template>
 
@@ -114,6 +139,7 @@ import TypeChecker          from "@/scripts/Core/Services/Types/TypeChecker";
 import Logger               from "@/scripts/Core/Logger";
 import ObjectValuesResolver from "@/scripts/Core/Services/Resolver/ObjectValuesResolver";
 import BoolTypeProcessor    from "@/scripts/Core/Services/TypesProcessors/BoolTypeProcessor";
+import BaseError            from "@/scripts/Core/Error/BaseError";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -150,6 +176,15 @@ export default {
     }
   },
   props: {
+    isBackendPagination: {
+      type: Boolean,
+      required: false,
+    },
+    backendMaxResults: {
+      type: Number || null,
+      required: false,
+      default: null
+    },
     navigationOnTop: {
       type: Boolean,
       required: false,
@@ -354,7 +389,8 @@ export default {
      * @description this can be used if a target component does not support @change event, will listen to v-model update
      */
     'update:componentModelValue',
-    'action'
+    'action',
+    'searchValueChange',
   ],
   computed: {
     /**
@@ -477,15 +513,27 @@ export default {
     /**
      * @description will handle the event when page number changes on pagination
      */
-    onPaginationPageNumberChange(currentPage: number, countOfResultsPerPage: number): void {
-      this.currentPage = currentPage;
+    onPaginationPageNumberChange(nextPage: number, countOfResultsPerPage: number): void {
+      this.currentPage = nextPage;
       this.$emit('beforePageChange');
-      this.filterShownResults(currentPage, countOfResultsPerPage);
+      this.filterShownResults(nextPage, countOfResultsPerPage);
+    },
+    /**
+     * @description switches to next page programmatically and emits event to parent component so it can fetch new data chunk
+     */
+    onBackendPaginationPageNumberChange(nextPage: number): void {
+      this.currentPage = nextPage;
+      this.$emit('beforePageChange', nextPage);
     },
     /**
      * @description will filter the results shown on page
      */
     filterShownResults(currentPage: number, countOfResultsPerPage: number, retryWithFirst: boolean = true): void {
+      if (this.isBackendPagination) {
+        this.visibleResults = this.rowsData;
+        return;
+      }
+
       let visibleResults = [] as Array<unknown>;
       this.searchMatchingResults = [];
       this.$nextTick( () => {
@@ -571,11 +619,20 @@ export default {
   created(): void {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
     this.initComponentValues();
+
+    if (this.isBackendPagination && null === this.backendMaxResults) {
+      throw new BaseError("`backendMaxResults` is required when `isBackendPagination = true`");
+    }
   },
   watch: {
     searchValue(): void {
       this.currentPage = 1;
-      this.refresh(this.currentPage);
+
+      if (!this.isBackendPagination) {
+        this.refresh(this.currentPage);
+      } else {
+        this.$emit("searchValueChange", this.searchValue);
+      }
     },
     data(): void {
       this.refresh(this.currentPage);
