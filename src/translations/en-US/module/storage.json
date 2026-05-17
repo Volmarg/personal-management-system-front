@@ -1,5 +1,37 @@
 {
     "storage": {
+        "module": {
+            "videos": {
+                "label": "Videos"
+            },
+            "images": {
+                "label": "Images"
+            },
+            "files": {
+                "label": "Files"
+            }
+        },
+        "picker": {
+            "modal": {
+                "header": "Storage files"
+            },
+            "table": {
+                "header": {
+                    "preview": {
+                        "label": "Preview"
+                    },
+                    "module": {
+                        "label": "Module"
+                    },
+                    "fileName": {
+                        "label": "File name"
+                    },
+                    "tags": {
+                        "label": "Tags"
+                    }
+                }
+            }
+        },
         "page": {
             "addFiles": {
                 "header": "Upload files directly into storage module folder"

@@ -17,4 +17,5 @@ export default class SymfonyStorageRoutes extends SymfonyRoutes
     public static readonly FILE_UPDATE_URL = SymfonyStorageRoutes.FILE_BASE_URL + "/update";
     public static readonly FILE_REMOVE_URL = SymfonyStorageRoutes.FILE_BASE_URL + "/remove";
     public static readonly FILE_MOVE_URL = SymfonyStorageRoutes.FILE_BASE_URL + "/move";
+    public static readonly FILE_FILTER_URL = SymfonyStorageRoutes.FILE_BASE_URL + "/filter";
 }
