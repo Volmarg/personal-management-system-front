@@ -203,7 +203,7 @@ export default {
          * @description this isn't a spacebar, because it gets trimmed, nbsp is not as well
          * @link https://www.compart.com/en/unicode/U+3164
          */
-        label: "ㅤ".repeat(level) + node.dirname,
+        label: "  ㅤ ".repeat(level) + node.dirname,
         selectedLabel: node.dirname,
         value: node.path,
       })
