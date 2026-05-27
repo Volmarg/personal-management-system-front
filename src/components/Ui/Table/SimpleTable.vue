@@ -19,7 +19,7 @@
     </div>
 
     <div v-else>
-      <Pagination :number-of-results="backendMaxResults"
+      <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
                   :initial-current-page="currentPage"
                   :initial-count-of-result-per-page="resultsPerPage"
                   @page-number-changes="onPaginationPageNumberChange"
