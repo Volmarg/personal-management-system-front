@@ -13,6 +13,8 @@
                              @remove-file="onRemoveFile"
           />
 
+          <slot name="beforeExtensions"></slot>
+
           <p class="mt-2">
             <small class="block"
                    v-if="configuration.maxFileSizeMb > 0"
@@ -80,7 +82,7 @@
 
             <MediumButtonWithIcon :text="$t('generic.form.upload.button.clearList.label')"
                                   v-if="!$refs.upload || !$refs.upload.active"
-                                  @click.prevent="files = []"
+                                  @click.prevent="files = []; $emit('cleared')"
                                   button-classes="action-button"
                                   class="action"
             >
@@ -179,7 +181,9 @@ export default {
     },
   },
   emits: [
-    'uploadFinished'
+    'uploadFinished',
+    'filterPassed',
+    'cleared',
   ],
   mixins: [
     UploadStatusMixin
@@ -246,6 +250,8 @@ export default {
         this.$refs.upload.remove(newFile);
         return prevent();
       }
+
+      this.$emit('filterPassed', {file: newFile});
     },
     /**
      * @description will check if the give file size is allowed

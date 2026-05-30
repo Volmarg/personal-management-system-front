@@ -470,6 +470,7 @@
                         "upload": {
                             "label": "Upload",
                             "text": {
+                                "csvDelimiter": "CSV Delimiter character",
                                 "noFileUploaded": "No file has been uploaded!",
                                 "fileUploaded": "File has been uploaded",
                                 "moreThanOneWorksheet": "More than one worksheet has been found. Using the first one."
