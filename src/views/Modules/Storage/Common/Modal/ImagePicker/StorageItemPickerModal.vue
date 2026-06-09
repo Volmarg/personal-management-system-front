@@ -15,8 +15,10 @@
                          :backend-max-results="totalResults"
                          :is-backend-pagination="true"
                          :results-per-page="perPage"
+                         :is-row-hover-action-cursor="true"
                          @before-page-change="onBeforePageChange"
                          @search-value-change="searchValue = $event"
+                         @row-click="onRowClick"
             />
 
           </div>
@@ -30,6 +32,7 @@
 <script lang="ts">
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import BaseError            from "@/scripts/Core/Error/BaseError";
 import SymfonyStorageRoutes from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
 import PaginatedApiResponse from "@/scripts/Response/PaginatedApiResponse";
 import PublicFolderService  from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
@@ -54,6 +57,27 @@ export default {
       table: {
         headers: [
           {
+            label: 'id',
+            dataValuePath : 'id.value',
+            dataIsComponentPath : 'id.isComponent',
+            isVisible: false,
+            dataComponentPropertiesPath: null
+          },
+          {
+            label: 'path',
+            dataValuePath : 'path.value',
+            dataIsComponentPath : 'path.isComponent',
+            isVisible: false,
+            dataComponentPropertiesPath: null
+          },
+          {
+            label: 'module',
+            dataValuePath : 'module.value',
+            dataIsComponentPath : 'module.isComponent',
+            isVisible: false,
+            dataComponentPropertiesPath: null
+          },
+          {
             label: this.$t('storage.picker.table.header.preview.label'),
             dataValuePath : 'preview.value',
             dataIsComponentPath : 'preview.isComponent',
@@ -61,8 +85,8 @@ export default {
           },
           {
             label: this.$t('storage.picker.table.header.module.label'),
-            dataValuePath : 'module.value',
-            dataIsComponentPath : 'module.isComponent',
+            dataValuePath : 'moduleLabel.value',
+            dataIsComponentPath : 'moduleLabel.isComponent',
             dataComponentPropertiesPath: null
           },
           {
@@ -108,11 +132,23 @@ export default {
       for (let entry of this.entries) {
         data.push({
           values: {
+            id: {
+              value: entry.id,
+              isComponent: false,
+            },
+            path: {
+              value: entry.path,
+              isComponent: false,
+            },
+            module: {
+              value: entry.module,
+              isComponent: false,
+            },
             fileName: {
               value: `${entry.name}.${entry.ext}`,
               isComponent: false,
             },
-            module: {
+            moduleLabel: {
               value: this.$t(`storage.module.${entry.module}.label`),
               isComponent: false,
             },
@@ -140,6 +176,31 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description returns the clicked storage entry data
+     */
+    onRowClick(rowData: Array<Record<string, unknown>>): Record<string, unknown> {
+      let idColData = rowData.find((colData: Record<string, unknown>) => colData.fieldName === 'id')
+      if (!idColData || !idColData.value) {
+        throw new BaseError("This storage item is either missing `id` field, or `id` is empty");
+      }
+
+      let pathColData = rowData.find((colData: Record<string, unknown>) => colData.fieldName === 'path')
+      if (!pathColData || !pathColData.value) {
+        throw new BaseError("This storage item is either missing `path` field, or `path` is empty");
+      }
+
+      let moduleColData = rowData.find((colData: Record<string, unknown>) => colData.fieldName === 'module')
+      if (!moduleColData || !moduleColData.value) {
+        throw new BaseError("This storage item is either missing `module` field, or `module` is empty");
+      }
+
+      return {
+        id: idColData.value,
+        filePath: pathColData.value,
+        module: moduleColData.value,
+      };
+    },
     /**
      * @description re-fetches the page-offset data when table page change
      */

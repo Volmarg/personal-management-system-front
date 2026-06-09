@@ -65,10 +65,14 @@
         </thead>
         <tbody>
           <tr v-for="(rowData, rowIndex) in visibleResults"
+              @click="$emit('rowClick', rowData)"
               :key="rowIndex"
               v-last-loop-element="{
                 index: rowIndex,
                 callback: () => $emit('afterTableRowsHandled'),
+              }"
+              :class="{
+                'cursor-pointer': isRowHoverActionCursor
               }"
           >
             <!-- if header is hidden the hiding the column too -->
@@ -176,6 +180,11 @@ export default {
     }
   },
   props: {
+    isRowHoverActionCursor: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     isBackendPagination: {
       type: Boolean,
       required: false,
@@ -391,6 +400,7 @@ export default {
     'update:componentModelValue',
     'action',
     'searchValueChange',
+    'rowClick',
   ],
   computed: {
     /**
