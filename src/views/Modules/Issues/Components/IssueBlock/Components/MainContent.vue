@@ -1,19 +1,21 @@
 <template>
-  <div class="box-content">
+  <Box>
     <div v-if="showContactsData"
          class="text-left"
     >
-      <p class="box-line">
+      <BoxLine>
         <span class="font-bold">{{$t('issues.pending.box.dashboard.lines.contactHeader')}}</span>
-      </p>
-      <p class="box-line">
+      </BoxLine>
+
+      <BoxLine>
         <span class="label">{{$t('issues.pending.box.dashboard.lines.lastTry')}}: </span>
         <span class="value">{{ lastContactDate }}</span>
-      </p>
-      <p class="box-line">
+      </BoxLine>
+
+      <BoxLine>
         <span class="label">{{$t('issues.pending.box.dashboard.lines.entriesCount')}}: </span>
         <span class="value">{{ contactEntriesCount }}</span>
-      </p>
+      </BoxLine>
     </div>
 
     <br>
@@ -21,22 +23,27 @@
     <div v-if="showProgressData"
          class="text-left"
     >
-      <p class="box-line">
+      <BoxLine>
         <span class="font-bold">{{$t('issues.pending.box.dashboard.lines.progressHeader')}}</span>
-      </p>
-      <p class="box-line">
+      </BoxLine>
+
+      <BoxLine>
         <span class="label">{{$t('issues.pending.box.dashboard.lines.lastTry')}}: </span>
         <span class="value">{{ lastProgressDate }}</span>
-      </p>
-      <p class="box-line">
+      </BoxLine>
+
+      <BoxLine>
         <span class="label">{{$t('issues.pending.box.dashboard.lines.entriesCount')}}: </span>
         <span class="value">{{ progressEntriesCount }}</span>
-      </p>
+      </BoxLine>
     </div>
-  </div>
+  </Box>
 </template>
 
 <script lang="ts">
+import Box     from "@/components/Ui/Containers/Components/MediumDataBlock/Components/MainContent/Box.vue";
+import BoxLine from "@/components/Ui/Containers/Components/MediumDataBlock/Components/MainContent/BoxLine.vue";
+
 export default {
   props: {
     lastContactDate: {
@@ -56,6 +63,10 @@ export default {
       required: true,
     },
   },
+  components: {
+    Box,
+    BoxLine
+  },
   computed: {
     /**
      * @description decides if contact data should be shown
@@ -72,20 +83,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.box-content {
-  min-height: 150px;
-  @apply flex flex-col w-full
-}
-
-.box-line {
-  .label {
-    @apply text-gray-800
-  }
-  .value {
-    @apply text-gray-600
-  }
-  @apply self-start
-}
-</style>

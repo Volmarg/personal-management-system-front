@@ -1,42 +1,34 @@
 <template>
-  <div  class="issue-block"
-        :class="{
-          'issue-block-fluid': !isDashboardWidget,
-          'issue-block-big': isDashboardWidget,
-       }"
+  <MediumDataBlock :title="title"
+                   :description="description"
+                   :is-static-size="isDashboardWidget"
+                   :is-menu-visible="isMenuVisible"
+                   @on-hamburger-click="isMenuOpen=!isMenuOpen"
   >
-    <div class="w-full p-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
-      <!-- top with menu -->
-      <div class="flex flex-row items-center justify-between mb-6">
-        <div class="flex flex-col text-left">
-          <div class="text-lg text-blue-500"><span v-html="title" /></div>
-          <div class="mt-1 text-sm text-gray-400"><span v-html="description" /></div>
-        </div>
+    <template #menu>
+      <Menu :is-menu-open="isMenuOpen"
+            :config="menuConfiguration"
+            @handle-related-todo-click="onHandleTodoClick"
+            @view-edit-click="isViewEditModalVisible = true; isMenuOpen = false;"
+            @removed-click="isRemoveModalVisible = true; isMenuOpen = false;"
+            @menu-close="isMenuOpen=false"
+      />
+    </template>
 
-        <div class="relative">
-          <Hamburger @click="onHamburgerClick"
-                     v-if="isMenuVisible"
-          />
-          <Menu :is-menu-open="isMenuOpen"
-                @handle-related-todo-click="onHandleTodoClick"
-                @view-edit-click="isViewEditModalVisible = true; isMenuOpen = false;"
-                @removed-click="isRemoveModalVisible = true; isMenuOpen = false;"
-          />
-        </div>
-      </div>
+    <template #mainContent>
+      <MainContent :contact-entries-count="contacts.length"
+                   :last-contact-date="lastContactDate"
+                   :last-progress-date="lastProgressDate"
+                   :progress-entries-count="progressList.length"
+      />
+    </template>
 
-      <div class="w-full">
-        <MainContent :contact-entries-count="contacts.length"
-                     :last-contact-date="lastContactDate"
-                     :last-progress-date="lastProgressDate"
-                     :progress-entries-count="progressList.length"
-        />
-        <BottomContent :is-for-dashboard="isForDashboard"
-                       v-if="isDashboardStateVisible"
-        />
-      </div>
-    </div>
-  </div>
+    <template #additionalContent>
+      <BottomContent :is-for-dashboard="isForDashboard"
+                     v-if="isDashboardStateVisible"
+      />
+    </template>
+  </MediumDataBlock>
 
   <div v-if="isMenuVisible">
     <RemoveModal :is-modal-visible="isRemoveModalVisible"
@@ -57,7 +49,6 @@
                    :contacts="contacts"
                    :all-progress="progressList"
                    @modal-closed="this.isViewEditModalVisible = false"
-                   @confirm-click="onViewEditConfirmed"
                    @contact-edit-click="isContactEditModalVisible = true; editedContact = $event.contact"
                    @progress-edit-click="isProgressEditModalVisible = true; editedProgress = $event.progress"
     />
@@ -100,9 +91,10 @@
 
 <script lang="ts">
 
+import MediumDataBlock from "@/components/Ui/Containers/MediumDataBlock.vue";
+import Menu            from "@/components/Ui/Containers/Components/MediumDataBlock/Menu.vue";
+
 import EditTodoModal   from "@/views/Modules/Todo/Components/SingleTodo/EditModal.vue";
-import Hamburger       from "@/views/Modules/Issues/Components/IssueBlock/Components/Hamburger.vue";
-import Menu            from "@/views/Modules/Issues/Components/IssueBlock/Components/Menu.vue";
 import MainContent     from "@/views/Modules/Issues/Components/IssueBlock/Components/MainContent.vue";
 import BottomContent   from "@/views/Modules/Issues/Components/IssueBlock/Components/BottomContent.vue";
 
@@ -118,7 +110,7 @@ import RemoveModal     from "@/views/Modules/Issues/Components/RemoveModal.vue";
 
 import {ComponentData}                 from "@/scripts/Vue/Types/Components/types";
 import {SingleContact, SingleProgress} from "@/scripts/Core/Types/Modules/Issues";
-
+import {MenuConfiguration}             from "@/scripts/Core/Types/Components/UI/MediumDataBlock";
 
 import TypeChecker         from "@/scripts/Core/Services/Types/TypeChecker";
 import DateTimeProcessor   from "@/scripts/Core/Services/TypesProcessors/DateTimeProcessor";
@@ -127,6 +119,21 @@ import SymfonyIssuesRoutes from "@/router/SymfonyRoutes/Modules/SymfonyIssuesRou
 export default {
   data(): ComponentData {
     return {
+      menuConfiguration: [
+        {
+          label: this.$t('issues.pending.box.dashboard.menu.viewEdit'),
+          eventName: "viewEditClick"
+        },
+        {
+          label: this.$t('issues.pending.box.dashboard.menu.relatedTodo'),
+          eventName: "handleRelatedTodoClick"
+        },
+        {
+          label: this.$t('issues.pending.box.dashboard.menu.remove'),
+          eventName: "removedClick",
+          cssClasses: "text-red-600"
+        }
+      ] as MenuConfiguration,
       editedProgress: null as SingleProgress | null,
       removedProgress: null as SingleProgress | null,
       isProgressEditModalVisible: false,
@@ -197,9 +204,9 @@ export default {
     AddNewTodoModal,
     ViewEditModal,
     Menu,
-    Hamburger,
     MainContent,
     BottomContent,
+    MediumDataBlock,
   },
   emits: [
     "reFetchData"
@@ -229,13 +236,6 @@ export default {
     },
   },
   methods: {
-    // todo: wipe the methods if not used + events and props
-    /**
-     * @description handle user clicking on the hamburger menu, basically does toggle menu state
-     */
-    onHamburgerClick(): void {
-      this.isMenuOpen = !this.isMenuOpen
-    },
     /**
      * @description handle user confirming record removal
      *              - remove entry on backend,
