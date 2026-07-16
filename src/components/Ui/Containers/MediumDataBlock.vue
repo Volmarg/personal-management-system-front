@@ -10,7 +10,7 @@
       <div class="flex flex-row items-center justify-between mb-6">
         <div class="flex flex-col text-left">
           <div class="text-lg text-blue-500"><span v-html="title" /></div>
-          <div class="mt-1 text-sm text-gray-400"><span v-html="description" /></div>
+          <div class="mt-1 text-sm text-gray-400"><span v-html="usedDescription" /></div>
         </div>
 
         <div class="relative">
@@ -40,6 +40,11 @@ export default {
       type: String,
       required: true,
     },
+    descMaxChars: {
+      type: [Number, null],
+      required: false,
+      default: null,
+    },
     description: {
       type: String,
       required: true,
@@ -61,6 +66,19 @@ export default {
   emits: [
       'onHamburgerClick'
   ],
+  computed: {
+    usedDescription(): string {
+      if (this.descMaxChars === null) {
+        return this.description;
+      }
+
+      if (this.description.length < this.descMaxChars) {
+        return this.description;
+      }
+
+      return this.description.substr(0, this.descMaxChars) + "...";
+    },
+  },
   methods: {
     onHamburgerClick(): void {
       this.$emit('onHamburgerClick')
