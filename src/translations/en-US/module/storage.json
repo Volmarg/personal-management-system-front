@@ -13,7 +13,12 @@
         },
         "picker": {
             "modal": {
-                "header": "Storage files"
+                "header": "Storage files",
+                "buttons": {
+                    "confirm": {
+                        "label": "Confirm"
+                    }
+                }
             },
             "table": {
                 "header": {

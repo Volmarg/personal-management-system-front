@@ -1,13 +1,14 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
-           id="storage-file-edit"
+           id="storage-file-picker"
            :title="$t('storage.picker.modal.header')"
-           @modal-closed="onModalClosed"
-           :size="modalSize"
+           @modal-closed="closeModal"
     >
       <template #content>
-        <div class="flex justify-center">
+        <div class="flex justify-center"
+             v-if="showModal"
+        >
           <div class="w-full flex flex-col">
 
             <SimpleTable :headers="table.headers"
@@ -16,14 +17,27 @@
                          :is-backend-pagination="true"
                          :results-per-page="perPage"
                          :is-row-hover-action-cursor="true"
+                         :with-checkboxes="true"
+                         :row-click-toggles-checkbox="true"
                          @before-page-change="onBeforePageChange"
                          @search-value-change="searchValue = $event"
-                         @row-click="onRowClick"
+                         ref="table"
             />
 
           </div>
         </div>
 
+      </template>
+
+      <template #footerRightSection>
+        <MediumButtonWithIcon :text="$t('storage.picker.modal.buttons.confirm.label')"
+                              button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
+                              class="w-full md:w-auto"
+                              button-classes="w-full md:w-auto m-0-force"
+                              text-classes="text-center w-full"
+                              background-color-class="bg-blue-500"
+                              @button-click="onConfirmClick"
+        />
       </template>
     </Modal>
   </div>
@@ -43,6 +57,7 @@ import PickerPreview from "@/views/Modules/Storage/Common/Modal/ImagePicker/Pick
 import PickerTags    from "@/views/Modules/Storage/Common/Modal/ImagePicker/PickerTags.vue";
 
 import ResponseHandlerMixin from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
+import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
 export default {
   data(): ComponentData {
@@ -113,6 +128,7 @@ export default {
     },
   },
   components: {
+    MediumButtonWithIcon,
     SimpleTable,
     Modal
   },
@@ -121,7 +137,7 @@ export default {
   ],
   emits: [
     "modalClosed",
-    "updateSuccess",
+    "onSelectionConfirm"
   ],
   computed: {
     /**
@@ -177,29 +193,44 @@ export default {
   },
   methods: {
     /**
-     * @description returns the clicked storage entry data
+     * @description collects checked rows data and emits an event with this data
      */
-    onRowClick(rowData: Array<Record<string, unknown>>): Record<string, unknown> {
-      let idColData = rowData.find((colData: Record<string, unknown>) => colData.fieldName === 'id')
-      if (!idColData || !idColData.value) {
-        throw new BaseError("This storage item is either missing `id` field, or `id` is empty");
+    onConfirmClick(): void {
+      let entries = [];
+      for (let checkedRowData of Object.values(this.$refs.table.checkedRowsData)) {
+        let colId       = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'id');
+        let colFilePath = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'path');
+        let colModule   = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'module');
+
+        let formattedData = {
+          id: colId?.value,
+          filePath: colFilePath?.value,
+          module: colModule?.value,
+        };
+
+        this.validateCheckedData(formattedData);
+
+        entries.push(formattedData)
       }
 
-      let pathColData = rowData.find((colData: Record<string, unknown>) => colData.fieldName === 'path')
-      if (!pathColData || !pathColData.value) {
-        throw new BaseError("This storage item is either missing `path` field, or `path` is empty");
+      this.$emit('onSelectionConfirm', entries);
+      this.closeModal();
+    },
+    /**
+     * @description validates if the formatted/checked row data strutcure is valid
+     */
+    validateCheckedData(formattedData: Record<string, unknown>): void {
+      if (!formattedData.id) {
+        throw new BaseError("Formated data is missing an `id`. Got: " + formattedData.id );
       }
 
-      let moduleColData = rowData.find((colData: Record<string, unknown>) => colData.fieldName === 'module')
-      if (!moduleColData || !moduleColData.value) {
-        throw new BaseError("This storage item is either missing `module` field, or `module` is empty");
+      if (!formattedData.filePath) {
+        throw new BaseError("Formated data is missing a `filePath`. Got: " + formattedData.filePath);
       }
 
-      return {
-        id: idColData.value,
-        filePath: pathColData.value,
-        module: moduleColData.value,
-      };
+      if (!formattedData.module) {
+        throw new BaseError("Formated data is missing a `module`. Got: " + formattedData.module);
+      }
     },
     /**
      * @description re-fetches the page-offset data when table page change
@@ -210,7 +241,7 @@ export default {
     /**
      * @description handles the situation when modal get closed. Will pass the event further
      */
-    onModalClosed(): void {
+    closeModal(): void {
       this.entries = [];
       this.currentPageNumber = 1;
       this.totalResults = 0;

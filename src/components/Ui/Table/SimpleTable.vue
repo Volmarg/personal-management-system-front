@@ -36,6 +36,7 @@
       <table class="table mt-2">
         <thead>
           <tr>
+            <td v-if="withCheckboxes"></td>
             <th v-for="(header, index) in headers"
                 :key="index"
                 class="font-bold uppercase cursor-pointer hover:opacity-80"
@@ -65,7 +66,7 @@
         </thead>
         <tbody>
           <tr v-for="(rowData, rowIndex) in visibleResults"
-              @click="$emit('rowClick', rowData)"
+              @click="onDataRowClick(rowData)"
               :key="rowIndex"
               v-last-loop-element="{
                 index: rowIndex,
@@ -75,6 +76,12 @@
                 'cursor-pointer': isRowHoverActionCursor
               }"
           >
+            <td v-if="withCheckboxes">
+              <Checkbox class="transform scale-75"
+                        ref="checkbox"
+                        v-model="checkboxesState[getRowNumber(rowData[0].rowIndex)]"
+              />
+            </td>
             <!-- if header is hidden the hiding the column too -->
             <td v-for="(cellData, cellIndex) in rowData"
                 :key="cellIndex"
@@ -147,13 +154,15 @@ import BaseError            from "@/scripts/Core/Error/BaseError";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import Checkbox    from "@/components/Form/Checkbox.vue";
 import SearchInput from "@/components/Navigation/SearchInput.vue";
 import Pagination  from "@/components/Ui/Pagination.vue";
 
-import SortMixin           from "@/components/Ui/Table/Mixin/SortMixin.vue";
-import VuelidateHandler    from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
-import PaginationMixin     from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
-import RowAndCellDataMixin from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
+import SortMixin            from "@/components/Ui/Table/Mixin/SortMixin.vue";
+import VuelidateHandler     from "@/scripts/Vue/Mixins/VuelidateHandler.vue";
+import PaginationMixin      from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
+import RowAndCellDataMixin  from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
+import CheckboxHandlerMixin from "@/components/Ui/Table/Mixin/CheckboxHandlerMixin.vue";
 
 /**
  * @description provides simple table
@@ -172,6 +181,8 @@ export default {
        */
       blockerValue: undefined,
       componentValues: {},
+      checkedRowsData: {},
+      checkboxesState: {},
       searchValue: null,
       currentPage: 1,
       visibleResults: [],
@@ -180,6 +191,16 @@ export default {
     }
   },
   props: {
+    rowClickTogglesCheckbox: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    withCheckboxes: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     isRowHoverActionCursor: {
       type: Boolean,
       required: false,
@@ -373,13 +394,15 @@ export default {
   },
   components: {
     Pagination,
-    SearchInput
+    SearchInput,
+    Checkbox,
   },
   mixins: [
     SortMixin,
     PaginationMixin,
     VuelidateHandler,
     RowAndCellDataMixin,
+    CheckboxHandlerMixin,
   ],
   emits: [
     /**
@@ -401,6 +424,7 @@ export default {
     'action',
     'searchValueChange',
     'rowClick',
+    'getCheckedRows',
   ],
   computed: {
     /**
@@ -459,6 +483,24 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description
+     *              - emits event with row data
+     *              - if enabled: updates the checkbox state
+     */
+    onDataRowClick(rowData: Record<string, unknown>) {
+      this.$emit('rowClick', rowData);
+
+      if (this.rowClickTogglesCheckbox) {
+        let rowNumber = this.getRowNumber(rowData[0].rowIndex);
+        if (!Object.keys(this.checkboxesState).includes(rowNumber)) {
+          this.checkboxesState[rowNumber] = true;
+          return;
+        }
+
+        this.checkboxesState[rowNumber] = !this.checkboxesState[rowNumber];
+      }
+    },
     /**
      * @description triggers cells validations on the component values
      */
@@ -635,6 +677,12 @@ export default {
     }
   },
   watch: {
+    checkboxesState: {
+      deep: true,
+      handler: function () {
+        this.trackCheckedData();
+      }
+    },
     searchValue(): void {
       this.currentPage = 1;
 
