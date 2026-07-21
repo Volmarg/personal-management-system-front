@@ -13,14 +13,12 @@
 
             <SimpleTable :headers="table.headers"
                          :data="tableData"
-                         :backend-max-results="totalResults"
-                         :is-backend-pagination="true"
                          :results-per-page="perPage"
                          :is-row-hover-action-cursor="true"
                          :with-checkboxes="true"
                          :row-click-toggles-checkbox="true"
-                         @before-page-change="onBeforePageChange"
-                         @search-value-change="searchValue = $event"
+                         :checked-rows-data="checkedRowsData"
+                         :fields-for-row-hashing="['id']"
                          ref="table"
             />
 
@@ -48,7 +46,6 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import BaseError            from "@/scripts/Core/Error/BaseError";
 import SymfonyStorageRoutes from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
-import PaginatedApiResponse from "@/scripts/Response/PaginatedApiResponse";
 import PublicFolderService  from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
 
 import Modal         from "@/components/Modal/Modal.vue";
@@ -65,9 +62,6 @@ export default {
       showModal: false,
       searchChangeTriggerTimeout: null,
       entries: [],
-      totalResults: 0,
-      currentPageNumber: 1,
-      searchValue: '',
       perPage: 5,
       table: {
         headers: [
@@ -121,6 +115,16 @@ export default {
     }
   },
   props: {
+    /**
+     * @description these are the table components data rows (formatted internally by component itself)
+     */
+    checkedRowsData: {
+      type: Object,
+      required: false,
+      default: function () {
+        return {}
+      }
+    },
     isModalVisible: {
       type     : Boolean,
       required : true,
@@ -198,14 +202,13 @@ export default {
     onConfirmClick(): void {
       let entries = [];
       for (let checkedRowData of Object.values(this.$refs.table.checkedRowsData)) {
-        let colId       = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'id');
-        let colFilePath = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'path');
-        let colModule   = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'module');
+        let colId = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'id');
 
         let formattedData = {
           id: colId?.value,
-          filePath: colFilePath?.value,
-          module: colModule?.value,
+          tableData: {
+            checkedRowData: checkedRowData,
+          }
         };
 
         this.validateCheckedData(formattedData);
@@ -223,57 +226,14 @@ export default {
       if (!formattedData.id) {
         throw new BaseError("Formated data is missing an `id`. Got: " + formattedData.id );
       }
-
-      if (!formattedData.filePath) {
-        throw new BaseError("Formated data is missing a `filePath`. Got: " + formattedData.filePath);
-      }
-
-      if (!formattedData.module) {
-        throw new BaseError("Formated data is missing a `module`. Got: " + formattedData.module);
-      }
-    },
-    /**
-     * @description re-fetches the page-offset data when table page change
-     */
-    onBeforePageChange(nextPage: number): void {
-      this.fetchData(nextPage);
     },
     /**
      * @description handles the situation when modal get closed. Will pass the event further
      */
     closeModal(): void {
       this.entries = [];
-      this.currentPageNumber = 1;
-      this.totalResults = 0;
-
       this.$emit('modalClosed');
     },
-    /**
-     * @description fetches backend data for given page / criteria
-     */
-    async fetchData(pageNumber: number = 1): Promise<void> {
-      this.$rootEvent.showFullPageLoader();
-
-      let queryArgs = {
-        pageNumber: pageNumber,
-        perPage: this.perPage,
-        query: this.searchValue,
-      };
-
-      let queryParams = new URLSearchParams(queryArgs).toString();
-      let calledUrl = SymfonyStorageRoutes.buildUrl(SymfonyStorageRoutes.FILE_FILTER_URL) + `?${queryParams}`;
-
-      this.$axios.get(calledUrl, PaginatedApiResponse).then((response: PaginatedApiResponse) => {
-        this.$rootEvent.hideFullPageLoader();
-        if (!this.handleResponse(response)) {
-          return;
-        }
-
-        this.entries = response.data.allRecords;
-        this.currentPageNumber = response.currentPageNumber;
-        this.totalResults = response.totalResults;
-      })
-    }
   },
   mounted(): void {
     this.showModal = this.isModalVisible;
@@ -284,24 +244,9 @@ export default {
   watch: {
     async isModalVisible(): Promise<void> {
       if (this.isModalVisible) {
-        this.fetchData();
+        this.entries = await this.$moduleCall.getAll(SymfonyStorageRoutes.FILE_BASE_URL);
       }
     },
-    /**
-     * @description using timeout to prevent instant-refetch on query-value change (let the user type)
-     */
-    searchValue(): void {
-      if (this.isModalVisible) {
-        if (null !== this.searchChangeTriggerTimeout) {
-          clearTimeout(this.searchChangeTriggerTimeout);
-          this.searchChangeTriggerTimeout = null;
-        }
-
-        this.searchChangeTriggerTimeout = setTimeout(() => {
-          this.fetchData();
-        }, 500)
-      }
-    }
   }
 }
 </script>

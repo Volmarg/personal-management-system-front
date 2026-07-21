@@ -8,25 +8,13 @@
       <slot name="toltipEnd"></slot>
     </div>
 
-    <div v-if="isBackendPagination">
-      <Pagination :number-of-results="backendMaxResults"
-                  :initial-current-page="currentPage"
-                  :initial-count-of-result-per-page="resultsPerPage"
-                  @page-number-changes="onBackendPaginationPageNumberChange"
-                  class="mt-2"
-                  v-if="navigationOnTop"
-      />
-    </div>
-
-    <div v-else>
-      <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
-                  :initial-current-page="currentPage"
-                  :initial-count-of-result-per-page="resultsPerPage"
-                  @page-number-changes="onPaginationPageNumberChange"
-                  class="mt-2"
-                  v-if="navigationOnTop"
-      />
-    </div>
+    <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
+                :initial-current-page="currentPage"
+                :initial-count-of-result-per-page="resultsPerPage"
+                @page-number-changes="onPaginationPageNumberChange"
+                class="mt-2"
+                v-if="navigationOnTop"
+    />
 
     <div class="overflow-x-auto overflow-hidden"
          :class="{
@@ -79,7 +67,7 @@
             <td v-if="withCheckboxes">
               <Checkbox class="transform scale-75"
                         ref="checkbox"
-                        v-model="checkboxesState[getRowNumber(rowData[0].rowIndex)]"
+                        v-model="checkboxesState[rowData[0].rowUniqueHash]"
               />
             </td>
             <!-- if header is hidden the hiding the column too -->
@@ -123,24 +111,13 @@
 
     </div>
 
-    <div v-if="isBackendPagination">
-      <Pagination :number-of-results="backendMaxResults"
-                  :initial-current-page="currentPage"
-                  :initial-count-of-result-per-page="resultsPerPage"
-                  @page-number-changes="onBackendPaginationPageNumberChange"
-                  class="mt-2"
-                  v-if="!navigationOnTop"
-      />
-    </div>
-    <div v-else>
-      <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
-                  :initial-current-page="currentPage"
-                  :initial-count-of-result-per-page="resultsPerPage"
-                  @page-number-changes="onPaginationPageNumberChange"
-                  class="mt-2"
-                  v-if="!navigationOnTop"
-      />
-    </div>
+    <Pagination :number-of-results="searchValue ? searchMatchingResults.length : rowsData.length"
+                :initial-current-page="currentPage"
+                :initial-count-of-result-per-page="resultsPerPage"
+                @page-number-changes="onPaginationPageNumberChange"
+                class="mt-2"
+                v-if="!navigationOnTop"
+    />
 
   </div>
 </template>
@@ -181,7 +158,7 @@ export default {
        */
       blockerValue: undefined,
       componentValues: {},
-      checkedRowsData: {},
+      checkboxesRowsData: {},
       checkboxesState: {},
       searchValue: null,
       currentPage: 1,
@@ -191,6 +168,36 @@ export default {
     }
   },
   props: {
+    /**
+     * @description in some cases some fields have to be excluded from hashing to make the checkbox auto-check work properly
+     *              otherwise provided hash will be compared against new state of data (which will yield different hash)
+     *              example:
+     *              - image with jwt token its path
+     */
+    fieldsExcludedFromRowHashing: {
+      type: Array,
+      required: false,
+      default: function(){
+        return [];
+      }
+    },
+    /**
+     * @description same case as with `fieldsExcludedFromRowHashing` but here we define explicit fields used in hashing
+     */
+    fieldsForRowHashing: {
+      type: Array,
+      required: false,
+      default: function(){
+        return [];
+      }
+    },
+    checkedRowsData: {
+      type: Object,
+      required: false,
+      default: function () {
+        return {}
+      }
+    },
     rowClickTogglesCheckbox: {
       type: Boolean,
       required: false,
@@ -205,15 +212,6 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
-    isBackendPagination: {
-      type: Boolean,
-      required: false,
-    },
-    backendMaxResults: {
-      type: Number || null,
-      required: false,
-      default: null
     },
     navigationOnTop: {
       type: Boolean,
@@ -422,9 +420,7 @@ export default {
      */
     'update:componentModelValue',
     'action',
-    'searchValueChange',
     'rowClick',
-    'getCheckedRows',
   ],
   computed: {
     /**
@@ -470,6 +466,11 @@ export default {
           })
         }
 
+        let hash = this.hashRowData(rowData, this.fieldsExcludedFromRowHashing, this.fieldsForRowHashing);
+        for (let chunk of rowData) {
+          chunk.rowUniqueHash = hash;
+        }
+
         rowsData.push(rowData);
       }
 
@@ -492,13 +493,13 @@ export default {
       this.$emit('rowClick', rowData);
 
       if (this.rowClickTogglesCheckbox) {
-        let rowNumber = this.getRowNumber(rowData[0].rowIndex);
-        if (!Object.keys(this.checkboxesState).includes(rowNumber)) {
-          this.checkboxesState[rowNumber] = true;
+        let hash = rowData[0].rowUniqueHash;
+        if (!Object.keys(this.checkboxesState).includes(hash)) {
+          this.checkboxesState[hash] = true;
           return;
         }
 
-        this.checkboxesState[rowNumber] = !this.checkboxesState[rowNumber];
+        this.checkboxesState[hash] = !this.checkboxesState[hash];
       }
     },
     /**
@@ -571,21 +572,9 @@ export default {
       this.filterShownResults(nextPage, countOfResultsPerPage);
     },
     /**
-     * @description switches to next page programmatically and emits event to parent component so it can fetch new data chunk
-     */
-    onBackendPaginationPageNumberChange(nextPage: number): void {
-      this.currentPage = nextPage;
-      this.$emit('beforePageChange', nextPage);
-    },
-    /**
      * @description will filter the results shown on page
      */
     filterShownResults(currentPage: number, countOfResultsPerPage: number, retryWithFirst: boolean = true): void {
-      if (this.isBackendPagination) {
-        this.visibleResults = this.rowsData;
-        return;
-      }
-
       let visibleResults = [] as Array<unknown>;
       this.searchMatchingResults = [];
       this.$nextTick( () => {
@@ -672,9 +661,9 @@ export default {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
     this.initComponentValues();
 
-    if (this.isBackendPagination && null === this.backendMaxResults) {
-      throw new BaseError("`backendMaxResults` is required when `isBackendPagination = true`");
-    }
+    // todo: build checked rows from checked rowsData, since i can get hash from it i guess?
+    this.checkboxesRowsData = this.checkedRowsData;
+    this.checkboxesState = this.checkboxesStateFromRowsData(this.checkedRowsData);
   },
   watch: {
     checkboxesState: {
@@ -685,12 +674,7 @@ export default {
     },
     searchValue(): void {
       this.currentPage = 1;
-
-      if (!this.isBackendPagination) {
-        this.refresh(this.currentPage);
-      } else {
-        this.$emit("searchValueChange", this.searchValue);
-      }
+      this.refresh(this.currentPage);
     },
     data(): void {
       this.refresh(this.currentPage);
