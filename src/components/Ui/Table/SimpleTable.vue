@@ -191,11 +191,11 @@ export default {
         return [];
       }
     },
-    checkedRowsData: {
-      type: Object,
+    checkedRowsHashes: {
+      type: Array,
       required: false,
       default: function () {
-        return {}
+        return []
       }
     },
     rowClickTogglesCheckbox: {
@@ -466,7 +466,8 @@ export default {
           })
         }
 
-        let hash = this.hashRowData(rowData, this.fieldsExcludedFromRowHashing, this.fieldsForRowHashing);
+        let hashableData = this.rowDataToHashableData(rowData, this.fieldsExcludedFromRowHashing, this.fieldsForRowHashing);
+        let hash = this.hashRowData(hashableData);
         for (let chunk of rowData) {
           chunk.rowUniqueHash = hash;
         }
@@ -661,9 +662,7 @@ export default {
     this.filterShownResults(this.currentPage, this.resultsPerPage);
     this.initComponentValues();
 
-    // todo: build checked rows from checked rowsData, since i can get hash from it i guess?
-    this.checkboxesRowsData = this.checkedRowsData;
-    this.checkboxesState = this.checkboxesStateFromRowsData(this.checkedRowsData);
+    this.checkboxesState = this.checkboxesStateFromRowsHashes(this.checkedRowsHashes);
   },
   watch: {
     checkboxesState: {

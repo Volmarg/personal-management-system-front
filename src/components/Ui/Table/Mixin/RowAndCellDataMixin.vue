@@ -1,4 +1,5 @@
 <script lang="ts">
+type RowData = Array<Array<Record<string, unknown>>>;
 
 import Md5Service         from "@/scripts/Core/Services/Crypto/Md5Service";
 import ArrayTypeProcessor from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
@@ -6,10 +7,16 @@ import ArrayTypeProcessor from "@/scripts/Core/Services/TypesProcessors/ArrayTyp
 export default {
   methods: {
     /**
-     * @description creates hash string out of row data. Some row data gets excluded in the hashing process, example:
+     * @description creates hash string out of row data
+     */
+    hashRowData(hashableData: RowData): string {
+      return Md5Service.hash(JSON.stringify(hashableData));
+    },
+    /**
+     * @description Prepares row data for hashing. Some row data gets excluded in the hashing process, example:
      *              - rowIndex/uniqId: these can change depending on filters, sorting, etc.
      */
-    hashRowData(rowData: Array<Array<Record<string, unknown>>>, excludedFields: Array<string> = [], hashedFields: Array<string> = []): string {
+    rowDataToHashableData(rowData: RowData, excludedFields: Array<string> = [], hashedFields: Array<string> = []): RowData {
       let clonedData = [];
       for (let colData of rowData) {
         if (excludedFields.includes(colData.fieldId)) {
@@ -21,14 +28,10 @@ export default {
         }
 
         let clonedColData = {...colData};
-
-        delete clonedColData['rowIndex'];
-        delete clonedColData['uniqId'];
-
-        clonedData.push(clonedColData);
+        clonedData.push({[clonedColData.fieldId]: clonedColData.value});
       }
 
-      return Md5Service.hash(JSON.stringify(clonedData));
+      return clonedData;
     },
     buildCellUniqueId(rowId: string | number, colId: string | number): string {
       return `idx${rowId}${colId}`;

@@ -17,7 +17,7 @@
                          :is-row-hover-action-cursor="true"
                          :with-checkboxes="true"
                          :row-click-toggles-checkbox="true"
-                         :checked-rows-data="checkedRowsData"
+                         :checked-rows-hashes="checkedRowsHashes"
                          :fields-for-row-hashing="['id']"
                          ref="table"
             />
@@ -53,6 +53,7 @@ import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
 import PickerPreview from "@/views/Modules/Storage/Common/Modal/ImagePicker/PickerPreview.vue";
 import PickerTags    from "@/views/Modules/Storage/Common/Modal/ImagePicker/PickerTags.vue";
 
+import RowAndCellDataMixin  from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 import ResponseHandlerMixin from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 
@@ -115,14 +116,11 @@ export default {
     }
   },
   props: {
-    /**
-     * @description these are the table components data rows (formatted internally by component itself)
-     */
-    checkedRowsData: {
-      type: Object,
+    checkedFileIds: {
+      type: Array,
       required: false,
       default: function () {
-        return {}
+        return []
       }
     },
     isModalVisible: {
@@ -138,12 +136,21 @@ export default {
   },
   mixins: [
     ResponseHandlerMixin,
+    RowAndCellDataMixin,
   ],
   emits: [
     "modalClosed",
     "onSelectionConfirm"
   ],
   computed: {
+    /**
+     * @description takes the checked/selected file ids and turns them into format usable for in-table checkboxes state tracking
+     */
+    checkedRowsHashes(): Array<string> {
+      return this.checkedFileIds.map((id: number) => this.hashRowData([{
+        id: id
+      }]));
+    },
     /**
      * @description returns table data
      */
@@ -201,14 +208,12 @@ export default {
      */
     onConfirmClick(): void {
       let entries = [];
-      for (let checkedRowData of Object.values(this.$refs.table.checkedRowsData)) {
+      for (let rowHash of Object.keys(this.$refs.table.checkboxesRowsData)) {
+        let checkedRowData = this.$refs.table.checkboxesRowsData[rowHash];
         let colId = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'id');
 
         let formattedData = {
           id: colId?.value,
-          tableData: {
-            checkedRowData: checkedRowData,
-          }
         };
 
         this.validateCheckedData(formattedData);

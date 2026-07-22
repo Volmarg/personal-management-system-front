@@ -7,8 +7,7 @@ export default {
      * @description extracts the hashes of rows data, and builds an object containing state of checkboxes (if it's checked or not)
      *              this way there is one prop less that has to be passed down when defining an array component
      */
-    checkboxesStateFromRowsData(rowsData: Record<string, Array<Record<string, unknown>>>): Record<string, boolean> {
-      let hashes = Object.keys(rowsData);
+    checkboxesStateFromRowsHashes(hashes: Array<string>): Record<string, boolean> {
       if (ArrayTypeProcessor.isEmpty(hashes)) {
         return {};
       }
@@ -27,17 +26,17 @@ export default {
       // add new
       for (let rowData of this.rowsData) {
         let hash = rowData[0].rowUniqueHash;
-        if (!Object.keys(this.checkboxesState).includes(hash) || !this.checkboxesState[hash] || this.checkedRowsData[hash]) {
+        if (!Object.keys(this.checkboxesState).includes(hash) || !this.checkboxesState[hash] || this.checkboxesRowsData[hash]) {
           continue;
         }
 
-        this.checkedRowsData[hash] = rowData;
+        this.checkboxesRowsData[hash] = rowData;
       }
 
       // clear out old - we can do this ONLY for NON-backend-based pagination, since we don't have all the rows at once
-      for (let checkedRowHash in this.checkedRowsData) {
+      for (let checkedRowHash in this.checkboxesRowsData) {
         if (!Object.keys(this.checkboxesState).includes(checkedRowHash) || !this.checkboxesState[checkedRowHash]) {
-          delete this.checkedRowsData[checkedRowHash];
+          delete this.checkboxesRowsData[checkedRowHash];
         }
       }
     }
