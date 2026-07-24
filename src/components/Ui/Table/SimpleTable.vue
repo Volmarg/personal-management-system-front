@@ -127,7 +127,8 @@ import TypeChecker          from "@/scripts/Core/Services/Types/TypeChecker";
 import Logger               from "@/scripts/Core/Logger";
 import ObjectValuesResolver from "@/scripts/Core/Services/Resolver/ObjectValuesResolver";
 import BoolTypeProcessor    from "@/scripts/Core/Services/TypesProcessors/BoolTypeProcessor";
-import BaseError            from "@/scripts/Core/Error/BaseError";
+import PromiseService       from "@/scripts/Core/Services/Promise/PromiseService";
+import ArrayTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -665,10 +666,17 @@ export default {
     this.checkboxesState = this.checkboxesStateFromRowsHashes(this.checkedRowsHashes);
   },
   watch: {
+    /**
+     * @description we need to wait for data to be loaded/fetched before tracking gets handled
+     */
     checkboxesState: {
       deep: true,
       handler: function () {
-        this.trackCheckedData();
+        PromiseService.buildPeriodicallyCheckedPromise(() => {
+          return !ArrayTypeProcessor.isEmpty(this.data);
+        }).then(() => {
+          this.trackCheckedData();
+        })
       }
     },
     searchValue(): void {
