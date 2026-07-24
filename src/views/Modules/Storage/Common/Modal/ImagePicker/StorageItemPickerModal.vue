@@ -210,10 +210,14 @@ export default {
       let entries = [];
       for (let rowHash of Object.keys(this.$refs.table.checkboxesRowsData)) {
         let checkedRowData = this.$refs.table.checkboxesRowsData[rowHash];
-        let colId = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldName === 'id');
+        let colId           = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldId === 'id');
+        let colFilePath     = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldId === 'path');
+        let fileNameWithExt = checkedRowData.find((colData: Record<string, unknown>) => colData.fieldId === 'fileName');
 
         let formattedData = {
           id: colId?.value,
+          filePath: colFilePath?.value,
+          fileNameWithExt: fileNameWithExt?.value,
         };
 
         this.validateCheckedData(formattedData);
