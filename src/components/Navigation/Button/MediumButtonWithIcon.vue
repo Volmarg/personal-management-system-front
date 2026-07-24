@@ -85,7 +85,7 @@ export default {
       default  : ""
     },
     topWrapperClasses : {
-      type     : String, Object,
+      type     : [String, Object],
       required : false,
       default  : ""
     },
