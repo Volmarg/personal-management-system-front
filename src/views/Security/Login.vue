@@ -176,10 +176,10 @@ export default {
     return {
       email: {
         email,
-        required: helpers.withMessage(this.$t('validations.required'), required),
+        required: helpers.withMessage(this.$t('validation.type.requiredField'), required),
       },
       password: {
-        required: helpers.withMessage(this.$t('validations.required'), required),
+        required: helpers.withMessage(this.$t('validation.type.requiredField'), required),
       }
     }
   },

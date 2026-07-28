@@ -77,7 +77,7 @@ export default {
   validations(): ComponentValidation{
     return {
       username: {
-        required: helpers.withMessage(this.$t('validations.required'), required),
+        required: helpers.withMessage(this.$t('validation.type.requiredField'), required),
       },
     }
   },
