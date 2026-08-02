@@ -700,14 +700,6 @@ export default {
 
 <style lang="scss">
 .simple-table {
-  ::-webkit-scrollbar:horizontal {
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-thumb:horizontal {
-    @apply bg-gray-300;
-  }
-
   table {
     td {
       min-width: 200px;

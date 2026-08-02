@@ -66,7 +66,8 @@ import {
     faRandom,
     faCopy,
     faLink,
-    faExclamationTriangle
+    faExclamationTriangle,
+    faHeartbeat
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -168,6 +169,7 @@ export default class Fontawesome
         library.add(faXing);
         library.add(faExclamationTriangle);
         library.add(faWindowMaximize);
+        library.add(faHeartbeat);
 
         return FontAwesomeIcon;
     }

@@ -18,6 +18,7 @@ export default class UserModuleRights {
     public static readonly CAN_ACCESS_IMAGES_MODULE: string = 'CAN_ACCESS_IMAGES_MODULE';
     public static readonly CAN_ACCESS_VIDEOS_MODULE: string = 'CAN_ACCESS_VIDEOS_MODULE';
     public static readonly CAN_ACCESS_STORAGE_MODULE: string = 'CAN_ACCESS_STORAGE_MODULE';
+    public static readonly CAN_ACCESS_HEALTH_MODULE: string = 'CAN_ACCESS_HEALTH_MODULE';
 
     public static readonly MODULE_ACCESS_RIGHTS = {
         [BackendModuleNameEnum.goals]: UserModuleRights.CAN_ACCESS_GOALS_MODULE,
@@ -37,5 +38,6 @@ export default class UserModuleRights {
         [BackendModuleNameEnum.images]: UserModuleRights.CAN_ACCESS_IMAGES_MODULE,
         [BackendModuleNameEnum.videos]: UserModuleRights.CAN_ACCESS_VIDEOS_MODULE,
         [BackendModuleNameEnum.storage]: UserModuleRights.CAN_ACCESS_STORAGE_MODULE,
+        [BackendModuleNameEnum.health]: UserModuleRights.CAN_ACCESS_HEALTH_MODULE,
     };
 }

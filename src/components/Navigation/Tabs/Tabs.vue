@@ -1,5 +1,8 @@
 <template>
   <div class="tabs p-2 mt-4 sm:mt-0"
+       :style="{
+          'padding-bottom': this.paddingBottom,
+       }"
        :class="{
           'tabs-no-bg': noBackground,
           'sm:p-12': !noBackground,
@@ -82,6 +85,7 @@
                    @remove-click="$emit('removeClick', $event)"
                    @confirm-click="$emit('confirmClick', $event)"
                    @update-confirm-click="$emit('updateConfirmClick', $event)"
+                   @files-saved="$emit('filesSaved', $event)"
        />
       </section>
     </div>
@@ -95,6 +99,11 @@ import BaseError from "@/scripts/Core/Error/BaseError";
 export default {
   name: "Tabs",
   props: {
+    paddingBottom: {
+      type: String,
+      required: false,
+      default: '80px',
+    },
     noBackground: {
       type: Boolean,
       required: false,
@@ -176,7 +185,8 @@ export default {
     'progressEditClick',
     'updateConfirmClick',
     'todoUpdateConfirmClick',
-    'tabNameClick'
+    'tabNameClick',
+    'filesSaved'
   ],
   methods: {
     /**
@@ -286,7 +296,6 @@ $description-selector: "~ .descriptions > .tab-description";
   left: 50%;
   transform: translateX(-50%);
   position: relative;
-  padding-bottom: 80px;
   min-width: 200px;
   input[name^="tab-control"] {
     display: none;

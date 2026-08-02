@@ -21,6 +21,7 @@ import VueRouterStorage      from "@/router/Modules/VueRouterStorage";
 import VueRouterAchievements from "@/router/Modules/VueRouterAchievements";
 import VueRouterSystem       from "@/router/VueRouterSystem";
 import VueRouterSearch       from "@/router/Modules/VueRouterSearch";
+import VueRouterHealth       from "@/router/Modules/VueRouterHealth";
 
 /**
  * @description provided the vue router based logic / data
@@ -131,6 +132,7 @@ export default class VueRouter
                 ...VueRouterStorage.routesConfiguration,
                 ...VueRouterAchievements.routesConfiguration,
                 ...VueRouterSearch.routesConfiguration,
+                ...VueRouterHealth.routesConfiguration,
             ],
         },
     ]

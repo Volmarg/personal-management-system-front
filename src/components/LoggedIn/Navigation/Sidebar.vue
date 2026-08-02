@@ -18,6 +18,7 @@
         <li class="l0"><Notes /></li>
         <li class="l0"><Contacts /></li>
         <li class="l0"><Passwords /></li>
+        <li class="l0"><Health /></li>
         <li class="l0"><Achievements /></li>
         <li class="l0"><Calendar /></li>
         <li class="l0"><Issues /></li>
@@ -55,6 +56,7 @@ import Todo from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Todo.v
 import Travels from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Travels.vue";
 import Upload from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Upload.vue";
 import Video from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Video.vue";
+import Health from "@/components/LoggedIn/Navigation/SidebarComponents/Node/Health.vue";
 
 import SidebarMixin from "@/components/LoggedIn/Navigation/SidebarComponents/Mixin/SidebarMixin.vue";
 import ResponsiveVarsMixin       from "@/mixins/Responsive/ResponsiveVarsMixin.vue";
@@ -120,6 +122,7 @@ export default {
     SidebarMixin,
   ],
   components: {
+    Health,
     Achievements,
     Calendar,
     Contacts,

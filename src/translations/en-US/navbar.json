@@ -75,6 +75,14 @@
                         }
                     }
                 },
+                "health": {
+                    "label": "Health",
+                    "children": {
+                        "overview": {
+                            "label": "Overview"
+                        }
+                    }
+                },
                 "contacts": {
                     "label": "Contacts",
                     "children": {

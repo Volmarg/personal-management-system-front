@@ -1,0 +1,85 @@
+{
+    "health": {
+        "overview": {
+            "dataBox": {
+                "menu": {
+                    "viewEdit": {
+                        "label": "View / Edit"
+                    },
+                    "delete": {
+                        "label": "Delete"
+                    }
+                },
+                "appointments": {
+                    "label": "Appointments"
+                },
+                "entriesCount": {
+                    "label": "Entries count"
+                },
+                "files": {
+                    "label": "Files"
+                },
+                "latest": {
+                    "label": "Latest"
+                },
+                "doctor": {
+                    "label": "Doctor"
+                }
+            },
+            "description": "Track and manage any health related issues: doctors, appointments, illnesses, documents etc.",
+            "tabs": {
+                "subTabs": {
+                    "tabs": {
+                        "files": {
+                            "header": {
+                                "label": "Files"
+                            },
+                            "text": {
+                                "unsavedFiles": "You have unconfirmed changes - don't forget to confirm them!",
+                                "unlinkFile": "Unlink the file",
+                                "download": "Download",
+                                "appointment": "Appointment",
+                                "saved": "Saved",
+                                "notSaved": "Not saved",
+                                "notValidFiles": "Cannot save - some of the file configurations are not valid."
+                            }
+                        }
+                    }
+                },
+                "common": {
+                    "viewEditModal": {
+                        "header": "View / Edit"
+                    }
+                },
+                "illnesses": {
+                    "label": "Illnesses",
+                    "description": "Health overview from illnesses perspective",
+                    "form": {
+                        "header": "Todo",
+                        "name": {
+                            "label": "todo"
+                        }
+                    },
+                    "table": {
+                        "headers": {
+                        }
+                    }
+                },
+                "doctors": {
+                    "label": "Doctors",
+                    "description": "Health overview from doctors perspective",
+                    "form": {
+                        "header": "Todo",
+                        "name": {
+                            "label": "todo"
+                        }
+                    },
+                    "table": {
+                        "headers": {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

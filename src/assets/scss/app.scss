@@ -28,6 +28,15 @@
 
 * {
   font-family: "Poppins" !important;;
+
+  // smaller and prettier scrollbars
+  ::-webkit-scrollbar:horizontal {
+    height: 6px !important;
+  }
+
+  ::-webkit-scrollbar-thumb:horizontal {
+    @apply bg-gray-300;
+  }
 }
 
 .p-0-force {

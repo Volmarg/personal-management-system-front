@@ -46,7 +46,8 @@
             "storageVideoFolder": "Videos storage",
             "storageManage": "Manage storage files",
             "SearchList": "Search results",
-            "DevelopmentPlayground": "Development playground"
+            "DevelopmentPlayground": "Development playground",
+            "healthOverview": "Health"
         }
     }
 }

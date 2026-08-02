@@ -16,6 +16,7 @@ enum BackendModuleNameEnum {
     travels = "My Travels",
     reports = "My Reports",
     storage = "Storage",
+    health = "Health",
 }
 
 export {BackendModuleNameEnum}
