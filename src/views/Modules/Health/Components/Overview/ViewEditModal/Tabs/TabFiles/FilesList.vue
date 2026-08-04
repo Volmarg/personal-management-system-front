@@ -1,9 +1,9 @@
 <template>
-  <div v-if="visibleResults.length !== 0">
-    <div class="flex justify-end mb-4">
-      <SearchInput v-model.trim="searchValue" />
-    </div>
+  <div class="flex justify-end mb-4">
+    <SearchInput v-model.trim="searchValue" />
+  </div>
 
+  <div v-if="visibleResults.length !== 0">
     <div class="files-list-wrapper">
       <div v-for="fileData in visibleResults"
            :key="fileData.fileNameWithExt"
