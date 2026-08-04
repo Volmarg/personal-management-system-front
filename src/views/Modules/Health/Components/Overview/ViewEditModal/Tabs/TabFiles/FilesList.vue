@@ -165,6 +165,6 @@ export default {
 
 <style lang="scss" scoped>
 .files-list-wrapper {
-  @apply overflow-x-scroll w-full;
+  @apply overflow-auto w-full;
 }
 </style>
