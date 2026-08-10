@@ -26,7 +26,8 @@
         },
         "modal": {
             "buttons": {
-                "cancel": "Cancel"
+                "cancel": "Cancel",
+                "close": "Close"
             },
             "text": {
                 "removeRecord": "Do You really want to remove this entry?"

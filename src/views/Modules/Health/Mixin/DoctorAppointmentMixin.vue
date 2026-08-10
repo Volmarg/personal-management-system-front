@@ -12,6 +12,12 @@ export default {
   ],
   methods: {
     /**
+     * @description extract ids of appointments assigned to current illness
+     */
+    idsFromIllness(illness: Record<string, string | number | Array<string|number>>): Array<number> {
+      return illness.appointments.map((appointment: Record<string, string|number>) => appointment.id);
+    },
+    /**
      * @description saves the appointment files in the DB
      *              keep in mind that this supports saving files for multiple appointments - for same illness!
      */

@@ -27,6 +27,25 @@
                 }
             },
             "description": "Track and manage any health related issues: doctors, appointments, illnesses, documents etc.",
+            "form": {
+                "illness": {
+                    "header": {
+                        "update": "Update illness",
+                        "add": "Add illness"
+                    },
+                    "element": {
+                        "name": {
+                            "label": "Name"
+                        },
+                        "information": {
+                            "label": "Information"
+                        },
+                        "submit": {
+                            "label": "Submit"
+                        }
+                    }
+                }
+            },
             "tabs": {
                 "subTabs": {
                     "tabs": {
@@ -42,6 +61,11 @@
                                 "saved": "Saved",
                                 "notSaved": "Not saved",
                                 "notValidFiles": "Cannot save - some of the file configurations are not valid."
+                            }
+                        },
+                        "illness": {
+                            "header": {
+                                "label": "Illness"
                             }
                         }
                     }

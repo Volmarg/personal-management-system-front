@@ -3,8 +3,9 @@
     <Modal :is-visible="showModal"
            id="issue-view-edit"
            :title="$t('health.overview.tabs.common.viewEditModal.header')"
-           @modal-closed="onModalClosed"
+           :cancel-text="$t('components.modal.buttons.close')"
            :size="modalSize"
+           @modal-closed="onModalClosed"
     >
       <template #content>
 
@@ -26,6 +27,7 @@ import Modal                    from "@/components/Modal/Modal.vue";
 import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 import Tabs                     from "@/components/Navigation/Tabs/Tabs.vue";
 import TabFiles                 from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabFiles.vue";
+import TabIllness               from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabIllness.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
@@ -76,6 +78,14 @@ export default {
           }
         })
       }
+
+      tabs.push({
+        tabName: this.$t('health.overview.tabs.subTabs.tabs.illness.header.label'),
+        tabComponent: TabIllness,
+        tabComponentProps: {
+          illness: this.illness,
+        }
+      })
 
       return tabs;
     }
