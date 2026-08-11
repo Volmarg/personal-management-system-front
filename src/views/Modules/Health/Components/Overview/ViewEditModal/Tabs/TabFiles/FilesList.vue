@@ -3,12 +3,13 @@
     <SearchInput v-model.trim="searchValue" />
   </div>
 
-  <div v-if="visibleResults.length !== 0">
+  <div v-if="usedResults.length !== 0">
     <div class="files-list-wrapper">
-      <div v-for="fileData in visibleResults"
+      <div v-for="fileData in usedResults"
            :key="fileData.fileNameWithExt"
            class="mt-2"
       >
+        <!-- v-show is a must here, else can't get all appointments-files data on submit -->
         <FileListElement
             :file-id="fileData.id"
             :file-name-with-ext="fileData.fileNameWithExt"
@@ -16,6 +17,7 @@
             :file-state="fileData.state"
             :illness-id="illness.id"
             :file-appointment-id="fileData.appointmentId"
+            v-show="fileData.isVisible"
             @remove-file="$emit('removeFile', $event)"
             @appointment-change="$emit('appointmentChange')"
             ref="fileListElement"
@@ -49,7 +51,7 @@ import {FileListElementType} from "@/scripts/Core/Types/Modules/Health";
 export default {
   data(): ComponentData {
     return {
-      visibleResults: [],
+      usedResults: [],
       searchMatchingResults: [],
       searchValue: null,
       currentPage: 1,
@@ -103,7 +105,8 @@ export default {
      * @description will filter the results shown on page
      */
     filterShownResults(currentPage: number): void {
-      let visibleResults = [] as Array<unknown>;
+      let usedResults = [] as Array<unknown>;
+      let visibleResultsCount = 0;
       this.searchMatchingResults = [];
 
       let resultOffset = (currentPage-1) * this.resultsPerPage;
@@ -111,22 +114,31 @@ export default {
 
       for (let fileData of this.files) {
         resultsCount++;
+        let isVisible = true;
 
+        // clone is a must, else modyfing original data prop would trigger watcher
+        let clonedData = {...fileData};
         if (resultsCount <= resultOffset) {
-          continue;
+          isVisible = false;
         }
 
         if (!this.matchesSearchValue(fileData)) {
-          continue;
+          isVisible = false;
         }
 
-        visibleResults.push(fileData);
-        if (visibleResults.length >= this.resultsPerPage) {
-          break;
+        if (visibleResultsCount >= this.resultsPerPage) {
+          isVisible = false;
         }
+
+        if (isVisible) {
+          visibleResultsCount++;
+        }
+
+        clonedData.isVisible = isVisible;
+        usedResults.push(clonedData);
       }
 
-      this.visibleResults = visibleResults;
+      this.usedResults = usedResults;
     },
     /**
      * @description check if file matches the search value
@@ -145,18 +157,19 @@ export default {
     },
   },
   created(): void  {
-    this.visibleResults = this.files;
+    this.usedResults = this.files;
     this.filterShownResults(1);
   },
   watch: {
     files: {
       deep: true,
       handler: function() {
-        this.visibleResults = this.files;
-        this.filterShownResults(1);
+        this.usedResults = this.files;
+        this.filterShownResults(this.currentPage);
       }
     },
     searchValue(): void {
+      this.currentPage = 1;
       this.filterShownResults(1);
     }
   }
