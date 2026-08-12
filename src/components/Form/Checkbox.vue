@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div :class="{
+    'mt-5 mb-4 flex flex-row ml-1.5 hover:opacity-70 cursor-pointer': hasLabel
+  }">
     <input type="checkbox"
            class="form-checkbox h-7 w-7 rounded-lg offer-selection-checkbox"
            v-model="isChecked"
@@ -12,6 +14,13 @@
                       v-if="!isValid"
     />
 
+    <label class="checkbox checkbox-all align-self-center ml-2 cursor-pointer"
+           @click="onLabelClick"
+           v-if="hasLabel"
+    >
+      {{ label }}
+    </label>
+
   </div>
 </template>
 
@@ -20,6 +29,8 @@ import AsteriskRequired  from "@/components/Form/AsteriskRequired.vue";
 import InputViolations   from "@/components/Form/InputViolations.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
+import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 export default {
   name: "VueCheckbox",
@@ -33,6 +44,11 @@ export default {
     'update:modelValue',
   ],
   props: {
+    label: {
+      type: [String, null],
+      required: false,
+      default: null
+    },
     modelValue: {
       required:  false,
     },
@@ -67,9 +83,19 @@ export default {
               !this.hasErrors
           &&  0 === this.errors.length
       );
+    },
+    hasLabel(): boolean {
+      return !StringTypeProcessor.isEmptyString(this.label);
     }
   },
   methods: {
+    /**
+     * @description update the modelValue update
+     */
+    onLabelClick(): void {
+      this.isChecked = !this.isChecked;
+      this.$emit('update:modelValue', this.isChecked);
+    },
     /**
      * @description emit the model value update on change
      */
