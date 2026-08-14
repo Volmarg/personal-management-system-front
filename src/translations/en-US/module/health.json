@@ -28,6 +28,11 @@
             },
             "description": "Track and manage any health related issues: doctors, appointments, illnesses, documents etc.",
             "form": {
+                "singleComponents": {
+                    "appointmentSelect": {
+                        "label": "Appointment"
+                    }
+                },
                 "illness": {
                     "header": {
                         "update": "Update illness",

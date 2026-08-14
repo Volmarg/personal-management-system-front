@@ -1,6 +1,6 @@
 <template>
   <MultiSelect
-      :label="$t('health.overview.tabs.subTabs.tabs.files.text.appointment')"
+      :label="$t('health.overview.form.singleComponents.appointmentSelect.label')"
       :options="options"
       @change="onOptionChanged"
       @select="onOptionChanged"
