@@ -1,7 +1,11 @@
 <template>
   <div class="flex justify-center">
     <div class="mt-6 w-full flex flex-col">
-      <h2 class="text-lg mb-2 text-center">{{ header }}</h2>
+      <h2 class="text-lg mb-2 text-center"
+          v-if="header"
+      >
+        {{ header }}
+      </h2>
       <FormInput type="datetime-local"
                  v-model="form.date"
                  :is-required="true"
@@ -58,8 +62,9 @@ export default {
   },
   props: {
     header: {
-      type: String,
-      required: true,
+      type: [String, null],
+      required: false,
+      default: null,
     },
     initialDate: {
       type: String,
