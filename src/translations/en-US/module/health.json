@@ -31,6 +31,9 @@
                 "singleComponents": {
                     "appointmentSelect": {
                         "label": "Appointment"
+                    },
+                    "doctorSelect": {
+                        "label": "Doctor"
                     }
                 },
                 "illness": {
@@ -71,6 +74,36 @@
                         "illness": {
                             "header": {
                                 "label": "Illness"
+                            }
+                        },
+                        "appointments": {
+                            "createEditForm": {
+                                "header": {
+                                    "add": "Add appointment"
+                                },
+                                "element": {
+                                    "date": {
+                                        "label": "Date"
+                                    },
+                                    "information": {
+                                        "label": "Information"
+                                    }
+                                }
+                            },
+                            "editModal": {
+                                "header": "Edit appointment",
+                                "button": {
+                                    "remove": {
+                                        "label": "Delete"
+                                    }
+                                }
+                            },
+                            "removeModal": {
+                                "header": "Remove appointment",
+                                "text": {
+                                    "removeAppointmentLine1": "Do you really want to remove this entry?",
+                                    "removeAppointmentLine2": "Related files won't be removed!"
+                                }
                             }
                         }
                     }
