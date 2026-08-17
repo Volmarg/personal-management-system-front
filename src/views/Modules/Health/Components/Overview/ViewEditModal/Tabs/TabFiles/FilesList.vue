@@ -102,7 +102,10 @@ export default {
       this.filterShownResults(nextPage);
     },
     /**
-     * @description will filter the results shown on page
+     * @description will filter the results shown on page.
+     *              This is a special case:
+     *              - cloning and modifying original data,
+     *              - pagination results are v-show based (instead of v-if)
      */
     filterShownResults(currentPage: number): void {
       let usedResults = [] as Array<unknown>;
