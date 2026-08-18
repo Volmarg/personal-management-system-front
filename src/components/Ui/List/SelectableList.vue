@@ -43,6 +43,8 @@ import Pagination      from "@/components/Ui/Pagination.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
+import PaginationFilterConfigDTO from "@/scripts/Dto/Ui/PaginationResultFilterConfigDTO";
+
 /**
  * @description this component is a list with selectable element
  */
@@ -117,7 +119,7 @@ export default {
      */
     onPaginationChange(currentPage: number, countOfResultsPerPage: number): void {
       this.config.pagination.currentPage = currentPage;
-      this.visibleListElements           = this.filterShownResultByPagination(currentPage, countOfResultsPerPage, this.listElements);
+      this.filterPagination(currentPage, countOfResultsPerPage);
     },
     /**
      * @description will provide list elements classes
@@ -145,6 +147,13 @@ export default {
       mergedClasses += classesFromProp;
       return mergedClasses;
     },
+    /**
+     * @description filters shown results on page
+     */
+    filterPagination(currentPage: number, countOfResultsPerPage: number): void {
+      let dto = PaginationFilterConfigDTO.create(currentPage, countOfResultsPerPage, this.listElements)
+      this.visibleListElements = this.filterShownResultByPagination(dto);
+    }
   },
   created(): void {
     // handle non async based list elements
@@ -152,7 +161,7 @@ export default {
             this.visibleListElements.length > 0
         &&  !this.isInitiallyFiltered
     ) {
-      this.visibleListElements = this.filterShownResultByPagination(this.config.pagination.currentPage, this.config.pagination.resultPerPage, this.listElements);
+      this.filterPagination(this.config.pagination.currentPage, this.config.pagination.resultPerPage);
       this.isInitiallyFiltered  = true;
     }
 
@@ -167,7 +176,7 @@ export default {
               newValue.length > 0
           &&  !this.isInitiallyFiltered
       ) {
-        this.visibleListElements = this.filterShownResultByPagination(this.config.pagination.currentPage, this.config.pagination.resultPerPage, this.listElements);
+        this.filterPagination(this.config.pagination.currentPage, this.config.pagination.resultPerPage);
         this.isInitiallyFiltered  = true;
       }
     }

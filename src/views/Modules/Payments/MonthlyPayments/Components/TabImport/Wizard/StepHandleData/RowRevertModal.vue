@@ -59,6 +59,7 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import {UploadWizardStore, UploadWizardStoreType} from "@/scripts/Vue/Store/Module/Payments/Monthly/UploadWizardStore";
 
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
+import PaginationFilterConfigDTO from "@/scripts/Dto/Ui/PaginationResultFilterConfigDTO";
 
 export default {
   data(): ComponentData {
@@ -138,7 +139,9 @@ export default {
      */
     paginateData(currentPage: number, countOfResultsPerPage: number): void {
       this.currentPage    = currentPage;
-      this.visibleEntries = this.filterShownResultByPagination(currentPage, countOfResultsPerPage, this.filteredResults);
+
+      let dto = PaginationFilterConfigDTO.create(currentPage, countOfResultsPerPage, this.filteredResults)
+      this.visibleEntries = this.filterShownResultByPagination(dto);
     },
   },
   beforeMount():void {

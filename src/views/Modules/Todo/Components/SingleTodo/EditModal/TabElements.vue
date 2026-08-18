@@ -39,6 +39,8 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import PaginationMixin from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
 
+import PaginationFilterConfigDTO from "@/scripts/Dto/Ui/PaginationResultFilterConfigDTO";
+
 export default {
   data(): ComponentData {
     return {
@@ -87,11 +89,18 @@ export default {
      */
     onPaginationChange(currentPage: number, countOfResultsPerPage: number): void {
       this.currentPage    = currentPage;
-      this.visibleResults = this.filterShownResultByPagination(currentPage, countOfResultsPerPage, this.elements);
+      this.filterPagination(currentPage, countOfResultsPerPage);
     },
+    /**
+     * @description filters shown results on page
+     */
+    filterPagination(currentPage: number, countOfResultsPerPage: number): void {
+      let dto = PaginationFilterConfigDTO.create(currentPage, countOfResultsPerPage, this.elements)
+      this.visibleResults = this.filterShownResultByPagination(dto);
+    }
   },
   mounted(): void {
-    this.visibleResults = this.filterShownResultByPagination(this.currentPage, this.resultsPerPage, this.elements);
+    this.filterPagination(this.currentPage, this.resultsPerPage);
   }
 }
 </script>

@@ -40,6 +40,8 @@ import Badge               from "@/components/Ui/Badge/Badge.vue";
 import PaginationMixin      from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
 import DataTransformerMixin from "@/views/Modules/Calendar/Schedules/Mixin/DataTransformerMixin.vue";
 
+import PaginationFilterConfigDTO from "@/scripts/Dto/Ui/PaginationResultFilterConfigDTO";
+
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import moment          from "moment/moment";
 import {ISchedule}     from "tui-calendar";
@@ -117,18 +119,25 @@ export default {
      * @description will handle the event when page number changes on pagination
      */
     onPaginationChange(currentPage: number, countOfResultsPerPage: number): void {
-      this.currentPage      = currentPage;
-      this.visibleSchedules = this.filterShownResultByPagination(currentPage, countOfResultsPerPage, this.schedules);
+      this.currentPage = currentPage;
+      this.filterPagination(currentPage, countOfResultsPerPage)
     },
+    /**
+     * @description filters shown results on page
+     */
+    filterPagination(currentPage: number, countOfResultsPerPage: number): void {
+      let dto = PaginationFilterConfigDTO.create(currentPage, countOfResultsPerPage, this.schedules)
+      this.visibleSchedules = this.filterShownResultByPagination(dto);
+    }
   },
   mounted(): void {
-    this.visibleSchedules = this.filterShownResultByPagination(this.currentPage, this.resultsPerPage, this.schedules);
+    this.filterPagination(this.currentPage, this.resultsPerPage)
   },
   watch: {
     data: {
       deep: true,
       handler: function(): void {
-        this.visibleSchedules = this.filterShownResultByPagination(this.currentPage, this.resultsPerPage, this.schedules);
+        this.filterPagination(this.currentPage, this.resultsPerPage)
       }
     }
   }

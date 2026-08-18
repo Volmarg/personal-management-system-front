@@ -1,4 +1,6 @@
 <script lang="ts">
+import PaginationResultFilterConfigDTO from "@/scripts/Dto/Ui/PaginationResultFilterConfigDTO";
+
 /**
  * Provides logic for pagination component
  */
@@ -7,24 +9,21 @@ export default {
   methods: {
     /**
      * @description will return shown results filtered by pagination change
-     * @param dataArray - this allows to provide array which will be used to get visible results offer from
-     * @param currentPage
-     * @param countOfResultsPerPage
      */
-    filterShownResultByPagination<T extends Array<unknown>>(currentPage: number, countOfResultsPerPage: number, dataArray: T): T {
+    filterShownResultByPagination(dto: PaginationResultFilterConfigDTO) {
       let visibleResults = [] as Array<unknown>;
-      let resultOffset   = (currentPage-1) * countOfResultsPerPage;
+      let resultOffset   = (dto.currentPage-1) * dto.countOfResultsPerPage;
 
-      let numberOfCard = 0;
-      for(let data of dataArray){
-        numberOfCard++;
+      let resultsCount = 0;
+      for(let data of dto.dataArray){
+        resultsCount++;
 
-        if(numberOfCard <= resultOffset){
+        if(resultsCount <= resultOffset){
           continue;
         }
 
         visibleResults.push(data);
-        if(visibleResults.length >= countOfResultsPerPage){
+        if(visibleResults.length >= dto.countOfResultsPerPage){
           break;
         }
       }
