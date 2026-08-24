@@ -586,17 +586,16 @@ export default {
         for (let rowData of this.rowsData) {
           resultsCount++;
 
-          if (resultsCount <= resultOffset) {
-            continue;
-          }
-
           if (!this.matchesSearchValue(rowData)) {
             continue;
           }
 
-          visibleResults.push(rowData);
-          if (visibleResults.length >= countOfResultsPerPage) {
-            break;
+          if (resultsCount <= resultOffset) {
+            continue;
+          }
+
+          if (visibleResults.length < countOfResultsPerPage) {
+            visibleResults.push(rowData);
           }
         }
 
