@@ -1,5 +1,5 @@
 <template>
-  <form class="w-full max-w-xs mr-2 navbar-search">
+  <form class="w-full md:max-w-xs mr-2 navbar-search">
     <div class="relative">
       <input type="search"
              :placeholder="$t(placeholderTransString)"
