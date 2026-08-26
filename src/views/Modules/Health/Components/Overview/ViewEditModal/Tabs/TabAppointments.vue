@@ -15,6 +15,7 @@
     <teleport to="body">
       <AppointmentEditModal :is-modal-visible="isEditModalVisible"
                             :appointment="handledAppointment"
+                            :illness="illness"
                             @modal-closed="isEditModalVisible = false"
                             @remove-click="isRemoveModalVisible = true"
                             class="relative z-21"
@@ -23,6 +24,7 @@
       <AppointmentRemoveModal :is-modal-visible="isRemoveModalVisible"
                               :appointment="handledAppointment"
                               @modal-closed="isRemoveModalVisible = false"
+                              @appointment-removed="this.isEditModalVisible = false"
                               class="relative z-22"
       />
     </teleport>

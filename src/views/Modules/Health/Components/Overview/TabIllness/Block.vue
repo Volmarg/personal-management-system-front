@@ -23,7 +23,7 @@
                      :illness="illness"
                      @modal-closed="this.isViewEditModalVisible = false"
                      @files-saved="$emit('filesSaved')"
-                     class="relative z-21"
+                     class="relative z-20"
       />
     </teleport>
 

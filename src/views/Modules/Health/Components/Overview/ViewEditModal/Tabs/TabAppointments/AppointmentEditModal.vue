@@ -14,6 +14,8 @@
                                        :initial-information="appointment.information"
                                        :initial-doctor-id="appointment.doctor.id"
                                        :initial-date="appointment.date"
+                                       :id="appointment.id"
+                                       @submit="$emit('modalClosed')"
             />
           </div>
         </div>
@@ -52,6 +54,10 @@ export default {
   props: {
     appointment: {
       type: Object as SingleContact,
+      required: true,
+    },
+    illness: {
+      type: Object,
       required: true,
     },
     isModalVisible: {

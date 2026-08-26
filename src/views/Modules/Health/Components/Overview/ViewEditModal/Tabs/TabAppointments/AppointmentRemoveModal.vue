@@ -61,6 +61,7 @@ export default {
   ],
   emits: [
     "modalClosed",
+    "appointmentRemoved",
   ],
   methods: {
     /**
@@ -76,6 +77,7 @@ export default {
       let response = await this.$moduleCall.remove(SymfonyHealthRoutes.HEALTH_DOCTOR_APPOINTMENT_BASE_URL, this.appointment.id, false);
       if (response.success) {
         this.$emit('modalClosed');
+        this.$emit('appointmentRemoved');
         IllnessStore().getAll();
         DoctorAppointmentStore().getAll();
       }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal :is-visible="showModal"
-           id="issue-view-edit"
+           id="illness-view-edit"
            :title="$t('health.overview.tabs.common.viewEditModal.header')"
            :cancel-text="$t('components.modal.buttons.close')"
            :size="modalSize"

@@ -66,6 +66,11 @@ export default {
       required: false,
       default: null,
     },
+    id: {
+      type: [Number, null],
+      required: false,
+      default: null
+    },
     initialDate: {
       type: String,
       required: false,
@@ -116,15 +121,20 @@ export default {
       let config = new BackendModuleCallConfig(SymfonyHealthRoutes.HEALTH_DOCTOR_APPOINTMENT_BASE_URL, this.id, BaseApiResponse, dataBag);
       config.reload = false;
 
+      let updateResponse = null as BaseApiResponse | null;
       if (this.id) {
-        await this.$moduleCall.update(config);
+        updateResponse = await this.$moduleCall.update(config);
       } else {
         await this.$moduleCall.new(config);
       }
 
       IllnessStore().getAll();
       DoctorAppointmentStore().getAll();
-      this.clearForm();
+
+      if (!updateResponse || updateResponse.success) {
+        this.clearForm();
+        this.$emit('submit');
+      }
     }
   },
   mounted(): void {

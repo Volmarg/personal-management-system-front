@@ -183,7 +183,7 @@ export class BackendModuleCaller {
         successTransString: string | null = null,
         failTransString: string | null = null,
         reload: boolean = true
-    ): void {
+    ): BaseApiResponse {
 
         let type: string;
         let msg: string;
