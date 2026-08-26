@@ -74,6 +74,16 @@
                         "illness": {
                             "header": {
                                 "label": "Illness"
+                            },
+                            "modal": {
+                                "remove": {
+                                    "header": "Remove illness",
+                                    "text": {
+                                        "removeAppointmentLine1": "Do you really want to remove this entry?",
+                                        "removeAppointmentLine2": "Related appointments will be removed as well!",
+                                        "removeAppointmentLine3": "Related files won't be removed!"
+                                    }
+                                }
                             }
                         },
                         "appointments": {
