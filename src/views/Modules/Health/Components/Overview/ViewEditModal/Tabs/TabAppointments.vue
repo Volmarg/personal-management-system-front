@@ -53,8 +53,6 @@
 
   </div>
 
-  <hr class="mt-10"/>
-
 </template>
 
 <script lang="ts">
