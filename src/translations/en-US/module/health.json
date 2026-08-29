@@ -128,7 +128,6 @@
                 },
                 "illnesses": {
                     "label": "Illnesses",
-                    "description": "Health overview from illnesses perspective",
                     "form": {
                         "header": "Todo",
                         "name": {
@@ -142,7 +141,6 @@
                 },
                 "doctors": {
                     "label": "Doctors",
-                    "description": "Health overview from doctors perspective",
                     "form": {
                         "header": "Todo",
                         "name": {

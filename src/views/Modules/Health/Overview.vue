@@ -36,12 +36,10 @@ export default {
         {
           tabName: this.$t('health.overview.tabs.doctors.label'),
           tabComponent: TabDoctors,
-          tabDescription: this.$t('health.overview.tabs.doctors.description'),
         },
         {
           tabName: this.$t('health.overview.tabs.illnesses.label'),
           tabComponent: TabIllnesses,
-          tabDescription: this.$t('health.overview.tabs.illnesses.description')
         },
       ];
     }
