@@ -115,6 +115,9 @@
         "button": {
             "confirm": {
                 "label": "Confirm"
+            },
+            "close": {
+                "label": "Close"
             }
         },
         "text": {

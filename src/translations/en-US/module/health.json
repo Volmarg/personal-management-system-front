@@ -141,14 +141,59 @@
                 },
                 "doctors": {
                     "label": "Doctors",
-                    "form": {
-                        "header": "Todo",
-                        "name": {
-                            "label": "todo"
+                    "modal": {
+                        "createEdit": {
+                            "text": {
+                                "contacts": "Contacts"
+                            },
+                            "title": {
+                                "create": "Create doctor",
+                                "edit": "Edit doctor"
+                            },
+                            "form": {
+                                "contact": {
+                                    "name": {
+                                        "label": "Name"
+                                    },
+                                    "value": {
+                                        "label": "Value"
+                                    }
+                                },
+                                "name": {
+                                    "label": "Name"
+                                },
+                                "address": {
+                                    "label": "Address"
+                                },
+                                "specialisation": {
+                                    "label": "Specialisation"
+                                },
+                                "information": {
+                                    "label": "Information"
+                                },
+                                "addContact": {
+                                    "label": "Add contact"
+                                },
+                                "submit": {
+                                    "label": "Submit"
+                                }
+                            }
                         }
                     },
-                    "table": {
-                        "headers": {
+                    "card": {
+                        "label": {
+                            "contacts": "Contacts"
+                        },
+                        "text": {
+                            "noContacts": "No data"
+                        },
+                        "button": {
+                            "remove": {
+                                "label": "Delete"
+                            },
+                            "edit": {
+                                "label": "Edit"
+                            }
                         }
                     }
                 }
