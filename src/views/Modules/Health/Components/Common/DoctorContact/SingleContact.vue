@@ -4,7 +4,7 @@
     <div class="lg:grid lg:grid-cols-12 gap-4 mt-6">
       <div class="col-start-1 col-end-5">
         <FormInput type="text"
-                   v-model="form.type"
+                   v-model="form.name"
                    max-chars="15"
                    :is-required="true"
                    :label="$t('health.overview.tabs.doctors.modal.createEdit.form.contact.name.label')"
@@ -44,7 +44,7 @@ export default {
   data(): ComponentData {
     return {
       form: {
-        type: "",
+        name: "",
         value: "",
       },
       doctorAppointmentStore: null,
@@ -55,7 +55,7 @@ export default {
       type: String,
       required: true,
     },
-    type: {
+    name: {
       type: String,
       required: false,
       default: "",
@@ -77,7 +77,7 @@ export default {
 
   },
   beforeMount(): void {
-    this.form.type = this.type;
+    this.form.name = this.name;
     this.form.value = this.value;
   },
   watch: {
@@ -86,7 +86,7 @@ export default {
       handler: function() {
         this.$emit('change', {
           uuid: this.uuid,
-          type: this.form.type,
+          name: this.form.name,
           value: this.form.value,
         })
       }

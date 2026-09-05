@@ -22,7 +22,7 @@
             <p class="font-bold text-left mt-2">
               {{$t('health.overview.tabs.doctors.card.label.contacts')}}
             </p>
-            <!-- contact types -->
+            <!-- contacts -->
             <div class="contacts-wrapper"
                  v-if="doctor.contacts.length > 0"
             >
@@ -32,7 +32,7 @@
                      :key="contact.uuid"
                 >
                   <div class="contact-details">
-                    <span class="font-bold">{{contact.type}}: </span>
+                    <span class="font-bold">{{contact.name}}: </span>
                     <span>{{contact.value}}</span>
                   </div>
                 </div>

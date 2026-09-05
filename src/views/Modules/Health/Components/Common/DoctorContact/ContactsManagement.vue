@@ -12,7 +12,7 @@
            class="mx-1 md:mr-2"
       >
         <SingleContact :uuid="contact.uuid"
-                       :type="contact.type"
+                       :name="contact.name"
                        :value="contact.value"
                        @on-delete="onContactDelete"
                        @change="onContactChange"
@@ -91,7 +91,7 @@ export default {
     onAddContact(): void {
       this.contacts.push({
         uuid: uuidv4(),
-        type: "",
+        name: "",
         value: ""
       })
 
