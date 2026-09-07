@@ -183,6 +183,12 @@
                                     "label": "Submit"
                                 }
                             }
+                        },
+                        "remove": {
+                            "header": "Remove doctor",
+                            "text": {
+                                "line1": "Do you really want to remove this entry?"
+                            }
                         }
                     },
                     "card": {

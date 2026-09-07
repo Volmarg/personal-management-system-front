@@ -62,6 +62,7 @@
                                 button-classes="w-full m-0-force"
                                 text-classes="text-center w-full"
                                 background-color-class="bg-red-500"
+                                @button-click="isRemoveModalVisible = true"
           />
         </div>
       </div>
@@ -76,6 +77,11 @@
                    @modal-closed="this.isViewEditModalVisible = false"
                    class="relative z-20"
     />
+
+    <RemoveModal :is-modal-visible="isRemoveModalVisible"
+                 @modal-closed="isRemoveModalVisible = false"
+                 @remove-confirm-click="onRemoveConfirm"
+    />
   </teleport>
 </template>
 
@@ -84,12 +90,17 @@ import QuestionMarkAbout from "@/components/Ui/QuestionMarkAbout.vue";
 
 import MediumButtonWithIcon from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
 import ViewEditModal        from "@/views/Modules/Health/Components/Overview/TabDoctor/ViewEditModal.vue";
+import RemoveModal          from "@/views/Modules/Health/Components/Overview/RemoveModal.vue";
 
-import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+import {DoctorStore} from "@/scripts/Vue/Store/Module/Health/DoctorStore";
+
+import {ComponentData}     from "@/scripts/Vue/Types/Components/types";
+import SymfonyHealthRoutes from "@/router/SymfonyRoutes/Modules/SymfonyHealthRoutes";
 
 export default {
   data(): ComponentData {
     return {
+      isRemoveModalVisible: false,
       isViewEditModalVisible: false,
     }
   },
@@ -100,9 +111,20 @@ export default {
     }
   },
   components: {
+    RemoveModal,
     MediumButtonWithIcon,
     QuestionMarkAbout,
     ViewEditModal,
+  },
+  methods: {
+    /**
+     * @description removes the entry and refreshes the view
+     */
+    async onRemoveConfirm(): Promise<void> {
+      await this.$moduleCall.remove(SymfonyHealthRoutes.HEALTH_DOCTOR_BASE_URL, this.doctor.id, false);
+      this.isRemoveModalVisible = false;
+      DoctorStore().getAll();
+    }
   },
 }
 </script>
