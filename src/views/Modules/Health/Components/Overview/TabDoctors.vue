@@ -14,12 +14,12 @@
     </div>
   </div>
 
-  <FloatingRoundedPlus class="mb-10"
-                       @click="isAddNewModalVisible = true"
-                       v-tippy="$t('health.overview.tabs.doctors.sidebarNav.add.text')"
-  />
-
   <teleport to="body">
+    <FloatingRoundedPlus class="mb-10"
+                         @click="isAddNewModalVisible = true"
+                         v-tippy="$t('health.overview.tabs.doctors.sidebarNav.add.text')"
+    />
+
     <ViewEditModal :is-modal-visible="isAddNewModalVisible"
                    :modal-title="$t('health.overview.tabs.doctors.modal.createEdit.title.create')"
                    @modal-closed="isAddNewModalVisible = false"
