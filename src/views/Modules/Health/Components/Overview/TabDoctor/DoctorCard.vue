@@ -72,8 +72,8 @@
   <teleport to="body">
     <ViewEditModal :is-modal-visible="isViewEditModalVisible"
                    :doctor="doctor"
+                   :modal-title="$t('health.overview.tabs.doctors.modal.createEdit.title.edit')"
                    @modal-closed="this.isViewEditModalVisible = false"
-                   @files-saved="$emit('filesSaved')"
                    class="relative z-20"
     />
   </teleport>

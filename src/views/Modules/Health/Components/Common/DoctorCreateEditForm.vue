@@ -148,16 +148,16 @@ export default {
       let config = new BackendModuleCallConfig(SymfonyHealthRoutes.HEALTH_DOCTOR_BASE_URL, this.id, BaseApiResponse, dataBag);
       config.reload = false;
 
-      let updateResponse = null as BaseApiResponse | null;
+      let response = null as BaseApiResponse | null;
       if (this.id) {
-        updateResponse = await this.$moduleCall.update(config);
+        response = await this.$moduleCall.update(config);
       } else {
-        await this.$moduleCall.new(config);
+        response = await this.$moduleCall.new(config);
       }
 
       this.doctorStore.getAll();
 
-      if (!updateResponse || updateResponse.success) {
+      if (response.success) {
         this.clearForm();
         this.$emit('submit');
       }

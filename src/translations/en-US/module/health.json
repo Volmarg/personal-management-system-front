@@ -141,6 +141,11 @@
                 },
                 "doctors": {
                     "label": "Doctors",
+                    "sidebarNav": {
+                        "add": {
+                            "text": "Add entry"
+                        }
+                    },
                     "modal": {
                         "createEdit": {
                             "text": {
