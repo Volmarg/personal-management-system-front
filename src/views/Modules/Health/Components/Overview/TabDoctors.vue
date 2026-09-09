@@ -18,6 +18,7 @@
     <FloatingRoundedPlus class="mb-10"
                          @click="isAddNewModalVisible = true"
                          v-tippy="$t('health.overview.tabs.doctors.sidebarNav.add.text')"
+                         v-if="tabName === this.$parent.activeTabName"
     />
 
     <ViewEditModal :is-modal-visible="isAddNewModalVisible"
@@ -45,6 +46,12 @@ export default {
       isAddNewModalVisible: false,
       store: null,
       doctors: [],
+    }
+  },
+  props: {
+    tabName: {
+      type: String,
+      required: true,
     }
   },
   components: {

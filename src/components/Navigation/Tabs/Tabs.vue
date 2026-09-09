@@ -17,7 +17,7 @@
             :id="getNameForTab(tabWithContent)"
             type="radio"
             :name="`tab-control${id}`"
-            @click="$emit('tabNameClick', getNameForTab(tabWithContent))"
+            @click="$emit('tabNameClick', getNameForTab(tabWithContent)); setActiveTab(tabWithContent)"
     >
 
     <!-- Tabs themself -->
@@ -96,8 +96,15 @@
 <script lang="ts">
 import BaseError from "@/scripts/Core/Error/BaseError";
 
+import {ComponentData} from "@/scripts/Vue/Types/Components/types";
+
 export default {
   name: "Tabs",
+  data(): ComponentData {
+    return {
+      activeTabName: null,
+    }
+  },
   props: {
     paddingBottom: {
       type: String,
@@ -190,6 +197,12 @@ export default {
   ],
   methods: {
     /**
+     * @description sets the currently active tab name
+     */
+    setActiveTab(tabWithContent: Record<string, unknown>): void {
+      this.activeTabName = this.getNameForTab(tabWithContent);
+    },
+    /**
      * @description will return tab name
      */
     getNameForTab(tabData: Record<string, string>): string {
@@ -217,13 +230,25 @@ export default {
      * @description Will return component props used for provided component (if there is any provided)
      */
     getComponentProps(tabData: Record<string, string>): Record<string, unknown> {
+      let baseProps = {
+        tabName: this.getNameForTab(tabData),
+      };
+
       let tabComponentProps = tabData?.tabComponentProps;
 
       if("object"!== typeof tabComponentProps){
-        return {};
+        return baseProps;
       }
 
-      return tabComponentProps;
+      return {
+        ...tabComponentProps,
+        ...baseProps,
+      };
+    }
+  },
+  beforeMount(): void {
+    if (this.tabsWithContent.length > 0) {
+      this.setActiveTab(this.tabsWithContent[0]);
     }
   }
 }
