@@ -76,7 +76,7 @@
                    :is="getComponentForTab(tabWithContent)"
                    v-bind="getComponentProps(tabWithContent)"
                    @single-todo-click="$emit('singleTodoClick', $event)"
-                   @close-modal="$emit('closeModal')"
+                   @close-modal="$emit('closeModal', $event)"
                    @contact-edit-click="$emit('contactEditClick', $event)"
                    @progress-edit-click="$emit('progressEditClick', $event)"
                    @todo-update-confirm-click="$emit('todoUpdateConfirmClick', $event)"

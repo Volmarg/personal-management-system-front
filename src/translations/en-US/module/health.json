@@ -127,6 +127,11 @@
                     }
                 },
                 "illnesses": {
+                    "sidebarNav": {
+                        "add": {
+                            "text": "Add entry"
+                        }
+                    },
                     "label": "Illnesses",
                     "form": {
                         "header": "Todo",

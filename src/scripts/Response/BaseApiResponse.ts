@@ -20,6 +20,7 @@ export default class BaseApiResponse {
     static readonly KEY_DATA_BASE64              : string = "base64"
     static readonly FIELD_NAME_CODE              : string = "code";
     static readonly FIELD_NAME_SUCCESS           : string = "success";
+    static readonly FIELD_ID                     : string = "id";
 
     private _code             : number;
     private _message          : string;
@@ -140,6 +141,14 @@ export default class BaseApiResponse {
     get base64(): string
     {
         return this._data[BaseApiResponse.KEY_DATA_BASE64] as string;
+    }
+
+    /**
+     * @description will return the id from the data array
+     */
+    get id(): string | null
+    {
+        return this._data[BaseApiResponse.FIELD_ID] as string | null;
     }
 
     /**

@@ -79,7 +79,8 @@ export default {
     }
   },
   emits: [
-    'submit'
+    'submit',
+    'closeModal',
   ],
   components: {
     FormTextArea,
@@ -100,13 +101,17 @@ export default {
       let config = new BackendModuleCallConfig(SymfonyHealthRoutes.HEALTH_ILLNESS_BASE_URL, this.id, BaseApiResponse, dataBag);
       config.reload = false;
 
+      let response: BaseApiResponse;
       if (this.id) {
-        await this.$moduleCall.update(config);
+        response = await this.$moduleCall.update(config);
       } else {
-        await this.$moduleCall.new(config);
+        response = await this.$moduleCall.new(config);
       }
 
       IllnessStore().getAll();
+      if (!this.id && response.success) {
+        this.$emit("closeModal", {id: response.id});
+      }
     }
   },
   mounted(): void {

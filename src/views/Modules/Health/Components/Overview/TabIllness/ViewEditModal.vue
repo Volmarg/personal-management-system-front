@@ -13,7 +13,7 @@
               :no-background="true"
               padding-bottom="0"
               id="illnessesViewEditModal"
-              @close-modal="$emit('modalClosed')"
+              @close-modal="$emit('modalClosed', $event)"
               @files-saved="$emit('filesSaved')"
         />
 
@@ -44,8 +44,9 @@ export default {
   },
   props: {
     illness: {
-      type: Object,
-      required: true,
+      type: [Object, null],
+      required: false,
+      default: null,
     },
     isModalVisible: {
       type     : Boolean,
@@ -70,7 +71,7 @@ export default {
      */
     tabsContent(): Array<Record<string, unknown>> {
       let tabs = [];
-      if (this.illness.id) {
+      if (this?.illness?.id) {
         tabs.push({
           tabName: this.$t('health.overview.tabs.subTabs.tabs.files.header.label'),
           tabComponent: TabFiles,
@@ -88,13 +89,15 @@ export default {
         }
       })
 
-      tabs.push({
-        tabName: this.$t('health.overview.tabs.subTabs.tabs.appointments.header.label'),
-        tabComponent: TabAppointments,
-        tabComponentProps: {
-          illness: this.illness,
-        }
-      })
+      if (this?.illness?.id) {
+        tabs.push({
+          tabName: this.$t('health.overview.tabs.subTabs.tabs.appointments.header.label'),
+          tabComponent: TabAppointments,
+          tabComponentProps: {
+            illness: this.illness,
+          }
+        })
+      }
 
       return tabs;
     }

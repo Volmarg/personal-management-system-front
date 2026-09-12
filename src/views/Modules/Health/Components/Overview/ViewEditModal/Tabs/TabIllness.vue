@@ -1,11 +1,12 @@
 <template>
   <div class="flex justify-center">
     <div class="mt-6 w-full flex flex-col xl:w-1/2">
-      <IllnessCreateEditForm :header="$t('health.overview.form.illness.header.update')"
-                             :id="illness.id"
-                             :initial-information="illness.information"
-                             :initial-name="illness.name"
+      <IllnessCreateEditForm :header="formHeader"
+                             :id="illness?.id"
+                             :initial-information="illness?.information"
+                             :initial-name="illness?.name"
                              :appointment-ids="appointmentIds"
+                             @close-modal="$emit('closeModal', $event)"
       />
     </div>
   </div>
@@ -19,7 +20,7 @@ import DoctorAppointmentMixin from "@/views/Modules/Health/Mixin/DoctorAppointme
 export default {
   props: {
     illness: {
-      type: Object,
+      type: [Object, null],
       required: true,
     },
   },
@@ -29,8 +30,28 @@ export default {
   mixins: [
     DoctorAppointmentMixin,
   ],
+  emits: [
+    'closeModal',
+  ],
   computed: {
+    /**
+     * @description get form header
+     */
+    formHeader(): string {
+      if (this?.illness?.id) {
+        return this.$t('health.overview.form.illness.header.update');
+      }
+
+      return this.$t('health.overview.form.illness.header.add');
+    },
+    /**
+     * @description get illness appointment ids
+     */
     appointmentIds(): Array<number> {
+      if (!this.illness) {
+        return [];
+      }
+
       return this.idsFromIllness(this.illness);
     }
   }

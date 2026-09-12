@@ -81,5 +81,10 @@ export default {
   emits: [
     'filesSaved'
   ],
+  methods: {
+    openEditModal(): void {
+      this.isViewEditModalVisible = true;
+    }
+  }
 }
 </script>
