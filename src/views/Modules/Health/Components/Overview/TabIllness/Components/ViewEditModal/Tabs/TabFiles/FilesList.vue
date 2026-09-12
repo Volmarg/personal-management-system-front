@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import FileListElement from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabFiles/FileListElement.vue";
+import FileListElement from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabFiles/FileListElement.vue";
 import SearchInput     from "@/components/Navigation/SearchInput.vue";
 import Pagination      from "@/components/Ui/Pagination.vue";
 import NoResultsText   from "@/components/Page/NoResultsText.vue";

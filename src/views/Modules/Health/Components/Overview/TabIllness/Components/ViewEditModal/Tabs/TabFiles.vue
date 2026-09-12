@@ -16,7 +16,7 @@
 
 <script lang="ts">
 
-import FilesPicker  from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabFiles/FilesPicker.vue";
+import FilesPicker  from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabFiles/FilesPicker.vue";
 import WarningBlock from "@/components/Page/WarningBlock.vue";
 
 import DoctorAppointmentMixin from "@/views/Modules/Health/Mixin/DoctorAppointmentMixin.vue";

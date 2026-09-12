@@ -56,9 +56,9 @@
 </template>
 
 <script lang="ts">
-import SingleAppointment         from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabAppointments/SingleAppointment.vue";
-import AppointmentEditModal      from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabAppointments/AppointmentEditModal.vue";
-import AppointmentRemoveModal    from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabAppointments/AppointmentRemoveModal.vue";
+import SingleAppointment         from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabAppointments/SingleAppointment.vue";
+import AppointmentEditModal      from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabAppointments/AppointmentEditModal.vue";
+import AppointmentRemoveModal    from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabAppointments/AppointmentRemoveModal.vue";
 import AppointmentCreateEditForm from "@/views/Modules/Health/Components/Common/AppointmentCreateEditForm.vue";
 import Pagination                from "@/components/Ui/Pagination.vue";
 import SearchInput               from "@/components/Navigation/SearchInput.vue";

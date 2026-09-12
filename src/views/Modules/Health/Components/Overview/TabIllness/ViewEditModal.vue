@@ -26,9 +26,9 @@
 import Modal                    from "@/components/Modal/Modal.vue";
 import ResponsiveModalSizeMixin from "@/mixins/Responsive/ResponsiveModalSizeMixin.vue";
 import Tabs                     from "@/components/Navigation/Tabs/Tabs.vue";
-import TabFiles                 from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabFiles.vue";
-import TabIllness               from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabIllness.vue";
-import TabAppointments          from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabAppointments.vue";
+import TabFiles                 from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabFiles.vue";
+import TabIllness               from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabIllness.vue";
+import TabAppointments          from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabAppointments.vue";
 
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 

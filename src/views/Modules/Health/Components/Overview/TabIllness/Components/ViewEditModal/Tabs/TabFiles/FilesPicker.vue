@@ -53,7 +53,7 @@ import FilesMixin            from "@/views/Modules/Health/Mixin/FilesMixin.vue";
 
 import StorageItemPickerModal from "@/views/Modules/Storage/Common/Modal/ImagePicker/StorageItemPickerModal.vue";
 import MediumButtonWithIcon   from "@/components/Navigation/Button/MediumButtonWithIcon.vue";
-import FilesList              from "@/views/Modules/Health/Components/Overview/ViewEditModal/Tabs/TabFiles/FilesList.vue";
+import FilesList              from "@/views/Modules/Health/Components/Overview/TabIllness/Components/ViewEditModal/Tabs/TabFiles/FilesList.vue";
 
 export default {
   data(): ComponentData {
