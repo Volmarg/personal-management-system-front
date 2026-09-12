@@ -3,9 +3,9 @@
     <SearchInput v-model.trim="searchValue" />
   </div>
 
-  <div v-if="illness.appointments.length > 0">
+  <div v-if="visibleResults.length > 0">
     <div class="flex flex-wrap mt-10 justify-center">
-      <SingleAppointment v-for="appointment in visibleResult"
+      <SingleAppointment v-for="appointment in visibleResults"
                          :key="appointment.id"
                          :appointment="appointment"
                          @click="onAppointmentClick(appointment)"
@@ -30,6 +30,8 @@
     </teleport>
 
   </div>
+
+  <NoResultsText v-else />
 
   <div>
     <Pagination :number-of-results="searchValue ? searchMatchingResults.length : illness.appointments.length"
@@ -62,6 +64,7 @@ import AppointmentRemoveModal    from "@/views/Modules/Health/Components/Overvie
 import AppointmentCreateEditForm from "@/views/Modules/Health/Components/Common/AppointmentCreateEditForm.vue";
 import Pagination                from "@/components/Ui/Pagination.vue";
 import SearchInput               from "@/components/Navigation/SearchInput.vue";
+import NoResultsText             from "@/components/Page/NoResultsText.vue";
 
 import PaginationMixin from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
 
@@ -73,7 +76,7 @@ export default {
   data(): ComponentData {
     return {
       searchValue: '',
-      visibleResult: [],
+      visibleResults: [],
       searchMatchingResults: [],
       currentPage: 1,
       resultsPerPage: 3,
@@ -89,6 +92,7 @@ export default {
     },
   },
   components: {
+    NoResultsText,
     SearchInput,
     Pagination,
     SingleAppointment,
@@ -157,7 +161,7 @@ export default {
       dto.resultMatchingCallback = this.paginationSearchFilterCallback;
 
       this.searchMatchingResults = [];
-      this.visibleResult = this.filterShownResultByPagination(dto);
+      this.visibleResults = this.filterShownResultByPagination(dto);
     }
   },
   mounted(): void {
