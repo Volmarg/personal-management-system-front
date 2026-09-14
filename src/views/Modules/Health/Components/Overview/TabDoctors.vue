@@ -101,6 +101,10 @@ export default {
      */
     paginationSearchFilterCallback(rowData: Record<string, unknown>): boolean {
       let normalisedSearchValue = this.searchValue.toLowerCase();
+      if (!normalisedSearchValue) {
+        return true;
+      }
+
       let checkedProps = [
           'name',
           'address',
@@ -128,13 +132,11 @@ export default {
       this.usedResults = this.filterShownResultByPagination(dto);
     }
   },
-  mounted(): void {
-    this.filterPagination(this.currentPage, this.resultsPerPage)
-  },
   async beforeMount(): Promise<void> {
     this.store = DoctorStore();
     await this.store.getAll();
     this.doctors = this.store.allEntries;
+    this.filterPagination(this.currentPage, this.resultsPerPage)
   },
   watch: {
     'store.allEntries': {
