@@ -37,7 +37,6 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 export default {
   data(): ComponentData {
     return {
-      doctorAppointmentStore: null,
       initialSmallSizeModal: "medium",
       showModal: false,
     }

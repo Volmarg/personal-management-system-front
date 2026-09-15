@@ -61,14 +61,14 @@ import PaginationMixin from "@/scripts/Vue/Mixins/Ui/PaginationMixin.vue";
 export default {
   data(): ComponentData {
     return {
-      usedResults: [],
-      searchMatchingResults: [],
-      searchValue: '',
       isAddNewModalVisible: false,
       store: null,
       doctors: [],
       currentPage: 1,
       resultsPerPage: 5,
+      usedResults: [],
+      searchMatchingResults: [],
+      searchValue: '',
     }
   },
   props: {
