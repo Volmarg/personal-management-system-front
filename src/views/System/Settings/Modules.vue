@@ -6,9 +6,7 @@
                  ref="table"
                  v-if="data.length > 0"
                  :id="moduleLocksTableId"
-                 @component-value-change="onComponentValueChange"
-                 @before-page-change="isPageDataChanging=true"
-                 @after-table-rows-handled="isPageDataChanging=false"
+                 @click:component-value-change="onComponentValueChange"
     />
   </div>
 </template>
@@ -37,7 +35,6 @@ export default {
     return {
       moduleLocksTableId: 'moduleLocks',
       moduleLocks: [],
-      isPageDataChanging: false,
       lockStateChangeHooks: {
         /**
          * @description it's known that notes categories fetch gets executed twice - that's because Notes menu node
@@ -143,14 +140,6 @@ export default {
      * @description reacts on table component value change, dispatches the handling further
      */
     onComponentValueChange(data: Record) {
-      /**
-       * @description this is must because table page change triggers the component value change as well,
-       *              and we don't need data-save in that case.
-       */
-      if (this.isPageDataChanging) {
-        return;
-      }
-
       if (data.tableId == this.moduleLocksTableId) {
         this.$nextTick(() => {
           this.onModuleLockChange();

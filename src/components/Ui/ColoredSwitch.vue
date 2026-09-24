@@ -54,6 +54,17 @@ export default {
   },
   emits: [
     "update:modelValue",
+    /**
+     * @description emitted whenever the active state changes
+     */
+    "change",
+    /**
+     * @description emitted when active state changes due to user click.
+     *              This difference is pretty important because some actions
+     *              should be triggered only if a change was triggered by click,
+     *              not by v-model update etc.
+     */
+    "clickChange"
   ],
   props: {
     disabled: {
@@ -111,6 +122,7 @@ export default {
 
       this.isActive = !this.isActive;
       this.$emit("update:modelValue", this.isActive);
+      this.$emit('clickChange', this.isActive)
     },
   },
   created(): void {

@@ -88,6 +88,7 @@
                          :ref="buildComponentRefName(cellData.uniqId)"
                          @update:model-value="$emit('update:componentModelValue', getComponentUpdateEventArgs(cellData, rowData, cellIndex, rowIndex))"
                          @change="$emit('componentValueChange', getComponentUpdateEventArgs(cellData, rowData, cellIndex, rowIndex))"
+                         @click-change="$emit('click:componentValueChange', getComponentUpdateEventArgs(cellData, rowData, cellIndex, rowIndex))"
                          @action="$emit('action', {
                            originalEvent: $event,
                            rowNumber: rowIndex + (currentPage > 1 ? ((currentPage - 1) * resultsPerPage) : 0),
@@ -416,6 +417,11 @@ export default {
      * @description this is usable only if target component supports @change event
      */
     'componentValueChange',
+    /**
+     * @description see `componentValueChange`, with difference that this should only indicate
+     *              that change was triggered by user action, not by automated process, like v-model update etc.
+     */
+    'click:componentValueChange',
     /**
      * @description this can be used if a target component does not support @change event, will listen to v-model update
      */
