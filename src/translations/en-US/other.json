@@ -18,7 +18,8 @@
                 "My Shopping": "Shopping",
                 "My Travels":  "Travels",
                 "My Reports":  "Reports",
-                "Storage":  "Storage"
+                "Storage":  "Storage",
+                "Health":  "Health"
             }
         },
         "lockModal": {
