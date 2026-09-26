@@ -3,7 +3,7 @@
     <div class="container max-w-lg bg-white rounded dark:bg-gray-800 shadow-lg transform duration-200 easy-in-out m-1 md:m-6 h-116 md:h-100 pb-10">
 
       <!-- top color fill -->
-      <div class="h-32 overflow-hidden z-1">
+      <div class="h-36 overflow-hidden z-1">
         <div class="h-full z-1 bg-blue-200 bg-opacity-30">
 
           <div class="pt-2">
