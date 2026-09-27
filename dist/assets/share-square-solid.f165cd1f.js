@@ -1,1 +1,1 @@
-var s="/assets/share-square-solid.91850ae7.svg";export{s as default};
+var a="/assets/share-square.91850ae7.svg";export{a as default};

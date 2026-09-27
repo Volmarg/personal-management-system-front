@@ -1,0 +1,1 @@
+import{_ as e,o as n,e as a,j as r,f as o}from"./index.533dff1f.js";const s=o("code",null,"src/views/Development/Playground.vue",-1);var d=e({data:()=>({})},[["render",function(e,o,d,f,t,l){return n(),a("div",null,[r(" See frontend file: "),s])}]]);export{d as default};

@@ -1,1 +1,1 @@
-var e="/assets/headphones-solid.9ea9e88c.svg";export{e as default};
+var a="/assets/headphones-alt-solid.9ea9e88c.svg";export{a as default};

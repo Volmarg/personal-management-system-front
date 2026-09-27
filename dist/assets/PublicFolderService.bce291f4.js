@@ -1,0 +1,1 @@
+import{S as s}from"./SymfonyFileRoutes.11b21140.js";import{aH as t,L as r}from"./index.533dff1f.js";class a{static buildUrl(a,e=!0){return t.isUrl(a)?a:(a.startsWith("/")&&(a=a.replace("/","")),a.startsWith("\\")&&(a=a.replace("\\","")),e&&(a+=`?${r.AUTHENTICATION_TOKEN}=${r.getAuthToken()}`),s.buildUrl(s.GET_FILE,{[s.GET_FILE_PARAM_PATH]:a}))}}export{a as P};
