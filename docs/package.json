@@ -1,0 +1,12 @@
+{
+  "name": "my-docs",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "vitepress": "^1.5.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "vitepress-plugin-tabs": "^0.6.0"
+  }
+}
