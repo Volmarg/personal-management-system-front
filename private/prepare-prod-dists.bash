@@ -1,4 +1,5 @@
 #!/bin/bash
+# Installing docs depts in `docs` dir `npm install --prefix . --no-workspaces`
 PROD_CONTAINER_NAME='pms-front-prod';
 DEV_CONTAINER_NAME='pms-front-dev';
 
