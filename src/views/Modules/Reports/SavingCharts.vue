@@ -47,6 +47,7 @@ import YearSelect from "@/components/Form/YearSelect.vue";
 import Actions    from "@/components/Libs/ChartJs/Actions.vue";
 
 import ChartJsMixin from "@/mixins/Libs/ChartJsMixin.vue";
+import ColorsMixin  from "@/scripts/Vue/Mixins/Colors.vue";
 
 import {ChartConfiguration} from "chart.js/auto";
 
@@ -63,7 +64,8 @@ export default {
     }
   },
   mixins: [
-    ChartJsMixin
+    ChartJsMixin,
+    ColorsMixin,
   ],
   components: {
     YearSelect,
@@ -127,12 +129,13 @@ export default {
     chartConfig(): ChartConfiguration {
       let crosshairColor = 'rgba(5, 150, 105, 0.3)';
       return {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: this.labels,
           datasets: [
             {
-              borderColor: 'rgb(59, 130, 246)',
+              borderColor: this.yearFilter ? this.color.blue : 'rgba(0,0,0,0)',
+              backgroundColor: this.color.blue,
               fill: false,
               label: this.$t('reports.saving.eachMonth.chart.tooltip.label'),
               data: this.values,
@@ -163,6 +166,10 @@ export default {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
+            horizontalLine: {
+              lineColor: this.color.orange,
+              labelBoxBgColor: this.color.blue,
+            },
             /** @link handle line with data on hover + zoom etc */
             crosshair: {
               sync: {
@@ -186,7 +193,7 @@ export default {
                 return context.dataset.borderColor;
               },
               borderRadius: 4,
-              color: 'white',
+              color: this.yearFilter ? 'white' : 'rgba(0,0,0,0)',
               font: {
                 weight: 'bold'
               },
@@ -216,7 +223,7 @@ export default {
             },
           }
         },
-      };
+      } as ChartConfiguration;
     },
   },
   methods: {

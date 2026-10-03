@@ -19,6 +19,8 @@ import autoColorPlugin from 'chartjs-plugin-autocolors';
 /** @link https://www.chartjs.org/chartjs-plugin-zoom/latest/ */
 import zoomPlugin from 'chartjs-plugin-zoom';
 
+import HorizontalLinePlugin from "@/scripts/Libs/ChartJs/HorizontalLinePlugin";
+
 import Chart from "chart.js/auto";
 
 /**
@@ -61,6 +63,7 @@ export default {
       Chart.register(dataLabelsPlugin);
       Chart.register(autoColorPlugin);
       Chart.register(zoomPlugin);
+      Chart.register(HorizontalLinePlugin);
       this.fixAndRegisterCrosshair()
     },
   },
