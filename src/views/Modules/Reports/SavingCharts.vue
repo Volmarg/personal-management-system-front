@@ -208,6 +208,8 @@ export default {
             tooltip: {
               animation: false,
               intersect: false,
+              yAlign: 'bottom',
+              caretPadding: 10,
               callbacks: {
                 /**
                  * @description builds the tooltips that are visible when hovering over the points
