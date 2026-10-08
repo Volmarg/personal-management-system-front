@@ -30,6 +30,7 @@
                      :show-options="canShowOptionList"
                      :classes="getClasses"
                      :disabled="disabled"
+                     :append-to="appendTo"
                      :class="{
                        'h-full': isFullHeight
                      }"
@@ -109,8 +110,14 @@ import InputViolations  from "@/components/Form/InputViolations.vue";
 import TypeChecker         from "@/scripts/Core/Services/Types/TypeChecker";
 import StringTypeProcessor from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 import ArrayTypeProcessor  from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
+import PromiseService      from "@/scripts/Core/Services/Promise/PromiseService";
+import EnvReader           from "@/scripts/Core/System/EnvReader";
+
+import {ToastTypeEnum} from "@/scripts/Libs/ToastNotification";
 
 import MultiselectFocusMixin from "@/components/Form/mixin/MultiselectFocusMixin.vue";
+import ParentLookupMixin     from "@/mixins/Component/ParentLookupMixin.vue";
+
 
 /**
  * @link https://github.com/vueform/multiselect#configuration
@@ -120,6 +127,7 @@ export default {
   name: "VueSelect",
   data(): ComponentData {
     return {
+      appendTo: 'body',
       value: null,
       /**
        * @description multiselect has some issues with updating the options, if new options is added to the array of options
@@ -238,7 +246,8 @@ export default {
     }
   },
   mixins: [
-    MultiselectFocusMixin
+    MultiselectFocusMixin,
+    ParentLookupMixin,
   ],
   emits: [
     "change",
@@ -324,6 +333,39 @@ export default {
         return;
       }
       this.usedOptions = this.options;
+    },
+    /**
+     * @description appending the selector solves the problem with dropdown not fitting inside its wrappers.
+     *              In most cases using `body` works fine, but for modals it won't because modal uses `click-away`
+     *              so if select is not inside the modal body, the modal will get closed upon selecting something from list.
+     */
+    async decideAppendedToTarget(): Promise<void> {
+      let modalParentComponent = this.findComponentByName("Modal");
+      if (!modalParentComponent) {
+        this.appendTo = 'body';
+        return;
+      }
+
+      /**
+       * @description we have modal component without ID, keep the default select behavior even if it's glitchy
+       */
+      if (!modalParentComponent.$props.id) {
+        if (EnvReader.isDev()) {
+          let msg = "Got modal without id. Multiselect appendTo fix won't work here!";
+          this.$rootEvent.showNotification(ToastTypeEnum.warning, msg);
+        }
+
+        this.appendTo = '';
+        return;
+      }
+
+      /**
+       * @description we must wait for the modal to load first, only then we append the select
+       */
+      let selector = `#${modalParentComponent.$props.id} .modal-body`;
+      PromiseService.buildPeriodicallyCheckedPromise(() => document.querySelector(selector)).then(() => {
+        this.appendTo = selector;
+      })
     }
   },
   computed: {
@@ -461,6 +503,7 @@ export default {
     this.attachOnFocusOutHandler();
     this.preselectValueHandler();
     this.rebuildUsedOptions();
+    this.decideAppendedToTarget();
   },
   watch: {
     options: {
@@ -514,12 +557,6 @@ export default {
     box-shadow: 0 1px 1px rgba(0,0,0,0.1) !important;
   }
 
-  .multiselect-dropdown {
-    .is-selected {
-      @apply bg-blue-500;
-    }
-  }
-
   .multiselect-tags {
     max-height: 29px;
     overflow-y: scroll;
@@ -529,6 +566,16 @@ export default {
     &:focus {
       border: none;
     }
+  }
+}
+
+.multiselect-dropdown {
+  .is-selected{
+    @apply bg-blue-500;
+  }
+
+  .is-selected.is-pointed {
+    @apply bg-blue-400;
   }
 }
 

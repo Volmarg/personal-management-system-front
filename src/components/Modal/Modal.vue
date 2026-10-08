@@ -21,7 +21,7 @@
            }"
            v-click-away="clickAway"
       >
-        <div class="h-full bg-white text-gray-900 border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none">
+        <div class="modal-body h-full bg-white text-gray-900 border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none">
           <span
               class="mt-2 mr-10 font-bold flex flex-col justify-end hover:opacity-50 cursor-pointer opacity-70 self-end fixed z-9"
               @click="toggleMaximise"

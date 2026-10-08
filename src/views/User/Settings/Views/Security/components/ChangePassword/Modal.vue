@@ -2,6 +2,7 @@
   <div>
 
     <Modal :title="$t(`userSettings.tab.security.children.${translationGroup}.dialog.header`)"
+           id="change-password"
            :is-visible="isVisible"
            :is-close-full-width="true"
            @modal-closed="$emit('modalClosed')"
