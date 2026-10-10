@@ -614,4 +614,8 @@ $imageSize: 30px;
 .multiselect-dropdown, .multiselect-options {
   overscroll-behavior: contain;
 }
+
+.multiselect-no-options {
+  font-size: 16px !important;
+}
 </style>
