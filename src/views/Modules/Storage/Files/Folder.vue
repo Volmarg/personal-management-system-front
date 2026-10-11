@@ -18,6 +18,8 @@ import FolderBase from "@/views/Modules/Storage/Common/FolderBase.vue";
 import SingleFile from "@/views/Modules/Storage/Files/SingleFile.vue";
 
 import {ComponentData}   from "@/scripts/Vue/Types/Components/types";
+
+import UploadConfigEnum                from "@/scripts/Core/Enum/Modules/Storage/UploadConfigEnum";
 import {StorageState, StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 import VueRouterStorage  from "@/router/Modules/VueRouterStorage";
@@ -36,7 +38,7 @@ export default {
     SingleFile
   },
   async beforeMount(): Promise<void> {
-    StorageState().uploadConfigId = '645dsf789shkdczs23431245jk687sd123';
+    StorageState().uploadConfigId = UploadConfigEnum.FILES;
     await this.getDirsStructure(StorageTypeEnum[StorageTypeEnum.files]);
   },
 }

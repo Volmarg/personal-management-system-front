@@ -19,6 +19,8 @@ import SingleFile from "@/views/Modules/Storage/Video/SingleFile.vue";
 import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 
 import VueRouterStorage from "@/router/Modules/VueRouterStorage";
+import UploadConfigEnum from "@/scripts/Core/Enum/Modules/Storage/UploadConfigEnum";
+
 import {StorageState, StorageTypeEnum} from "@/scripts/Vue/Store/Module/Storage/StorageState";
 
 export default {
@@ -35,7 +37,7 @@ export default {
     FolderBase
   },
   async beforeMount(): Promise<void> {
-    StorageState().uploadConfigId = '312s456d7gewse123rg7gh456g1s';
+    StorageState().uploadConfigId = UploadConfigEnum.VIDEOS;
     await this.getDirsStructure(StorageTypeEnum[StorageTypeEnum.videos]);
   }
 }
