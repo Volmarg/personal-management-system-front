@@ -19,6 +19,7 @@
                          :row-click-toggles-checkbox="true"
                          :checked-rows-hashes="checkedRowsHashes"
                          :fields-for-row-hashing="['id']"
+                         :row-search-callback="rowSearchCallback"
                          ref="table"
             />
 
@@ -243,6 +244,25 @@ export default {
       this.entries = [];
       this.$emit('modalClosed');
     },
+    /**
+     * @description searches for matching entries by looking on tags
+     */
+    rowSearchCallback(data: Record<string, unknown>, searchQuery: string): boolean {
+      if (data.fieldId !== 'tags') {
+        return false;
+      }
+
+      let tags = data?.componentProps?.tags ?? {};
+      if (ArrayTypeProcessor.isEmpty(tags)) {
+        return false;
+      }
+
+      let match = Object.values(tags).find((tag: string) => {
+        return tag.includes(searchQuery.toLowerCase());
+      }) as string;
+
+      return !StringTypeProcessor.isEmptyString(match);
+    }
   },
   mounted(): void {
     this.showModal = this.isModalVisible;

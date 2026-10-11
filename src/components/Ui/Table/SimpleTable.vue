@@ -193,6 +193,11 @@ export default {
         return [];
       }
     },
+    rowSearchCallback: {
+      type: [Function, null],
+      required: false,
+      default: null
+    },
     checkedRowsHashes: {
       type: Array,
       required: false,
@@ -623,6 +628,11 @@ export default {
       }
 
       for (let cellData of oneRowData) {
+        if (this.rowSearchCallback && this.rowSearchCallback(cellData, this.searchValue)) {
+          this.searchMatchingResults.push(oneRowData);
+          return true;
+        }
+
         // components etc. are not supported in search
         if (!TypeChecker.isScalar(cellData.value)) {
           continue
