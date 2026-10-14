@@ -3,7 +3,13 @@
     <Modal :is-visible="showModal"
            id="storage-file-picker"
            :title="$t('storage.picker.modal.header')"
+           cancel-button-margin-right-class-number="0"
+           :is-close-full-width="true"
+           :content-wrapper-classes="{
+             'md:max-h-full max-h-116': true,
+           }"
            @modal-closed="closeModal"
+           class="relative z-21"
     >
       <template #content>
         <div class="flex justify-center"
@@ -37,8 +43,32 @@
                               background-color-class="bg-blue-500"
                               @button-click="onConfirmClick"
         />
+
+        <MediumButtonWithIcon :text="$t('storage.picker.modal.buttons.upload.label')"
+                              button-extra-classes="pt-3 pb-3 sm:pt-1 sm:pb-1"
+                              class="w-full md:w-auto"
+                              button-classes="w-full md:w-auto m-0-force"
+                              text-classes="text-center w-full"
+                              background-color-class="bg-blue-500"
+                              @button-click="isUploadModalVisible = true"
+        >
+          <template #icon>
+            <fa icon="upload" />
+          </template>
+        </MediumButtonWithIcon>
       </template>
     </Modal>
+
+    <teleport to="body">
+      <UploadDialog :is-visible="isUploadModalVisible"
+                    id="storage-upload"
+                    :refresh-storage-state="true"
+                    :is-folder-select-visible="true"
+                    @modal-closed="isUploadModalVisible=false"
+                    @upload-finished="fetchEntries"
+                    class="relative z-22"
+      />
+    </teleport>
   </div>
 </template>
 
@@ -48,11 +78,14 @@ import {ComponentData} from "@/scripts/Vue/Types/Components/types";
 import BaseError            from "@/scripts/Core/Error/BaseError";
 import SymfonyStorageRoutes from "@/router/SymfonyRoutes/Modules/SymfonyStorageRoutes";
 import PublicFolderService  from "@/scripts/Core/Services/PublicFolder/PublicFolderService";
+import ArrayTypeProcessor   from "@/scripts/Core/Services/TypesProcessors/ArrayTypeProcessor";
+import StringTypeProcessor  from "@/scripts/Core/Services/TypesProcessors/StringTypeProcessor";
 
 import Modal         from "@/components/Modal/Modal.vue";
 import SimpleTable   from "@/components/Ui/Table/SimpleTable.vue";
 import PickerPreview from "@/views/Modules/Storage/Common/Modal/ImagePicker/PickerPreview.vue";
 import PickerTags    from "@/views/Modules/Storage/Common/Modal/ImagePicker/PickerTags.vue";
+import UploadDialog  from "@/components/Ui/Upload/Dialog/UploadDialog.vue";
 
 import RowAndCellDataMixin  from "@/components/Ui/Table/Mixin/RowAndCellDataMixin.vue";
 import ResponseHandlerMixin from "@/scripts/Vue/Mixins/ResponseHandlerMixin.vue";
@@ -62,6 +95,7 @@ export default {
   data(): ComponentData {
     return {
       showModal: false,
+      isUploadModalVisible: false,
       searchChangeTriggerTimeout: null,
       entries: [],
       perPage: 5,
@@ -132,6 +166,7 @@ export default {
   },
   components: {
     MediumButtonWithIcon,
+    UploadDialog,
     SimpleTable,
     Modal
   },
@@ -262,7 +297,13 @@ export default {
       }) as string;
 
       return !StringTypeProcessor.isEmptyString(match);
-    }
+    },
+    /**
+     * @description fetches the table entries
+     */
+    async fetchEntries(): Promise<void> {
+      this.entries = await this.$moduleCall.getAll(SymfonyStorageRoutes.FILE_BASE_URL);
+    },
   },
   mounted(): void {
     this.showModal = this.isModalVisible;
@@ -271,9 +312,9 @@ export default {
     this.showModal = this.isModalVisible;
   },
   watch: {
-    async isModalVisible(): Promise<void> {
+    isModalVisible(): Promise<void> {
       if (this.isModalVisible) {
-        this.entries = await this.$moduleCall.getAll(SymfonyStorageRoutes.FILE_BASE_URL);
+        this.fetchEntries();
       }
     },
   }

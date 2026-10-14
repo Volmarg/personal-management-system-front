@@ -22,7 +22,7 @@ const StorageState = defineStore('storageModuleState', {
         selectedFilesData: [],
         allEntries: [],
         moduleName: null,
-        uploadConfigId: null,
+        uploadConfigId: null as null | string,
     }),
     actions: {
         /**

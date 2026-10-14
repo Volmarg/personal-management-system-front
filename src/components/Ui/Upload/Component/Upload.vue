@@ -57,7 +57,8 @@
             <MediumButtonWithIcon :text="$t('generic.form.upload.button.select.label')"
                                   button-classes="action-button"
                                   class="action"
-                                  @click="$refs.upload.$refs.input.click()"
+                                  @click="onFilesSelectClick"
+                                  :disabled="!isConfigurationFetched"
             >
               <template #icon>
                 <la svg-icon-name="hand-pointer"
@@ -67,9 +68,9 @@
             </MediumButtonWithIcon>
 
             <MediumButtonWithIcon :text="$t('generic.form.upload.button.upload.label')"
-                                  :disabled="!canUpload"
+                                  :disabled="!canUpload || !isConfigurationFetched"
                                   v-if="!$refs.upload || !$refs.upload.active"
-                                  @click.prevent="$refs.upload.active = true"
+                                  @click.prevent="onUploadClick"
                                   button-classes="action-button"
                                   class="action"
             >
@@ -81,6 +82,7 @@
             </MediumButtonWithIcon>
 
             <MediumButtonWithIcon :text="$t('generic.form.upload.button.clearList.label')"
+                                  :disabled="!canUpload || !isConfigurationFetched"
                                   v-if="!$refs.upload || !$refs.upload.active"
                                   @click.prevent="files = []; $emit('cleared')"
                                   button-classes="action-button"
@@ -130,6 +132,7 @@ import UploadStatusMixin from "@/components/Ui/Upload/Component/mixin/UploadStat
 import SymfonyRoutes     from "@/router/SymfonyRoutes";
 import UploadResponse    from "@/scripts/Response/File/Upload/UploadResponse";
 import SymfonyFileRoutes from "@/router/SymfonyRoutes/SymfonyFileRoutes";
+import BaseError         from "@/scripts/Core/Error/BaseError";
 
 import {ToastTypeEnum}                from "@/scripts/Libs/ToastNotification";
 import GetUploadConfigurationResponse from "@/scripts/Response/File/Upload/GetUploadConfigurationResponse";
@@ -154,14 +157,20 @@ export default {
     }
   },
   props: {
+    fetchInitialConfig: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     canUpload: {
       type: Boolean,
       required: false,
       default: true,
     },
     configurationId: {
-      type     : String,
-      required : true,
+      type     : [String, null],
+      required : false,
+      default  : null,
     },
     extraData: {
       type: Object,
@@ -197,6 +206,12 @@ export default {
   },
   computed: {
     /**
+     * @description checks if upload configuration has been fetched or not
+     */
+    isConfigurationFetched(): boolean {
+      return Object.keys(this.configuration).length > 0;
+    },
+    /**
      * @description check if any extensions are defined as allowed at all
      */
     areAllowedExtensionsSet(): boolean {
@@ -228,6 +243,26 @@ export default {
     },
   },
   methods: {
+    /**
+     * @description either uploads selected files, or prevents pressing the button at all
+     */
+    onUploadClick(): void {
+      if (!this.isConfigurationFetched) {
+        return;
+      }
+
+      this.$refs.upload.active = true;
+    },
+    /**
+     * @description either opens the files select window, or prevents selecting files at all
+     */
+    onFilesSelectClick(): void {
+      if (!this.isConfigurationFetched) {
+        return;
+      }
+
+      this.$refs.upload.$refs.input.click();
+    },
     /**
      * @description filters out the files that can be uploaded
      */
@@ -468,6 +503,9 @@ export default {
      * @description will load the upload configuration from backend
      */
     async getUploadConfiguration(): Promise<void> {
+      if (!this.configurationId) {
+        throw new BaseError("Cannot fetch config because configuration id is not yet set.")
+      }
 
       let calledUrl = SymfonyRoutes.buildUrl(
           SymfonyFileRoutes.GET_UPLOAD_CONFIGURATION,
@@ -476,13 +514,34 @@ export default {
           }
       )
 
+      this.$rootEvent.showFullPageLoader();
       this.$axios.get(calledUrl, GetUploadConfigurationResponse).then((response: GetUploadConfigurationResponse) => {
         this.configuration = response.configuration;
+        this.$rootEvent.hideFullPageLoader();
       })
     }
   },
   async created(): Promise<void> {
-    await this.getUploadConfiguration();
+    if (this.fetchInitialConfig) {
+      await this.getUploadConfiguration();
+    }
+  },
+  watch: {
+    /**
+     * @description fetches upload config whenever the module select changes it's value, handles reset of config if no module is selected
+     */
+    configurationId(newValue, oldValue): void {
+      if (!newValue || (newValue !== oldValue && oldValue !== null)) {
+        this.files = [];
+      }
+
+      if (this.fetchInitialConfig || !newValue) {
+        this.configuration = {};
+        return;
+      }
+
+      this.getUploadConfiguration();
+    }
   }
 }
 </script>

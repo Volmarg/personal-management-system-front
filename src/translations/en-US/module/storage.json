@@ -17,6 +17,17 @@
                 "buttons": {
                     "confirm": {
                         "label": "Confirm"
+                    },
+                    "upload": {
+                        "label": "Upload"
+                    }
+                },
+                "subModal": {
+                    "upload": {
+                        "text": {
+                            "noModuleSelected": "Please select a storage module!",
+                            "noFolderSelected": "Please select a folder!"
+                        }
                     }
                 }
             },

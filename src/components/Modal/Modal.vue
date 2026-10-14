@@ -62,7 +62,9 @@
                         'mt-2': !hasBodyPadding
                      }"
                 >{{ title }}</div>
-                <div class="text-sm text-gray-500">
+                <div class="text-sm text-gray-500"
+                     :class="contentWrapperClasses"
+                >
                   <input type="checkbox" class="modal-focuser"/>
                   <slot name="content"></slot>
                 </div>
@@ -139,6 +141,13 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    contentWrapperClasses: {
+      type: Object,
+      required: false,
+      default: function () {
+        return {}
+      },
     },
     cancelButtonMarginRightClassNumber: {
       type     : Number,
