@@ -29,8 +29,7 @@
                      :is-disabled="file.uploadHandled"
             />
 
-            <TagInput v-model="tags"
-                      @update:modelValue="onTagInput(file, $event)"
+            <TagInput v-model="file.tags"
                       :is-disabled="file.uploadHandled"
                       class="w-full lg:w-3/5 self-center lg:mr-4 ml-4"
             />
@@ -114,10 +113,6 @@ export default {
   data() {
     return {
       fileNames: {},
-      /**
-       * @description this isn't really used, but is necessary to set the tags properly directly on the file meta-data
-       */
-      tags: [],
     }
   },
   props: {
@@ -178,12 +173,6 @@ export default {
      */
     onFileNameInput(file: VueUploadItem) {
       file.userDefinedName = this.fileNames[file.id];
-    },
-    /**
-     * @description handler for when file / data name is inserted
-     */
-    onTagInput(file: VueUploadItem, tags: Array<string>) {
-      file.tags = tags;
     }
   },
   emits: [

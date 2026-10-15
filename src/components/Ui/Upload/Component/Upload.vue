@@ -528,6 +528,16 @@ export default {
   },
   watch: {
     /**
+     * @description initialize the file structure for further processing
+     */
+    files(): void {
+      for (let idx in this.files) {
+        if (!this.files[idx].tags) {
+          this.files[idx].tags = [];
+        }
+      }
+    },
+    /**
      * @description fetches upload config whenever the module select changes it's value, handles reset of config if no module is selected
      */
     configurationId(newValue, oldValue): void {
