@@ -58,7 +58,7 @@
                                   button-classes="action-button"
                                   class="action"
                                   @click="onFilesSelectClick"
-                                  :disabled="!isConfigurationFetched"
+                                  :disabled="!canInteract"
             >
               <template #icon>
                 <la svg-icon-name="hand-pointer"
@@ -68,7 +68,7 @@
             </MediumButtonWithIcon>
 
             <MediumButtonWithIcon :text="$t('generic.form.upload.button.upload.label')"
-                                  :disabled="!canUpload || !isConfigurationFetched"
+                                  :disabled="!canInteract"
                                   v-if="!$refs.upload || !$refs.upload.active"
                                   @click.prevent="onUploadClick"
                                   button-classes="action-button"
@@ -82,7 +82,7 @@
             </MediumButtonWithIcon>
 
             <MediumButtonWithIcon :text="$t('generic.form.upload.button.clearList.label')"
-                                  :disabled="!canUpload || !isConfigurationFetched"
+                                  :disabled="!canInteract"
                                   v-if="!$refs.upload || !$refs.upload.active"
                                   @click.prevent="files = []; $emit('cleared')"
                                   button-classes="action-button"
@@ -162,7 +162,7 @@ export default {
       required: false,
       default: true,
     },
-    canUpload: {
+    canInteract: {
       type: Boolean,
       required: false,
       default: true,
@@ -247,7 +247,7 @@ export default {
      * @description either uploads selected files, or prevents pressing the button at all
      */
     onUploadClick(): void {
-      if (!this.isConfigurationFetched) {
+      if (!this.isConfigurationFetched || !this.canInteract) {
         return;
       }
 
@@ -257,7 +257,7 @@ export default {
      * @description either opens the files select window, or prevents selecting files at all
      */
     onFilesSelectClick(): void {
-      if (!this.isConfigurationFetched) {
+      if (!this.isConfigurationFetched || !this.canInteract) {
         return;
       }
 

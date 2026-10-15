@@ -10,7 +10,8 @@
       <template #content>
 
         <Upload :configuration-id="upload.configurationId"
-                :fetch-initial-config="false"
+                :fetch-initial-config="!isFolderSelectVisible"
+                :can-interact="canPressUploadFormButtons"
                 :extra-data="upload.extraData"
                 @upload-finished="onUploadFinish"
         />
@@ -118,6 +119,18 @@ export default {
     ResponsiveVarsMixin,
     ResponsiveModalSizeMixin,
   ],
+  computed: {
+    /**
+     * @description decide if user can interact with upload form buttons
+     */
+    canPressUploadFormButtons(): boolean {
+      if (!this.isFolderSelectVisible) {
+       return true;
+      }
+
+      return this.form.selectedPath && this.form.selectedModule;
+    }
+  },
   methods: {
     /**
      * @description will fetch the storage structure after upload is done, not closing dialog on purpose, because
@@ -148,6 +161,12 @@ export default {
     this.upload.extraData = this.extraData;
   },
   watch: {
+    extraData: {
+      deep: true,
+      handler: function(){
+        this.upload.extraData = this.extraData;
+      }
+    },
     /**
      * @description set storage module upload configId whenever the selected module changes
      */
