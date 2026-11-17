@@ -143,6 +143,13 @@ export default {
       deep: true,
       handler: function() {
         this.doctors = this.store.allEntries;
+        this.filterPagination(this.currentPage, this.resultsPerPage)
+        if (this.usedResults.length === 0) {
+          if (this.currentPage > 1) {
+            this.currentPage--;
+          }
+          this.filterPagination(this.currentPage, this.resultsPerPage)
+        }
       }
     },
     searchValue(): void {
